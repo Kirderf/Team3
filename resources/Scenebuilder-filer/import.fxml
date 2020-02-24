@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane stylesheets="Import.css" styleClass="default" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="default" stylesheets="@Import.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerImport">
    <children>
       <Pane layoutX="15.0" layoutY="11.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="11.0">
          <children>
@@ -24,20 +25,32 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <HBox alignment="CENTER" layoutX="187.0" layoutY="322.0">
+            <HBox fx:id="pathHbox" alignment="CENTER" layoutX="122.0" layoutY="321.0">
                <children>
-                  <Button mnemonicParsing="false" text="Button" />
-                  <Button mnemonicParsing="false" text="Button" />
-                  <Button mnemonicParsing="false" text="Button" />
+                  <Button fx:id="select" mnemonicParsing="false" onAction="#select" text="Select path">
+                     <HBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="cancel" mnemonicParsing="false" text="Cancel">
+                     <HBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="startImport" mnemonicParsing="false" text="Start Import">
+                     <HBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
-            <ScrollPane hbarPolicy="NEVER" layoutX="113.0" layoutY="89.0" prefHeight="200.0" prefWidth="350.0" vbarPolicy="ALWAYS">
+            <ScrollPane hbarPolicy="NEVER" layoutX="113.0" layoutY="89.0" prefHeight="200.0" prefWidth="350.0" vmax="2.0">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="199.0">
                      <children>
-                        <VBox>
+                        <VBox fx:id="pathVbox" styleClass="default" stylesheets="@Import.css">
                            <children>
-                              <TextField prefHeight="27.0" prefWidth="220.0" />
+                              <TextField fx:id="firstTextfield" disable="true" prefHeight="27.0" prefWidth="330.0" styleClass="default" stylesheets="@Import.css" visible="false">
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" top="2.0" />
+                                 </VBox.margin></TextField>
                            </children>
                         </VBox>
                      </children>
