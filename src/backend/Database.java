@@ -1,4 +1,4 @@
-package sample;
+package backend;
 import java.sql.*;
 import java.util.Random;
 

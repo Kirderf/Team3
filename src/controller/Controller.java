@@ -1,4 +1,5 @@
-package sample;
+package controller;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Menu;
