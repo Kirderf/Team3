@@ -7,21 +7,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file:///usr/lib/jvm/javafx-sdk-11.0.2/lib" />
-        </CLASSES>
-        <JAVADOC />
-        <NATIVE>
-          <root url="file:///usr/lib/jvm/javafx-sdk-11.0.2/lib" />
-        </NATIVE>
-        <SOURCES>
-          <root url="file:///usr/lib/jvm/javafx-sdk-11.0.2/lib" />
-        </SOURCES>
-        <jarDirectory url="file:///usr/lib/jvm/javafx-sdk-11.0.2/lib" recursive="false" />
-        <jarDirectory url="file:///usr/lib/jvm/javafx-sdk-11.0.2/lib" recursive="false" type="SOURCES" />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
