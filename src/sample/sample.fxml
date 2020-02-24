@@ -10,82 +10,90 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 
-<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="401.0" minWidth="532.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="512.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane layoutX="3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="423.0" prefWidth="612.0">
+      <MenuBar layoutX="-2.0" maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+            <Menu fx:id="openSearch" mnemonicParsing="false" text="Search" />
+          <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library" />
+          <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <AnchorPane layoutX="-17.0" layoutY="26.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="-3.0" AnchorPane.topAnchor="26.0">
          <children>
-            <MenuBar layoutX="-2.0" prefHeight="29.0" prefWidth="612.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <menus>
-                <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
-                  </items>
-                </Menu>
-                  <Menu fx:id="openSearch" mnemonicParsing="false" text="Search" />
-                <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library" />
-                <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-            <MenuBar layoutX="-2.0" layoutY="370.0" prefHeight="0.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <menus>
-                  <Menu fx:id="importButton" mnemonicParsing="false" text="Import">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Close" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Export">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                     </items>
-                  </Menu>
-                  <Menu fx:id="exportButton" mnemonicParsing="false">
-                     <graphic>
-                        <ComboBox fx:id="sortDropDown" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="150.0" promptText="Sort by" />
-                     </graphic>
-                  </Menu>
-               </menus>
-            </MenuBar>
-            <TextArea fx:id="pathDisplay" layoutX="331.0" layoutY="363.0" maxWidth="500.0" prefHeight="37.0" prefWidth="281.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="329.0" AnchorPane.rightAnchor="2.0" />
-            <GridPane fx:id="pictureGrid" layoutX="170.0" layoutY="29.0" prefHeight="334.0" prefWidth="429.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="29.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-            <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutY="57.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="171.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.leftAnchor="-3.0" AnchorPane.topAnchor="57.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="29.0" layoutX="-2.0" layoutY="29.0" stroke="BLACK" strokeType="INSIDE" width="170.0" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="29.0" />
-            <Text layoutX="49.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metadata" AnchorPane.leftAnchor="48.421875" AnchorPane.topAnchor="31.734375">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Text>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="29.0" layoutX="-2.0" layoutY="228.0" stroke="BLACK" strokeType="INSIDE" width="170.0" AnchorPane.bottomAnchor="166.0" AnchorPane.leftAnchor="0.0" />
-            <Text layoutX="49.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags" AnchorPane.bottomAnchor="170.984375" AnchorPane.leftAnchor="48.734375">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Text>
-            <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="-3.0" layoutY="257.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="127.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="-3.0" />
+            <AnchorPane layoutX="6.0" layoutY="7.0" AnchorPane.bottomAnchor="192.0" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="7.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="29.0" stroke="BLACK" strokeType="INSIDE" width="170.0" AnchorPane.bottomAnchor="238.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutY="29.0" maxWidth="180.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="11.0" AnchorPane.topAnchor="29.0" />
+                  <Text layoutX="51.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metadata" AnchorPane.bottomAnchor="242.984375" AnchorPane.leftAnchor="51.0" AnchorPane.topAnchor="2.734375">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutY="257.0" prefHeight="217.0" prefWidth="184.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0">
+               <children>
+                  <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="7.0" layoutY="43.0" maxWidth="180.0" prefHeight="155.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="43.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="29.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="170.0" AnchorPane.bottomAnchor="174.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="14.0" />
+                  <Text layoutX="69.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags" AnchorPane.bottomAnchor="178.984375" AnchorPane.leftAnchor="69.0" AnchorPane.topAnchor="16.734375">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
          </children>
-         <opaqueInsets>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-         </opaqueInsets>
       </AnchorPane>
+      <MenuBar layoutX="-2.0" layoutY="370.0" maxHeight="30.0" prefWidth="632.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <menus>
+            <Menu fx:id="importButton" mnemonicParsing="false" text="Import">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Close" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Export">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+               </items>
+            </Menu>
+            <Menu fx:id="exportButton" mnemonicParsing="false">
+               <graphic>
+                  <ComboBox fx:id="sortDropDown" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="150.0" promptText="Sort by" />
+               </graphic>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <TextArea fx:id="pathDisplay" layoutX="317.0" layoutY="368.0" maxHeight="30.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="317.0" AnchorPane.rightAnchor="14.0" />
+      <GridPane fx:id="pictureGrid" layoutX="170.0" layoutY="29.0" prefHeight="393.0" prefWidth="479.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="29.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <AnchorPane layoutX="-2.0" layoutY="29.0" maxHeight="30.0" maxWidth="170.0" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="29.0" />
    </children>
-</Pane>
+   <opaqueInsets>
+      <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+   </opaqueInsets>
+</AnchorPane>
