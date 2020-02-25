@@ -1,0 +1,54 @@
+.default {
+    -fx-padding: 1em;
+    -fx-border: 1em;
+    -fx-margin: 1em;
+}
+
+.text{
+    -fx-font-family: "montserrat";
+}
+
+.button {
+    -fx-background-color: #393e46;
+    -fx-border-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: "montserrat";
+}
+
+
+.button:hover {
+    -fx-background-color: grey;
+    -fx-text-fill: black;
+}
+
+.button:pressed {
+    -fx-background-color: lightblue;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: black;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: transparent;
+    -fx-font-size: 10px;
+    -fx-padding: 0 2px 0 4px;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: aliceblue;
+    -fx-background-radius: 5em;
+}
