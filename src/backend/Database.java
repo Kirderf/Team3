@@ -13,9 +13,6 @@ public class Database {
     String table = "fredrjul_" + random.nextInt(upperBound);
     Connection con;
 
-    public void init() throws SQLException {
-    }
-
     /**
      * This method is going to create a new database table and declare a variable to the rest of the class
      */
@@ -56,7 +53,9 @@ public class Database {
         preparedStatement.setDouble(8,GPS_Latitude);
         preparedStatement.setDouble(9,GPS_Longitude);
         return preparedStatement.execute();
+
     }
+    @Deprecated
     public String readDatabase() throws SQLException {
         //TODO: Add method functionality
         String sql = "Select * from "+ table;
@@ -69,7 +68,7 @@ public class Database {
         String sql = "Select "+columnName+" from "+ table;
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet result = stmt.executeQuery();
-        ArrayList arrayList = new ArrayList();
+        ArrayList<Object> arrayList = new ArrayList();
         while (result.next()){
             arrayList.add(result.getObject(columnName));
         }
@@ -85,11 +84,7 @@ public class Database {
     private boolean isTableInDatabase(String tableName) throws SQLException {
         PreparedStatement stmt = con.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'fredrjul_ImageApp' AND table_name = " + "\'" + table + "\'" +
                 "");
-        boolean resultSet = stmt.executeQuery().next();
-        if (!resultSet) {
-            return false;
-        }
-        return true;
+        return stmt.executeQuery().next();
     }
 
     public void createTable() throws SQLException {
@@ -100,10 +95,18 @@ public class Database {
 
     }
 
+    /**
+     * Must be called before calling any other method
+     * @throws SQLException
+     */
     public void openConnection() throws SQLException {
         con = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp", "fredrjul_Image", "Password123");
     }
 
+    /**
+     * Must be called after openConnection and any other method
+     * @throws SQLException
+     */
     public void closeConnection() throws SQLException {
         con.close();
     }

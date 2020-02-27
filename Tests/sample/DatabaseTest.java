@@ -49,13 +49,14 @@ class DatabaseTest {
 
     @Test
     void readDatabase() {
+        ArrayList list = null;
         try {
             database.openConnection();
             database.createTable();
             database.writeToDatabase("path to file","Tags",1000, Date.valueOf(LocalDate.of(2020,8,12)),2000,2000,11.02,13.09);
             database.writeToDatabase("path to file2","Tags2",2000, Date.valueOf(LocalDate.of(2021,8,12)),2000,2000,11.02,13.09);
 
-            ArrayList list = database.readDatabase("File_size");
+            list = database.readDatabase("File_size");
             for (Object obj :
                     list) {
                 System.out.println(obj.toString());
@@ -65,5 +66,9 @@ class DatabaseTest {
             e.printStackTrace();
             fail();
         }
+        ArrayList testArray = new ArrayList<>();
+        testArray.add("1000");
+        testArray.add("2000");
+        assertArrayEquals(testArray.toArray(),list.toArray());
     }
 }
