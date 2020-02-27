@@ -62,31 +62,10 @@
         </items>
       </SplitPane>
    </left>
-   <right>
-      <AnchorPane minHeight="401.0" minWidth="532.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="512.0" prefWidth="708.0" BorderPane.alignment="CENTER">
-         <children>
-            <GridPane fx:id="pictureGrid" layoutX="170.0" layoutY="29.0" prefHeight="393.0" prefWidth="479.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="29.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-            <AnchorPane layoutX="-2.0" layoutY="29.0" maxHeight="30.0" maxWidth="170.0" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="29.0" />
-         </children>
-         <opaqueInsets>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-         </opaqueInsets>
-      </AnchorPane>
-   </right>
    <bottom>
-      <SplitPane dividerPositions="0.6655518394648829" prefHeight="43.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.5" prefHeight="25.0" prefWidth="644.0" BorderPane.alignment="CENTER">
         <items>
-            <MenuBar maxHeight="30.0" prefWidth="632.0">
+            <MenuBar maxHeight="33.0" prefWidth="333.0">
                <menus>
                   <Menu fx:id="importButton" mnemonicParsing="false" text="Import">
                      <items>
@@ -105,8 +84,33 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <TextArea fx:id="pathDisplay" maxHeight="30.0" />
+            <AnchorPane>
+               <children>
+                  <TextArea fx:id="pathDisplay" prefHeight="16.0" prefWidth="211.0" promptText="Path..." AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+               </children>
+            </AnchorPane>
         </items>
       </SplitPane>
    </bottom>
+   <center>
+      <AnchorPane minWidth="532.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="512.0" prefWidth="708.0" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane fx:id="pictureGrid" layoutX="170.0" layoutY="29.0" prefHeight="393.0" prefWidth="479.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="29.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+            <AnchorPane layoutX="-2.0" layoutY="29.0" maxHeight="30.0" maxWidth="170.0" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="29.0" />
+         </children>
+         <opaqueInsets>
+            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+         </opaqueInsets>
+      </AnchorPane>
+   </center>
 </BorderPane>
