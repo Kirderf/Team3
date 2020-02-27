@@ -1,13 +1,16 @@
 package backend;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 //TODO: add javadoc
 
 public class Database {
     Random random = new Random();
-    String table = "fredrjul_" + random.nextInt(3);
+    int upperBound = 10000000;
+    String table = "fredrjul_" + random.nextInt(upperBound);
     Connection con;
 
     public void init() throws SQLException {
@@ -54,8 +57,23 @@ public class Database {
         preparedStatement.setDouble(9,GPS_Longitude);
         return preparedStatement.execute();
     }
-    public void readDatabase() {
+    public String readDatabase() throws SQLException {
         //TODO: Add method functionality
+        String sql = "Select * from "+ table;
+        Statement stmt = con.createStatement();
+        ResultSet result = stmt.executeQuery(sql);
+        return result.toString();
+    }
+    public ArrayList readDatabase(String columnName) throws SQLException {
+        //TODO: Add method functionality
+        String sql = "Select "+columnName+" from "+ table;
+        PreparedStatement stmt = con.prepareStatement(sql);
+        ResultSet result = stmt.executeQuery();
+        ArrayList arrayList = new ArrayList();
+        while (result.next()){
+            arrayList.add(result.getObject(columnName));
+        }
+        return arrayList;
     }
 
     /**
@@ -76,7 +94,7 @@ public class Database {
 
     public void createTable() throws SQLException {
         while(isTableInDatabase(table)) {
-            table = "fredrjul_" + random.nextInt(10);
+            table = "fredrjul_" + random.nextInt(upperBound);
         }
         regTable();
 
