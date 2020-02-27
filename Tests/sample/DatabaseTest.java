@@ -20,11 +20,12 @@ class DatabaseTest {
     void init() {
         try {
             database.openConnection();
-            database.regTable();
-            database.openConnection();
+            database.createTable();
+            database.closeConnection();
         } catch (Exception e) {
             System.out.println("Error setting ut database");
             e.printStackTrace();
+            fail();
         }
     }
 
