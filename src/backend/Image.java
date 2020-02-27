@@ -3,8 +3,8 @@ package backend;
 import java.time.LocalDate;
 
 class Image{
-    private double height=null;
-    private double lenght=null;
+    private double height;
+    private double lenght;
     private String location=null;
     private Tag[] tags=null;
     private LocalDate timetaken=null;
