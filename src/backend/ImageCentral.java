@@ -34,7 +34,7 @@ public class ImageCentral {
         }
         return null;
     }
-    public Double[] UTM2Deg(String latitude, String longitude) {
+    public Double[] minutesToDecimal(String latitude, String longitude) {
         double longitudeSecond = Double.parseDouble(longitude.substring(longitude.indexOf(" "),longitude.indexOf("'")))*60 + Double.parseDouble(longitude.substring(longitude.indexOf("' ")+2).replaceAll(",","."));
         Double latitudeSecond =  Double.parseDouble(latitude.substring(latitude.indexOf(" "),latitude.indexOf("'")))*60 + Double.parseDouble(latitude.substring(latitude.indexOf("' ")+2).replaceAll(",","."));
         double conLatitude = Double.parseDouble(latitude.substring(0,latitude.indexOf("°"))) + latitudeSecond/3600;
