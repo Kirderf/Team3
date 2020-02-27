@@ -17,9 +17,42 @@ import java.io.IOException;
 
 public class ControllerMain {
     private Stage importStage = new Stage();
+    private int photoCount = 0;
     private int rowCount = 0;
-    private int coloumnCount = 0;
+    private int columnCount = 0;
 
+    //TODO Make a method that creates a new Grid Pane every time the old one is full
+    private int getNextRow(){
+        if(photoCount == 0){
+            return rowCount;
+        }
+        if((photoCount)%2 == 0){
+            rowCount++;
+        }
+        return rowCount;
+    }
+
+    private int getNextColumn(){
+        if(photoCount == 0){
+            return columnCount++;
+        }
+        if(photoCount%2 == 0){
+            columnCount = 0;
+            return columnCount++;
+        }
+        return columnCount++;
+    }
+
+    private void importImage(String path){
+        ImageView imageView = new ImageView();
+        imageView.setImage(new Image(getClass().getResourceAsStream(path)));
+        imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
+        imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
+        imageView.setPreserveRatio(true);
+        pictureGrid.add(imageView, getNextColumn(), getNextRow());
+        pictureGrid.setHalignment(imageView, HPos.CENTER);
+        photoCount++;
+    }
 
     @FXML
     private Menu fileButton;
@@ -68,14 +101,9 @@ public class ControllerMain {
             }
         }
 
-        ImageView imageView = new ImageView();
-        imageView.setImage(new Image(getClass().getResourceAsStream("/samplephoto.jpg")));
-        imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
-        imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
-        imageView.setPreserveRatio(true);
-        pictureGrid.getChildren().add(imageView);
-        pictureGrid.setHalignment(imageView, HPos.CENTER);
-
+        // sample photos for testing purposes
+        String path = "/samplephoto.jpg";
+        importImage(path);
     }
 
     @FXML
