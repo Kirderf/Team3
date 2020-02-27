@@ -1,23 +1,24 @@
 package backend;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.Tag;
+import com.drew.metadata.exif.GpsDirectory;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.*;
 import java.util.ArrayList;
-import java.util.Collection;
+
 
 public class ImageCentral {
+    //this is the names of the various kinds of metadata we are interested in in com.drew.metadata methods
+    private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude");
 
- /* vet ikke hva fredrik ville gjøre her
-    public ArrayList<File> getAllImages(String path) throws IOException {
-        ArrayList<File> all = new ArrayList<File>();
-        if (getFiles(new File(path), all)) {
-            System.out.println(all);
-            return all;
-        }
-        return null;
-
-    }*/
+    int noOfData = interestingMetadata.size();
     public boolean isImage(File file){
         if(file.exists()){
             if(getExtensionFromFile(file).equals("jpg")||getExtensionFromFile(file).equals("png")){
@@ -32,6 +33,29 @@ public class ImageCentral {
             return image;
         }
         return null;
+    }
+    public String[] getMetaData(File file) throws ImageProcessingException, IOException {
+        //array with metadata
+        String[] metaArray = new String[noOfData];
+        //reads metadata
+        Metadata metadata = ImageMetadataReader.readMetadata(file);
+        //iterates through directory
+        for (Directory directory : metadata.getDirectories()) {
+            //iterates through tags in directory
+            for (Tag tag : directory.getTags()) {
+                if(interestingMetadata.contains(tag)){
+                    metaArray[interestingMetadata.indexOf(tag)] = tag.toString();
+                }
+            }
+        }
+        for(GpsDirectory directory : metadata.getDirectoriesOfType(GpsDirectory.class)){
+            for (Tag tag : directory.getTags()) {
+                if(interestingMetadata.contains(tag)){
+                    metaArray[interestingMetadata.indexOf(tag)] = tag.toString();
+                }
+            }
+        }
+        return metaArray;
     }
     /**
      * get the path
