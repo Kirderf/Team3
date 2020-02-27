@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -11,10 +12,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
 
 <AnchorPane minHeight="401.0" minWidth="532.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="512.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -38,24 +36,22 @@
          <children>
             <AnchorPane layoutX="6.0" layoutY="7.0" AnchorPane.bottomAnchor="192.0" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="7.0">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="29.0" stroke="BLACK" strokeType="INSIDE" width="170.0" AnchorPane.bottomAnchor="238.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutY="29.0" maxWidth="180.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="11.0" AnchorPane.topAnchor="29.0" />
-                  <Text layoutX="51.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metadata" AnchorPane.bottomAnchor="242.984375" AnchorPane.leftAnchor="51.0" AnchorPane.topAnchor="2.734375">
+                  <Label layoutX="51.0" layoutY="1.0" text="Metadata" textFill="#787878">
                      <font>
                         <Font size="16.0" />
                      </font>
-                  </Text>
+                  </Label>
+                  <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutY="29.0" maxWidth="180.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="11.0" AnchorPane.topAnchor="29.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutY="257.0" prefHeight="217.0" prefWidth="184.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0">
                <children>
-                  <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="7.0" layoutY="43.0" maxWidth="180.0" prefHeight="155.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="43.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="29.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="170.0" AnchorPane.bottomAnchor="174.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="14.0" />
-                  <Text layoutX="69.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags" AnchorPane.bottomAnchor="178.984375" AnchorPane.leftAnchor="69.0" AnchorPane.topAnchor="16.734375">
+                  <Label layoutX="75.0" layoutY="14.0" text="Tags" textFill="#787878">
                      <font>
                         <Font size="16.0" />
                      </font>
-                  </Text>
+                  </Label>
+                  <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="7.0" layoutY="43.0" maxWidth="180.0" prefHeight="155.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="43.0" />
                </children>
             </AnchorPane>
          </children>
