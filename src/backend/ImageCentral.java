@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class ImageCentral {
 
-
+ /* vet ikke hva fredrik ville gjøre her
     public ArrayList<File> getAllImages(String path) throws IOException {
         ArrayList<File> all = new ArrayList<File>();
         if (getFiles(new File(path), all)) {
@@ -17,8 +17,27 @@ public class ImageCentral {
         }
         return null;
 
+    }*/
+
+    /**
+     *
+     * @param pathToFile the link to a specific image
+     * @return true if the import is successfull, false otherwise, even if no pictures
+     * @throws IOException if
+     */
+    private boolean getFileFromFolder(File pathToFile) throws IOException{
+        //if(pathToFile.)
+        String extension = pathToFile.getPath().substring(pathToFile.getPath().lastIndexOf("."));
+        return false;
+    }
+    private String getExtension(File path){
+        path.getName();
+
+
+        return "";
     }
 
+    /*
     //Getting all files recursively
     private boolean getFiles(File file, ArrayList<File> all) throws IOException {
         File[] children = file.listFiles();
@@ -29,6 +48,6 @@ public class ImageCentral {
             }
         }
         return true;
-    }
+    }*/
 }
 

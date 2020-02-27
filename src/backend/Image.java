@@ -1,11 +1,15 @@
-class image{
+package backend;
+
+import java.time.LocalDate;
+
+class Image{
     private double height;
     private double lenght;
     private String location;
-    private tag[] tags;
+    private Tag[] tags;
     private LocalDate timetaken;
 
-    public image(double heigh, double lenght, String location, tag[] tags, LocalDate timetaken){
+    public Image(double heigh, double lenght, String location, Tag[] tags, LocalDate timetaken){
         this.height=heigh;
         this.lenght=lenght;
         this.location=location;
