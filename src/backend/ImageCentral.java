@@ -34,28 +34,38 @@ public class ImageCentral {
         }
         return null;
     }
+    public Double[] UTM2Deg(String latitude, String longitude) {
+        double longitudeSecond = Double.parseDouble(longitude.substring(longitude.indexOf(" "),longitude.indexOf("'")))*60 + Double.parseDouble(longitude.substring(longitude.indexOf("' ")+2).replaceAll(",","."));
+        Double latitudeSecond =  Double.parseDouble(latitude.substring(latitude.indexOf(" "),latitude.indexOf("'")))*60 + Double.parseDouble(latitude.substring(latitude.indexOf("' ")+2).replaceAll(",","."));
+        double conLatitude = Double.parseDouble(latitude.substring(0,latitude.indexOf("°"))) + latitudeSecond/3600;
+        double conLongitude = Double.parseDouble(longitude.substring(0,longitude.indexOf("°"))) + longitudeSecond/3600;
+        return new Double[]{conLatitude,conLongitude};
+    }
     public String[] getMetaData(File file) throws ImageProcessingException, IOException {
-        //array with metadata
-        String[] metaArray = new String[noOfData];
-        //reads metadata
-        Metadata metadata = ImageMetadataReader.readMetadata(file);
-        //iterates through directory
-        for (Directory directory : metadata.getDirectories()) {
-            //iterates through tags in directory
-            for (Tag tag : directory.getTags()) {
-                if(interestingMetadata.contains(tag)){
-                    metaArray[interestingMetadata.indexOf(tag)] = tag.toString();
+        if (isImage(file)) {
+            //array with metadata
+            String[] metaArray = new String[noOfData];
+            //reads metadata
+            Metadata metadata = ImageMetadataReader.readMetadata(file);
+            //iterates through directory
+            for (Directory directory : metadata.getDirectories()) {
+                //iterates through tags in directory
+                for (Tag tag : directory.getTags()) {
+                    if(interestingMetadata.contains(tag.getTagName())){
+                        metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
+                    }
                 }
             }
-        }
-        for(GpsDirectory directory : metadata.getDirectoriesOfType(GpsDirectory.class)){
-            for (Tag tag : directory.getTags()) {
-                if(interestingMetadata.contains(tag)){
-                    metaArray[interestingMetadata.indexOf(tag)] = tag.toString();
+            for(GpsDirectory directory : metadata.getDirectoriesOfType(GpsDirectory.class)){
+                for (Tag tag : directory.getTags()) {
+                    if(interestingMetadata.contains(tag.getTagName())){
+                        metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
+                    }
                 }
             }
+            return metaArray;
         }
-        return metaArray;
+        return null;
     }
     /**
      * get the path
@@ -64,11 +74,10 @@ public class ImageCentral {
      * @throws IOException if
      */
     private String getPathFromFile(File file) throws IOException{
-        if(file.exists()){
-            //only jpg and png are supported
-            if(isImage(file)){
-                return file.getPath();
-            }
+        //only jpg and png are supported
+        if(isImage(file)){
+            return file.getPath();
+
         }
         return null;
     }
