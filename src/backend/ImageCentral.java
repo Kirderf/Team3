@@ -18,23 +18,38 @@ public class ImageCentral {
         return null;
 
     }*/
-
-    /**
-     *
-     * @param pathToFile the link to a specific image
-     * @return true if the import is successfull, false otherwise, even if no pictures
-     * @throws IOException if
-     */
-    private boolean getFileFromFolder(File pathToFile) throws IOException{
-        //if(pathToFile.)
-        String extension = pathToFile.getPath().substring(pathToFile.getPath().lastIndexOf("."));
+    public boolean isImage(File file){
+        if(file.exists()){
+            if(getExtensionFromFile(file).equals("jpg")||getExtensionFromFile(file).equals("png")){
+                return true;
+            }
+        }
         return false;
     }
-    private String getExtension(File path){
-        path.getName();
-
-
-        return "";
+    public File getImageFromPath(String path){
+        File image = new File(path);
+        if(isImage(image)){
+            return image;
+        }
+        return null;
+    }
+    /**
+     * get the path
+     * @param file the link to a specific image
+     * @return true if the import is successful, false otherwise
+     * @throws IOException if
+     */
+    private String getPathFromFile(File file) throws IOException{
+        if(file.exists()){
+            //only jpg and png are supported
+            if(isImage(file)){
+                return file.getPath();
+            }
+        }
+        return null;
+    }
+    private String getExtensionFromFile(File file){
+        return file.getPath().substring(file.getPath().lastIndexOf("."));
     }
 
     /*

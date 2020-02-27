@@ -1,4 +1,7 @@
 import backend.Database;
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.sun.xml.internal.ws.api.addressing.WSEndpointReference;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,8 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import com.drew.metadata.*;
 
 import java.io.File;
+import java.io.IOException;
 
 
 public class Main extends Application {
@@ -33,7 +38,18 @@ public class Main extends Application {
         Button button = new Button("Select File");
         button.setOnAction(e -> {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
-            System.out.println(selectedFile.getPath().substring(selectedFile.getPath().lastIndexOf(".")));
+            try {
+                Metadata metadata = ImageMetadataReader.readMetadata(selectedFile);
+                for (Directory directory : metadata.getDirectories()) {
+                    for (Tag tag : directory.getTags()) {
+                        System.out.println(tag.getTagName());
+                    }
+                }
+            } catch (ImageProcessingException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         VBox vBox = new VBox(button);
