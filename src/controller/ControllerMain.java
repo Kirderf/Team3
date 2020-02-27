@@ -3,9 +3,13 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -13,6 +17,9 @@ import java.io.IOException;
 
 public class ControllerMain {
     private Stage importStage = new Stage();
+    private int rowCount = 0;
+    private int coloumnCount = 0;
+
 
     @FXML
     private Menu fileButton;
@@ -60,6 +67,15 @@ public class ControllerMain {
                 System.out.println(exception.getLocalizedMessage());
             }
         }
+
+        ImageView imageView = new ImageView();
+        imageView.setImage(new Image(getClass().getResourceAsStream("/samplephoto.jpg")));
+        imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
+        imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
+        imageView.setPreserveRatio(true);
+        pictureGrid.getChildren().add(imageView);
+        pictureGrid.setHalignment(imageView, HPos.CENTER);
+
     }
 
     @FXML

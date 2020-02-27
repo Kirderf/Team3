@@ -36,7 +36,7 @@
                   </Menu>
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" text="Preferences..." />
-              <MenuItem mnemonicParsing="false" fx:id="quitItem" text="Quit" onAction="#quitAction"/>
+              <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
             </items>
           </Menu>
             <Menu fx:id="openSearch" mnemonicParsing="false" text="Search" />
@@ -78,7 +78,7 @@
    <center>
       <AnchorPane minWidth="457.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="421.0" prefWidth="457.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane fx:id="pictureGrid" layoutX="170.0" layoutY="29.0" prefHeight="422.6666666666667" prefWidth="460.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <GridPane fx:id="pictureGrid" alignment="CENTER" gridLinesVisible="true" layoutX="170.0" layoutY="29.0" prefHeight="422.6666666666667" prefWidth="460.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
