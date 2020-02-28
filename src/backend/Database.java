@@ -86,6 +86,22 @@ public class Database {
         }
         return arrayList;
     }
+    public void getImageData(String path) throws SQLException{
+        openConnection();
+        String sql = "SELECT * FROM "+table+"\n" +
+                "WHERE "+ table + ".Path" +" LIKE '%"+path+"%' LIMIT 1";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        String[] returnValues = new String[8];
+        returnValues[0] = rs.getString(2);
+        returnValues[1] = rs.getString(3);
+        returnValues[2] = String.valueOf(rs.getInt(4));
+        returnValues[3] = rs.getDate(5).toString();
+        returnValues[4] = String.valueOf(rs.getInt(6));
+
+
+
+    }
 
     /**
      * Checks if a table is in a database

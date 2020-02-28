@@ -9,8 +9,8 @@ public class DatabaseClient {
     private Database imageDatabase = new Database();
     private ImageImport imageImport = new ImageImport();
     //TODO delete tables when closing program
-    public boolean closeApplication(){
-        return false;
+    public boolean closeApplication() throws SQLException {
+        return imageDatabase.closeDatabase();
     }
     //do we actually need this, or will the class variable create the new database?
     public boolean openApplication(){
@@ -21,7 +21,6 @@ public class DatabaseClient {
         try {
             String[] metadata = imageImport.getMetaData(image);
             if(metadata != null){
-                imageDatabase.openConnection()
                 if(imageDatabase.writeToDatabase(image.getPath(), "", Integer.parseInt(metadata[0]), Date.valueOf(metadata[1]),Integer.parseInt(metadata[2]),Integer.parseInt(metadata[3]),Double.parseDouble(metadata[4]),Double.parseDouble(metadata[5]))){
                     imageDatabase.closeConnection();
                     return true;
@@ -36,7 +35,6 @@ public class DatabaseClient {
         return false;
     }
     public boolean removeImage(String path) throws SQLException {
-        imageDatabase.openConnection();
         if(imageDatabase.deleteFromDatabase(path)){
             return true;
         }
@@ -44,13 +42,14 @@ public class DatabaseClient {
     }
     //TODO given a path to a specific image, this should return null if the image is not in the database, and an array with metadata if it is
     public String[] getMetaDataFromDatabase(String path) throws SQLException {
-        imageDatabase.openConnection();
-        imageDatabase.closeConnection()
+        imageDatabase.getImageData(path);
+        imageDatabase.closeConnection();
+        return null;
     }
     //TODO add tag funtionality
     public boolean addTag(String tag) throws SQLException {
         imageDatabase.openConnection();
         imageDatabase.closeConnection();
-        return false
+        return false;
     }
 }
