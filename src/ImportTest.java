@@ -1,12 +1,10 @@
-import backend.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
-public class Main extends Application {
+public class ImportTest extends Application {
     /**
      *
      * @param primaryStage
@@ -14,9 +12,10 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/Main.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 800   ,600 ));
+        Parent root = FXMLLoader.load(getClass().getResource("Views/Import.fxml"));
+        primaryStage.setTitle("Import");
+        primaryStage.setResizable(false);
+        primaryStage.setScene(new Scene(root, 600   ,400 ));
         primaryStage.show();
     }
 
@@ -25,3 +24,4 @@ public class Main extends Application {
         launch(args);
     }
 }
+
