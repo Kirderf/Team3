@@ -8,7 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class ImageCentralTest {
     private ImageCentral imageCentral;
@@ -17,11 +18,13 @@ class ImageCentralTest {
     void setUp() {
         imageCentral = new ImageCentral();
     }
-
-    @org.junit.jupiter.api.Test
-    void getAllImagesTest() throws IOException {
-        ArrayList<File> files = new ArrayList<>(Arrays.asList(new File("./Tests/sample/ImageCentralTest.java")));
-        //assertEquals(files.get(0), imageCentral.getAllImages("./Tests/sample").get(0));
+    @Test
+    void isImage() throws IOException{
+        File testFile = new File("C:/Users/Ingebrigt/Documents/adolf-hitler-biograph.docx");
+        File testFile2 = new File("C:/Users/Ingebrigt/Pictures/ong.jpg");
+        System.out.println(testFile2.exists());
+        assertFalse(imageCentral.isImage(testFile));
+        assertTrue(imageCentral.isImage(testFile2));
     }
     @Test
     void getMetaData() throws IOException, ImageProcessingException {
@@ -31,8 +34,16 @@ class ImageCentralTest {
         }
     }
     @Test
-    void UTM2deg(){
-        System.out.println(imageCentral.conMinutesToDecimal("46° 36' 47,98", "13° 50' 39,76")[1]);
+    void conMinutesToDecimal(){
+        int degrees = 46;
+        int minutes = 36;
+        int seconds = 48;
+        double dDegrees = degrees;
+        double dMinutes = minutes;
+        double dSeconds = seconds;
+        String formattedMinutes = degrees + "° "+minutes+"' "+seconds;
+        //System.out.println(imageCentral.conMinutesToDecimal("46° 36' 48"));
+        assertEquals(imageCentral.conMinutesToDecimal(formattedMinutes), dDegrees + (dMinutes*60+dSeconds)/3600);
     }
 
 }

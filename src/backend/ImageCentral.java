@@ -15,11 +15,11 @@ import java.util.*;
 public class ImageCentral {
     //this is the names of the various kinds of metadata we are interested in in com.drew.metadata methods
     private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude");
-
     int noOfData = interestingMetadata.size();
+
     public boolean isImage(File file){
         if(file.exists()){
-            if(getExtensionFromFile(file).equals("jpg")||getExtensionFromFile(file).equals("png")){
+            if(getExtensionFromFile(file).equals(".jpg")||getExtensionFromFile(file).equals(".png")){
                 return true;
             }
         }
@@ -85,21 +85,9 @@ public class ImageCentral {
         }
         return null;
     }
-    private String getExtensionFromFile(File file){
+    public String getExtensionFromFile(File file){
         return file.getPath().substring(file.getPath().lastIndexOf("."));
     }
 
-    /*
-    //Getting all files recursively
-    private boolean getFiles(File file, ArrayList<File> all) throws IOException {
-        File[] children = file.listFiles();
-        if (children != null) {
-            for (File child : children) {
-                all.add(child);
-                getFiles(child, all);
-            }
-        }
-        return true;
-    }*/
 }
 
