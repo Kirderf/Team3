@@ -2,6 +2,8 @@ package backend;
 import com.drew.imaging.ImageProcessingException;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
 
 public class DatabaseClient {
     private Database imageDatabase = new Database();
@@ -19,29 +21,36 @@ public class DatabaseClient {
         try {
             String[] metadata = imageImport.getMetaData(image);
             if(metadata != null){
-                //imageDatabase.writeToDatabase(image.getPath(), "", Integer.parseInt(metadata[0]), Date.parse(metadata[1]),Integer.parseInt(metadata[2]),Integer.parseInt(metadata[3]),Double.parseDouble(metadata[4]),Double.parseDouble(metadata[5]));
-               // imageDatabase.closeConnection();
+                imageDatabase.openConnection()
+                if(imageDatabase.writeToDatabase(image.getPath(), "", Integer.parseInt(metadata[0]), Date.valueOf(metadata[1]),Integer.parseInt(metadata[2]),Integer.parseInt(metadata[3]),Double.parseDouble(metadata[4]),Double.parseDouble(metadata[5]))){
+                    imageDatabase.closeConnection();
+                    return true;
+                }
+                imageDatabase.closeConnection();
+                return false;
             }
-            return false;
-        } catch (ImageProcessingException | IOException e) {
+        } catch (ImageProcessingException | IOException | SQLException e) {
             e.printStackTrace();
             return false;
         }
+        return false;
     }
-    //TODO given a path, this should remove the image from the database
-    public boolean removeImage(String path){
+    public boolean removeImage(String path) throws SQLException {
+        imageDatabase.openConnection();
+        if(imageDatabase.deleteFromDatabase(path)){
+            return true;
+        }
         return false;
     }
     //TODO given a path to a specific image, this should return null if the image is not in the database, and an array with metadata if it is
-    public String[] getMetaDataFromDatabase(String path){
-        return null;
+    public String[] getMetaDataFromDatabase(String path) throws SQLException {
+        imageDatabase.openConnection();
+        imageDatabase.closeConnection()
     }
     //TODO add tag funtionality
-    public boolean addTag(String tag){
-        return false;
-    }
-    //TODO add pdf funtionality
-    public boolean exportToPdf(){
-        return false;
+    public boolean addTag(String tag) throws SQLException {
+        imageDatabase.openConnection();
+        imageDatabase.closeConnection();
+        return false
     }
 }
