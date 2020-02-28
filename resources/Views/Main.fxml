@@ -76,8 +76,8 @@
                 <AnchorPane minWidth="150.0" HBox.hgrow="ALWAYS">
                     <children>
                         <TextArea fx:id="pathDisplay" disable="true" maxHeight="26.0" minHeight="25.0" prefHeight="30.0"
-                                  prefWidth="561.3333333333334" promptText="Path..." AnchorPane.bottomAnchor="0.0"
-                                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                                  prefWidth="561.3333333333334" promptText="Path..." AnchorPane.bottomAnchor="4.0"
+                                  AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="2.0"/>
                     </children>
                 </AnchorPane>
             </children>
