@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutX="4.0" layoutY="5.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="5.0">
+         <children>
+            <TextField fx:id="searchField" alignment="TOP_CENTER" layoutX="70.0" layoutY="29.0" promptText="Search term" />
+            <CheckBox fx:id="metaCheck" layoutX="70.0" layoutY="65.0" mnemonicParsing="false" text="Search by meatadata" />
+            <CheckBox fx:id="tagCheck" layoutX="70.0" layoutY="92.0" mnemonicParsing="false" text="Search by tags" />
+            <CheckBox fx:id="pathCheck" layoutX="70.0" layoutY="119.0" mnemonicParsing="false" text="Search by path" />
+            <Button fx:id="searchButton" layoutX="104.0" layoutY="144.0" mnemonicParsing="false" text="Start Search" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
