@@ -24,32 +24,7 @@ public class DatabaseClient {
     public boolean addImage(File image) throws ImageProcessingException, IOException {
         try {
             String[] metadata = imageImport.getMetaData(image);
-
             if(metadata != null) {
-                if (metadata[1] == null){
-                    metadata[1] = "0";
-                }else {
-                    metadata[1] = metadata[1].replaceAll(":","").substring(1,8).trim();
-                    System.out.println(metadata[1]);
-                }
-                if (metadata[0] != null){
-                    metadata[0] = metadata[0].replaceAll("bytes","").trim();
-                    System.out.println(metadata[0]);
-                }
-                if (metadata[2] != null){
-                    metadata[2] = metadata[2].replaceAll("pixels","").trim();
-                    System.out.println(metadata[2]);
-                }
-                if (metadata[3] != null){
-                    metadata[3] = metadata[3].replaceAll("pixels","").trim();
-                    System.out.println(metadata[3]);
-                }
-                if (metadata[4] == null){
-                    metadata[4] = "0";
-                }
-                if (metadata[5] == null){
-                    metadata[5] = "0";
-                }
                 if(imageDatabase.addImageToTable(
                         image.getPath(),
                         "",

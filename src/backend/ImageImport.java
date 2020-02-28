@@ -66,7 +66,28 @@ public class ImageImport {
                     }
                 }
                 //even if there is no interesting metadata, then an empty array is returned
+                if (metaArray[1] == null){
+                    metaArray[1] = "0";
+                }else {
+                    metaArray[1] = metaArray[1].replaceAll(":","").substring(0,8).trim();
+                }
+                if (metaArray[0] != null){
+                    metaArray[0] = metaArray[0].replaceAll("bytes","").trim();
+                }
+                if (metaArray[2] != null){
+                    metaArray[2] = metaArray[2].replaceAll("pixels","").trim();
+                }
+                if (metaArray[3] != null){
+                    metaArray[3] = metaArray[3].replaceAll("pixels","").trim();
+                }
+                if (metaArray[4] == null){
+                    metaArray[4] = "0";
+                }
+                if (metaArray[5] == null){
+                    metaArray[5] = "0";
+                }
                 return metaArray;
+
             }
             //thrown by the metadata-library we are using
         } catch (ImageProcessingException e) {

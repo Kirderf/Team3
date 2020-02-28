@@ -211,5 +211,11 @@ public class Database {
         deleteTable();
         return closeConnection();
     }
+    public boolean sortBy(String sort){
+        if(sort.equals("Size Ascending")){
+            
+        }
+        return false;
+    }
 
 }
