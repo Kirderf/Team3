@@ -22,7 +22,7 @@ public class Database {
                         "Path varchar(255),\n" +
                         "Tags varchar(255),\n" +
                         "File_size varchar(255),\n" +
-                        "Date date not null ,\n" +
+                        "DATE int(11),\n" +
                         "Height int(11),\n" +
                         "Width int(11),\n" +
                         "GPS_Latitude double(17,15),\n" +
@@ -37,20 +37,26 @@ public class Database {
      *
      * @param // data to add
      */
-    public boolean addImageToTable(String path, String tags, int file_size, Date date, int image_height, int image_wight, double GPS_Latitude, double GPS_Longitude) throws SQLException {
+    public boolean addImageToTable(String path, String tags, int file_size, Long date, int image_height, int image_wight, double GPS_Latitude, double GPS_Longitude) throws SQLException {
         openConnection();
+        if (!isTableInDatabase(table)){
+            createTable();
+        }
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = con.prepareStatement(sql1);
         preparedStatement.setNull(1, 0);
         preparedStatement.setString(2, path);
         preparedStatement.setString(3, tags);
         preparedStatement.setInt(4, file_size);
-        preparedStatement.setDate(5, date);
+        preparedStatement.setLong(5, date);
         preparedStatement.setInt(6, image_height);
         preparedStatement.setInt(7, image_wight);
         preparedStatement.setDouble(8, GPS_Latitude);
         preparedStatement.setDouble(9, GPS_Longitude);
-        return preparedStatement.execute();
+
+        boolean result = preparedStatement.execute();
+        preparedStatement.close();
+        return result;
 
     }
 
@@ -174,7 +180,7 @@ public class Database {
     public boolean openConnection() throws SQLException {
         if (con == null) {
             con = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp", "fredrjul_Image", "Password123");
-        } else if (con.isClosed()) {
+        }else if(con.isClosed()){
             con = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp", "fredrjul_Image", "Password123");
         }
         return !con.isClosed();
@@ -203,7 +209,6 @@ public class Database {
             return true;
         }
         deleteTable();
-        closeConnection();
         return closeConnection();
     }
 

@@ -18,15 +18,15 @@ class ImageImportTest {
     }
     @Test
     void isImage() throws IOException{
-        File testFile = new File("C:/Users/Ingebrigt/Documents/adolf-hitler-biography.docx");
-        File testFile2 = new File("C:/Users/Ingebrigt/Pictures/ong.jpg");
+        File testFile = new File(getClass().getResource("/IMG_0963.JPG").getPath());
+        File testFile2 = new File(getClass().getResource("/samplephoto.jpg").getPath());
         System.out.println(testFile2.exists());
         assertFalse(imageImport.isImage(testFile));
         assertTrue(imageImport.isImage(testFile2));
     }
     @Test
     void getMetaData() throws IOException, ImageProcessingException {
-        File testFile = new File("C:/Users/Ingebrigt/Downloads/IMG_3605.JPG");
+        File testFile = new File("/home/kirderf/Documents/VersionControl/ImageApp/target/classes/sloth.png");
         for(String s : imageImport.getMetaData(testFile)){
             System.out.println(s);
         }

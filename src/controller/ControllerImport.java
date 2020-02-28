@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ControllerImport {
@@ -78,11 +79,18 @@ public class ControllerImport {
         scrollPane.setContent(pathVbox);
     }
     @FXML
-    public void importAction(ActionEvent event) throws ImageProcessingException, IOException {
-        for (File file:
-             list) {
-            ControllerMain.databaseClient.addImage(file);
+    public void importAction(ActionEvent event){
+        try {
+            for (File file:
+                 list) {
+                ControllerMain.databaseClient.addImage(file);
+            }
+            ControllerMain.databaseClient.closeConnection();
+        } catch (ImageProcessingException | IOException | SQLException e) {
+            System.out.println("DEBUG importAction");
+            e.printStackTrace();
         }
+        cancel(event);
     }
 }
 

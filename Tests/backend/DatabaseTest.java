@@ -38,7 +38,7 @@ class DatabaseTest {
         try {
             database.openConnection();
             database.createTable();
-            database.addImageToTable("path to file", "Tags", 1000, Date.valueOf(LocalDate.of(2020, 8, 12)), 2000, 2000, 11.02, 13.09);
+          //  database.addImageToTable("path to file", "Tags", 1000, Long.valueOf(LocalDate.of(2020, 8, 12)), 2000, 2000, 11.02, 13.09);
             database.closeDatabase();
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,8 +52,8 @@ class DatabaseTest {
         try {
             database.openConnection();
             database.createTable();
-            database.addImageToTable("path to file", "Tags", 1000, Date.valueOf(LocalDate.of(2020, 8, 12)), 2000, 2000, 11.02, 13.09);
-            database.addImageToTable("path to file2", "Tags2", 2000, Date.valueOf(LocalDate.of(2021, 8, 12)), 2000, 2000, 11.02, 13.09);
+          //  database.addImageToTable("path to file", "Tags", 1000, Date.valueOf(LocalDate.of(2020, 8, 12)), 2000, 2000, 11.02, 13.09);
+          //  database.addImageToTable("path to file2", "Tags2", 2000, Date.valueOf(LocalDate.of(2021, 8, 12)), 2000, 2000, 11.02, 13.09);
 
             list = database.getColumn("File_size");
             for (Object obj :
@@ -76,8 +76,8 @@ class DatabaseTest {
         try {
             database.openConnection();
             database.createTable();
-            database.addImageToTable("path to file", "Tags", 1000, Date.valueOf(LocalDate.of(2020, 8, 12)), 2000, 2000, 11.02, 13.09);
-            database.addImageToTable("path to file2", "Tags2", 2000, Date.valueOf(LocalDate.of(2021, 8, 12)), 2000, 2000, 11.02, 13.09);
+         //   database.addImageToTable("path to file", "Tags", 1000, Date.valueOf(LocalDate.of(2020, 8, 12)), 2000, 2000, 11.02, 13.09);
+       //     database.addImageToTable("path to file2", "Tags2", 2000, Date.valueOf(LocalDate.of(2021, 8, 12)), 2000, 2000, 11.02, 13.09);
             System.out.println(database.findImage("path to file2"));
             database.closeDatabase();
         } catch (SQLException e) {
@@ -90,8 +90,8 @@ class DatabaseTest {
         try {
             database.openConnection();
             database.createTable();
-            database.addImageToTable("path to file", "Tags", 1000, Date.valueOf(LocalDate.of(2020, 8, 12)), 2000, 2000, 11.02, 13.09);
-            database.addImageToTable("path to file2", "Tags2", 2000, Date.valueOf(LocalDate.of(2021, 8, 12)), 2000, 2000, 11.02, 13.09);
+         //   database.addImageToTable("path to file", "Tags", 1000, Date.valueOf(LocalDate.of(2020, 8, 12)), 2000, 2000, 11.02, 13.09);
+        //    database.addImageToTable("path to file2", "Tags2", 2000, Date.valueOf(LocalDate.of(2021, 8, 12)), 2000, 2000, 11.02, 13.09);
             System.out.println(database.findImage("path to file2"));
             System.out.println(database.deleteFromDatabase("path to file2"));
             database.closeDatabase();
@@ -106,8 +106,8 @@ class DatabaseTest {
         try {
             database.openConnection();
             database.createTable();
-            database.addImageToTable("path to file", "Tags", 1000, Date.valueOf(LocalDate.of(2020, 8, 12)), 2000, 2000, 11.02, 13.09);
-            database.addImageToTable("path to file2", "Tags2", 2000, Date.valueOf(LocalDate.of(2021, 8, 12)), 2000, 2000, 11.02, 13.09);
+         //   database.addImageToTable("path to file", "Tags", 1000, Date.valueOf(LocalDate.of(2020, 8, 12)), 2000, 2000, 11.02, 13.09);
+        //    database.addImageToTable("path to file2", "Tags2", 2000, Date.valueOf(LocalDate.of(2021, 8, 12)), 2000, 2000, 11.02, 13.09);
             System.out.println(Arrays.toString(database.getImageMetadata("path to file2")));
             database.closeDatabase();
         } catch (SQLException e) {
