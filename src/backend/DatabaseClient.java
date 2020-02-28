@@ -21,7 +21,7 @@ public class DatabaseClient {
         try {
             String[] metadata = imageImport.getMetaData(image);
             if(metadata != null){
-                if(imageDatabase.writeToDatabase(image.getPath(), "", Integer.parseInt(metadata[0]), Date.valueOf(metadata[1]),Integer.parseInt(metadata[2]),Integer.parseInt(metadata[3]),Double.parseDouble(metadata[4]),Double.parseDouble(metadata[5]))){
+                if(imageDatabase.addImageToTable(image.getPath(), "", Integer.parseInt(metadata[0]), Date.valueOf(metadata[1]),Integer.parseInt(metadata[2]),Integer.parseInt(metadata[3]),Double.parseDouble(metadata[4]),Double.parseDouble(metadata[5]))){
                     imageDatabase.closeConnection();
                     return true;
                 }
@@ -42,14 +42,14 @@ public class DatabaseClient {
     }
     //TODO given a path to a specific image, this should return null if the image is not in the database, and an array with metadata if it is
     public String[] getMetaDataFromDatabase(String path) throws SQLException {
-        imageDatabase.getImageData(path);
+        imageDatabase.getImageMetadata(path);
         imageDatabase.closeConnection();
         return null;
     }
     //TODO add tag funtionality
     public boolean addTag(String tag) throws SQLException {
         imageDatabase.openConnection();
-        imageDatabase.closeConnection();
-        return false;
+
+        return imageDatabase.closeConnection();
     }
 }
