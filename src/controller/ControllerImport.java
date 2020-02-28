@@ -1,5 +1,7 @@
 package controller;
 
+import backend.DatabaseClient;
+import com.drew.imaging.ImageProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -30,7 +32,7 @@ public class ControllerImport {
     private ScrollPane scrollPane;
 
     private final FileChooser fc = new FileChooser();
-
+    private List<File> list;
     /**
      * Select path for import
      * Currently able to create perfectly lined textfields
@@ -40,7 +42,7 @@ public class ControllerImport {
      */
     public void select(ActionEvent event) {
         fc.setTitle("Open Resource File");
-        List<File> list = fc.showOpenMultipleDialog(select.getScene().getWindow());
+        list = fc.showOpenMultipleDialog(select.getScene().getWindow());
         if (list != null) { //if list is not empty, post result in a list in UI
             for (int i = 0; i < list.size(); i++) {
                 if (i == 0) {
@@ -74,6 +76,12 @@ public class ControllerImport {
         pathVbox.getChildren().add(dupe);
         scrollPane.setContent(pathVbox);
     }
-
+    @FXML
+    public void importAction(ActionEvent event) throws ImageProcessingException, IOException {
+        for (File file:
+             list) {
+            ControllerMain.databaseClient.addImage(file);
+        }
+    }
 }
 

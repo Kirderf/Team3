@@ -28,7 +28,7 @@
                                 <Insets left="31.0" right="36.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="startImport" mnemonicParsing="false" styleClass="button" stylesheets="/Stylesheets/Import.css" text="Start Import">
+                        <Button fx:id="startImport" mnemonicParsing="false" styleClass="button" stylesheets="/Stylesheets/Import.css" text="Start Import" onAction="#importAction">
                             <HBox.margin>
                                 <Insets left="21.0" right="15.0" />
                             </HBox.margin>

@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ControllerMain implements Initializable {
+    public static DatabaseClient databaseClient = new DatabaseClient();
     @FXML
     private Menu fileButton;
 
@@ -58,7 +59,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private VBox gridVbox;
 
-    protected DatabaseClient databaseClient = new DatabaseClient();
+
     private Stage importStage = new Stage();
     private int photoCount = 0;
     private int rowCount = 0;
