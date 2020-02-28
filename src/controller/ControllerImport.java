@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class ControllerImport {
-    private int count = 0;
+
     @FXML
     private Button select;
     @FXML
@@ -31,6 +31,7 @@ public class ControllerImport {
     @FXML
     private ScrollPane scrollPane;
 
+    private int count = 0;
     private final FileChooser fc = new FileChooser();
     private List<File> list;
     /**

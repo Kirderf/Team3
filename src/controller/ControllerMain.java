@@ -22,7 +22,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ControllerMain implements Initializable {
-    public static DatabaseClient databaseClient = new DatabaseClient();
     @FXML
     private Menu fileButton;
 
@@ -59,7 +58,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private VBox gridVbox;
 
-
+    public static DatabaseClient databaseClient = new DatabaseClient();
     private Stage importStage = new Stage();
     private int photoCount = 0;
     private int rowCount = 0;
@@ -137,7 +136,6 @@ public class ControllerMain implements Initializable {
     private void insertImage(ImageView imageView) {
         pictureGrid.add(imageView, getNextColumn(), getNextRow());
         photoCount++;
-        System.out.println(photoCount);
     }
 
     /**
@@ -152,7 +150,6 @@ public class ControllerMain implements Initializable {
             con.setPrefHeight(gridHeight);
             gridVbox.setPrefHeight(gridVbox.getHeight()+con.getPrefHeight());
             pictureGrid.getRowConstraints().add(con);
-            System.out.println(gridHeight);
         }
     }
 
