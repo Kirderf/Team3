@@ -37,7 +37,7 @@ public class Database {
      *
      * @param // data to add
      */
-    public boolean writeToDatabase(String path, String tags, int file_size, Date date, int image_height, int image_wight, double GPS_Latitude, double GPS_Longitude) throws SQLException {
+    public boolean addImageToTable(String path, String tags, int file_size, Date date, int image_height, int image_wight, double GPS_Latitude, double GPS_Longitude) throws SQLException {
         openConnection();
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = con.prepareStatement(sql1);
@@ -55,27 +55,13 @@ public class Database {
     }
 
     /**
-     * TODO: fix method
-     * @return
-     * @throws SQLException
-     */
-    @Deprecated
-    public String readDatabase() throws SQLException {
-        openConnection();
-        //TODO: Add method functionality
-        String sql = "Select * from " + table;
-        Statement stmt = con.createStatement();
-        ResultSet result = stmt.executeQuery(sql);
-        return result.toString();
-    }
-
-    /**
      * Reads the database table and finds the column with columnName. Then return a ArrayList with the elements.
+     *
      * @param columnName
      * @return
      * @throws SQLException
      */
-    public ArrayList readDatabase(String columnName) throws SQLException {
+    public ArrayList getColumn(String columnName) throws SQLException {
         openConnection();
         String sql = "Select " + columnName + " from " + table;
         PreparedStatement stmt = con.prepareStatement(sql);
@@ -86,20 +72,33 @@ public class Database {
         }
         return arrayList;
     }
-    public void getImageData(String path) throws SQLException{
+
+    /**
+     * Get image metadata from path
+     * @param path Path to image
+     * @return A String array of all parameters except ImageID
+     * @throws SQLException
+     */
+    public String[] getImageMetadata(String path) throws SQLException {
         openConnection();
-        String sql = "SELECT * FROM "+table+"\n" +
-                "WHERE "+ table + ".Path" +" LIKE '%"+path+"%' LIMIT 1";
+        String sql = "SELECT * FROM " + table + "\n" +
+                "WHERE " + table + ".Path" + " LIKE '%" + path + "%' LIMIT 1";
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
-        String[] returnValues = new String[8];
-        returnValues[0] = rs.getString(2);
-        returnValues[1] = rs.getString(3);
-        returnValues[2] = String.valueOf(rs.getInt(4));
-        returnValues[3] = rs.getDate(5).toString();
-        returnValues[4] = String.valueOf(rs.getInt(6));
-
-
+        if (rs.next()) {
+            String[] returnValues = new String[8];
+            returnValues[0] = rs.getString(2);
+            returnValues[1] = rs.getString(3);
+            returnValues[2] = String.valueOf(rs.getInt(4));
+            returnValues[3] = rs.getDate(5).toString();
+            returnValues[4] = String.valueOf(rs.getInt(6));
+            returnValues[5] = String.valueOf(rs.getInt(7));
+            returnValues[6] = String.valueOf(rs.getDouble(8));
+            returnValues[7] = String.valueOf(rs.getDouble(9));
+            return returnValues;
+        } else {
+            return null;
+        }
 
     }
 
@@ -117,7 +116,6 @@ public class Database {
     }
 
     /**
-     *
      * @return
      * @throws SQLException
      */
@@ -132,36 +130,38 @@ public class Database {
 
     /**
      * Deletes a the current table from database
+     *
      * @return
      * @throws SQLException
      */
     public boolean deleteTable() throws SQLException {
         openConnection();
-        String sql = "DROP TABLE "+ table;
+        String sql = "DROP TABLE " + table;
         PreparedStatement stmt = con.prepareStatement(sql);
         return stmt.execute();
     }
 
     public boolean deleteFromDatabase(String path) throws SQLException {
         openConnection();
-        String sql ="DELETE FROM "+table+" WHERE "+table+".ImageID="+findImage(path);
+        String sql = "DELETE FROM " + table + " WHERE " + table + ".ImageID=" + findImage(path);
         PreparedStatement preparedStatement = con.prepareStatement(sql);
         return !preparedStatement.execute();
     }
+
     public int findImage(String path) throws SQLException {
         openConnection();
-        String sql = "SELECT * FROM "+table+"\n" +
-                "WHERE "+ table + ".Path" +" LIKE '%"+path+"%'";
+        String sql = "SELECT * FROM " + table + "\n" +
+                "WHERE " + table + ".Path" + " LIKE '%" + path + "%'";
         Statement statement = con.createStatement();
-        ResultSet rs =statement.executeQuery(sql);
-        if (!rs.next()){
+        ResultSet rs = statement.executeQuery(sql);
+        if (!rs.next()) {
             return 0;
-        }else{
+        } else {
             do {
-                if(rs.getString(2).equalsIgnoreCase(path)){
+                if (rs.getString(2).equalsIgnoreCase(path)) {
                     return rs.getInt(1);
                 }
-            }while (rs.next());
+            } while (rs.next());
         }
         return 0;
     }
@@ -174,7 +174,7 @@ public class Database {
     public boolean openConnection() throws SQLException {
         if (con == null) {
             con = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp", "fredrjul_Image", "Password123");
-        }else if (con.isClosed()){
+        } else if (con.isClosed()) {
             con = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp", "fredrjul_Image", "Password123");
         }
         return !con.isClosed();
@@ -186,17 +186,20 @@ public class Database {
      * @throws SQLException
      */
     public boolean closeConnection() throws SQLException {
-        con.close();
+        if (!con.isClosed()){
+            con.close();
+        }
         return con.isClosed();
     }
 
     /**
      * This method closes the database and deletes the current table to free up space.
+     *
      * @return
      * @throws SQLException
      */
     public boolean closeDatabase() throws SQLException {
-        if (con.isClosed()){
+        if (con.isClosed()) {
             return true;
         }
         deleteTable();
