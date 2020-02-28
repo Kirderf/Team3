@@ -17,7 +17,7 @@ public class ImageImport {
     private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude");
     private int noOfData = interestingMetadata.size();
 
-
+    //public for tests only
     public boolean isImage(File file){
         try {
             if(file.exists()){
@@ -29,11 +29,13 @@ public class ImageImport {
             return false;
         }
     }
+    //public for tests only
     public Double conMinutesToDecimal(String latOrLong) {
         //number of seconds
         double second = Double.parseDouble(latOrLong.substring(latOrLong.indexOf(" "),latOrLong.indexOf("'")))*60 + Double.parseDouble(latOrLong.substring(latOrLong.indexOf("' ")+1,latOrLong.length()-1).replaceAll(",","."));
         return Double.parseDouble(latOrLong.substring(0,latOrLong.indexOf("°"))) + second/3600;
     }
+    //needs to be public
     public String[] getMetaData(File file) throws ImageProcessingException, IOException {
         try {
             if (isImage(file)) {
@@ -75,6 +77,7 @@ public class ImageImport {
         //if the file this is run on is not a valid image
         return null;
     }
+    //public for tests only
     public String getExtensionFromFile(File file){
         return file.getPath().substring(file.getPath().lastIndexOf("."));
     }
