@@ -9,9 +9,7 @@ import com.drew.metadata.exif.GpsDirectory;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.*;
-import java.util.ArrayList;
 
 
 public class ImageCentral {
@@ -34,12 +32,10 @@ public class ImageCentral {
         }
         return null;
     }
-    public Double[] minutesToDecimal(String latitude, String longitude) {
-        double longitudeSecond = Double.parseDouble(longitude.substring(longitude.indexOf(" "),longitude.indexOf("'")))*60 + Double.parseDouble(longitude.substring(longitude.indexOf("' ")+2).replaceAll(",","."));
-        Double latitudeSecond =  Double.parseDouble(latitude.substring(latitude.indexOf(" "),latitude.indexOf("'")))*60 + Double.parseDouble(latitude.substring(latitude.indexOf("' ")+2).replaceAll(",","."));
-        double conLatitude = Double.parseDouble(latitude.substring(0,latitude.indexOf("°"))) + latitudeSecond/3600;
-        double conLongitude = Double.parseDouble(longitude.substring(0,longitude.indexOf("°"))) + longitudeSecond/3600;
-        return new Double[]{conLatitude,conLongitude};
+    public Double conMinutesToDecimal(String latOrLong) {
+        double second = Double.parseDouble(latOrLong.substring(latOrLong.indexOf(" "),latOrLong.indexOf("'")))*60 + Double.parseDouble(latOrLong.substring(latOrLong.indexOf("' ")+2).replaceAll(",","."));
+        double convertedValue = Double.parseDouble(latOrLong.substring(0,latOrLong.indexOf("°"))) + second/3600;
+        return convertedValue;
     }
     public String[] getMetaData(File file) throws ImageProcessingException, IOException {
         if (isImage(file)) {
@@ -51,27 +47,35 @@ public class ImageCentral {
             for (Directory directory : metadata.getDirectories()) {
                 //iterates through tags in directory
                 for (Tag tag : directory.getTags()) {
+                    //if the tag is part of the tags we are interested in
                     if(interestingMetadata.contains(tag.getTagName())){
+                        //the new tag is placed in the index that corresponds with the index of the tag in the interestingmetadata array
                         metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
                     }
                 }
             }
             for(GpsDirectory directory : metadata.getDirectoriesOfType(GpsDirectory.class)){
                 for (Tag tag : directory.getTags()) {
-                    if(interestingMetadata.contains(tag.getTagName())){
-                        metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
+                    if(tag.getTagName().equals("GPS Latitude")){
+                        //this gives a value in degrees, minutes and seconds, but it is converted to decimal, then converted to string
+                        metaArray[interestingMetadata.indexOf(tag.getTagName())] = ""+ conMinutesToDecimal(tag.getDescription());
+                    }
+                    else if(tag.getTagName().equals("GPS Longitude")){
+                        metaArray[interestingMetadata.indexOf(tag.getTagName())] = ""+ conMinutesToDecimal(tag.getDescription());
                     }
                 }
             }
+            //even if there is no interesting metadata, then an empty array is returned
             return metaArray;
         }
+        //if the file this is run on is not a valid image
         return null;
     }
     /**
      * get the path
      * @param file the link to a specific image
      * @return true if the import is successful, false otherwise
-     * @throws IOException if
+     * @throws IOException
      */
     private String getPathFromFile(File file) throws IOException{
         //only jpg and png are supported

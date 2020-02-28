@@ -32,7 +32,7 @@ class ImageCentralTest {
     }
     @Test
     void UTM2deg(){
-        System.out.println(imageCentral.minutesToDecimal("46° 36' 47,98", "13° 50' 39,76")[1]);
+        System.out.println(imageCentral.conMinutesToDecimal("46° 36' 47,98", "13° 50' 39,76")[1]);
     }
 
 }
