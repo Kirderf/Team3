@@ -17,6 +17,7 @@ public class ImageImport {
     private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude");
     private int noOfData = interestingMetadata.size();
 
+
     public boolean isImage(File file){
         try {
             if(file.exists()){

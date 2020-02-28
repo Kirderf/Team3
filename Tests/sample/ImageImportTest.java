@@ -25,12 +25,6 @@ class ImageImportTest {
         assertTrue(imageImport.isImage(testFile2));
     }
     @Test
-    void getImageFromPath(){
-        File testFile2 = new File("C:/Users/Ingebrigt/Pictures/ong.jpg");
-        assertEquals(imageImport.getImageFromPath(testFile2.getPath()), testFile2);
-        assertNotEquals(imageImport.getImageFromPath(testFile2.getPath()), imageImport.getImageFromPath("C:/Users/Ingebrigt/Pictures/duckhunt.png"));
-    }
-    @Test
     void getMetaData() throws IOException, ImageProcessingException {
         File testFile = new File("C:/Users/Ingebrigt/Downloads/IMG_3605.JPG");
         for(String s : imageImport.getMetaData(testFile)){
