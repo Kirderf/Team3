@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain1">
    <top>
       <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
         <menus>
@@ -39,7 +39,7 @@
               <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
             </items>
           </Menu>
-            <Menu fx:id="openSearch" mnemonicParsing="false" text="Search" />
+            <Menu fx:id="openSearch" mnemonicParsing="false" onAction="#searchAction" text="Search" />
           <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library" />
           <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
             <items>
@@ -88,31 +88,18 @@
       </HBox>
    </bottom>
    <center>
-      <ScrollPane fitToWidth="true" prefHeight="543.0" prefWidth="619.0" BorderPane.alignment="CENTER">
+      <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="543.0" prefWidth="619.0" BorderPane.alignment="CENTER">
          <content>
-            <VBox prefHeight="537.0" prefWidth="614.0">
+            <VBox fx:id="gridVbox" prefHeight="178.0" prefWidth="614.0">
                <children>
-                  <GridPane fx:id="pictureGrid" alignment="CENTER" gridLinesVisible="true" maxHeight="535.0" maxWidth="615.0" minHeight="535.0" minWidth="615.0" prefHeight="535.0" prefWidth="600.0">
+                  <GridPane fx:id="pictureGrid" alignment="CENTER" gridLinesVisible="true" prefHeight="177.0" prefWidth="614.0" VBox.vgrow="SOMETIMES">
                     <columnConstraints>
-                      <ColumnConstraints fillWidth="true" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints fillWidth="true" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints fillHeight="true" minHeight="50.0" prefHeight="75.0" vgrow="ALWAYS" />
-                      <RowConstraints minHeight="50.0" prefHeight="75.0" vgrow="ALWAYS" />
-                      <RowConstraints minHeight="50.0" prefHeight="75.0" vgrow="ALWAYS" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
-                  </GridPane>
-                  <GridPane fx:id="pictureGrid1" alignment="CENTER" gridLinesVisible="true" maxHeight="535.0" maxWidth="615.0" minHeight="535.0" minWidth="615.0" prefHeight="535.0" prefWidth="600.0">
-                     <columnConstraints>
-                        <ColumnConstraints fillWidth="true" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints fillWidth="true" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="50.0" prefHeight="75.0" vgrow="ALWAYS" />
-                        <RowConstraints minHeight="50.0" prefHeight="75.0" vgrow="ALWAYS" />
-                        <RowConstraints minHeight="50.0" prefHeight="75.0" vgrow="ALWAYS" />
-                     </rowConstraints>
                   </GridPane>
                </children>
             </VBox>
