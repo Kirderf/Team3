@@ -1,4 +1,4 @@
-package sample;
+package backend;
 
 import backend.ImageCentral;
 import java.io.File;
