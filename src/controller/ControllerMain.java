@@ -1,5 +1,6 @@
 package controller;
 
+import backend.DatabaseClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ControllerMain implements Initializable {
@@ -56,6 +58,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private VBox gridVbox;
 
+    protected DatabaseClient databaseClient = new DatabaseClient();
     private Stage importStage = new Stage();
     private int photoCount = 0;
     private int rowCount = 0;
@@ -120,7 +123,8 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    private void quitAction(ActionEvent event) {
+    private void quitAction(ActionEvent event) throws SQLException {
+        databaseClient.closeApplication();
         Stage stage = (Stage) pathDisplay.getScene().getWindow();
         stage.close();
     }

@@ -141,6 +141,7 @@ public class Database {
         PreparedStatement stmt = con.prepareStatement(sql);
         return stmt.execute();
     }
+
     public boolean deleteFromDatabase(String path) throws SQLException {
         openConnection();
         String sql ="DELETE FROM "+table+" WHERE "+table+".ImageID="+findImage(path);

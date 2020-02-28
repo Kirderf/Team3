@@ -6,7 +6,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 public class ControllerImport {
     private int count = 0;
@@ -23,25 +29,33 @@ public class ControllerImport {
     @FXML
     private ScrollPane scrollPane;
 
+    private final FileChooser fc = new FileChooser();
+
     /**
      * Select path for import
      * Currently able to create perfectly lined textfields
      * //TODO insert to database and select path from computer files
+     *
      * @param event
      */
     public void select(ActionEvent event) {
-        if(count == 0) {
-            firstTextfield.setVisible(true);
-            firstTextfield.setText(""+count);
-            count++;
-        } else {
-            generateTextField(""+count);
-            count++;
+        fc.setTitle("Open Resource File");
+        List<File> list = fc.showOpenMultipleDialog(select.getScene().getWindow());
+        if (list != null) { //if list is not empty, post result in a list in UI
+            for (int i = 0; i < list.size(); i++) {
+                if (i == 0) {
+                    firstTextfield.setVisible(true);
+                    firstTextfield.setText(list.get(i).getAbsolutePath());
+                } else {
+                    generateTextField(list.get(i).getAbsolutePath());
+                }
+            }
         }
     }
 
     /**
      * Closes the window
+     *
      * @param event
      */
     public void cancel(ActionEvent event) {
@@ -60,4 +74,6 @@ public class ControllerImport {
         pathVbox.getChildren().add(dupe);
         scrollPane.setContent(pathVbox);
     }
+
 }
+
