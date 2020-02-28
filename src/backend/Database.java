@@ -199,7 +199,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean closeDatabase() throws SQLException {
-        if (con.isClosed()) {
+        if (con == null) {
             return true;
         }
         deleteTable();
