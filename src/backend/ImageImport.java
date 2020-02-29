@@ -11,17 +11,27 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-
+/**
+ * @author Ingebrigt Hovind
+ */
 public class ImageImport {
     //this is the names of the various kinds of metadata we are interested in in com.drew.metadata methods
     private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude");
     private int noOfData = interestingMetadata.size();
+    //needs to be all lowercase, update if we accept other file types
+    private List<String> validImageExtensions = Arrays.asList(".jpg",".png");
 
-    //public for tests only
+    /**
+     * Checks whether a file is an image or not based on the extension, validImageExtions contains all file extensions that are valid
+     * public for tests only
+     * @param file the file that is to be checked if it is an image
+     * @return true if the file has an extension that is in validImageExtensions
+     * @author Ingebrigt Hovind
+     */
     public boolean isImage(File file){
         try {
             if(file != null){
-                return getExtensionFromFile(file).equalsIgnoreCase(".jpg") || getExtensionFromFile(file).equalsIgnoreCase(".png");
+                return validImageExtensions.contains(getExtensionFromFile(file).toLowerCase());
             }
             return false;
         } catch (Exception e) {
@@ -30,12 +40,27 @@ public class ImageImport {
         }
     }
     //public for tests only
+
+    /**
+     * Converts from degrees, minutes and seconds to just degrees
+     * @param latOrLong either latitude or longitude
+     * @return the corresponding coordinate in decimal form
+     * @author Ingebrigt Hovind
+     */
     public Double conMinutesToDecimal(String latOrLong) {
         //number of seconds
         double second = Double.parseDouble(latOrLong.substring(latOrLong.indexOf(" "),latOrLong.indexOf("'")))*60 + Double.parseDouble(latOrLong.substring(latOrLong.indexOf("' ")+1,latOrLong.length()-1).replaceAll(",","."));
         return Double.parseDouble(latOrLong.substring(0,latOrLong.indexOf("°"))) + second/3600;
     }
-    //needs to be public
+    /**
+     * returns an array with the interesting metadata, the metadata is in the same order as the interestingmetadata arraylist
+     * needs to be public
+     * @param file the file you want to find the metadata for
+     * @return an array with the interesting metadata, the metadata is in the same order as the interestingmetadata arraylist, null if no corresponding data is found
+     * @throws ImageProcessingException com.drew.metadata
+     * @throws IOException needs to read a file from com.drew.metadata
+     * @author Ingebrigt Hovind
+     */
     public String[] getMetaData(File file) throws ImageProcessingException, IOException {
         try {
             if (isImage(file)) {
@@ -99,8 +124,15 @@ public class ImageImport {
         return null;
     }
 
-    //public for tests only
+
+    /**
+     * gets the extension from a given file, used to verify that the file is an image
+     * @param file the file you want to find the extension for
+     * @return a string with the extension, including the full stop
+     * @author Ingebrigt Hovind
+     */
     public String getExtensionFromFile(File file){
+        //public for tests only
         return file.getPath().substring(file.getPath().lastIndexOf("."));
     }
 

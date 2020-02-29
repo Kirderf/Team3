@@ -112,6 +112,9 @@ public class ControllerMain implements Initializable {
                 System.out.println(exception.getLocalizedMessage());
             }
         }
+        // sample photos for testing purposes
+        String path = "/samplephoto.jpg";
+        insertImage(path);
     }
 
     @FXML
