@@ -21,40 +21,40 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ControllerImport implements Initializable {
-
-    @FXML
-    private Button select;
-    @FXML
-    private Button startImport;
-    @FXML
-    private Button cancel;
+public class ControllerImport {
+    /**
+     * Textfield for showing path
+     */
     @FXML
     private TextField firstTextfield;
+    /**
+     * Container for textfields
+     */
     @FXML
     private VBox pathVbox;
+    /**
+     * Scrollable container which includes the vbox
+     */
     @FXML
     private ScrollPane scrollPane;
-
-    private int count = 0;
+    /**
+     * File explorer
+     */
     private final FileChooser fc = new FileChooser();
+    /**
+     * List for containing file explorer results
+     */
     private List<File> list;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
-
     /**
-     * Select path for import
-     * Currently able to create perfectly lined textfields
-     * //TODO insert to database and select path from computer files
+     * Opens filechooser, and gets path, then displays it to the user.
      *
-     * @param event
+     * @param event button clicked
      */
     @FXML
     private void select(ActionEvent event) {
         fc.setTitle("Open Resource File");
-        list = fc.showOpenMultipleDialog(select.getScene().getWindow());
+        list = fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
         if (list != null) { //if list is not empty, post result in a list in UI
             for (int i = 0; i < list.size(); i++) {
                 if (i == 0) {
@@ -70,14 +70,18 @@ public class ControllerImport implements Initializable {
     /**
      * Closes the window
      *
-     * @param event
+     * @param event button clicked
      */
     @FXML
     private void cancel(ActionEvent event) {
-        ((Stage) cancel.getScene().getWindow()).close();
+        ((Stage) scrollPane.getScene().getWindow()).close();
     }
 
-    //Creates a duplicate of a textfield and insert into scrollpane
+    /**
+     * Creates a duplicate of a textfield and insert into scrollpane
+     *
+     * @param text input for textfields
+     */
     @FXML
     private void generateTextField(String text) {
         TextField dupe = new TextField(text);
@@ -92,12 +96,13 @@ public class ControllerImport implements Initializable {
 
     /**
      * Once all paths has been added to the list, add it to the database and display it in the MainView
-     * @param event
+     *
+     * @param event button clicked
      */
     @FXML
-    private void importAction(ActionEvent event){
+    private void importAction(ActionEvent event) {
         try {
-            for (File file: list) {
+            for (File file : list) {
                 ControllerMain.databaseClient.addImage(file);
             }
             ControllerMain.databaseClient.closeConnection();
@@ -108,7 +113,5 @@ public class ControllerImport implements Initializable {
 
         cancel(event);
     }
-
-
 }
 

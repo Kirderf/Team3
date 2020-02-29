@@ -23,23 +23,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ControllerMain implements Initializable {
-    @FXML
-    private Menu fileButton;
-
-    @FXML
-    private Menu importButton;
-
-    @FXML
-    private Menu openSearch;
-
-    @FXML
-    private MenuItem quitItem;
-
-    @FXML
-    private Menu returnToLibrary;
-
-    @FXML
-    private Menu helpButton;
 
     @FXML
     private ScrollPane metadataScroll;
@@ -66,43 +49,56 @@ public class ControllerMain implements Initializable {
     private int columnCount = 0;
 
 
+    /**
+     * Run 1 time once the window opens
+     *
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         pictureGrid.setGridLinesVisible(false);
     }
 
-    //TODO Make a method that creates a new Grid Pane every time the old one is full
-    private int getNextRow(){
-        if(photoCount == 0){
+    //for every 5th picture the row will increase in value
+    private int getNextRow() {
+        if (photoCount == 0) {
             return rowCount;
         }
-        if((photoCount)%5 == 0){
+        if ((photoCount) % 5 == 0) {
             rowCount++;
             addEmptyRow(1);
         }
         return rowCount;
     }
 
-    private int getNextColumn(){
-        if(photoCount == 0){
+    //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
+    private int getNextColumn() {
+        if (photoCount == 0) {
             return columnCount++;
         }
-        if(photoCount%5 == 0){
+        if (photoCount % 5 == 0) {
             columnCount = 0;
             return columnCount++;
         }
         return columnCount++;
     }
 
+    //TODO make search function work
     @FXML
     private void searchAction(ActionEvent event) {
         //TODO When clicked expand gridpane by a row
-
     }
 
+    /**
+     * Opens import window, once window closes, all pictures from database will get inserted into the UI
+     *
+     * @param event user has clicked this item
+     * @throws IOException Bad path input
+     */
     @FXML
     private void importAction(ActionEvent event) throws IOException {
-        if(!importStage.isShowing()) {
+        if (!importStage.isShowing()) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
                 importStage.setScene(new Scene(root));
@@ -117,14 +113,21 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    //TODO Export to pdf
     @FXML
     private void exportAction(ActionEvent event) {
 
     }
 
+    /**
+     * Closes application, and closes connections to database. Cannot close if other windows are open
+     *
+     * @param event item is clicked
+     * @throws SQLException Database error
+     */
     @FXML
     private void quitAction(ActionEvent event) throws SQLException {
-        if(importStage.isShowing()) {
+        if (importStage.isShowing()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Remember to close all other windows before exiting UwU");
             alert.showAndWait();
@@ -140,11 +143,20 @@ public class ControllerMain implements Initializable {
             System.exit(0);
         }
     }
+
+    /**
+     * Gets images from database and inserts into UI.
+     *
+     * @param event
+     */
     @FXML
-    private void showImages(ActionEvent event){
+    private void showImages(ActionEvent event) {
         refreshImages();
     }
 
+    /**
+     * Refresh Main UI
+     */
     private void refreshImages() {
         try {
             for (Object obj : databaseClient.getData("Path")) {
@@ -152,11 +164,13 @@ public class ControllerMain implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        };
+        }
+        ;
     }
 
     /**
      * Insert image into the gridpane
+     *
      * @param path to image object
      */
     public void insertImage(String path) {
@@ -166,6 +180,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * Add rows on the bottom of the gridpane
+     *
      * @param numOfRows Number of rows added
      */
     private void addEmptyRow(int numOfRows) {
@@ -174,16 +189,17 @@ public class ControllerMain implements Initializable {
             gridHeight = (pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size())).getValue();
             RowConstraints con = new RowConstraints();
             con.setPrefHeight(gridHeight);
-            gridVbox.setPrefHeight(gridVbox.getHeight()+con.getPrefHeight());
+            gridVbox.setPrefHeight(gridVbox.getHeight() + con.getPrefHeight());
             pictureGrid.getRowConstraints().add(con);
         }
     }
 
     /**
      * Take a path, and create a ImageView that fits to a space in the grid
+     *
      * @param path to image
      */
-    private ImageView importImage(String path){
+    private ImageView importImage(String path) {
         ImageView imageView = new ImageView();
         imageView.setImage(new Image(getClass().getResourceAsStream(path)));
         imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
