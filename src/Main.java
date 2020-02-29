@@ -3,11 +3,13 @@ import backend.DatabaseClient;
 import controller.ControllerMain;
 import controller.ControllerImport;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.sql.SQLException;
 
@@ -34,8 +36,7 @@ public class Main extends Application {
                 } else {
                     try {
                         ControllerMain.databaseClient.closeApplication();
-                        System.out.println("closes");
-                        primaryStage.close();
+                        Platform.exit();
                         System.exit(0);
                     } catch (SQLException e) {
                         e.printStackTrace();

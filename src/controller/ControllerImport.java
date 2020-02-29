@@ -2,8 +2,10 @@ package controller;
 
 import backend.DatabaseClient;
 import com.drew.imaging.ImageProcessingException;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -14,10 +16,12 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class ControllerImport {
+public class ControllerImport implements Initializable {
 
     @FXML
     private Button select;
@@ -35,6 +39,11 @@ public class ControllerImport {
     private int count = 0;
     private final FileChooser fc = new FileChooser();
     private List<File> list;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+    }
+
     /**
      * Select path for import
      * Currently able to create perfectly lined textfields
@@ -42,7 +51,8 @@ public class ControllerImport {
      *
      * @param event
      */
-    public void select(ActionEvent event) {
+    @FXML
+    private void select(ActionEvent event) {
         fc.setTitle("Open Resource File");
         list = fc.showOpenMultipleDialog(select.getScene().getWindow());
         if (list != null) { //if list is not empty, post result in a list in UI
@@ -62,12 +72,13 @@ public class ControllerImport {
      *
      * @param event
      */
-    public void cancel(ActionEvent event) {
-        Stage stage = (Stage) cancel.getScene().getWindow();
-        stage.close();
+    @FXML
+    private void cancel(ActionEvent event) {
+        ((Stage) cancel.getScene().getWindow()).close();
     }
 
     //Creates a duplicate of a textfield and insert into scrollpane
+    @FXML
     private void generateTextField(String text) {
         TextField dupe = new TextField(text);
         dupe.setPrefHeight(firstTextfield.getHeight());
@@ -78,8 +89,13 @@ public class ControllerImport {
         pathVbox.getChildren().add(dupe);
         scrollPane.setContent(pathVbox);
     }
+
+    /**
+     * Once all paths has been added to the list, add it to the database and display it in the MainView
+     * @param event
+     */
     @FXML
-    public void importAction(ActionEvent event){
+    private void importAction(ActionEvent event){
         try {
             for (File file:
                  list) {
@@ -90,8 +106,10 @@ public class ControllerImport {
             System.out.println("DEBUG importAction");
             e.printStackTrace();
         }
+
         cancel(event);
     }
+
 
 }
 

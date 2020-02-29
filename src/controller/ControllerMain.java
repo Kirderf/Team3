@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -107,14 +108,13 @@ public class ControllerMain implements Initializable {
                 importStage.setScene(new Scene(root));
                 importStage.setTitle("Import");
                 importStage.setResizable(false);
-                importStage.show();
+                importStage.initStyle(StageStyle.UNDECORATED);
+                importStage.showAndWait();
+                refreshImages();
             } catch (Exception exception) {
-                System.out.println(exception.getLocalizedMessage());
+                exception.printStackTrace();
             }
         }
-        // sample photos for testing purposes
-        String path = "/samplephoto.jpg";
-        insertImage(path);
     }
 
     @FXML
@@ -142,14 +142,17 @@ public class ControllerMain implements Initializable {
     }
     @FXML
     private void showImages(ActionEvent event){
+        refreshImages();
+    }
+
+    private void refreshImages() {
         try {
             for (Object obj : databaseClient.getData("Path")) {
                 insertImage((String) obj);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        ;
+        };
     }
 
     /**

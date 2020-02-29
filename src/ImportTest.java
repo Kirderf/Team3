@@ -3,6 +3,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ImportTest extends Application {
     /**
@@ -16,6 +17,7 @@ public class ImportTest extends Application {
         primaryStage.setTitle("Import");
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, 600   ,400 ));
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
     }
 
