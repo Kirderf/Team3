@@ -38,7 +38,6 @@ public class Database {
      * @param // data to add
      */
     public boolean addImageToTable(String path, String tags, int file_size, Long date, int image_height, int image_wight, double GPS_Latitude, double GPS_Longitude) throws SQLException {
-        openConnection();
         if (!isTableInDatabase(table)){
             createTable();
         }
@@ -85,7 +84,6 @@ public class Database {
      * @throws SQLException
      */
     public String[] getImageMetadata(String path) throws SQLException {
-        openConnection();
         String sql = "SELECT * FROM " + table + "\n" +
                 "WHERE " + table + ".Path" + " LIKE '%" + path + "%' LIMIT 1";
         PreparedStatement stmt = con.prepareStatement(sql);
@@ -137,7 +135,9 @@ public class Database {
      * @throws SQLException
      */
     public boolean createTable() throws SQLException {
-        openConnection();
+        if (!isConnection()){
+            openConnection();
+        }
         while (isTableInDatabase(table)) {
             table = "fredrjul_" + random.nextInt(upperBound);
         }
@@ -152,21 +152,18 @@ public class Database {
      * @throws SQLException
      */
     public boolean deleteTable() throws SQLException {
-        openConnection();
         String sql = "DROP TABLE " + table;
         PreparedStatement stmt = con.prepareStatement(sql);
         return stmt.execute();
     }
 
     public boolean deleteFromDatabase(String path) throws SQLException {
-        openConnection();
         String sql = "DELETE FROM " + table + " WHERE " + table + ".ImageID=" + findImage(path);
         PreparedStatement preparedStatement = con.prepareStatement(sql);
         return !preparedStatement.execute();
     }
 
     public int findImage(String path) throws SQLException {
-        openConnection();
         String sql = "SELECT * FROM " + table + "\n" +
                 "WHERE " + table + ".Path" + " LIKE '%" + path + "%'";
         Statement statement = con.createStatement();
