@@ -225,6 +225,7 @@ public class Database {
         deleteTable();
         return closeConnection();
     }
+    //TODO sort the database based on the parameter in this method
     public boolean sortBy(String sort){
         if(sort.equals("Size Ascending")){
             
