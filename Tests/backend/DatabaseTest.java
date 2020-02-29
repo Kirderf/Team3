@@ -41,6 +41,7 @@ class DatabaseTest {
             e.printStackTrace();
             fail();
         }
+
     }
 
     @Test
@@ -131,7 +132,7 @@ class DatabaseTest {
             if (!database.isConnection()) {
                 database.openConnection();
             }
-            database.closeConnection();
+            assertTrue(database.closeConnection());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -140,11 +141,16 @@ class DatabaseTest {
     @Test
     void isConnection() {
         try {
-            openConnection();
+            database.openConnection();
             assertTrue(database.isConnection());
             closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Test
+    void closeDatabase() {
     }
 }

@@ -17,6 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -58,6 +60,7 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         pictureGrid.setGridLinesVisible(false);
+        importStage.initStyle(StageStyle.UNDECORATED);
     }
 
     //for every 5th picture the row will increase in value
@@ -104,7 +107,6 @@ public class ControllerMain implements Initializable {
                 importStage.setScene(new Scene(root));
                 importStage.setTitle("Import");
                 importStage.setResizable(false);
-                importStage.initStyle(StageStyle.UNDECORATED);
                 importStage.showAndWait();
                 refreshImages();
             } catch (Exception exception) {
@@ -160,9 +162,11 @@ public class ControllerMain implements Initializable {
     private void refreshImages() {
         try {
             for (Object obj : databaseClient.getData("Path")) {
-                insertImage((String) obj);
+                if (obj != null) {
+                    insertImage((String) obj);
+                }
             }
-        } catch (SQLException e) {
+        } catch (SQLException | FileNotFoundException e) {
             e.printStackTrace();
         }
         ;
@@ -173,7 +177,7 @@ public class ControllerMain implements Initializable {
      *
      * @param path to image object
      */
-    public void insertImage(String path) {
+    public void insertImage(String path) throws FileNotFoundException {
         pictureGrid.add(importImage(path), getNextColumn(), getNextRow());
         photoCount++;
     }
@@ -199,9 +203,9 @@ public class ControllerMain implements Initializable {
      *
      * @param path to image
      */
-    private ImageView importImage(String path) {
+    private ImageView importImage(String path) throws FileNotFoundException {
         ImageView imageView = new ImageView();
-        imageView.setImage(new Image(getClass().getResourceAsStream(path)));
+        imageView.setImage(new Image(new FileInputStream(path)));
         imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
         imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);

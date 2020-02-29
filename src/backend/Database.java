@@ -28,7 +28,7 @@ public class Database {
                         "GPS_Latitude double(17,15),\n" +
                         "GPS_Longitude double(17,15),\n" +
                         "PRIMARY KEY (ImageID));");
-        return stmt.execute();
+        return !stmt.execute();
     }
 
     /**
@@ -38,7 +38,7 @@ public class Database {
      * @param // data to add
      */
     public boolean addImageToTable(String path, String tags, int file_size, Long date, int image_height, int image_wight, double GPS_Latitude, double GPS_Longitude) throws SQLException {
-        if (!isTableInDatabase(table)){
+        if (!isTableInDatabase(table)) {
             createTable();
         }
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
@@ -52,7 +52,7 @@ public class Database {
         preparedStatement.setInt(7, image_wight);
         preparedStatement.setDouble(8, GPS_Latitude);
         preparedStatement.setDouble(9, GPS_Longitude);
-        boolean result = preparedStatement.execute();
+        boolean result = !preparedStatement.execute();
         preparedStatement.close();
         return result;
 
@@ -66,7 +66,6 @@ public class Database {
      * @throws SQLException
      */
     public ArrayList getColumn(String columnName) throws SQLException {
-        openConnection();
         String sql = "Select " + columnName + " from " + table;
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet result = stmt.executeQuery();
@@ -79,6 +78,7 @@ public class Database {
 
     /**
      * Get image metadata from path
+     *
      * @param path Path to image
      * @return A String array of all parameters except ImageID
      * @throws SQLException
@@ -120,11 +120,12 @@ public class Database {
 
     /**
      * Checks if there is an open connection
+     *
      * @return false if there is not an open connection. Return true if there is an open connection.
      * @throws SQLException Failed to check
      */
     public boolean isConnection() throws SQLException {
-        if (con == null){
+        if (con == null) {
             return false;
         }
         return !con.isClosed();
@@ -135,7 +136,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean createTable() throws SQLException {
-        if (!isConnection()){
+        if (!isConnection()) {
             openConnection();
         }
         while (isTableInDatabase(table)) {
@@ -186,7 +187,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean openConnection() throws SQLException {
-        if (!isConnection()){
+        if (!isConnection()) {
             con = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp", "fredrjul_Image", "Password123");
             return true;
         }
@@ -201,11 +202,11 @@ public class Database {
      */
     public boolean closeConnection() throws SQLException {
 
-        if (con != null){
+        if (con != null) {
             con.close();
             return con.isClosed();
-        }else{
-            return true;
+        } else {
+            return false;
         }
     }
 
@@ -216,16 +217,20 @@ public class Database {
      * @throws SQLException
      */
     public boolean closeDatabase() throws SQLException {
-        if (con == null) {
-            return true;
+        if (openConnection()) {
+            try {
+                deleteTable();
+            } catch (SQLException e) {
+                System.out.println("Didnt delete table");
+            }
         }
-        deleteTable();
         return closeConnection();
     }
+
     //TODO sort the database based on the parameter in this method
-    public boolean sortBy(String sort){
-        if(sort.equals("Size Ascending")){
-            
+    public boolean sortBy(String sort) {
+        if (sort.equals("Size Ascending")) {
+
         }
         return false;
     }

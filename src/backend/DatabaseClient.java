@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-/**
- * @author Ingebrigt Hovind
- */
+
 //TODO add javadoc
 public class DatabaseClient {
     private Database imageDatabase = new Database();
@@ -35,11 +33,15 @@ public class DatabaseClient {
      * @throws SQLException could not find input from columnName
      */
     public ArrayList getData(String columnName) throws SQLException {
-       return imageDatabase.getColumn(columnName);
+        imageDatabase.openConnection();
+       ArrayList arrayList = imageDatabase.getColumn(columnName);
+       imageDatabase.closeConnection();
+        return arrayList;
     }
     //TODO add image with metadata to database
     public boolean addImage(File image) throws ImageProcessingException, IOException {
         try {
+            imageDatabase.openConnection();
             String[] metadata = imageImport.getMetaData(image);
             if(metadata != null) {
                 if(imageDatabase.addImageToTable(
