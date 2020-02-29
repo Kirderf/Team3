@@ -20,7 +20,7 @@ public class ImageImport {
     //public for tests only
     public boolean isImage(File file){
         try {
-            if(file.exists()){
+            if(file != null){
                 return getExtensionFromFile(file).equalsIgnoreCase(".jpg") || getExtensionFromFile(file).equalsIgnoreCase(".png");
             }
             return false;
@@ -42,7 +42,7 @@ public class ImageImport {
                 //array with metadata
                 String[] metaArray = new String[noOfData];
                 //reads metadata
-                Metadata metadata = ImageMetadataReader.readMetadata(file);
+                Metadata metadata = ImageMetadataReader.readMetadata(file.getAbsoluteFile());
                 //iterates through directory
                 for (Directory directory : metadata.getDirectories()) {
                     //iterates through tags in directory
@@ -98,6 +98,7 @@ public class ImageImport {
         //if the file this is run on is not a valid image
         return null;
     }
+
     //public for tests only
     public String getExtensionFromFile(File file){
         return file.getPath().substring(file.getPath().lastIndexOf("."));

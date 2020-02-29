@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ImageImportTest {
     private ImageImport imageImport;
+    private String pathToPhoto = this.getClass().getResource("/IMG_0963.JPG").getPath();
+    private String pathToNonPhoto = this.getClass().getResource("/Views/Import.fxml").getPath();
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
@@ -18,17 +20,17 @@ class ImageImportTest {
     }
     @Test
     void isImage() throws IOException{
-        File testFile = new File(getClass().getResource("/IMG_0963.JPG").getPath());
-        File testFile2 = new File(getClass().getResource("/samplephoto.jpg").getPath());
+        File testFile = new File(pathToNonPhoto).getAbsoluteFile();
+        File testFile2 = new File(pathToPhoto).getAbsoluteFile();
         System.out.println(testFile2.exists());
         assertFalse(imageImport.isImage(testFile));
         assertTrue(imageImport.isImage(testFile2));
     }
     @Test
     void getMetaData() throws IOException, ImageProcessingException {
-        File testFile = new File("C:/Users/ingebrigt Hovind/Downloads/IMG_3405.JPG");
+        File testFile = new File("/Users/tommyluu/Documents/Intellj prosjekter/systemutvikling/target/classes/IMG_0963.JPG");
+        System.out.println(testFile.exists());
         for(String s : imageImport.getMetaData(testFile)){
-
             System.out.println(s);
         }
     }
@@ -46,9 +48,9 @@ class ImageImportTest {
     }
     @Test
     void getExtensionFromFile(){
-        File testFile = new File("C:/Users/Ingebrigt/Documents/adolf-hitler-biography.docx");
-        File testFile2 = new File("C:/Users/Ingebrigt/Pictures/ong.jpg");
-        assertEquals(imageImport.getExtensionFromFile(testFile),".docx");
-        assertEquals(imageImport.getExtensionFromFile(testFile2),".jpg");
+        File testFile = new File(pathToNonPhoto);
+        File testFile2 = new File(pathToPhoto);
+        assertEquals(imageImport.getExtensionFromFile(testFile),".fxml");
+        assertEquals(imageImport.getExtensionFromFile(testFile2),".JPG");
     }
 }

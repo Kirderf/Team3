@@ -59,7 +59,7 @@ public class ControllerMain implements Initializable {
     private VBox gridVbox;
 
     public static DatabaseClient databaseClient = new DatabaseClient();
-    private Stage importStage = new Stage();
+    public static Stage importStage = new Stage();
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -98,6 +98,7 @@ public class ControllerMain implements Initializable {
         //TODO When clicked expand gridpane by a row
 
     }
+
     @FXML
     private void importAction(ActionEvent event) throws IOException {
         if(!importStage.isShowing()) {
@@ -119,20 +120,28 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    private void quitAction(ActionEvent event){
-        try {
-            databaseClient.closeApplication();
-        }catch (SQLException e){
-            System.out.println("Could not close application / delete table");
+    private void quitAction(ActionEvent event) throws SQLException {
+        if(importStage.isShowing()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Remember to close all other windows before exiting UwU");
+            alert.showAndWait();
+        } else {
+            try {
+                databaseClient.closeApplication();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Could not close application / delete table");
+            }
+            Stage stage = (Stage) pathDisplay.getScene().getWindow();
+            stage.close();
+            System.exit(0);
         }
-        Stage stage = (Stage) pathDisplay.getScene().getWindow();
-        stage.close();
     }
     @FXML
     private void showImages(ActionEvent event){
         try {
             for (Object obj : databaseClient.getData("Path")) {
-                insertImage(importImage((String) obj));
+                insertImage((String) obj);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,10 +151,10 @@ public class ControllerMain implements Initializable {
 
     /**
      * Insert image into the gridpane
-     * @param imageView ImageView object
+     * @param path to image object
      */
-    private void insertImage(ImageView imageView) {
-        pictureGrid.add(imageView, getNextColumn(), getNextRow());
+    public void insertImage(String path) {
+        pictureGrid.add(importImage(path), getNextColumn(), getNextRow());
         photoCount++;
     }
 
@@ -176,6 +185,5 @@ public class ControllerMain implements Initializable {
         imageView.setPreserveRatio(true);
         return imageView;
     }
-
 
 }
