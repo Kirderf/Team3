@@ -111,10 +111,6 @@ public class ControllerMain implements Initializable {
                 System.out.println(exception.getLocalizedMessage());
             }
         }
-
-        // sample photos for testing purposes
-        String path = "/samplephoto.jpg";
-        insertImage(importImage(path));
     }
 
     @FXML
@@ -123,10 +119,25 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    private void quitAction(ActionEvent event) throws SQLException {
-        databaseClient.closeApplication();
+    private void quitAction(ActionEvent event){
+        try {
+            databaseClient.closeApplication();
+        }catch (SQLException e){
+            System.out.println("Could not close application / delete table");
+        }
         Stage stage = (Stage) pathDisplay.getScene().getWindow();
         stage.close();
+    }
+    @FXML
+    private void showImages(ActionEvent event){
+        try {
+            for (Object obj : databaseClient.getData("Path")) {
+                insertImage(importImage((String) obj));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ;
     }
 
     /**

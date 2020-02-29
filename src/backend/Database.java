@@ -10,7 +10,7 @@ public class Database {
     Random random = new Random();
     int upperBound = 10000000;
     String table = "fredrjul_" + random.nextInt(upperBound);
-    Connection con;
+    Connection con = null;
 
     /**
      * This method is going to create a new database table and declare a variable to the rest of the class
@@ -53,7 +53,6 @@ public class Database {
         preparedStatement.setInt(7, image_wight);
         preparedStatement.setDouble(8, GPS_Latitude);
         preparedStatement.setDouble(9, GPS_Longitude);
-
         boolean result = preparedStatement.execute();
         preparedStatement.close();
         return result;
@@ -122,6 +121,18 @@ public class Database {
     }
 
     /**
+     * Checks if there is an open connection
+     * @return false if there is not an open connection. Return true if there is an open connection.
+     * @throws SQLException Failed to check
+     */
+    public boolean isConnection() throws SQLException {
+        if (con == null){
+            return false;
+        }
+        return !con.isClosed();
+    }
+
+    /**
      * @return
      * @throws SQLException
      */
@@ -178,12 +189,12 @@ public class Database {
      * @throws SQLException
      */
     public boolean openConnection() throws SQLException {
-        if (con == null) {
+        if (!isConnection()){
             con = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp", "fredrjul_Image", "Password123");
-        }else if(con.isClosed()){
-            con = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp", "fredrjul_Image", "Password123");
+            return true;
         }
-        return !con.isClosed();
+        return false;
+
     }
 
     /**
@@ -192,10 +203,13 @@ public class Database {
      * @throws SQLException
      */
     public boolean closeConnection() throws SQLException {
-        if (!con.isClosed()){
+
+        if (con != null){
             con.close();
+            return con.isClosed();
+        }else{
+            return true;
         }
-        return con.isClosed();
     }
 
     /**

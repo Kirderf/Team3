@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class DatabaseClient {
     private Database imageDatabase = new Database();
@@ -13,12 +14,24 @@ public class DatabaseClient {
 
     //TODO delete tables when closing program
     public boolean closeApplication() throws SQLException {
+        if (!imageDatabase.isConnection()){
             imageDatabase.openConnection();
-            return imageDatabase.closeDatabase();
+        }
+        return imageDatabase.closeDatabase();
 
     }
     public boolean closeConnection() throws SQLException{
         return imageDatabase.closeConnection();
+    }
+
+    /**
+     *
+     * @param columnName eks: Path,ImageID,Tags,File_size,DATE,Height,Width.
+     * @return An arraylist of data objects
+     * @throws SQLException could not find input from columnName
+     */
+    public ArrayList getData(String columnName) throws SQLException {
+       return imageDatabase.getColumn(columnName);
     }
     //TODO add image with metadata to database
     public boolean addImage(File image) throws ImageProcessingException, IOException {
