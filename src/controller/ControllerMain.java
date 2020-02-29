@@ -59,7 +59,7 @@ public class ControllerMain implements Initializable {
     private VBox gridVbox;
 
     public static DatabaseClient databaseClient = new DatabaseClient();
-    private Stage importStage = new Stage();
+    public static Stage importStage = new Stage();
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -98,6 +98,7 @@ public class ControllerMain implements Initializable {
         //TODO When clicked expand gridpane by a row
 
     }
+
     @FXML
     private void importAction(ActionEvent event) throws IOException {
         if(!importStage.isShowing()) {
@@ -114,7 +115,7 @@ public class ControllerMain implements Initializable {
 
         // sample photos for testing purposes
         String path = "/samplephoto.jpg";
-        insertImage(importImage(path));
+        insertImage(path);
     }
 
     @FXML
@@ -124,17 +125,24 @@ public class ControllerMain implements Initializable {
 
     @FXML
     private void quitAction(ActionEvent event) throws SQLException {
-        databaseClient.closeApplication();
-        Stage stage = (Stage) pathDisplay.getScene().getWindow();
-        stage.close();
+        if(importStage.isShowing()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Remember to close all other windows before exiting UwU");
+            alert.showAndWait();
+        } else {
+            databaseClient.closeApplication();
+            Stage stage = (Stage) pathDisplay.getScene().getWindow();
+            stage.close();
+            System.exit(0);
+        }
     }
 
     /**
      * Insert image into the gridpane
-     * @param imageView ImageView object
+     * @param path to image object
      */
-    private void insertImage(ImageView imageView) {
-        pictureGrid.add(imageView, getNextColumn(), getNextRow());
+    public void insertImage(String path) {
+        pictureGrid.add(importImage(path), getNextColumn(), getNextRow());
         photoCount++;
     }
 
@@ -165,6 +173,5 @@ public class ControllerMain implements Initializable {
         imageView.setPreserveRatio(true);
         return imageView;
     }
-
 
 }
