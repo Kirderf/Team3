@@ -97,8 +97,7 @@ public class ControllerImport implements Initializable {
     @FXML
     private void importAction(ActionEvent event){
         try {
-            for (File file:
-                 list) {
+            for (File file: list) {
                 ControllerMain.databaseClient.addImage(file);
             }
             ControllerMain.databaseClient.closeConnection();

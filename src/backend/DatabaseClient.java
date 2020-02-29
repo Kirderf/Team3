@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * @author Ingebrigt Hovind
+ */
+//TODO add javadoc
 public class DatabaseClient {
     private Database imageDatabase = new Database();
     private ImageImport imageImport = new ImageImport();
@@ -57,6 +61,7 @@ public class DatabaseClient {
         }
         return false;
     }
+
     public boolean removeImage(String path) throws SQLException {
         if(imageDatabase.deleteFromDatabase(path)){
             return true;
