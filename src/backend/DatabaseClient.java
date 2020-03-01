@@ -37,22 +37,9 @@ public class DatabaseClient {
     /**
      * method checks if all the paths in addedPaths are also present in the sql database
      * @return true if they are all present, false if not
-     * @throws SQLException
      */
-    public boolean addedPathsContains(String path) throws SQLException {
+    public boolean addedPathsContains(String path) {
         return addedPaths.contains(path);
-        /*
-        imageDatabase.openConnection();
-        if(getData("Path").size() != addedPaths.size()){
-            return false;
-        }
-        for(String s : addedPaths){
-            if(!imageDatabase.isTableInDatabase(s)){
-                return false;
-            }
-        }
-
-        return true;*/
     }
 
     /**
@@ -80,6 +67,10 @@ public class DatabaseClient {
             String[] metadata = imageImport.getMetaData(image);
             if(metadata != null) {
                 try {
+                    if (addedPathsContains(image.getPath())){
+                        imageDatabase.closeConnection();
+                        return false;
+                    }
                     if (imageDatabase.addImageToTable(
                             image.getPath(),
                             "",
