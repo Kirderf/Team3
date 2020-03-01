@@ -58,10 +58,12 @@ public class DatabaseClient {
                             Double.parseDouble(metadata[5]))) {
                         addedPaths.add(image.getPath());
                     }
+                    imageDatabase.closeConnection();
                     return true;
                     }catch (SQLIntegrityConstraintViolationException ignored){
                     System.out.println("Already in database");
                 }
+                imageDatabase.closeConnection();
                 return false;
             }
         } catch (ImageProcessingException | IOException | SQLException e) {
@@ -71,12 +73,26 @@ public class DatabaseClient {
         return false;
     }
 
+    /**
+     * WORK IN PROGRESS
+     * @param path
+     * @return
+     * @throws SQLException
+     */
+    @Deprecated
     public boolean removeImage(String path) throws SQLException {
         if(imageDatabase.deleteFromDatabase(path)){
             return true;
         }
         return false;
     }
+
+    /**
+     * Get metadata for one specific image
+     * @param path path to image
+     * @return String[] of metadata
+     * @throws SQLException
+     */
     //TODO given a path to a specific image, this should return null if the image is not in the database, and an array with metadata if it is
     public String[] getMetaDataFromDatabase(String path) throws SQLException {
         imageDatabase.openConnection();

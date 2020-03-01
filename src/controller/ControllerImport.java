@@ -105,8 +105,7 @@ public class ControllerImport {
             for (File file : list) {
                 ControllerMain.databaseClient.addImage(file);
             }
-            ControllerMain.databaseClient.closeConnection();
-        } catch (ImageProcessingException | IOException | SQLException e) {
+        } catch (ImageProcessingException | IOException e) {
             System.out.println("DEBUG importAction");
             e.printStackTrace();
         }
