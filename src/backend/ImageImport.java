@@ -21,6 +21,13 @@ public class ImageImport {
     //needs to be all lowercase, update if we accept other file types
     private List<String> validImageExtensions = Arrays.asList(".jpg",".png");
 
+/*  A function that returns a hash map with the path as a key, and an entry with metadata and tags, not sure how to implement or if necessary
+    public HashMap<String, Map.Entry<String[],String[]>> getImageData(File file) throws ImageProcessingException, IOException {
+        HashMap<String, String[]> hmap = new HashMap<String, String[]>();
+        String[] metadata = getMetaData(file);
+        hmap.put(file.getPath(),metadata);
+
+    }*/
     /**
      * Checks whether a file is an image or not based on the extension, validImageExtions contains all file extensions that are valid
      * public for tests only
