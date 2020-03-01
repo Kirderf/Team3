@@ -101,13 +101,8 @@ public class ControllerImport {
      */
     @FXML
     private void importAction(ActionEvent event) {
-        try {
-            for (File file : list) {
+        for (File file : list) {
                 ControllerMain.databaseClient.addImage(file);
-            }
-        } catch (ImageProcessingException | IOException e) {
-            System.out.println("DEBUG importAction");
-            e.printStackTrace();
         }
 
         cancel(event);

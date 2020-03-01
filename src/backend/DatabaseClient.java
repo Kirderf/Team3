@@ -9,14 +9,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @author Fredrik Julsen & Ingebrigt Hovind
+ */
 //TODO add javadoc
 public class DatabaseClient {
     private Database imageDatabase = new Database();
     private ImageImport imageImport = new ImageImport();
     private ArrayList<String> addedPaths = new ArrayList<>();
 
-
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
     //TODO delete tables when closing program
     public boolean closeApplication() throws SQLException {
         if (!imageDatabase.isConnection()){
@@ -32,9 +38,9 @@ public class DatabaseClient {
      * method checks if all the paths in addedPaths are also present in the sql database
      * @return true if they are all present, false if not
      * @throws SQLException
-     * @author Ingebrigt Hovind
      */
     public boolean listEqualToDatabase() throws SQLException {
+        imageDatabase.openConnection();
         if(getData("Path").size() != addedPaths.size()){
             return false;
         }
@@ -59,8 +65,14 @@ public class DatabaseClient {
        imageDatabase.closeConnection();
         return arrayList;
     }
+
+    /**
+     * Adds a image to database
+     * @param image imagefile to add
+     * @return if the image was added to database
+     */
     //TODO add image with metadata to database
-    public boolean addImage(File image) throws ImageProcessingException, IOException {
+    public boolean addImage(File image) {
         try {
             imageDatabase.openConnection();
             String[] metadata = imageImport.getMetaData(image);
