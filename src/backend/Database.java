@@ -138,7 +138,7 @@ public class Database {
      * @return boolean
      * @throws SQLException
      */
-    private boolean isTableInDatabase(String tableName) throws SQLException {
+    public boolean isTableInDatabase(String tableName) throws SQLException {
         PreparedStatement stmt = con.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'fredrjul_ImageApp' AND table_name = " + "\'" + table + "\'" +
                 "");
         return stmt.executeQuery().next();

@@ -29,6 +29,25 @@ public class DatabaseClient {
     }
 
     /**
+     * method checks if all the paths in addedPaths are also present in the sql database
+     * @return true if they are all present, false if not
+     * @throws SQLException
+     * @author Ingebrigt Hovind
+     */
+    public boolean listEqualToDatabase() throws SQLException {
+        if(getData("Path").size() != addedPaths.size()){
+            return false;
+        }
+        for(String s : addedPaths){
+            if(!imageDatabase.isTableInDatabase(s)){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      *
      * @param columnName eks: Path,ImageID,Tags,File_size,DATE,Height,Width.
      * @return An arraylist of data objects
