@@ -7,12 +7,14 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 
 //TODO add javadoc
 public class DatabaseClient {
     private Database imageDatabase = new Database();
     private ImageImport imageImport = new ImageImport();
+    private ArrayList<String> addedPaths = new ArrayList<>();
 
 
     //TODO delete tables when closing program
@@ -21,7 +23,6 @@ public class DatabaseClient {
             imageDatabase.openConnection();
         }
         return imageDatabase.closeDatabase();
-
     }
     public boolean closeConnection() throws SQLException{
         return imageDatabase.closeConnection();
@@ -55,9 +56,10 @@ public class DatabaseClient {
                             Integer.parseInt(metadata[3]),
                             Double.parseDouble(metadata[4]),
                             Double.parseDouble(metadata[5]))) {
-                        return true;
+                        addedPaths.add(image.getPath());
                     }
-                }catch (SQLIntegrityConstraintViolationException ignored){
+                    return true;
+                    }catch (SQLIntegrityConstraintViolationException ignored){
                     System.out.println("Already in database");
                 }
                 return false;
