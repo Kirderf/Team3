@@ -1,5 +1,8 @@
 package backend;
 
+import com.sun.corba.se.spi.monitoring.StatisticMonitoredAttribute;
+import javafx.beans.binding.StringBinding;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,7 +22,7 @@ public class Database {
         PreparedStatement stmt = con.prepareStatement(
                 "CREATE TABLE " + table + " (\n" +
                         "ImageID int AUTO_INCREMENT,\n" +
-                        "Path varchar(255),\n" +
+                        "Path varchar(255) UNIQUE ,\n" +
                         "Tags varchar(255),\n" +
                         "File_size varchar(255),\n" +
                         "DATE int(11),\n" +
@@ -56,6 +59,29 @@ public class Database {
         preparedStatement.close();
         return result;
 
+    }
+
+    /**
+     * Only use if getting for one image. For getting all tags from all images use getData
+     * @param path
+     * @return String
+     */
+    public StringBuilder getTags(String path) throws SQLException {
+        String sql = "SELECT * FROM "+table+" WHERE "+table+".ImageID = "+findImage(path);
+        Statement statement = con.createStatement();
+        ResultSet resultSet =statement.executeQuery(sql);
+        if (resultSet.next()){
+            return new StringBuilder(resultSet.getString(3));
+        }
+        return new StringBuilder("");
+    }
+    public boolean addTags(String path,String[] tags) throws SQLException {
+        StringBuilder oldtags = getTags(path);
+        for (String string : tags) {
+            oldtags.append(",").append(string);
+        }
+        PreparedStatement statement1 = con.prepareStatement("UPDATE fredrjul_ImageApp."+table+" SET fredrjul_ImageApp."+table+".Tags = '"+oldtags+"' WHERE fredrjul_ImageApp."+table+".ImageID = "+findImage(path));
+        return !statement1.execute();
     }
 
     /**

@@ -153,4 +153,18 @@ class DatabaseTest {
     @Test
     void closeDatabase() {
     }
+
+    @Test
+    void addTags() {
+
+        writeToDatabase();
+        try {
+            database.openConnection();
+            assertTrue(database.addTags("path to file",new String[]{"String","test"}));
+            database.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
 }

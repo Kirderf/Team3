@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControllerMain implements Initializable {
@@ -163,13 +164,12 @@ public class ControllerMain implements Initializable {
         try {
             for (Object obj : databaseClient.getData("Path")) {
                 if (obj != null) {
-                    insertImage((String) obj);
+                        insertImage((String) obj);
                 }
             }
         } catch (SQLException | FileNotFoundException e) {
             e.printStackTrace();
         }
-        ;
     }
 
     /**

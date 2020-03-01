@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -44,16 +45,20 @@ public class DatabaseClient {
             imageDatabase.openConnection();
             String[] metadata = imageImport.getMetaData(image);
             if(metadata != null) {
-                if(imageDatabase.addImageToTable(
-                        image.getPath(),
-                        "",
-                        Integer.parseInt(metadata[0]),
-                        Long.parseLong(metadata[1]),
-                        Integer.parseInt(metadata[2]),
-                        Integer.parseInt(metadata[3]),
-                        Double.parseDouble(metadata[4]),
-                        Double.parseDouble(metadata[5]))){
-                    return true;
+                try {
+                    if (imageDatabase.addImageToTable(
+                            image.getPath(),
+                            "",
+                            Integer.parseInt(metadata[0]),
+                            Long.parseLong(metadata[1]),
+                            Integer.parseInt(metadata[2]),
+                            Integer.parseInt(metadata[3]),
+                            Double.parseDouble(metadata[4]),
+                            Double.parseDouble(metadata[5]))) {
+                        return true;
+                    }
+                }catch (SQLIntegrityConstraintViolationException ignored){
+                    System.out.println("Already in database");
                 }
                 return false;
             }
@@ -72,14 +77,23 @@ public class DatabaseClient {
     }
     //TODO given a path to a specific image, this should return null if the image is not in the database, and an array with metadata if it is
     public String[] getMetaDataFromDatabase(String path) throws SQLException {
+        imageDatabase.openConnection();
         String[] result = imageDatabase.getImageMetadata(path);
         imageDatabase.closeConnection();
         return result;
     }
-    //TODO add tag funtionality
-    public boolean addTag(String tag) throws SQLException {
-        imageDatabase.openConnection();
 
-        return imageDatabase.closeConnection();
+    /**
+     * Legger til tags i databasen
+     * @param path path til bilde
+     * @param tag String[] av tags
+     * @return boolean
+     * @throws SQLException
+     */
+    public boolean addTag(String path,String[] tag) throws SQLException {
+        imageDatabase.openConnection();
+        boolean result =imageDatabase.addTags(path,tag);
+        imageDatabase.closeConnection();
+        return result;
     }
 }
