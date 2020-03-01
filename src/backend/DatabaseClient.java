@@ -16,7 +16,7 @@ import java.util.List;
 public class DatabaseClient {
     private Database imageDatabase = new Database();
     private ImageImport imageImport = new ImageImport();
-    private ArrayList<String> addedPaths = new ArrayList<>();
+    private static ArrayList<String> addedPaths = new ArrayList<>();
 
     /**
      *
@@ -25,13 +25,17 @@ public class DatabaseClient {
      */
     //TODO delete tables when closing program
     public boolean closeApplication() throws SQLException {
-        if (!imageDatabase.isConnection()){
+        if (imageDatabase.isConnection()){
             imageDatabase.openConnection();
         }
         return imageDatabase.closeDatabase();
     }
     public boolean closeConnection() throws SQLException{
         return imageDatabase.closeConnection();
+    }
+
+    public static ArrayList<String> getAddedPaths() {
+        return addedPaths;
     }
 
     /**
@@ -68,6 +72,7 @@ public class DatabaseClient {
             if(metadata != null) {
                 try {
                     if (addedPathsContains(image.getPath())){
+                        System.out.println("test");
                         imageDatabase.closeConnection();
                         return false;
                     }

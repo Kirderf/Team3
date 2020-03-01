@@ -162,12 +162,12 @@ public class ControllerMain implements Initializable {
      */
     private void refreshImages() {
         try {
-            for (Object obj : databaseClient.getData("Path")) {
+            for (String obj : DatabaseClient.getAddedPaths()) {
                 if (obj != null) {
-                        insertImage((String) obj);
+                    insertImage(obj);
                 }
             }
-        } catch (SQLException | FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }

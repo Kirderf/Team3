@@ -102,7 +102,9 @@ public class ControllerImport {
     @FXML
     private void importAction(ActionEvent event) {
         for (File file : list) {
+            if (!ControllerMain.databaseClient.addedPathsContains(file.getPath())){
                 ControllerMain.databaseClient.addImage(file);
+            }
         }
 
         cancel(event);

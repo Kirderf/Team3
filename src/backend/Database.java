@@ -19,6 +19,7 @@ public class Database {
      * This method is going to create a new database table and declare a variable to the rest of the class
      */
     private boolean regTable() throws SQLException {
+        System.out.println(table);
         PreparedStatement stmt = con.prepareStatement(
                 "CREATE TABLE " + table + " (\n" +
                         "ImageID int AUTO_INCREMENT,\n" +
