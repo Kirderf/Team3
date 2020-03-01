@@ -39,7 +39,9 @@ public class DatabaseClient {
      * @return true if they are all present, false if not
      * @throws SQLException
      */
-    public boolean listEqualToDatabase() throws SQLException {
+    public boolean addedPathsContains(String path) throws SQLException {
+        return addedPaths.contains(path);
+        /*
         imageDatabase.openConnection();
         if(getData("Path").size() != addedPaths.size()){
             return false;
@@ -50,7 +52,7 @@ public class DatabaseClient {
             }
         }
 
-        return true;
+        return true;*/
     }
 
     /**
