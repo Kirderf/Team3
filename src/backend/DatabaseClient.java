@@ -156,12 +156,29 @@ public class DatabaseClient {
         imageDatabase.closeConnection();
         return result;
     }
+
+    /**
+     * removes all the tags of the picture matching the tags in the arraylist
+     * @param path
+     * @param tags
+     * @return
+     * @throws SQLException
+     */
     public boolean removeTag(String path, String[] tags) throws SQLException {
         imageDatabase.openConnection();
         boolean result = imageDatabase.removeTag(path,tags);
         imageDatabase.closeConnection();
         return result;
     }
+
+    /**
+     * searches through database and returns arraylist with the path to pictures which are found in the search
+     * @param searchFor keyword or phrase that you are searching for
+     * @param searchIn what column you are searching in, e.g path, or date
+     * @return an arraylist with the paths that are found
+     * @throws SQLException
+     * @author Ingebrigt Hovind
+     */
     public ArrayList<String> search(String searchFor,String searchIn) throws SQLException {
         imageDatabase.openConnection();
         ArrayList result = imageDatabase.search(searchFor,searchIn);

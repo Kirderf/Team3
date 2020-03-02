@@ -317,6 +317,7 @@ public class Database {
         StringBuilder oldtags = getTags(path);
         //iterates through tags for the given image
         for (String string : tags) {
+            //TODO fix bug where substrings of tags are also removed, e.g if carpet is a tag and you attempt to remove a "car" tag, then you will be left with "pet"
             int index = oldtags.toString().toLowerCase().indexOf(string.toLowerCase());
             //the conditionals are here to ensure that a single comma is left between each word
             //if the first word is selected, then no comma is removed
@@ -340,7 +341,8 @@ public class Database {
             //select paths where the search term is present in any column
             String sql = "SELECT * FROM " + table +" WHERE " + searchIn + " LIKE " + "'%"+ searchFor +"%'";
             if(searchIn.equalsIgnoreCase("metadata")){
-                sql = "SELECT *" +  " FROM " + table + " WHERE " + searchFor  + " IN " + ("Tags, File_size, DATE, Height, Width, GPS_Latitude, GPS_Longitude");
+                //TODO test if this method works, if not, find another way to search through all the possible metadata
+                sql = "SELECT *" +  " FROM " + table + " WHERE " + ("Tags, File_size, DATE, Height, Width, GPS_Latitude, GPS_Longitude")  + " Like " + "'%"+ searchFor +"%'";
             }
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet result = stmt.executeQuery();
