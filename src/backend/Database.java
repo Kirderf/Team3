@@ -3,6 +3,7 @@ package backend;
 import com.sun.corba.se.spi.monitoring.StatisticMonitoredAttribute;
 import javafx.beans.binding.StringBinding;
 
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -313,6 +314,30 @@ public class Database {
         }
         PreparedStatement statement1 = con.prepareStatement("UPDATE fredrjul_ImageApp."+table+" SET fredrjul_ImageApp."+table+".Tags = '"+oldtags+"' WHERE fredrjul_ImageApp."+table+".ImageID = "+findImage(path));
         return !statement1.execute();
+    }
+
+    /**
+     * Searches the database and returns the paths of all elements that contain the given parameter in their metadata or tags
+     * @param searchBy the phrase you want to search for
+     * @return an arraylist with the paths that contain data that mathch the search
+     * @author Ingebrigt Hovind
+     */
+    public ArrayList<String> search(String searchBy) throws SQLException {
+        ArrayList<String> searchResults = new ArrayList<>();
+        try{
+            //select paths where the search term is present in any column
+            String sql = "SELECT " + "Path" +  " FROM " + table + "WHERE" + searchBy  + "IN" + "(Path,Tags, File_Size, DATE, Height, Width, GPS_Latitude, GPS_Longitude)";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet result = stmt.executeQuery();
+            while (result.next()) {
+                searchResults.add(result.getString("Path"));
+            }
+            return searchResults;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
