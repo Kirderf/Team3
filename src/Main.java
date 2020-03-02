@@ -15,7 +15,6 @@ import java.sql.SQLException;
 
 
 public class Main extends Application {
-
     /**
      * @param primaryStage
      * @throws Exception

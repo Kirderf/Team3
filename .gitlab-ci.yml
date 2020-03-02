@@ -42,3 +42,6 @@ maven_package:
   script:
     - echo "Building project with maven"
     - mvn package
+  artifacts:
+    paths:
+      - ./target/*.jar
