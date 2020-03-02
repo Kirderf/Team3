@@ -3,6 +3,7 @@ package controller;
 import backend.DatabaseClient;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,7 +21,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControllerMain implements Initializable {
+
     @FXML
     private ScrollPane metadataScroll;
 
@@ -40,9 +41,6 @@ public class ControllerMain implements Initializable {
     private GridPane pictureGrid;
 
     @FXML
-    private Menu returnToLibrary;
-
-    @FXML
     private ComboBox<?> sortDropDown;
 
     @FXML
@@ -51,9 +49,12 @@ public class ControllerMain implements Initializable {
     @FXML
     private VBox gridVbox;
 
+    @FXML
+    private VBox metadataVbox;
+
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
-    public static Image imageBuffer;
+    private static Stage searchStage = new Stage();
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -101,8 +102,21 @@ public class ControllerMain implements Initializable {
 
     //TODO make search function work
     @FXML
-    private void searchAction(ActionEvent event) {
-        //TODO When clicked expand gridpane by a row
+    private void searchAction(ActionEvent event) throws IOException {
+        System.out.println("knappen fungerer");
+        if(!searchStage.isShowing()){
+            try{
+
+            Parent root = FXMLLoader.load(getClass().getResource("/Views/Search.fxml"));
+            searchStage.setScene(new Scene(root));
+            searchStage.setTitle("Search");
+            searchStage.setResizable(false);
+            searchStage.showAndWait();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -120,7 +134,7 @@ public class ControllerMain implements Initializable {
                 importStage.setTitle("Import");
                 importStage.setResizable(false);
                 importStage.showAndWait();
-                if (ControllerImport.importSucceed) {
+                if(ControllerImport.importSucceed) {
                     refreshImages();
                     ControllerImport.importSucceed = false;
                 }
@@ -155,15 +169,20 @@ public class ControllerMain implements Initializable {
                 e.printStackTrace();
                 System.out.println("Could not close application / delete table");
             }
-            Stage stage = (Stage) pictureGrid.getScene().getWindow();
+            Stage stage = (Stage) pathDisplay.getScene().getWindow();
             stage.close();
             System.exit(0);
         }
     }
 
+    /**
+     * Gets images from database and inserts into UI.
+     *
+     * @param event
+     */
     @FXML
-    protected void goToLibrary() {
-        ((Stage) pictureGrid.getScene().getWindow()).setScene(pictureGrid.getScene());
+    private void showImages(ActionEvent event) {
+        refreshImages();
     }
 
     /**
@@ -187,7 +206,7 @@ public class ControllerMain implements Initializable {
      *
      * @param path to image object
      */
-    private void insertImage(String path) throws FileNotFoundException {
+    public void insertImage(String path) throws FileNotFoundException {
         pictureGrid.add(importImage(path), getNextColumn(), getNextRow());
         photoCount++;
     }
@@ -210,35 +229,25 @@ public class ControllerMain implements Initializable {
 
     /**
      * Take a path, and create a ImageView that fits to a space in the grid
-     * For every image, add a mouse event handler
+     *
      * @param path to image
      */
     private ImageView importImage(String path) throws FileNotFoundException {
         ImageView imageView = new ImageView();
-        imageBuffer = new Image(new FileInputStream(path));
-
-        imageView.setImage(imageBuffer);
+        imageView.setImage(new Image(new FileInputStream(path)));
         imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
         imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
-        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                if (imageBuffer != null) {
-                    showBigImage(imageView);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
         return imageView;
     }
 
-    private void showBigImage(ImageView imageView) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml"));
-        imageBuffer = imageView.getImage();
+    private void getMetadata(Image image){
+        System.out.println(image.impl_getUrl());
+        String[] metadata = databaseClient.getMetaDataFromDatabase(image.impl_getUrl());
+        for (String string : metadata) {
+            metadataVbox.getChildren().add(new Label(string));
 
-        Stage stage = ((Stage) pictureGrid.getScene().getWindow());
-        stage.setScene(new Scene(root));
+        }
     }
 
 }

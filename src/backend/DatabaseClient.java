@@ -122,10 +122,16 @@ public class DatabaseClient {
      * @throws SQLException
      */
     //TODO given a path to a specific image, this should return null if the image is not in the database, and an array with metadata if it is
-    public String[] getMetaDataFromDatabase(String path) throws SQLException {
-        imageDatabase.openConnection();
-        String[] result = imageDatabase.getImageMetadata(path);
-        imageDatabase.closeConnection();
+    public String[] getMetaDataFromDatabase(String path){
+
+        String[] result = new String[0];
+        try {
+            imageDatabase.openConnection();
+            result = imageDatabase.getImageMetadata(path);
+            imageDatabase.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 

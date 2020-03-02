@@ -18,26 +18,34 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.Button?>
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
     <top>
         <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
             <menus>
                 <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="importButton" mnemonicParsing="false" onAction="#importAction" text="Import">
-                        </MenuItem>
-                        <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" text="Export">
-                        </MenuItem>
+                        <Menu fx:id="importButton" mnemonicParsing="false" onAction="#importAction" text="Import">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Close" />
+                            </items>
+                        </Menu>
+                        <Menu fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" text="Export">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Delete" />
+                            </items>
+                        </Menu>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Preferences..." />
                         <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
                     </items>
                 </Menu>
-                <Menu fx:id="openSearch" mnemonicParsing="false" onAction="#searchAction" text="Search" />
-                <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#goToLibrary" text="Go to library" />
-               </items></Menu>
+                <Menu fx:id="searchbutton" mnemonicParsing="false" onAction="#searchAction" text="Search">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Search" />
+                    </items>
+                </Menu>
+                <Menu fx:id="returnToLibrary" mnemonicParsing="false" onAction="#showImages" text="Library" />
                 <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
                     <items>
                         <MenuItem mnemonicParsing="false" text="About" />
@@ -56,7 +64,11 @@
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="26.0" maxWidth="180.0" minHeight="50.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="14.0" AnchorPane.topAnchor="26.0" />
+                        <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="26.0" maxWidth="180.0" minHeight="50.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="14.0" AnchorPane.topAnchor="26.0">
+                            <VBox fx:id="metadataVbox">
+
+                            </VBox>
+                        </ScrollPane>
                     </children>
                 </AnchorPane>
                 <AnchorPane prefWidth="184.0">
