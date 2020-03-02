@@ -51,6 +51,7 @@ public class ControllerMain implements Initializable {
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
+    private final double initialGridHeight = 150;
 
 
     /**
@@ -61,7 +62,9 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pictureGrid.setGridLinesVisible(false);
+        pictureGrid.setGridLinesVisible(true);
+        pictureGrid.setPrefHeight(initialGridHeight);
+        gridVbox.setPrefHeight(initialGridHeight);
         importStage.initStyle(StageStyle.UNDECORATED);
         importStage.initModality(Modality.APPLICATION_MODAL);
     }
@@ -111,7 +114,10 @@ public class ControllerMain implements Initializable {
                 importStage.setTitle("Import");
                 importStage.setResizable(false);
                 importStage.showAndWait();
-                refreshImages();
+                if(ControllerImport.importSucceed) {
+                    refreshImages();
+                    ControllerImport.importSucceed = false;
+                }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -171,7 +177,7 @@ public class ControllerMain implements Initializable {
                 }
             }
         } catch (FileNotFoundException | SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
         }
     }
 

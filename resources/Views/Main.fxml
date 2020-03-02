@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
     <top>
         <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
             <menus>
@@ -40,7 +40,7 @@
                     </items>
                 </Menu>
                 <Menu fx:id="openSearch" mnemonicParsing="false" onAction="#searchAction" text="Search" />
-                <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library" onAction="#showImages"/>
+                <Menu fx:id="returnToLibrary" mnemonicParsing="false" onAction="#showImages" text="Library" />
                 <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
                     <items>
                         <MenuItem mnemonicParsing="false" text="About" />
@@ -92,7 +92,7 @@
             <content>
                 <VBox fx:id="gridVbox" prefHeight="178.0" prefWidth="614.0">
                     <children>
-                        <GridPane fx:id="pictureGrid" alignment="CENTER" gridLinesVisible="true" prefHeight="177.0" prefWidth="614.0" VBox.vgrow="SOMETIMES">
+                        <GridPane fx:id="pictureGrid" alignment="CENTER" gridLinesVisible="true" prefHeight="185.0" prefWidth="614.0" VBox.vgrow="SOMETIMES">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

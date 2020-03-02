@@ -19,7 +19,7 @@ public class ImageImport {
     private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude");
     private int noOfData = interestingMetadata.size();
     //needs to be all lowercase, update if we accept other file types
-    private List<String> validImageExtensions = Arrays.asList(".jpg",".png");
+    private List<String> validImageExtensions = Arrays.asList(".jpg",".png",".jpeg");
 
     /**
      * Checks whether a file is an image or not based on the extension, validImageExtions contains all file extensions that are valid
@@ -30,7 +30,7 @@ public class ImageImport {
      */
     public boolean isImage(File file){
         try {
-            if(file != null){
+            if(file.exists()){
                 return validImageExtensions.contains(getExtensionFromFile(file).toLowerCase());
             }
             return false;

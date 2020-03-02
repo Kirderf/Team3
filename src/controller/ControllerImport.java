@@ -18,15 +18,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ControllerImport {
-    /**
-     * Textfield for showing path
-     */
-    @FXML
-    private TextField firstTextfield;
+public class ControllerImport implements Initializable{
     /**
      * Container for textfields
      */
@@ -44,25 +40,39 @@ public class ControllerImport {
     /**
      * List for containing file explorer results
      */
-    private List<File> list;
-
+    private ArrayList<File> bufferList = new ArrayList<>();
     /**
-     * Opens filechooser, and gets path, then displays it to the user.
+     * List for containing temporary file explorer results
+     */
+    private List<File> list;
+    private final double prefHeight = 27;
+    private final double prefWidth = 330;
+    public static boolean importSucceed = false;
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        scrollPane.setContent(pathVbox);
+    }
+    /**
+     * Opens file chooser, and gets path, then displays it to the user.
      *
      * @param event button clicked
      */
     @FXML
-    private void select(ActionEvent event) {
+    private void addImageFile(ActionEvent event) {
         fc.setTitle("Open Resource File");
         list = fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
-        if (list != null) { //if list is not empty, post result in a list in UI
-            for (int i = 0; i < list.size(); i++) {
-                if (i == 0) {
-                    firstTextfield.setVisible(true);
-                    firstTextfield.setText(list.get(i).getAbsolutePath());
-                } else {
-                    generateTextField(list.get(i).getAbsolutePath());
-                }
+        if (list != null) {
+            list.forEach((x)->{
+                if(!bufferList.contains(x)) bufferList.add(x);
+            });
+        }
+        if (bufferList != null) {
+            clearListView();
+            for (File file : bufferList
+            ) {
+                generateTextField(file.getAbsolutePath());
             }
         }
     }
@@ -77,6 +87,12 @@ public class ControllerImport {
         ((Stage) scrollPane.getScene().getWindow()).close();
     }
 
+    @FXML
+    private void clearAction(ActionEvent event) {
+        clearListView();
+        bufferList.clear();
+    }
+
     /**
      * Creates a duplicate of a textfield and insert into scrollpane
      *
@@ -84,14 +100,12 @@ public class ControllerImport {
      */
     @FXML
     private void generateTextField(String text) {
-        TextField dupe = new TextField(text);
-        dupe.setPrefHeight(firstTextfield.getHeight());
-        dupe.setPrefWidth(firstTextfield.getWidth());
-        dupe.setPadding(firstTextfield.getPadding());
-        dupe.setBackground(firstTextfield.getBackground());
-        dupe.setDisable(true);
-        pathVbox.getChildren().add(dupe);
-        scrollPane.setContent(pathVbox);
+        TextField textField = new TextField(text);
+        textField.setPrefHeight(prefHeight);
+        textField.setPrefWidth(prefWidth);
+        textField.setStyle("-fx-text-fill: black");
+        textField.setDisable(true);
+        pathVbox.getChildren().add(textField);
     }
 
     /**
@@ -101,14 +115,19 @@ public class ControllerImport {
      */
     @FXML
     private void importAction(ActionEvent event) {
-        for (File file : list) {
-            if (!ControllerMain.databaseClient.addedPathsContains(file.getPath())){
-                ControllerMain.databaseClient.addImage(file);
+        if(bufferList != null) {
+            for (File file : bufferList) {
+                if (!ControllerMain.databaseClient.addedPathsContains(file.getPath())) {
+                    ControllerMain.databaseClient.addImage(file);
+                }
             }
+            importSucceed = true;
         }
-
         cancel(event);
     }
 
+    private void clearListView() {
+        pathVbox.getChildren().clear();
+    }
 }
 
