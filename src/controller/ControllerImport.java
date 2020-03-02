@@ -6,10 +6,13 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -53,6 +56,8 @@ public class ControllerImport implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         scrollPane.setContent(pathVbox);
+        pathVbox.setPadding(new Insets(5, 0, 0, 5));
+        pathVbox.setSpacing(7);
     }
     /**
      * Opens file chooser, and gets path, then displays it to the user.
@@ -100,12 +105,10 @@ public class ControllerImport implements Initializable{
      */
     @FXML
     private void generateTextField(String text) {
-        TextField textField = new TextField(text);
-        textField.setPrefHeight(prefHeight);
-        textField.setPrefWidth(prefWidth);
-        textField.setStyle("-fx-text-fill: black");
-        textField.setDisable(true);
-        pathVbox.getChildren().add(textField);
+        Text textElement = new Text(text);
+        textElement.setFont(Font.font("Montserrat"));
+        textElement.setDisable(true);
+        pathVbox.getChildren().addAll(textElement);
     }
 
     /**
