@@ -254,18 +254,40 @@ public class Database {
         return closeConnection();
     }
 
-    //TODO sort the database based on the parameter in this method
-
+    /**
+     * columnname is the column the table is to be sorted by, the method then returns an arraylist with the paths in ascending or descending order
+     * @param columnName name of the column that is to be sorted by
+     * @param ascending boolean whether or smallest or the largest values are to be at the top
+     * @return arraylist with the all of the paths in the database in correct order
+     * @throws SQLException
+     * @author Ingebrigt
+     */
     public ArrayList<String> sortBy(String columnName, boolean ascending) throws SQLException{
-        if(ascending){
-            String sql = "SELECT " + "Paths" + " from " + table + " ORDER BY " + "ASC";
-            PreparedStatement stmt = con.prepareStatement(sql);
+        ArrayList<String> arrayList = new ArrayList<>();
+        try {
+            if (isTableInDatabase(columnName)) {
+                if(ascending){
+                    String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " +columnName+ "ASC";
+                    PreparedStatement stmt = con.prepareStatement(sql);
+                    ResultSet result = stmt.executeQuery();
+                    while (result.next()) {
+                        arrayList.add(result.getString("Path"));
+                    }
+                    return arrayList;
+                }
+                else{
+                    String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " + columnName + "DESC";
+                    PreparedStatement stmt = con.prepareStatement(sql);
+                    ResultSet result = stmt.executeQuery();
+                    while (result.next()) {
+                        arrayList.add(result.getString("Path"));
+                    }
+                    return arrayList;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        else{
-            String sql = "SELECT " + "Paths" + " from " + table + " ORDER BY " + columnName, + "DESC";
-            PreparedStatement stmt = con.prepareStatement(sql);
-        }
-
         return null;
     }
 
