@@ -38,7 +38,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBigImage(imageBuffer);
+        //setBigImage(imageBuffer);
     }
 
     private void setBigImage(Image image) {

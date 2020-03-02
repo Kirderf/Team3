@@ -326,14 +326,14 @@ public class Database {
         ArrayList<String> searchResults = new ArrayList<>();
         try{
             //select paths where the search term is present in any column
-            String sql = "SELECT " + "Path" +  " FROM " + table + "WHERE" + searchFor  + "IN" + searchIn;
+            String sql = "SELECT * FROM " + table +" WHERE " + searchIn + " LIKE " + "'%"+ searchFor +"%'";
             if(searchIn.equalsIgnoreCase("metadata")){
-                sql = "SELECT " + "Path" +  " FROM " + table + "WHERE" + searchFor  + "IN" + ("Tags,File_size,DATE,Height,Width,GPS_Latitude,GPS_Longitude");
+                sql = "SELECT *" +  " FROM " + table + " WHERE " + searchFor  + " IN " + ("Tags, File_size, DATE, Height, Width, GPS_Latitude, GPS_Longitude");
             }
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet result = stmt.executeQuery();
             while (result.next()) {
-                searchResults.add(result.getString("Path"));
+                searchResults.add((String) result.getObject("Path"));
             }
             return searchResults;
         }

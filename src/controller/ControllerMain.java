@@ -115,6 +115,13 @@ public class ControllerMain implements Initializable {
             searchStage.setTitle("Search");
             searchStage.setResizable(false);
             searchStage.showAndWait();
+            if(ControllerSearch.searchSucceed){
+                clearView();
+                for(String s : ControllerSearch.searchResults){
+                    insertImage(s);
+                    ControllerSearch.searchSucceed = false;
+                }
+            }
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -191,7 +198,7 @@ public class ControllerMain implements Initializable {
         for(GridPane g : rows){
             g.getChildren().clear();
         }
-        for(int i = rows.size(); i>0;i--){
+        for(int i = rows.size()-1; i>0;i--){
             rows.remove(i);
         }
     }
