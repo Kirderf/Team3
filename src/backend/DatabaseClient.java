@@ -154,4 +154,10 @@ public class DatabaseClient {
         imageDatabase.closeConnection();
         return result;
     }
+    public ArrayList<String> search(String searchFor,String searchIn) throws SQLException {
+        imageDatabase.openConnection();
+        ArrayList result = imageDatabase.search(searchFor,searchIn);
+        imageDatabase.closeConnection();
+        return result;
+    }
 }

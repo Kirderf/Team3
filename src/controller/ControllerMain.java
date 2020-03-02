@@ -58,10 +58,12 @@ public class ControllerMain implements Initializable {
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
     private static Stage searchStage = new Stage();
+    public static Image imageBuffer;
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
     private final double initialGridHeight = 150;
+    ArrayList<GridPane> rows = new ArrayList<GridPane>();
 
 
     /**
@@ -78,6 +80,9 @@ public class ControllerMain implements Initializable {
         gridVbox.setPrefHeight(initialGridHeight);
         importStage.initStyle(StageStyle.UNDECORATED);
         importStage.initModality(Modality.APPLICATION_MODAL);
+        if(!rows.contains(pictureGrid)){
+            rows.add(pictureGrid);
+        }
     }
 
     //for every 5th picture the row will increase in value
@@ -116,6 +121,13 @@ public class ControllerMain implements Initializable {
             searchStage.setTitle("Search");
             searchStage.setResizable(false);
             searchStage.showAndWait();
+            if(ControllerSearch.searchSucceed){
+                clearView();
+                for(String s : ControllerSearch.searchResults){
+                    insertImage(s);
+                    ControllerSearch.searchSucceed = false;
+                }
+            }
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -131,7 +143,6 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     private void importAction(ActionEvent event) throws IOException {
-        logger.log(Level.INFO,"ImportAction");
         if (!importStage.isShowing()) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
@@ -180,16 +191,18 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    /**
-     * Gets images from database and inserts into UI.
-     *
-     * @param event
-     */
     @FXML
-    private void showImages(ActionEvent event) {
-        refreshImages();
+    protected void goToLibrary() {
+        ((Stage) metadataScroll.getScene().getWindow()).setScene(metadataScroll.getScene());
     }
-
+    public void clearView(){
+        for(GridPane g : rows){
+            g.getChildren().clear();
+        }
+        for(int i = rows.size()-1; i>0;i--){
+            rows.remove(i);
+        }
+    }
     /**
      * Refresh Main UI
      */
@@ -224,6 +237,7 @@ public class ControllerMain implements Initializable {
     private void addEmptyRow(int numOfRows) {
         double gridHeight = 0;
         for (int i = 0; i < numOfRows; i++) {
+            rows.add(pictureGrid);
             gridHeight = (pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size())).getValue();
             RowConstraints con = new RowConstraints();
             con.setPrefHeight(gridHeight);
@@ -239,11 +253,25 @@ public class ControllerMain implements Initializable {
      */
     private ImageView importImage(String path) throws FileNotFoundException {
         ImageView imageView = new ImageView();
-        imageView.setImage(new Image(new FileInputStream(path)));
+        imageBuffer = new Image(new FileInputStream(path));
+        imageView.setImage(imageBuffer);
         imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
         imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
+        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {
+            try {
+                showBigImage(imageView);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         return imageView;
+    }
+
+    private void showBigImage(ImageView imageView) throws IOException {
+        imageBuffer = imageView.getImage();
+        ((Stage) metadataScroll.getScene().getWindow()).setScene(new Scene(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml"))));
     }
 
     private void getMetadata(Image image){

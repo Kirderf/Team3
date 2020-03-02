@@ -329,19 +329,22 @@ public class Database {
 
     /**
      * Searches the database and returns the paths of all elements that contain the given parameter in their metadata or tags
-     * @param searchBy the phrase you want to search for
+     * @param searchFor the phrase you want to search for
      * @return an arraylist with the paths that contain data that mathch the search
      * @author Ingebrigt Hovind
      */
-    public ArrayList<String> search(String searchBy) throws SQLException {
+    public ArrayList<String> search(String searchFor, String searchIn) throws SQLException {
         ArrayList<String> searchResults = new ArrayList<>();
         try{
             //select paths where the search term is present in any column
-            String sql = "SELECT " + "Path" +  " FROM " + table + "WHERE" + searchBy  + "IN" + "(Path,Tags, File_Size, DATE, Height, Width, GPS_Latitude, GPS_Longitude)";
+            String sql = "SELECT * FROM " + table +" WHERE " + searchIn + " LIKE " + "'%"+ searchFor +"%'";
+            if(searchIn.equalsIgnoreCase("metadata")){
+                sql = "SELECT *" +  " FROM " + table + " WHERE " + searchFor  + " IN " + ("Tags, File_size, DATE, Height, Width, GPS_Latitude, GPS_Longitude");
+            }
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet result = stmt.executeQuery();
             while (result.next()) {
-                searchResults.add(result.getString("Path"));
+                searchResults.add((String) result.getObject("Path"));
             }
             return searchResults;
         }
