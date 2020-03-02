@@ -48,17 +48,20 @@ public class ControllerImport implements Initializable{
      * List for containing temporary file explorer results
      */
     private List<File> list;
-    private final double prefHeight = 27;
-    private final double prefWidth = 330;
     public static boolean importSucceed = false;
 
-
+    /**
+     * Set container content and alignment of elements
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         scrollPane.setContent(pathVbox);
         pathVbox.setPadding(new Insets(5, 0, 0, 5));
         pathVbox.setSpacing(7);
     }
+
     /**
      * Opens file chooser, and gets path, then displays it to the user.
      *
@@ -92,6 +95,10 @@ public class ControllerImport implements Initializable{
         ((Stage) scrollPane.getScene().getWindow()).close();
     }
 
+    /**
+     * Clear the buffer list and view buffer
+     * @param event
+     */
     @FXML
     private void clearAction(ActionEvent event) {
         clearListView();
@@ -129,6 +136,9 @@ public class ControllerImport implements Initializable{
         cancel(event);
     }
 
+    /**
+     * Clears the view buffer
+     */
     private void clearListView() {
         pathVbox.getChildren().clear();
     }
