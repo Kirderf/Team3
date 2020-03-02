@@ -55,6 +55,7 @@ public class ControllerMain implements Initializable {
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
     private static Stage searchStage = new Stage();
+    public static Image imageBuffer;
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -184,15 +185,10 @@ public class ControllerMain implements Initializable {
             System.exit(0);
         }
     }
-
-    /**
-     * Gets images from database and inserts into UI.
-     *
-     * @param event
-     */
+    
     @FXML
-    private void showImages(ActionEvent event) {
-        refreshImages();
+    protected void goToLibrary() {
+        ((Stage) metadataScroll.getScene().getWindow()).setScene(metadataScroll.getScene());
     }
     public void clearView(){
         for(GridPane g : rows){
@@ -252,11 +248,25 @@ public class ControllerMain implements Initializable {
      */
     private ImageView importImage(String path) throws FileNotFoundException {
         ImageView imageView = new ImageView();
-        imageView.setImage(new Image(new FileInputStream(path)));
+        imageBuffer = new Image(new FileInputStream(path));
+        imageView.setImage(imageBuffer);
         imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
         imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
+        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {
+            try {
+                showBigImage(imageView);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         return imageView;
+    }
+
+    private void showBigImage(ImageView imageView) throws IOException {
+        imageBuffer = imageView.getImage();
+        ((Stage) metadataScroll.getScene().getWindow()).setScene(new Scene(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml"))));
     }
 
     private void getMetadata(Image image){
