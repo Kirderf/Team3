@@ -48,6 +48,7 @@ public class ControllerMain implements Initializable {
 
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
+    private static Stage searchStage = new Stage();
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -95,8 +96,21 @@ public class ControllerMain implements Initializable {
 
     //TODO make search function work
     @FXML
-    private void searchAction(ActionEvent event) {
-        //TODO When clicked expand gridpane by a row
+    private void searchAction(ActionEvent event) throws IOException {
+        System.out.println("knappen fungerer");
+        if(!searchStage.isShowing()){
+            try{
+
+            Parent root = FXMLLoader.load(getClass().getResource("/Views/Search.fxml"));
+            searchStage.setScene(new Scene(root));
+            searchStage.setTitle("Search");
+            searchStage.setResizable(false);
+            searchStage.showAndWait();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

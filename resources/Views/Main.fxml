@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.Button?>
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
     <top>
         <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
@@ -39,7 +40,11 @@
                         <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
                     </items>
                 </Menu>
-                <Menu fx:id="openSearch" mnemonicParsing="false" onAction="#searchAction" text="Search" />
+                <Menu fx:id="searchbutton" mnemonicParsing="false" onAction="#searchAction" text="Search">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Search" />
+                    </items>
+                </Menu>
                 <Menu fx:id="returnToLibrary" mnemonicParsing="false" onAction="#showImages" text="Library" />
                 <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
                     <items>
