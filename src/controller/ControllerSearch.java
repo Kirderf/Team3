@@ -1,13 +1,12 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
@@ -33,12 +32,8 @@ public class ControllerSearch implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    }
-    private void searchAction(ActionEvent event){
-
-    }
-    @FXML
-    private void searchAction(javafx.event.ActionEvent actionEvent) throws SQLException {
+    }@FXML
+    private void searchAction(ActionEvent event) throws SQLException {
         if(tagCheck.isSelected()){
             ArrayList<String> tagResult = ControllerMain.databaseClient.search(searchField.getText(),"Tags");
             if (tagResult!=null) {

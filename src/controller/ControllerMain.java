@@ -57,13 +57,13 @@ public class ControllerMain implements Initializable {
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
-    private static Stage searchStage = new Stage();
+    public static Stage searchStage = new Stage();
     public static Image imageBuffer;
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
     private final double initialGridHeight = 150;
-    ArrayList<GridPane> rows = new ArrayList<GridPane>();
+    ArrayList<RowConstraints> rows = new ArrayList<>();
 
 
     /**
@@ -74,14 +74,12 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        logger.log(Level.INFO,"Initializing");
+        logger.log(Level.INFO, "Initializing");
         pictureGrid.setGridLinesVisible(true);
         pictureGrid.setPrefHeight(initialGridHeight);
         gridVbox.setPrefHeight(initialGridHeight);
-        importStage.initStyle(StageStyle.UNDECORATED);
-        importStage.initModality(Modality.APPLICATION_MODAL);
-        if(!rows.contains(pictureGrid)){
-            rows.add(pictureGrid);
+        if (!rows.contains(pictureGrid.getRowConstraints().get(0))) {
+            rows.add(pictureGrid.getRowConstraints().get(0));
         }
     }
 
@@ -112,24 +110,23 @@ public class ControllerMain implements Initializable {
     //TODO make search function work
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
-        logger.log(Level.INFO,"SearchAction");
-        if(!searchStage.isShowing()){
-            try{
+        logger.log(Level.INFO, "SearchAction");
+        if (!searchStage.isShowing()) {
+            try {
 
-            Parent root = FXMLLoader.load(getClass().getResource("/Views/Search.fxml"));
-            searchStage.setScene(new Scene(root));
-            searchStage.setTitle("Search");
-            searchStage.setResizable(false);
-            searchStage.showAndWait();
-            if(ControllerSearch.searchSucceed){
-                clearView();
-                for(String s : ControllerSearch.searchResults){
-                    insertImage(s);
-                    ControllerSearch.searchSucceed = false;
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/Search.fxml"));
+                searchStage.setScene(new Scene(root));
+                searchStage.setTitle("Search");
+                searchStage.setResizable(false);
+                searchStage.showAndWait();
+                if (ControllerSearch.searchSucceed) {
+                    clearView();
+                    for (String s : ControllerSearch.searchResults) {
+                        insertImage(s);
+                        ControllerSearch.searchSucceed = false;
+                    }
                 }
-            }
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -150,7 +147,7 @@ public class ControllerMain implements Initializable {
                 importStage.setTitle("Import");
                 importStage.setResizable(false);
                 importStage.showAndWait();
-                if(ControllerImport.importSucceed) {
+                if (ControllerImport.importSucceed) {
                     refreshImages();
                     ControllerImport.importSucceed = false;
                 }
@@ -183,7 +180,7 @@ public class ControllerMain implements Initializable {
                 databaseClient.closeApplication();
             } catch (SQLException e) {
                 e.printStackTrace();
-                logger.log(Level.WARNING,"Could not close application / delete table");
+                logger.log(Level.WARNING, "Could not close application / delete table");
             }
             Stage stage = (Stage) pathDisplay.getScene().getWindow();
             stage.close();
@@ -193,16 +190,19 @@ public class ControllerMain implements Initializable {
 
     @FXML
     protected void goToLibrary() {
+        logger.log(Level.WARNING, "works");
         ((Stage) metadataScroll.getScene().getWindow()).setScene(metadataScroll.getScene());
     }
-    public void clearView(){
-        for(GridPane g : rows){
-            g.getChildren().clear();
-        }
-        for(int i = rows.size()-1; i>0;i--){
-            rows.remove(i);
-        }
+
+    /**
+     * Clears all rows on the gridView and creates a new one.
+     */
+    private void clearView() {
+        pictureGrid.getRowConstraints().removeAll(rows);
+        rows.clear();
+        addEmptyRow(1);
     }
+
     /**
      * Refresh Main UI
      */
@@ -224,7 +224,7 @@ public class ControllerMain implements Initializable {
      *
      * @param path to image object
      */
-    public void insertImage(String path) throws FileNotFoundException {
+    private void insertImage(String path) throws FileNotFoundException {
         pictureGrid.add(importImage(path), getNextColumn(), getNextRow());
         photoCount++;
     }
@@ -237,12 +237,12 @@ public class ControllerMain implements Initializable {
     private void addEmptyRow(int numOfRows) {
         double gridHeight = 0;
         for (int i = 0; i < numOfRows; i++) {
-            rows.add(pictureGrid);
             gridHeight = (pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size())).getValue();
             RowConstraints con = new RowConstraints();
             con.setPrefHeight(gridHeight);
             gridVbox.setPrefHeight(gridVbox.getHeight() + con.getPrefHeight());
             pictureGrid.getRowConstraints().add(con);
+            rows.add(con);
         }
     }
 
@@ -258,7 +258,7 @@ public class ControllerMain implements Initializable {
         imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
         imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
-        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {
+        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 showBigImage(imageView);
             } catch (IOException e) {
@@ -274,7 +274,7 @@ public class ControllerMain implements Initializable {
         ((Stage) metadataScroll.getScene().getWindow()).setScene(new Scene(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml"))));
     }
 
-    private void getMetadata(Image image){
+    private void getMetadata(Image image) {
         System.out.println(image.impl_getUrl());
         String[] metadata = databaseClient.getMetaDataFromDatabase(image.impl_getUrl());
         for (String string : metadata) {

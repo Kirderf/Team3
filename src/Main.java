@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -29,6 +30,10 @@ public class Main extends Application {
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Main.fxml"));
             primaryStage.setTitle("Hello World");
             primaryStage.setScene(new Scene(root, 800, 600));
+            ControllerMain.importStage.initModality(Modality.APPLICATION_MODAL);
+            ControllerMain.importStage.initStyle(StageStyle.UNDECORATED);
+            ControllerMain.searchStage.initModality(Modality.APPLICATION_MODAL);
+            ControllerMain.searchStage.initStyle(StageStyle.UTILITY);
             logger.log(Level.INFO,"Showing app");
             primaryStage.show();
             primaryStage.setOnCloseRequest((event -> {
