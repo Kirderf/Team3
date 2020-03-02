@@ -19,6 +19,13 @@ public class Database {
     String table = "fredrjul_" + random.nextInt(upperBound);
     Connection con = null;
 
+    public Database() throws SQLException {
+        logger.log(Level.INFO,"Creating Database object");
+        openConnection();
+        createTable();
+        closeConnection();
+    }
+
     /**
      * This method is going to create a new database table and declare a variable to the rest of the class
      */
@@ -46,9 +53,6 @@ public class Database {
      * @param // data to add
      */
     public boolean addImageToTable(String path, String tags, int file_size, Long date, int image_height, int image_wight, double GPS_Latitude, double GPS_Longitude) throws SQLException {
-        if (!isTableInDatabase(table)) {
-            createTable();
-        }
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = con.prepareStatement(sql1);
         preparedStatement.setNull(1, 0);
@@ -173,9 +177,6 @@ public class Database {
      */
     public boolean createTable() throws SQLException {
         logger.log(Level.INFO,"Creating Table");
-        if (!isConnection()) {
-            openConnection();
-        }
         while (isTableInDatabase(table)) {
             table = "fredrjul_" + random.nextInt(upperBound);
         }
@@ -278,21 +279,21 @@ public class Database {
         try {
             if (isTableInDatabase(columnName)) {
                 if(ascending){
-                    String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " +columnName+ "ASC";
-                    PreparedStatement stmt = con.prepareStatement(sql);
-                    ResultSet result = stmt.executeQuery();
-                    while (result.next()) {
-                        arrayList.add(result.getString("Path"));
-                    }
+                    //String sql = "SELECT " + " Path " + " from " + table + " ORDER BY " +columnName+ "ASC";
+                    //PreparedStatement stmt = con.prepareStatement(sql);
+                    //ResultSet result = stmt.executeQuery();
+                    //while (result.next()) {
+                    //    arrayList.add(result.getString("Path"));
+                   // }
                     return arrayList;
                 }
                 else{
-                    String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " + columnName + "DESC";
-                    PreparedStatement stmt = con.prepareStatement(sql);
-                    ResultSet result = stmt.executeQuery();
-                    while (result.next()) {
-                        arrayList.add(result.getString("Path"));
-                    }
+                    //String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " + columnName + "DESC";
+                    //PreparedStatement stmt = con.prepareStatement(sql);
+                    //ResultSet result = stmt.executeQuery();
+                    //while (result.next()) {
+                     //   arrayList.add(result.getString("Path"));
+                   // }
                     return arrayList;
                 }
             }
