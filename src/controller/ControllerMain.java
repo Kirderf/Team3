@@ -53,6 +53,7 @@ public class ControllerMain implements Initializable {
     private int rowCount = 0;
     private int columnCount = 0;
     private final double initialGridHeight = 150;
+    ArrayList<GridPane> rows = new ArrayList<GridPane>();
 
 
     /**
@@ -68,6 +69,9 @@ public class ControllerMain implements Initializable {
         gridVbox.setPrefHeight(initialGridHeight);
         importStage.initStyle(StageStyle.UNDECORATED);
         importStage.initModality(Modality.APPLICATION_MODAL);
+        if(!rows.contains(pictureGrid)){
+            rows.add(pictureGrid);
+        }
     }
 
     //for every 5th picture the row will increase in value
@@ -97,7 +101,6 @@ public class ControllerMain implements Initializable {
     //TODO make search function work
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
-        System.out.println("knappen fungerer");
         if(!searchStage.isShowing()){
             try{
 
@@ -178,7 +181,14 @@ public class ControllerMain implements Initializable {
     private void showImages(ActionEvent event) {
         refreshImages();
     }
-
+    public void clearView(){
+        for(GridPane g : rows){
+            g.getChildren().clear();
+        }
+        for(int i = rows.size(); i>0;i--){
+            rows.remove(i);
+        }
+    }
     /**
      * Refresh Main UI
      */
@@ -213,6 +223,7 @@ public class ControllerMain implements Initializable {
     private void addEmptyRow(int numOfRows) {
         double gridHeight = 0;
         for (int i = 0; i < numOfRows; i++) {
+            rows.add(pictureGrid);
             gridHeight = (pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size())).getValue();
             RowConstraints con = new RowConstraints();
             con.setPrefHeight(gridHeight);
