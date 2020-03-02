@@ -10,7 +10,6 @@ maven_build:
   stage: test
   # Since we require Maven for this job, we can restrict the job to runners with a certain tag. Of course, we need to configure a runner with the tag maven with a maven installation
   tags:
-    - maven
   # Here you can execute arbitrate terminal commands.
   # If any of the commands returns a non zero exit code the job fails
   script:
