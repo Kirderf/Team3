@@ -67,6 +67,7 @@ public class ControllerImport implements Initializable{
     @FXML
     private void addImageFile(ActionEvent event) {
         fc.setTitle("Open Resource File");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Pictures","*.png","*.jpg","*.jpeg","*.PNG","*.JPG","*.JPEG"));
         list = fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
         if (list != null) {
             list.forEach((x)->{
