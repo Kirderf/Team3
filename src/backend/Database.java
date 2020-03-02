@@ -261,5 +261,15 @@ public class Database {
         }
         return false;
     }
+    public boolean removeTag(String path, String[] tags) throws SQLException {
+        //gets all the tags for the specific path
+        StringBuilder oldtags = getTags(path);
+        for (String string : tags) {
+            int index = oldtags.toString().toLowerCase().indexOf(string.toLowerCase());
+            oldtags.replace((index == 0) ? index : index-1,(index == 0) ? index+string.length()+1:index+string.length(),"");
+        }
+        PreparedStatement statement1 = con.prepareStatement("UPDATE fredrjul_ImageApp."+table+" SET fredrjul_ImageApp."+table+".Tags = '"+oldtags+"' WHERE fredrjul_ImageApp."+table+".ImageID = "+findImage(path));
+        return !statement1.execute();
+    }
 
 }

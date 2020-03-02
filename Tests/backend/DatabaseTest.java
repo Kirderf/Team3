@@ -2,7 +2,6 @@ package backend;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -161,6 +160,20 @@ class DatabaseTest {
         try {
             database.openConnection();
             assertTrue(database.addTags("path to file",new String[]{"String","test"}));
+            database.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+    @Test
+    void removeTags() throws SQLException {
+        writeToDatabase();
+        try {
+            database.openConnection();
+            database.addTags("path to file",new String[]{"String","test","test5"});
+            assertTrue(database.removeTag("path to file", new String[]{"test","test5"}));
+            assertEquals(database.getTags("path to file").toString(),"Tags,String");
             database.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();

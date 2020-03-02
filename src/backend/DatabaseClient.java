@@ -139,7 +139,13 @@ public class DatabaseClient {
      */
     public boolean addTag(String path,String[] tag) throws SQLException {
         imageDatabase.openConnection();
-        boolean result =imageDatabase.addTags(path,tag);
+        boolean result = imageDatabase.addTags(path,tag);
+        imageDatabase.closeConnection();
+        return result;
+    }
+    public boolean removeTag(String path, String[] tags) throws SQLException {
+        imageDatabase.openConnection();
+        boolean result = imageDatabase.removeTag(path,tags);
         imageDatabase.closeConnection();
         return result;
     }
