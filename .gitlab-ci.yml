@@ -4,8 +4,23 @@ stages:
   - test
   - deploy
 
-# This is the name of the job. You can choose it freely.
+
+
 maven_build:
+  image: maven:3-jdk-8
+  # A job is always executed within a stage. If no stage is set, it defaults to 'test'
+  stage: build
+  # Since we require Maven for this job, we can restrict the job to runners with a certain tag. Of course, we need to configure a runner with the tag maven with a maven installation
+  tags:
+  # Here you can execute arbitrate terminal commands.
+  # If any of the commands returns a non zero exit code the job fails
+  script:
+    - echo "Building project with maven"
+    - mvn install
+
+# This is the name of the job. You can choose it freely.
+maven_test:
+  image: maven:3-jdk-8
   # A job is always executed within a stage. If no stage is set, it defaults to 'test'
   stage: test
   # Since we require Maven for this job, we can restrict the job to runners with a certain tag. Of course, we need to configure a runner with the tag maven with a maven installation
@@ -13,5 +28,17 @@ maven_build:
   # Here you can execute arbitrate terminal commands.
   # If any of the commands returns a non zero exit code the job fails
   script:
-    - echo "Building project with maven"
+    - echo "Testing project with maven"
     - mvn verify
+
+maven_package:
+  image: maven:3-jdk-8
+  # A job is always executed within a stage. If no stage is set, it defaults to 'test'
+  stage: deploy
+  # Since we require Maven for this job, we can restrict the job to runners with a certain tag. Of course, we need to configure a runner with the tag maven with a maven installation
+  tags:
+  # Here you can execute arbitrate terminal commands.
+  # If any of the commands returns a non zero exit code the job fails
+  script:
+    - echo "Building project with maven"
+    - mvn package
