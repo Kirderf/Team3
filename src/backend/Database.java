@@ -7,10 +7,13 @@ import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 //TODO: add javadoc
 
 public class Database {
+    private static final Logger logger = Logger.getLogger(Database.class.getName());
     Random random = new Random();
     int upperBound = 10000000;
     String table = "fredrjul_" + random.nextInt(upperBound);
@@ -20,7 +23,7 @@ public class Database {
      * This method is going to create a new database table and declare a variable to the rest of the class
      */
     private boolean regTable() throws SQLException {
-        System.out.println(table);
+        logger.log(Level.INFO,table);
         PreparedStatement stmt = con.prepareStatement(
                 "CREATE TABLE " + table + " (\n" +
                         "ImageID int AUTO_INCREMENT,\n" +
@@ -69,6 +72,7 @@ public class Database {
      * @return String
      */
     public StringBuilder getTags(String path) throws SQLException {
+        logger.log(Level.INFO,"getting Tags");
         String sql = "SELECT * FROM "+table+" WHERE "+table+".ImageID = "+findImage(path);
         Statement statement = con.createStatement();
         ResultSet resultSet =statement.executeQuery(sql);
@@ -78,6 +82,7 @@ public class Database {
         return new StringBuilder("");
     }
     public boolean addTags(String path,String[] tags) throws SQLException {
+        logger.log(Level.INFO,"Adding Tags");
         StringBuilder oldtags = getTags(path);
         for (String string : tags) {
             oldtags.append(",").append(string);
@@ -94,6 +99,7 @@ public class Database {
      * @throws SQLException
      */
     public ArrayList getColumn(String columnName) throws SQLException {
+        logger.log(Level.INFO,"getting Column");
         String sql = "Select " + columnName + " from " + table;
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet result = stmt.executeQuery();
@@ -112,6 +118,7 @@ public class Database {
      * @throws SQLException
      */
     public String[] getImageMetadata(String path) throws SQLException {
+        logger.log(Level.INFO,"getting ImageMetadata");
         String sql = "SELECT * FROM " + table + "\n" +
                 "WHERE " + table + ".Path" + " LIKE '%" + path + "%' LIMIT 1";
         PreparedStatement stmt = con.prepareStatement(sql);
@@ -141,6 +148,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean isTableInDatabase(String tableName) throws SQLException {
+        logger.log(Level.INFO,"Checking if table in database");
         PreparedStatement stmt = con.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'fredrjul_ImageApp' AND table_name = " + "\'" + table + "\'" +
                 "");
         return stmt.executeQuery().next();
@@ -164,6 +172,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean createTable() throws SQLException {
+        logger.log(Level.INFO,"Creating Table");
         if (!isConnection()) {
             openConnection();
         }
@@ -193,6 +202,7 @@ public class Database {
     }
 
     public int findImage(String path) throws SQLException {
+        logger.log(Level.INFO,"Finding image");
         String sql = "SELECT * FROM " + table + "\n" +
                 "WHERE " + table + ".Path" + " LIKE '%" + path + "%'";
         Statement statement = con.createStatement();
@@ -301,6 +311,7 @@ public class Database {
      * @author Ingebrigt Hovind
      */
     public boolean removeTag(String path, String[] tags) throws SQLException {
+        logger.log(Level.INFO,"Removing Tags");
         //gets all the tags for the specific path
         StringBuilder oldtags = getTags(path);
         //iterates through tags for the given image

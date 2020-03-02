@@ -28,6 +28,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ControllerMain implements Initializable {
 
@@ -52,6 +54,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private VBox metadataVbox;
 
+    private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
     private static Stage searchStage = new Stage();
@@ -69,6 +72,7 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logger.log(Level.INFO,"Initializing");
         pictureGrid.setGridLinesVisible(true);
         pictureGrid.setPrefHeight(initialGridHeight);
         gridVbox.setPrefHeight(initialGridHeight);
@@ -103,7 +107,7 @@ public class ControllerMain implements Initializable {
     //TODO make search function work
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
-        System.out.println("knappen fungerer");
+        logger.log(Level.INFO,"SearchAction");
         if(!searchStage.isShowing()){
             try{
 
@@ -127,6 +131,7 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     private void importAction(ActionEvent event) throws IOException {
+        logger.log(Level.INFO,"ImportAction");
         if (!importStage.isShowing()) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
@@ -167,7 +172,7 @@ public class ControllerMain implements Initializable {
                 databaseClient.closeApplication();
             } catch (SQLException e) {
                 e.printStackTrace();
-                System.out.println("Could not close application / delete table");
+                logger.log(Level.WARNING,"Could not close application / delete table");
             }
             Stage stage = (Stage) pathDisplay.getScene().getWindow();
             stage.close();
