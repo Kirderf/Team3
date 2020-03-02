@@ -85,7 +85,6 @@ public class DatabaseClient {
                             Integer.parseInt(metadata[3]),
                             Double.parseDouble(metadata[4]),
                             Double.parseDouble(metadata[5]))) {
-                        addedPaths.add(image.getPath());
                     }
                     imageDatabase.closeConnection();
                     return true;

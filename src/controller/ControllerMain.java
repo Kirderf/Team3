@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -62,6 +63,7 @@ public class ControllerMain implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         pictureGrid.setGridLinesVisible(false);
         importStage.initStyle(StageStyle.UNDECORATED);
+        importStage.initModality(Modality.APPLICATION_MODAL);
     }
 
     //for every 5th picture the row will increase in value
@@ -162,12 +164,13 @@ public class ControllerMain implements Initializable {
      */
     private void refreshImages() {
         try {
-            for (String obj : DatabaseClient.getAddedPaths()) {
-                if (obj != null) {
-                    insertImage(obj);
+            for (Object obj : databaseClient.getData("Path")) {
+                if (obj != null && !databaseClient.addedPathsContains((String) obj)) {
+                    DatabaseClient.getAddedPaths().add((String) obj);
+                    insertImage((String) obj);
                 }
             }
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
