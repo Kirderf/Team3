@@ -254,12 +254,65 @@ public class Database {
         return closeConnection();
     }
 
-    //TODO sort the database based on the parameter in this method
-    public boolean sortBy(String sort) {
-        if (sort.equals("Size Ascending")) {
-
+    /**
+     * columnname is the column the table is to be sorted by, the method then returns an arraylist with the paths in ascending or descending order
+     * @param columnName name of the column that is to be sorted by
+     * @param ascending boolean whether or smallest or the largest values are to be at the top
+     * @return arraylist with the all of the paths in the database in correct order
+     * @throws SQLException
+     * @author Ingebrigt
+     */
+    public ArrayList<String> sortBy(String columnName, boolean ascending) throws SQLException{
+        ArrayList<String> arrayList = new ArrayList<>();
+        try {
+            if (isTableInDatabase(columnName)) {
+                if(ascending){
+                    String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " +columnName+ "ASC";
+                    PreparedStatement stmt = con.prepareStatement(sql);
+                    ResultSet result = stmt.executeQuery();
+                    while (result.next()) {
+                        arrayList.add(result.getString("Path"));
+                    }
+                    return arrayList;
+                }
+                else{
+                    String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " + columnName + "DESC";
+                    PreparedStatement stmt = con.prepareStatement(sql);
+                    ResultSet result = stmt.executeQuery();
+                    while (result.next()) {
+                        arrayList.add(result.getString("Path"));
+                    }
+                    return arrayList;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return false;
+        return null;
+    }
+
+    /**
+     * removes all the tag in the given array
+     * @param path path of the file that you want to remove tags from
+     * @param tags a string array with the tags you want to remove, not case-sensetive
+     * @return boolean if removal was successful
+     * @throws SQLException
+     * @author Ingebrigt Hovind
+     */
+    public boolean removeTag(String path, String[] tags) throws SQLException {
+        //gets all the tags for the specific path
+        StringBuilder oldtags = getTags(path);
+        //iterates through tags for the given image
+        for (String string : tags) {
+            int index = oldtags.toString().toLowerCase().indexOf(string.toLowerCase());
+            //the conditionals are here to ensure that a single comma is left between each word
+            //if the first word is selected, then no comma is removed
+            //if the last word is selected then the last comma is selected
+            //if a word between two others is selected then a single comma is removed
+            oldtags.replace((index == 0) ? index : index-1,(index == 0) ? index+string.length()+1:index+string.length(),"");
+        }
+        PreparedStatement statement1 = con.prepareStatement("UPDATE fredrjul_ImageApp."+table+" SET fredrjul_ImageApp."+table+".Tags = '"+oldtags+"' WHERE fredrjul_ImageApp."+table+".ImageID = "+findImage(path));
+        return !statement1.execute();
     }
 
 }
