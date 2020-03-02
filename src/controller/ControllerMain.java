@@ -2,6 +2,8 @@ package controller;
 
 import backend.DatabaseClient;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
@@ -45,6 +48,9 @@ public class ControllerMain implements Initializable {
 
     @FXML
     private VBox gridVbox;
+
+    @FXML
+    private VBox metadataVbox;
 
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
@@ -233,6 +239,15 @@ public class ControllerMain implements Initializable {
         imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
         return imageView;
+    }
+
+    private void getMetadata(Image image){
+        System.out.println(image.impl_getUrl());
+        String[] metadata = databaseClient.getMetaDataFromDatabase(image.impl_getUrl());
+        for (String string : metadata) {
+            metadataVbox.getChildren().add(new Label(string));
+
+        }
     }
 
 }
