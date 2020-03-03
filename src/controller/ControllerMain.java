@@ -305,8 +305,15 @@ public class ControllerMain implements Initializable {
 
         }
     }
+
+    /**
+     * prints out an pdf of all the images in the path array
+     * @param name name of the file you want printed, probably needs to include .pdf now, will be changed later
+     * @param paths array with the path that you want to print to a pdf
+     * @return supposed to be true if successful, but this is not implemented yet
+     */
     //TODO this should probably be placed in another class as it seems to me that it is more backend than frontend
-    //TODO this writes blank pages to a pdf, not sure how to fix
+    //TODO make this print to another folder than the source code folder
     //stolen from https://stackoverflow.com/questions/22358478/java-create-pdf-pages-from-images-using-pdfbox-library
     public boolean exportToPdf(String name, String[] paths){
         System.out.println("test");
