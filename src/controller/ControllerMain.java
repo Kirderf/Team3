@@ -21,9 +21,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,8 +30,22 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ControllerMain implements Initializable {
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.pdfbox.pdmodel.graphics.image.*;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import javax.imageio.ImageIO;
+
+
+public class ControllerMain implements Initializable {
     @FXML
     private ScrollPane metadataScroll;
 
@@ -107,13 +120,11 @@ public class ControllerMain implements Initializable {
         return columnCount++;
     }
 
-    //TODO make search function work
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
         logger.log(Level.INFO, "SearchAction");
         if (!searchStage.isShowing()) {
             try {
-
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Search.fxml"));
                 searchStage.setScene(new Scene(root));
                 searchStage.setTitle("Search");
@@ -283,5 +294,37 @@ public class ControllerMain implements Initializable {
 
         }
     }
+    //TODO this should probably be placed in another class as it seems to me that it is more backend than frontend
+    //TODO this writes blank pages to a pdf, not sure how to fix
+    //stolen from https://stackoverflow.com/questions/22358478/java-create-pdf-pages-from-images-using-pdfbox-library
+    public boolean exportToPdf(String name, String[] paths){
+        System.out.println("test");
+        PDDocument document = new PDDocument();
+        try{
+            for(String s : paths){
+                System.out.println("inne i for løkke");
+                InputStream in = new FileInputStream(s);
+                System.out.println("fileinput");
+                BufferedImage bimg = ImageIO.read(in);
+                float width = bimg.getWidth();
+                float height = bimg.getHeight();
+                PDPage page = new PDPage(new PDRectangle(width, height));
+                document.addPage(page);
+                PDImageXObject img = PDImageXObject.createFromFile(s,document);
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+                contentStream.drawImage(img, 0f, 0f);
+                contentStream.close();
+                in.close();
+
+            }
+            document.save(name);
+            document.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
 }
