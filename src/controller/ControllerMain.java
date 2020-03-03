@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -63,7 +64,7 @@ public class ControllerMain implements Initializable {
     private int rowCount = 0;
     private int columnCount = 0;
     private final double initialGridHeight = 150;
-    ArrayList<RowConstraints> rows = new ArrayList<>();
+    private ArrayList<RowConstraints> rows = new ArrayList<>();
 
 
     /**
@@ -78,9 +79,10 @@ public class ControllerMain implements Initializable {
         pictureGrid.setGridLinesVisible(true);
         pictureGrid.setPrefHeight(initialGridHeight);
         gridVbox.setPrefHeight(initialGridHeight);
-        if (!rows.contains(pictureGrid.getRowConstraints().get(0))) {
+        if (pictureGrid.getRowConstraints().size() == 1) {
             rows.add(pictureGrid.getRowConstraints().get(0));
         }
+        gridVbox.setStyle("-fx-border-color: black");
     }
 
     //for every 5th picture the row will increase in value
@@ -113,7 +115,6 @@ public class ControllerMain implements Initializable {
         logger.log(Level.INFO, "SearchAction");
         if (!searchStage.isShowing()) {
             try {
-
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Search.fxml"));
                 searchStage.setScene(new Scene(root));
                 searchStage.setTitle("Search");
@@ -198,8 +199,13 @@ public class ControllerMain implements Initializable {
     /**
      * Clears all rows on the gridView and creates a new one.
      */
+    @FXML
     private void clearView() {
-        pictureGrid.getRowConstraints().removeAll(rows);
+        for (RowConstraints r : rows
+        ) {
+            pictureGrid.getRowConstraints().remove(r);
+        }
+        gridVbox.setPrefHeight(0);
         rows.clear();
         addEmptyRow(1);
     }
@@ -236,12 +242,16 @@ public class ControllerMain implements Initializable {
      * @param numOfRows Number of rows added
      */
     private void addEmptyRow(int numOfRows) {
-        double gridHeight = 0;
+        double gridHeight;
         for (int i = 0; i < numOfRows; i++) {
-            gridHeight = (pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size())).getValue();
+            if (pictureGrid.getRowConstraints().size() == 0) {
+                gridHeight = 150;
+            } else {
+                gridHeight = (pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size())).getValue();
+            }
             RowConstraints con = new RowConstraints();
             con.setPrefHeight(gridHeight);
-            gridVbox.setPrefHeight(gridVbox.getHeight() + con.getPrefHeight());
+            gridVbox.setPrefHeight(gridVbox.getPrefHeight() + con.getPrefHeight());
             pictureGrid.getRowConstraints().add(con);
             rows.add(con);
         }
