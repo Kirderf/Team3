@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
@@ -32,7 +33,12 @@ public class ControllerSearch implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    }@FXML
+    }
+    private void cancel(ActionEvent event) {
+        ((Stage) searchField.getScene().getWindow()).close();
+    }
+
+    @FXML
     private void searchAction(ActionEvent event) throws SQLException {
         if(tagCheck.isSelected()){
             ArrayList<String> tagResult = ControllerMain.databaseClient.search(searchField.getText(),"Tags");
@@ -65,5 +71,6 @@ public class ControllerSearch implements Initializable {
             }
         }
         searchSucceed = true;
+        cancel(event);
     }
 }

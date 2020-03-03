@@ -338,11 +338,14 @@ public class Database {
     public ArrayList<String> search(String searchFor, String searchIn) throws SQLException {
         ArrayList<String> searchResults = new ArrayList<>();
         try{
+            logger.log(Level.INFO,"Searching for matching values");
             //select paths where the search term is present in any column
             String sql = "SELECT * FROM " + table +" WHERE " + searchIn + " LIKE " + "'%"+ searchFor +"%'";
             if(searchIn.equalsIgnoreCase("metadata")){
-                //TODO test if this method works, if not, find another way to search through all the possible metadata
-                sql = "SELECT *" +  " FROM " + table + " WHERE " + ("Tags, File_size, DATE, Height, Width, GPS_Latitude, GPS_Longitude")  + " Like " + "'%"+ searchFor +"%'";
+                System.out.println("ja kommer inn i metadata if");
+                //TODO this is a pretty ghetto way of doing this, check if there's a better way of searching through these columns in the database
+                sql = "SELECT * FROM " + table + " WHERE File_size LIKE " + "'%" + searchFor + "%' or DATE LIKE " + "'%" + searchFor + "%' or Height LIKE " + "'%" + searchFor + "%' or Width LIKE " + "'%" + searchFor + "%' or GPS_Longitude LIKE '%" + searchFor + "%' or GPS_Latitude LIKE '%" + searchFor + "%'";
+                System.out.println(sql);
             }
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet result = stmt.executeQuery();

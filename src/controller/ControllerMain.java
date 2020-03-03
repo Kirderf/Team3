@@ -120,7 +120,8 @@ public class ControllerMain implements Initializable {
                 searchStage.setResizable(false);
                 searchStage.showAndWait();
                 if (ControllerSearch.searchSucceed) {
-                    clearView();
+                    //TODO fix bug where clearView makes application crash when searching
+                    //clearView();
                     for (String s : ControllerSearch.searchResults) {
                         insertImage(s);
                         ControllerSearch.searchSucceed = false;
