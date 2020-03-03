@@ -43,7 +43,7 @@
                 </Menu>
                 <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Go to library" onAction="#goToLibrary"/>
+                  <MenuItem mnemonicParsing="false" onAction="#goToLibrary" text="Go to library" />
                </items></Menu>
                 <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
                     <items>
@@ -98,9 +98,9 @@
     <center>
         <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="543.0" prefWidth="619.0" BorderPane.alignment="CENTER">
             <content>
-                <VBox fx:id="gridVbox" prefHeight="178.0" prefWidth="614.0">
+                <VBox fx:id="gridVbox" prefHeight="150.0" prefWidth="614.0">
                     <children>
-                        <GridPane fx:id="pictureGrid" alignment="CENTER" gridLinesVisible="true" prefHeight="185.0" prefWidth="614.0" VBox.vgrow="SOMETIMES">
+                        <GridPane fx:id="pictureGrid" alignment="CENTER" gridLinesVisible="true" VBox.vgrow="SOMETIMES">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

@@ -38,11 +38,17 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //setBigImage(imageBuffer);
+        setBigImage(imageBuffer);
     }
 
     private void setBigImage(Image image) {
         bigImage.setImage(image);
+    }
+
+    @FXML
+    private void goToLibrary() throws IOException {
+        ControllerMain.loadedFromAnotherLocation = true;
+        bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
     }
 
 }

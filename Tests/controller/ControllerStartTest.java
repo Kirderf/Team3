@@ -18,7 +18,7 @@ import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ControllerMainTest {
+class ControllerStartTest {
     String[] testPaths;
     @BeforeEach
     void setUp(){

@@ -1,7 +1,4 @@
-import backend.Database;
-import backend.DatabaseClient;
 import controller.ControllerMain;
-import controller.ControllerImport;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -17,8 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class Main extends Application {
-    private static final Logger  logger = Logger.getLogger(Main.class.getName());
+public class Start extends Application {
+    private static final Logger  logger = Logger.getLogger(Start.class.getName());
 
     /**
      * @param primaryStage

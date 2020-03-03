@@ -2,12 +2,9 @@ package controller;
 
 import backend.DatabaseClient;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,12 +12,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -76,8 +70,8 @@ public class ControllerMain implements Initializable {
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
-    private final double initialGridHeight = 150;
-    private ArrayList<RowConstraints> rows = new ArrayList<>();
+    private final double initialGridHeight = 185;
+    public static boolean loadedFromAnotherLocation = false;
 
 
     /**
@@ -92,10 +86,11 @@ public class ControllerMain implements Initializable {
         pictureGrid.setGridLinesVisible(true);
         pictureGrid.setPrefHeight(initialGridHeight);
         gridVbox.setPrefHeight(initialGridHeight);
-        if (pictureGrid.getRowConstraints().size() == 1) {
-            rows.add(pictureGrid.getRowConstraints().get(0));
-        }
         gridVbox.setStyle("-fx-border-color: black");
+        if(loadedFromAnotherLocation) {
+            refreshImages();
+            loadedFromAnotherLocation = false;
+        }
     }
 
     //for every 5th picture the row will increase in value
@@ -105,8 +100,11 @@ public class ControllerMain implements Initializable {
         }
         if ((photoCount) % 5 == 0) {
             rowCount++;
-            addEmptyRow(1);
+            if(pictureGrid.getRowConstraints().size()<=rowCount) {
+                addEmptyRow();
+            }
         }
+
         return rowCount;
     }
 
@@ -134,7 +132,7 @@ public class ControllerMain implements Initializable {
                 searchStage.showAndWait();
                 if (ControllerSearch.searchSucceed) {
                     //TODO fix bug where clearView makes application crash when searching
-                    //clearView();
+                    clearView();
                     for (String s : ControllerSearch.searchResults) {
                         insertImage(s);
                         ControllerSearch.searchSucceed = false;
@@ -174,7 +172,14 @@ public class ControllerMain implements Initializable {
     //TODO Export to pdf
     @FXML
     private void exportAction(ActionEvent event) {
-
+        try {
+                insertImage(System.getProperty("user.home") + "/Desktop/download (1).jpeg");
+                insertImage(System.getProperty("user.home") + "/Desktop/download (2).jpeg");
+                insertImage(System.getProperty("user.home") + "/Desktop/download (3).jpeg");
+                insertImage(System.getProperty("user.home") + "/Desktop/download (4).jpeg");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -203,9 +208,9 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    protected void goToLibrary() {
-        logger.log(Level.WARNING, "works");
-        ((Stage) metadataScroll.getScene().getWindow()).setScene(metadataScroll.getScene());
+    private void goToLibrary() throws IOException {
+        pictureGrid.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
+        refreshImages();
     }
 
     /**
@@ -213,17 +218,15 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     private void clearView() {
-        for (RowConstraints r : rows
-        ) {
-            pictureGrid.getRowConstraints().remove(r);
-        }
-        gridVbox.setPrefHeight(0);
-        rows.clear();
-        addEmptyRow(1);
+        rowCount = 0;
+        columnCount = 0;
+        photoCount = 0;
+        pictureGrid.getChildren().clear();
+        databaseClient.clearPaths();
     }
 
     /**
-     * Refresh Main UI
+     * Refresh Start UI
      */
     private void refreshImages() {
         try {
@@ -250,23 +253,13 @@ public class ControllerMain implements Initializable {
 
     /**
      * Add rows on the bottom of the gridpane
-     *
-     * @param numOfRows Number of rows added
      */
-    private void addEmptyRow(int numOfRows) {
-        double gridHeight;
-        for (int i = 0; i < numOfRows; i++) {
-            if (pictureGrid.getRowConstraints().size() == 0) {
-                gridHeight = 150;
-            } else {
-                gridHeight = (pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size())).getValue();
-            }
-            RowConstraints con = new RowConstraints();
-            con.setPrefHeight(gridHeight);
-            gridVbox.setPrefHeight(gridVbox.getPrefHeight() + con.getPrefHeight());
-            pictureGrid.getRowConstraints().add(con);
-            rows.add(con);
-        }
+    private void addEmptyRow() {
+        double gridHeight = gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()).getValue();
+        RowConstraints con = new RowConstraints();
+        con.setPrefHeight(gridHeight);
+        gridVbox.setPrefHeight(gridVbox.getPrefHeight()+gridHeight);
+        pictureGrid.getRowConstraints().add(con);
     }
 
     /**
@@ -276,10 +269,10 @@ public class ControllerMain implements Initializable {
      */
     private ImageView importImage(String path) throws FileNotFoundException {
         ImageView imageView = new ImageView();
-        imageBuffer = new Image(new FileInputStream(path));
-        imageView.setImage(imageBuffer);
-        imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
-        imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
+        Image image = new Image(new FileInputStream(path));
+        imageView.setImage(image);
+        imageView.fitHeightProperty().bind(gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()));
+        imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {

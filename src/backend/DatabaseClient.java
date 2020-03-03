@@ -54,6 +54,8 @@ public class DatabaseClient {
         return addedPaths.contains(path);
     }
 
+    public void clearPaths() {addedPaths.clear();}
+
     /**
      *
      * @param columnName eks: Path,ImageID,Tags,File_size,DATE,Height,Width.
