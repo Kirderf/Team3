@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -30,6 +31,9 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @FXML
     private ImageView bigImage;
 
+    @FXML
+    private GridPane bigImageGrid;
+
     /**
      * Run 1 time once the window opens
      *
@@ -39,14 +43,16 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBigImage(imageBuffer);
+        bigImageGrid.setGridLinesVisible(true);
     }
 
     private void setBigImage(Image image) {
+        bigImage.fitHeightProperty().bind(bigImageGrid.getRowConstraints().get(1).prefHeightProperty());
         bigImage.setImage(image);
     }
 
     @FXML
-    private void goToLibrary() throws IOException {
+    private void goToLibrary(ActionEvent event) throws IOException {
         ControllerMain.loadedFromAnotherLocation = true;
         bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
     }

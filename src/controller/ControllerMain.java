@@ -88,6 +88,7 @@ public class ControllerMain implements Initializable {
         gridVbox.setPrefHeight(initialGridHeight);
         gridVbox.setStyle("-fx-border-color: black");
         if(loadedFromAnotherLocation) {
+            databaseClient.clearPaths();
             refreshImages();
             loadedFromAnotherLocation = false;
         }
@@ -104,7 +105,6 @@ public class ControllerMain implements Initializable {
                 addEmptyRow();
             }
         }
-
         return rowCount;
     }
 
@@ -160,6 +160,7 @@ public class ControllerMain implements Initializable {
                 importStage.setResizable(false);
                 importStage.showAndWait();
                 if (ControllerImport.importSucceed) {
+                    System.out.println("refreshing");
                     refreshImages();
                     ControllerImport.importSucceed = false;
                 }
@@ -209,7 +210,7 @@ public class ControllerMain implements Initializable {
 
     @FXML
     private void goToLibrary() throws IOException {
-        pictureGrid.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
+        //pictureGrid.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
         refreshImages();
     }
 
@@ -287,7 +288,8 @@ public class ControllerMain implements Initializable {
 
     private void showBigImage(ImageView imageView) throws IOException {
         imageBuffer = imageView.getImage();
-        ((Stage) metadataScroll.getScene().getWindow()).setScene(new Scene(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml"))));
+        Scene scene = pictureGrid.getScene();
+        scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
     }
 
     private void getMetadata(Image image) {
