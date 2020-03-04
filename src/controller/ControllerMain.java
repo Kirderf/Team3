@@ -20,8 +20,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -67,6 +70,8 @@ public class ControllerMain implements Initializable {
     private final double initialGridHeight = 185;
     public static boolean loadedFromAnotherLocation = false;
     public static ArrayList<String> selectedImages = new ArrayList<String>();
+    private final FileChooser fc = new FileChooser();
+
 
 
 
@@ -168,7 +173,13 @@ public class ControllerMain implements Initializable {
     //TODO Export to pdf
     @FXML
     private void exportAction(ActionEvent event) {
-        ImageExport.exportToPdf("C:/Users/Ingebrigt/Documents/uni - 1/Systemutvikling/Bilder/test.pdf",selectedImages);
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Choose folder for album");
+        File defaultDirectory = new File("C:/Users/");
+        chooser.setInitialDirectory(defaultDirectory);
+        File selectedDirectory = chooser.showDialog(null);
+        if(ImageExport.exportToPdf(selectedDirectory.getPath() + "/test.pdf",selectedImages)){
+        }
         clearSelection();
         /*
         try {
