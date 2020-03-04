@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Fredrik Julsen & Ingebrigt Hovind
+ * @author Ingebrigt Hovind & Fredrik Julsen
  */
 //TODO add javadoc
 public class DatabaseClient {
@@ -42,6 +42,10 @@ public class DatabaseClient {
         return imageDatabase.closeConnection();
     }
 
+    /**
+     * get all the paths that were added locally
+     * @return arraylist with all the paths
+     */
     public static ArrayList<String> getAddedPaths() {
         return addedPaths;
     }
@@ -54,10 +58,13 @@ public class DatabaseClient {
         return addedPaths.contains(path);
     }
 
+    /**
+     * clears all the added paths in the local list
+     */
     public void clearPaths() {addedPaths.clear();}
 
     /**
-     *
+     * Gets all the data in a given column, e.g all the paths
      * @param columnName eks: Path,ImageID,Tags,File_size,DATE,Height,Width.
      * @return An arraylist of data objects
      * @throws SQLException could not find input from columnName
@@ -74,7 +81,6 @@ public class DatabaseClient {
      * @param image imagefile to add
      * @return if the image was added to database
      */
-    //TODO add image with metadata to database
     public boolean addImage(File image) {
         try {
             imageDatabase.openConnection();
@@ -131,7 +137,6 @@ public class DatabaseClient {
      * @return String[] of metadata
      * @throws SQLException
      */
-    //TODO given a path to a specific image, this should return null if the image is not in the database, and an array with metadata if it is
     public String[] getMetaDataFromDatabase(String path){
 
         String[] result = new String[0];

@@ -301,43 +301,6 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    /**
-     * prints out an pdf of all the images in the path array
-     * @param name the location, including the name, of where uou want to save it, in the format "C://Users/Ingebrigt/Pictures/helloworld.pdf"
-     * @param paths array with the path that you want to print to a pdf
-     * @return supposed to be true if successful, but this is not implemented yet
-     */
-    //TODO this should probably be placed in another class as it seems to me that it is more backend than frontend
-    //TODO make this print to another folder than the source code folder
-    //stolen from https://stackoverflow.com/questions/22358478/java-create-pdf-pages-from-images-using-pdfbox-library
-    public boolean exportToPdf(String name, String[] paths){
-        System.out.println("test");
-        PDDocument document = new PDDocument();
-        try{
-            for(String s : paths){
-                System.out.println("inne i for løkke");
-                InputStream in = new FileInputStream(s);
-                System.out.println("fileinput");
-                BufferedImage bimg = ImageIO.read(in);
-                float width = bimg.getWidth();
-                float height = bimg.getHeight();
-                PDPage page = new PDPage(new PDRectangle(width, height));
-                document.addPage(page);
-                PDImageXObject img = PDImageXObject.createFromFile(s,document);
-                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-                contentStream.drawImage(img, 0f, 0f);
-                contentStream.close();
-                in.close();
-
-            }
-            document.save("C://HelloWorld.pdf");
-            document.close();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return false;
-    }
 
 
 }
