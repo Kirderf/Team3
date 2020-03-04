@@ -1,0 +1,9 @@
+/out/*
+.idea/*
+target
+.vscode/*
+.settings/*
+.classpath
+.project
+/noPlugin
+/-

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
+    <top>
+        <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
+                    <items>
+                        <Menu fx:id="importButton" mnemonicParsing="false" onAction="#importAction" text="Import">
+                        </Menu>
+                        <Menu fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" text="Export">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Delete" />
+                            </items>
+                        </Menu>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Preferences..." />
+                        <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
+                    </items>
+                </Menu>
+                <Menu fx:id="searchbutton" mnemonicParsing="false" onAction="#searchAction" text="Search">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Search" />
+                    </items>
+                </Menu>
+                <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#goToLibrary" text="Go to library" />
+               </items></Menu>
+                <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <left>
+        <SplitPane dividerPositions="0.5112612612612613" orientation="VERTICAL" prefHeight="446.0" prefWidth="184.0" BorderPane.alignment="CENTER">
+            <items>
+                <AnchorPane>
+                    <children>
+                        <Label layoutX="57.0" layoutY="1.0" text="Metadata" textFill="#787878">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Label>
+                        <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="26.0" maxWidth="180.0" minHeight="50.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="14.0" AnchorPane.topAnchor="26.0">
+                            <VBox fx:id="metadataVbox">
+
+                            </VBox>
+                        </ScrollPane>
+                    </children>
+                </AnchorPane>
+                <AnchorPane prefWidth="184.0">
+                    <children>
+                        <Label layoutX="74.0" layoutY="1.0" text="Tags" textFill="#787878">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Label>
+                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="169.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="31.0" />
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </left>
+    <bottom>
+        <HBox maxHeight="25.0" minHeight="30.0" prefHeight="25.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <ComboBox fx:id="sortDropDown" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="184.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="175.0" promptText="Sort by" />
+                <AnchorPane minWidth="150.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <TextArea fx:id="pathDisplay" disable="true" maxHeight="26.0" minHeight="25.0" prefHeight="30.0" prefWidth="561.3333333333334" promptText="Path..." AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="2.0" />
+                    </children>
+                </AnchorPane>
+            </children>
+        </HBox>
+    </bottom>
+    <center>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="543.0" prefWidth="619.0" BorderPane.alignment="CENTER">
+            <content>
+                <VBox fx:id="gridVbox" prefHeight="150.0" prefWidth="614.0">
+                    <children>
+                        <GridPane fx:id="pictureGrid" alignment="CENTER" gridLinesVisible="true" VBox.vgrow="SOMETIMES">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                        </GridPane>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
