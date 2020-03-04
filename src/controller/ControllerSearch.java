@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -30,6 +31,8 @@ public class ControllerSearch implements Initializable {
     CheckBox pathCheck;
     @FXML
     TextField searchField;
+    @FXML
+    VBox tagVBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
