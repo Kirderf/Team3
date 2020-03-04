@@ -30,7 +30,7 @@ public class Start extends Application {
             primaryStage.setMinHeight(600);
             primaryStage.setScene(new Scene(root));
             ControllerMain.importStage.initModality(Modality.APPLICATION_MODAL);
-            ControllerMain.importStage.initStyle(StageStyle.UNDECORATED);
+            ControllerMain.importStage.initStyle(StageStyle.UTILITY);
             ControllerMain.searchStage.initModality(Modality.APPLICATION_MODAL);
             ControllerMain.searchStage.initStyle(StageStyle.UTILITY);
             logger.log(Level.INFO,"Showing app");
