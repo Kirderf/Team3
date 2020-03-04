@@ -40,6 +40,8 @@ public class ControllerSearch implements Initializable {
 
     @FXML
     private void searchAction(ActionEvent event) throws SQLException {
+        //clears static resultList
+        searchResults.clear();
         if(tagCheck.isSelected()){
             ArrayList<String> tagResult = ControllerMain.databaseClient.search(searchField.getText(),"Tags");
             if (tagResult!=null) {

@@ -131,7 +131,6 @@ public class ControllerMain implements Initializable {
                 searchStage.setResizable(false);
                 searchStage.showAndWait();
                 if (ControllerSearch.searchSucceed) {
-                    //TODO fix bug where clearView makes application crash when searching
                     clearView();
                     for (String s : ControllerSearch.searchResults) {
                         insertImage(s);
@@ -231,6 +230,7 @@ public class ControllerMain implements Initializable {
      */
     private void refreshImages() {
         try {
+            clearView();
             for (Object obj : databaseClient.getData("Path")) {
                 if (obj != null && !databaseClient.addedPathsContains((String) obj)) {
                     DatabaseClient.getAddedPaths().add((String) obj);
