@@ -303,7 +303,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * prints out an pdf of all the images in the path array
-     * @param name name of the file you want printed, probably needs to include .pdf now, will be changed later
+     * @param name the location, including the name, of where uou want to save it, in the format "C://Users/Ingebrigt/Pictures/helloworld.pdf"
      * @param paths array with the path that you want to print to a pdf
      * @return supposed to be true if successful, but this is not implemented yet
      */
@@ -330,7 +330,7 @@ public class ControllerMain implements Initializable {
                 in.close();
 
             }
-            document.save(name);
+            document.save("C://HelloWorld.pdf");
             document.close();
         }
         catch (Exception e){
