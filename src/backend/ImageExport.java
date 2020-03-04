@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class ImageExport {
     /**
@@ -20,8 +21,7 @@ public class ImageExport {
      * @author Ingebrigt Hovind
      */
     //stolen from https://stackoverflow.com/questions/22358478/java-create-pdf-pages-from-images-using-pdfbox-library
-    public static boolean exportToPdf(String name, String[] paths){
-        System.out.println("test");
+    public static boolean exportToPdf(String name, ArrayList<String> paths){
         PDDocument document = new PDDocument();
         try{
             for(String s : paths){
@@ -38,7 +38,7 @@ public class ImageExport {
                 in.close();
 
             }
-            document.save("C://HelloWorld.pdf");
+            document.save(name);
             document.close();
             return true;
         }

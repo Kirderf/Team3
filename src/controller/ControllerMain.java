@@ -1,6 +1,8 @@
 package controller;
 
 import backend.DatabaseClient;
+import backend.ImageExport;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,36 +10,28 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.security.Key;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-import org.apache.pdfbox.pdmodel.graphics.image.*;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-
-import javax.imageio.ImageIO;
 
 
 public class ControllerMain implements Initializable {
@@ -72,6 +66,8 @@ public class ControllerMain implements Initializable {
     private int columnCount = 0;
     private final double initialGridHeight = 185;
     public static boolean loadedFromAnotherLocation = false;
+    public static ArrayList<String> selectedImages = new ArrayList<String>();
+
 
 
     /**
@@ -172,6 +168,9 @@ public class ControllerMain implements Initializable {
     //TODO Export to pdf
     @FXML
     private void exportAction(ActionEvent event) {
+        ImageExport.exportToPdf("C:/Users/Ingebrigt/Documents/uni - 1/Systemutvikling/Bilder/test.pdf",selectedImages);
+        clearSelection();
+        /*
         try {
                 insertImage(System.getProperty("user.home") + "/Desktop/download (1).jpeg");
                 insertImage(System.getProperty("user.home") + "/Desktop/download (2).jpeg");
@@ -179,7 +178,7 @@ public class ControllerMain implements Initializable {
                 insertImage(System.getProperty("user.home") + "/Desktop/download (4).jpeg");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**
@@ -210,6 +209,8 @@ public class ControllerMain implements Initializable {
     @FXML
     private void goToLibrary() throws IOException {
         //pictureGrid.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
+        //clears the selected images when you press the library button
+        selectedImages.clear();
         refreshImages();
     }
 
@@ -263,6 +264,24 @@ public class ControllerMain implements Initializable {
         pictureGrid.getRowConstraints().add(con);
     }
 
+    private static void tint(BufferedImage image, Color color) {
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                Color pixelColor = new Color(image.getRGB(x, y), true);
+                int r = (pixelColor.getRed() + color.getRed()) / 2;
+                int g = (pixelColor.getGreen() + color.getGreen()) / 2;
+                int b = (pixelColor.getBlue() + color.getBlue()) / 2;
+                int a = pixelColor.getAlpha();
+                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
+                image.setRGB(x, y, rgba);
+            }
+        }
+    }
+
+    private void clearSelection(){
+        refreshImages();
+        selectedImages.clear();
+    }
     /**
      * Take a path, and create a ImageView that fits to a space in the grid
      *
@@ -276,17 +295,33 @@ public class ControllerMain implements Initializable {
         imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                showBigImage(imageView);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(event.isControlDown()){
+                //sets the image to be blue tinted so that the user knows which images they have selected
+                selectedImages.add(path);
+                BufferedImage buff = SwingFXUtils.fromFXImage(image,null);
+                tint(buff,Color.blue);
+                imageView.setImage(SwingFXUtils.toFXImage(buff,null));
+
             }
+            //if the ctrl key is not pressed then the image is shown full-screen as normal
+            else{
+                try {
+                    clearSelection();
+                    imageView.setImage(image);
+                    showBigImage(imageView);
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         });
 
         return imageView;
     }
 
     private void showBigImage(ImageView imageView) throws IOException {
+        clearSelection();
         imageBuffer = imageView.getImage();
         Scene scene = pictureGrid.getScene();
         scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
@@ -300,7 +335,5 @@ public class ControllerMain implements Initializable {
 
         }
     }
-
-
 
 }
