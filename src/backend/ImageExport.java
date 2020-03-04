@@ -24,6 +24,7 @@ public class ImageExport {
     public static boolean exportToPdf(String name, ArrayList<String> paths){
         PDDocument document = new PDDocument();
         try{
+            System.out.println(name);
             for(String s : paths){
                 InputStream in = new FileInputStream(s);
                 BufferedImage bimg = ImageIO.read(in);
