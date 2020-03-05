@@ -63,6 +63,7 @@ public class ControllerMain implements Initializable {
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
     public static Stage searchStage = new Stage();
+    public static Stage exportStage = new Stage();
     public static Image imageBuffer;
     private int photoCount = 0;
     private int rowCount = 0;
@@ -194,13 +195,22 @@ public class ControllerMain implements Initializable {
     }
     //TODO Export to pdf
     @FXML
-    private void exportAction(ActionEvent event) {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Choose folder for album");
-        File defaultDirectory = new File("C:/Users/");
-        chooser.setInitialDirectory(defaultDirectory);
-        File selectedDirectory = chooser.showDialog(null);
-        if(ImageExport.exportToPdf(selectedDirectory.getPath() + "/test.pdf",selectedImages)){
+    private void exportAction(ActionEvent event) throws IOException {
+        if (!exportStage.isShowing()) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
+                exportStage.setScene(new Scene(root));
+                exportStage.setTitle("Import");
+                exportStage.setResizable(false);
+                exportStage.showAndWait();
+                if (ControllerExport.exportSucceed) {
+                    System.out.println("Exporting ");
+                    refreshImages();
+                    ControllerExport.exportSucceed = false;
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }
         clearSelection();
         /*
