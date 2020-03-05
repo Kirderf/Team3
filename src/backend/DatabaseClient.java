@@ -14,15 +14,7 @@ import java.util.List;
  */
 //TODO add javadoc
 public class DatabaseClient {
-    private Database imageDatabase;
-    {
-        try {
-            imageDatabase = new Database();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
+    private Database imageDatabase = new Database();
     private ImageImport imageImport = new ImageImport();
     private static ArrayList<String> addedPaths = new ArrayList<>();
 

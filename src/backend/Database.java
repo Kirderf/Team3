@@ -19,11 +19,16 @@ public class Database {
     String table = "fredrjul_" + random.nextInt(upperBound);
     Connection con = null;
 
-    public Database() throws SQLException {
+    public Database() {
         logger.log(Level.INFO,"Creating Database object");
-        openConnection();
-        createTable();
-        closeConnection();
+        try {
+            openConnection();
+            createTable();
+            closeConnection();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE,e.getLocalizedMessage());
+            System.exit(0);
+        }
     }
 
     /**

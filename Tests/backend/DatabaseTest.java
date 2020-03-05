@@ -13,11 +13,7 @@ class DatabaseTest {
 
     @BeforeEach
     void setUp() {
-        try {
-            database = new Database();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        database = new Database();
     }
 
     @Test
