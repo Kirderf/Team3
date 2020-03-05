@@ -279,21 +279,21 @@ public class Database {
         try {
             if (isTableInDatabase(columnName)) {
                 if(ascending){
-                    //String sql = "SELECT " + " Path " + " from " + table + " ORDER BY " +columnName+ "ASC";
-                    //PreparedStatement stmt = con.prepareStatement(sql);
-                    //ResultSet result = stmt.executeQuery();
-                    //while (result.next()) {
-                    //    arrayList.add(result.getString("Path"));
-                   // }
+                    String sql = "SELECT " + " Path " + " from " + table + " ORDER BY " +columnName+ " ASC";
+                    PreparedStatement stmt = con.prepareStatement(sql);
+                    ResultSet result = stmt.executeQuery();
+                    while (result.next()) {
+                        arrayList.add(result.getString("Path"));
+                    }
                     return arrayList;
                 }
                 else{
-                    //String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " + columnName + "DESC";
-                    //PreparedStatement stmt = con.prepareStatement(sql);
-                    //ResultSet result = stmt.executeQuery();
-                    //while (result.next()) {
-                     //   arrayList.add(result.getString("Path"));
-                   // }
+                    String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " + columnName + " DESC";
+                    PreparedStatement stmt = con.prepareStatement(sql);
+                    ResultSet result = stmt.executeQuery();
+                    while (result.next()) {
+                        arrayList.add(result.getString("Path"));
+                    }
                     return arrayList;
                 }
             }

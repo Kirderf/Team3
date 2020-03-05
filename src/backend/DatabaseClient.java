@@ -192,4 +192,10 @@ public class DatabaseClient {
         imageDatabase.closeConnection();
         return result;
     }
+    public ArrayList<String> sort(String sortBy, boolean ascending) throws SQLException {
+        imageDatabase.openConnection();
+        ArrayList<String> result = imageDatabase.sortBy(sortBy,ascending);
+        imageDatabase.closeConnection();
+        return result;
+    }
 }
