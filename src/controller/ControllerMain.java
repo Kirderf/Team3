@@ -71,6 +71,7 @@ public class ControllerMain implements Initializable {
     public static boolean loadedFromAnotherLocation = false;
     public static ArrayList<String> selectedImages = new ArrayList<String>();
     private final FileChooser fc = new FileChooser();
+    private static boolean ascending = true;
 
 
 
@@ -169,7 +170,28 @@ public class ControllerMain implements Initializable {
             }
         }
     }
+    @FXML
+    private void sortAction(ActionEvent event) throws SQLException, FileNotFoundException {
+        if(sortDropDown.getValue().toString().equalsIgnoreCase("Size")){
 
+            ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
+            clearView();
+            for (String s : sortedList) {
+                insertImage(s);
+            }
+        }
+        else if(sortDropDown.getValue().toString().equalsIgnoreCase("Location")){
+            //TODO make this work
+            //I am thinking that we will sort based on the sum of latitude and longitude for the moment
+        }
+        else{
+            ArrayList<String> sortedList = databaseClient.sort(sortDropDown.getValue().toString(), ascending);
+            clearView();
+            for (String s : sortedList) {
+                insertImage(s);
+            }
+        }
+    }
     //TODO Export to pdf
     @FXML
     private void exportAction(ActionEvent event) {
