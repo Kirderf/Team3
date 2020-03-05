@@ -308,11 +308,16 @@ public class ControllerMain implements Initializable {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if(event.isControlDown()){
                 //sets the image to be blue tinted so that the user knows which images they have selected
-                selectedImages.add(path);
-                BufferedImage buff = SwingFXUtils.fromFXImage(image,null);
-                tint(buff,Color.blue);
-                imageView.setImage(SwingFXUtils.toFXImage(buff,null));
-
+                if(!selectedImages.contains(path)) {
+                    selectedImages.add(path);
+                    BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+                    tint(buff, Color.blue);
+                    imageView.setImage(SwingFXUtils.toFXImage(buff, null));
+                }
+                else{
+                    selectedImages.remove(path);
+                    imageView.setImage(image);
+                }
             }
             //if the ctrl key is not pressed then the image is shown full-screen as normal
             else{
