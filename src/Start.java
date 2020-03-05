@@ -19,10 +19,9 @@ public class Start extends Application {
 
     /**
      * @param primaryStage
-     * @throws Exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Main.fxml"));
             primaryStage.setTitle("Hello World");

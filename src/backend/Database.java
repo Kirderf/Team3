@@ -227,7 +227,7 @@ public class Database {
      */
     public boolean openConnection() throws SQLException {
         if (!isConnection()) {
-            con = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp", "fredrjul_Image", "Password123");
+            con = Datasource.getConnection();
             return true;
         }
         return false;
