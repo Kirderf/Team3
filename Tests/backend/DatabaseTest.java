@@ -118,8 +118,8 @@ class DatabaseTest {
         try {
             database.openConnection();
             database.createTable();
-            database.addImageToTable("path to file", "Tags", 1000, (long) 20200812, 2000, 2000, 11.02, 13.09);
-            database.addImageToTable("path to file2", "Tags2", 2000, (long) 20210812, 2000, 2000, 11.02, 13.09);
+            database.addImageToTable("path to file", "Tags", 1000,20200812L, 2000, 2000, 11.02, 13.09);
+            database.addImageToTable("path to file2", "Tags2", 2000, 20210812L, 2000, 2000, 11.02, 13.09);
             System.out.println(Arrays.toString(database.getImageMetadata("path to file2")));
             database.closeDatabase();
         } catch (SQLException e) {

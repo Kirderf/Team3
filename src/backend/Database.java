@@ -137,7 +137,7 @@ public class Database {
             returnValues[0] = rs.getString(2);
             returnValues[1] = rs.getString(3);
             returnValues[2] = String.valueOf(rs.getInt(4));
-            returnValues[3] = rs.getDate(5).toString();
+            returnValues[3] = String.valueOf(rs.getLong(5));
             returnValues[4] = String.valueOf(rs.getInt(6));
             returnValues[5] = String.valueOf(rs.getInt(7));
             returnValues[6] = String.valueOf(rs.getDouble(8));
