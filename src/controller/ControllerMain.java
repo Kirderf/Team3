@@ -163,7 +163,7 @@ public class ControllerMain implements Initializable {
                 importStage.setResizable(false);
                 importStage.showAndWait();
                 if (ControllerImport.importSucceed) {
-                    System.out.println("refreshing");
+                    logger.log(Level.INFO, "Refreshing");
                     refreshImages();
                     ControllerImport.importSucceed = false;
                 }
@@ -202,6 +202,7 @@ public class ControllerMain implements Initializable {
             }
         }
     }
+
     //TODO Export to pdf
     @FXML
     private void exportAction(ActionEvent event) throws IOException {
@@ -267,6 +268,7 @@ public class ControllerMain implements Initializable {
         columnCount = 0;
         photoCount = 0;
         pictureGrid.getChildren().clear();
+        pictureGrid.setGridLinesVisible(true);
         databaseClient.clearPaths();
     }
 
