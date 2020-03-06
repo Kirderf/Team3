@@ -74,8 +74,9 @@ public class ControllerMain implements Initializable {
     public static ArrayList<String> selectedImages = new ArrayList<String>();
     private final FileChooser fc = new FileChooser();
     private static boolean ascending = true;
-
-
+    long time1 = 0;
+    long time2 = 0;
+    long diff = 0;
 
 
     /**
@@ -91,7 +92,7 @@ public class ControllerMain implements Initializable {
         pictureGrid.setPrefHeight(initialGridHeight);
         gridVbox.setPrefHeight(initialGridHeight);
         gridVbox.setStyle("-fx-border-color: black");
-        if(loadedFromAnotherLocation) {
+        if (loadedFromAnotherLocation) {
             databaseClient.clearPaths();
             refreshImages();
             loadedFromAnotherLocation = false;
@@ -105,7 +106,7 @@ public class ControllerMain implements Initializable {
         }
         if ((photoCount) % 5 == 0) {
             rowCount++;
-            if(pictureGrid.getRowConstraints().size()<=rowCount) {
+            if (pictureGrid.getRowConstraints().size() <= rowCount) {
                 addEmptyRow();
             }
         }
@@ -172,6 +173,7 @@ public class ControllerMain implements Initializable {
             }
         }
     }
+
     @FXML
     /**
      * sort the pictures based on the selected value in the drop down
@@ -179,7 +181,7 @@ public class ControllerMain implements Initializable {
      */
     private void sortAction(ActionEvent event) throws SQLException, FileNotFoundException {
         //if size is selected
-        if(sortDropDown.getValue().toString().equalsIgnoreCase("Size")){
+        if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
 
             ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
             clearView();
@@ -188,12 +190,12 @@ public class ControllerMain implements Initializable {
             }
         }
         //if location is selected
-        else if(sortDropDown.getValue().toString().equalsIgnoreCase("Location")){
+        else if (sortDropDown.getValue().toString().equalsIgnoreCase("Location")) {
             //TODO make this work
             //I am thinking that we will sort based on the sum of latitude and longitude for the moment
         }
         //if path or date is selected
-        else{
+        else {
             //ascending changes value every time this function is called
             ArrayList<String> sortedList = databaseClient.sort(sortDropDown.getValue().toString(), ascending);
             clearView();
@@ -306,12 +308,13 @@ public class ControllerMain implements Initializable {
         double gridHeight = gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()).getValue();
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(gridHeight);
-        gridVbox.setPrefHeight(gridVbox.getPrefHeight()+gridHeight);
+        gridVbox.setPrefHeight(gridVbox.getPrefHeight() + gridHeight);
         pictureGrid.getRowConstraints().add(con);
     }
 
     /**
      * tints the selected images blue
+     *
      * @param image the image that you want to tint
      * @param color colour, this should be blue
      */
@@ -329,11 +332,13 @@ public class ControllerMain implements Initializable {
             }
         }
     }
+
     //removes the selected images
-    private void clearSelection(){
+    private void clearSelection() {
         refreshImages();
         selectedImages.clear();
     }
+
     /**
      * Take a path, and create a ImageView that fits to a space in the grid
      *
@@ -346,36 +351,42 @@ public class ControllerMain implements Initializable {
         imageView.fitHeightProperty().bind(gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()));
         imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
-        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if(event.isControlDown()){
-                //sets the image to be blue tinted so that the user knows which images they have selected
-                if(!selectedImages.contains(path)) {
-                    selectedImages.add(path);
-                    //buff is the tinted
-                    BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
-                    tint(buff, Color.blue);
-                    imageView.setImage(SwingFXUtils.toFXImage(buff, null));
-                }
-                else{
-                    selectedImages.remove(path);
-                    imageView.setImage(image);
-                }
-            }
-            //if the ctrl key is not pressed then the image is shown full-screen as normal
-            else{
-                try {
-                    clearSelection();
-                    imageView.setImage(image);
-                    showBigImage(imageView);
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
+        imageView.setOnMouseClicked(event -> {
+            if (time1 == 0) {
+                time1 = System.currentTimeMillis();
+                setSelectedImages(imageView, image, path);
+            } else {
+                time2 = System.currentTimeMillis();
+                diff = time2-time1;
+                if(diff < 250 && diff > 0) {
+                    try {
+                        time1 = 0;
+                        clearSelection();
+                        imageView.setImage(image);
+                        showBigImage(imageView);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    time1 = 0;
+                    setSelectedImages(imageView, image, path);
                 }
             }
-
         });
-
         return imageView;
+    }
+
+    private void setSelectedImages(ImageView imageView, Image image, String path) {
+        if (!selectedImages.contains(path)) {
+            selectedImages.add(path);
+            //buff is the tinted
+            BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+            tint(buff, Color.blue);
+            imageView.setImage(SwingFXUtils.toFXImage(buff, null));
+        } else {
+            selectedImages.remove(path);
+            imageView.setImage(image);
+        }
     }
 
     private void showBigImage(ImageView imageView) throws IOException {
