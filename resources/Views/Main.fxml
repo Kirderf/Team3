@@ -46,7 +46,11 @@
                 <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#goToLibrary" text="Go to library" />
-               </items></Menu>
+               </items>
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#goToMap" text="Go to map" />
+                    </items>
+                </Menu>
                 <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
                     <items>
                         <MenuItem mnemonicParsing="false" text="About" />

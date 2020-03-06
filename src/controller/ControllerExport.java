@@ -20,20 +20,31 @@ public class ControllerExport {
 
     @FXML
     private void exportPDF() throws IOException {
+        //chooses album location after selecting name
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Choose folder for album");
+        //the directory that the file chooser starts in
         File defaultDirectory = new File("C:/");
         chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(null);
+        //gets the filename from the user and formats it correctly
         if(ImageExport.exportToPdf(selectedDirectory.getPath() +"/"+ inputText.getText() + ".pdf",ControllerMain.selectedImages)){
             exportSucceed = true;
         }
+        //closes window
         closeWindow();
     }
+
+    /**
+     * closes the windo
+     */
     public void closeWindow(){
         ((Stage) inputText.getScene().getWindow()).close();
 
     }
+    /**
+     * if the cancel button is clicked
+     */
     public void cancelExport(ActionEvent actionEvent) {
         closeWindow();
     }

@@ -64,6 +64,7 @@ public class ControllerMain implements Initializable {
     public static Stage importStage = new Stage();
     public static Stage searchStage = new Stage();
     public static Stage exportStage = new Stage();
+    public static Stage worldStage = new Stage();
     public static Image imageBuffer;
     private int photoCount = 0;
     private int rowCount = 0;
@@ -172,7 +173,12 @@ public class ControllerMain implements Initializable {
         }
     }
     @FXML
+    /**
+     * sort the pictures based on the selected value in the drop down
+
+     */
     private void sortAction(ActionEvent event) throws SQLException, FileNotFoundException {
+        //if size is selected
         if(sortDropDown.getValue().toString().equalsIgnoreCase("Size")){
 
             ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
@@ -181,11 +187,14 @@ public class ControllerMain implements Initializable {
                 insertImage(s);
             }
         }
+        //if location is selected
         else if(sortDropDown.getValue().toString().equalsIgnoreCase("Location")){
             //TODO make this work
             //I am thinking that we will sort based on the sum of latitude and longitude for the moment
         }
+        //if path or date is selected
         else{
+            //ascending changes value every time this function is called
             ArrayList<String> sortedList = databaseClient.sort(sortDropDown.getValue().toString(), ascending);
             clearView();
             for (String s : sortedList) {
@@ -198,14 +207,12 @@ public class ControllerMain implements Initializable {
     private void exportAction(ActionEvent event) throws IOException {
         if (!exportStage.isShowing()) {
             try {
-                System.out.println("før root");
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
-                System.out.println("feil med root");
                 exportStage.setScene(new Scene(root));
-                System.out.println("feil med root");
                 exportStage.setTitle("Export");
                 exportStage.setResizable(false);
                 exportStage.showAndWait();
+                //exportSucceed is a static variable in controllerExport
                 if (ControllerExport.exportSucceed) {
                     System.out.println("Exporting ");
                     refreshImages();
@@ -216,15 +223,6 @@ public class ControllerMain implements Initializable {
             }
         }
         clearSelection();
-        /*
-        try {
-                insertImage(System.getProperty("user.home") + "/Desktop/download (1).jpeg");
-                insertImage(System.getProperty("user.home") + "/Desktop/download (2).jpeg");
-                insertImage(System.getProperty("user.home") + "/Desktop/download (3).jpeg");
-                insertImage(System.getProperty("user.home") + "/Desktop/download (4).jpeg");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }*/
     }
 
     /**
@@ -310,7 +308,13 @@ public class ControllerMain implements Initializable {
         pictureGrid.getRowConstraints().add(con);
     }
 
+    /**
+     * tints the selected images blue
+     * @param image the image that you want to tint
+     * @param color colour, this should be blue
+     */
     private static void tint(BufferedImage image, Color color) {
+        //stolen from https://stackoverflow.com/a/36744345
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
                 Color pixelColor = new Color(image.getRGB(x, y), true);
@@ -323,7 +327,7 @@ public class ControllerMain implements Initializable {
             }
         }
     }
-
+    //removes the selected images
     private void clearSelection(){
         refreshImages();
         selectedImages.clear();
@@ -345,6 +349,7 @@ public class ControllerMain implements Initializable {
                 //sets the image to be blue tinted so that the user knows which images they have selected
                 if(!selectedImages.contains(path)) {
                     selectedImages.add(path);
+                    //buff is the tinted
                     BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
                     tint(buff, Color.blue);
                     imageView.setImage(SwingFXUtils.toFXImage(buff, null));
@@ -387,4 +392,12 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    public void goToMap(ActionEvent actionEvent) throws IOException {
+        Scene scene = pictureGrid.getScene();
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/World.fxml"));
+        worldStage.setScene(new Scene(root));
+        worldStage.setTitle("map of photos");
+        worldStage.setResizable(false);
+        worldStage.showAndWait();
+    }
 }
