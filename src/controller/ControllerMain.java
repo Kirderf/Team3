@@ -1,5 +1,6 @@
 package controller;
 
+import backend.Database;
 import backend.DatabaseClient;
 import backend.ImageExport;
 import javafx.embed.swing.SwingFXUtils;
@@ -32,6 +33,7 @@ import java.net.URL;
 import java.security.Key;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -205,7 +207,6 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    //TODO Export to pdf
     @FXML
     private void exportAction(ActionEvent event) throws IOException {
         if (!exportStage.isShowing()) {
@@ -408,12 +409,46 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    public void goToMap(ActionEvent actionEvent) throws IOException {
+    public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
+        HashMap<String, String> locations = new HashMap<>();
+        //TODO make hashmap of strings with their path as key and location
+        //TODO add all images with both longitude and longitude
+        //do this by checking ration of long at latitiude according to image pixl placing
+        //add them to the worldmap view with event listener to check when they're clicked
+
+        /*
+        for(String s : DatabaseClient.getAddedPaths()){
+            System.out.println(DatabaseClient.getAddedPaths());
+            System.out.println(databaseClient.getMetaDataFromDatabase(s));
+            System.out.println((databaseClient.getMetaDataFromDatabase(s)[3]==null && databaseClient.getMetaDataFromDatabase(s)[4]==null));// {
+              //  locations.put(s, databaseClient.getMetaDataFromDatabase(s)[6]+","+databaseClient.getMetaDataFromDatabase(s)[7]);
+        //    }
+        }*/
+        System.out.println(locations);
+        ImageView imageView = new ImageView();
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream("sloth.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
+        worldStage.setScene(new Scene(root));
+        worldStage.setTitle("Search");
+        worldStage.setResizable(false);
+        worldStage.showAndWait();
+
+        /*
         Scene scene = pictureGrid.getScene();
+        System.out.println("før resource");
         Parent root = FXMLLoader.load(getClass().getResource("/Views/World.fxml"));
+        System.out.println("etter resource");
         worldStage.setScene(new Scene(root));
         worldStage.setTitle("map of photos");
         worldStage.setResizable(false);
         worldStage.showAndWait();
+        */
+
     }
 }
