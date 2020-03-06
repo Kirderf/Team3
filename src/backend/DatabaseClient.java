@@ -63,8 +63,8 @@ public class DatabaseClient {
      */
     public ArrayList getData(String columnName) throws SQLException {
         imageDatabase.openConnection();
-       ArrayList arrayList = imageDatabase.getColumn(columnName);
-       imageDatabase.closeConnection();
+        ArrayList arrayList = imageDatabase.getColumn(columnName);
+        imageDatabase.closeConnection();
         return arrayList;
     }
 

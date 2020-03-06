@@ -1,5 +1,6 @@
 package controller;
 
+import backend.Database;
 import backend.DatabaseClient;
 import backend.ImageExport;
 import javafx.embed.swing.SwingFXUtils;
@@ -32,6 +33,7 @@ import java.net.URL;
 import java.security.Key;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,6 +65,8 @@ public class ControllerMain implements Initializable {
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
     public static Stage searchStage = new Stage();
+    public static Stage exportStage = new Stage();
+    public static Stage worldStage = new Stage();
     public static Image imageBuffer;
     private int photoCount = 0;
     private int rowCount = 0;
@@ -72,8 +76,9 @@ public class ControllerMain implements Initializable {
     public static ArrayList<String> selectedImages = new ArrayList<String>();
     private final FileChooser fc = new FileChooser();
     private static boolean ascending = true;
-
-
+    long time1 = 0;
+    long time2 = 0;
+    long diff = 0;
 
 
     /**
@@ -89,7 +94,7 @@ public class ControllerMain implements Initializable {
         pictureGrid.setPrefHeight(initialGridHeight);
         gridVbox.setPrefHeight(initialGridHeight);
         gridVbox.setStyle("-fx-border-color: black");
-        if(loadedFromAnotherLocation) {
+        if (loadedFromAnotherLocation) {
             databaseClient.clearPaths();
             refreshImages();
             loadedFromAnotherLocation = false;
@@ -103,7 +108,7 @@ public class ControllerMain implements Initializable {
         }
         if ((photoCount) % 5 == 0) {
             rowCount++;
-            if(pictureGrid.getRowConstraints().size()<=rowCount) {
+            if (pictureGrid.getRowConstraints().size() <= rowCount) {
                 addEmptyRow();
             }
         }
@@ -161,7 +166,7 @@ public class ControllerMain implements Initializable {
                 importStage.setResizable(false);
                 importStage.showAndWait();
                 if (ControllerImport.importSucceed) {
-                    System.out.println("refreshing");
+                    logger.log(Level.INFO, "Refreshing");
                     refreshImages();
                     ControllerImport.importSucceed = false;
                 }
@@ -170,9 +175,15 @@ public class ControllerMain implements Initializable {
             }
         }
     }
+
     @FXML
+    /**
+     * sort the pictures based on the selected value in the drop down
+
+     */
     private void sortAction(ActionEvent event) throws SQLException, FileNotFoundException {
-        if(sortDropDown.getValue().toString().equalsIgnoreCase("Size")){
+        //if size is selected
+        if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
 
             ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
             clearView();
@@ -180,11 +191,14 @@ public class ControllerMain implements Initializable {
                 insertImage(s);
             }
         }
-        else if(sortDropDown.getValue().toString().equalsIgnoreCase("Location")){
+        //if location is selected
+        else if (sortDropDown.getValue().toString().equalsIgnoreCase("Location")) {
             //TODO make this work
             //I am thinking that we will sort based on the sum of latitude and longitude for the moment
         }
-        else{
+        //if path or date is selected
+        else {
+            //ascending changes value every time this function is called
             ArrayList<String> sortedList = databaseClient.sort(sortDropDown.getValue().toString(), ascending);
             clearView();
             for (String s : sortedList) {
@@ -192,26 +206,27 @@ public class ControllerMain implements Initializable {
             }
         }
     }
-    //TODO Export to pdf
+
     @FXML
-    private void exportAction(ActionEvent event) {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Choose folder for album");
-        File defaultDirectory = new File("C:/Users/");
-        chooser.setInitialDirectory(defaultDirectory);
-        File selectedDirectory = chooser.showDialog(null);
-        if(ImageExport.exportToPdf(selectedDirectory.getPath() + "/test.pdf",selectedImages)){
+    private void exportAction(ActionEvent event) throws IOException {
+        if (!exportStage.isShowing()) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
+                exportStage.setScene(new Scene(root));
+                exportStage.setTitle("Export");
+                exportStage.setResizable(false);
+                exportStage.showAndWait();
+                //exportSucceed is a static variable in controllerExport
+                if (ControllerExport.exportSucceed) {
+                    System.out.println("Exporting ");
+                    refreshImages();
+                    ControllerExport.exportSucceed = false;
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }
         clearSelection();
-        /*
-        try {
-                insertImage(System.getProperty("user.home") + "/Desktop/download (1).jpeg");
-                insertImage(System.getProperty("user.home") + "/Desktop/download (2).jpeg");
-                insertImage(System.getProperty("user.home") + "/Desktop/download (3).jpeg");
-                insertImage(System.getProperty("user.home") + "/Desktop/download (4).jpeg");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }*/
     }
 
     /**
@@ -256,6 +271,7 @@ public class ControllerMain implements Initializable {
         columnCount = 0;
         photoCount = 0;
         pictureGrid.getChildren().clear();
+        pictureGrid.setGridLinesVisible(true);
         databaseClient.clearPaths();
     }
 
@@ -293,11 +309,18 @@ public class ControllerMain implements Initializable {
         double gridHeight = gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()).getValue();
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(gridHeight);
-        gridVbox.setPrefHeight(gridVbox.getPrefHeight()+gridHeight);
+        gridVbox.setPrefHeight(gridVbox.getPrefHeight() + gridHeight);
         pictureGrid.getRowConstraints().add(con);
     }
 
+    /**
+     * tints the selected images blue
+     *
+     * @param image the image that you want to tint
+     * @param color colour, this should be blue
+     */
     private static void tint(BufferedImage image, Color color) {
+        //stolen from https://stackoverflow.com/a/36744345
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
                 Color pixelColor = new Color(image.getRGB(x, y), true);
@@ -311,10 +334,12 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    private void clearSelection(){
+    //removes the selected images
+    private void clearSelection() {
         refreshImages();
         selectedImages.clear();
     }
+
     /**
      * Take a path, and create a ImageView that fits to a space in the grid
      *
@@ -327,35 +352,45 @@ public class ControllerMain implements Initializable {
         imageView.fitHeightProperty().bind(gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()));
         imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
-        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if(event.isControlDown()){
-                //sets the image to be blue tinted so that the user knows which images they have selected
-                if(!selectedImages.contains(path)) {
-                    selectedImages.add(path);
-                    BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
-                    tint(buff, Color.blue);
-                    imageView.setImage(SwingFXUtils.toFXImage(buff, null));
-                }
-                else{
-                    selectedImages.remove(path);
-                    imageView.setImage(image);
+        imageView.setOnMouseClicked(event -> {
+            //first click in a series of 2 clicks
+            if (time1 == 0) {
+                time1 = System.currentTimeMillis();
+                setSelectedImages(imageView, image, path);
+            } else {
+                time2 = System.currentTimeMillis();
+                diff = time2-time1;
+                //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
+                if(diff < 250 && diff > 0) {
+                    try {
+                        time1 = 0;
+                        clearSelection();
+                        imageView.setImage(image);
+                        showBigImage(imageView);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    //otherwise the second click is registered as a single click
+                    time1 = 0;
+                    setSelectedImages(imageView, image, path);
                 }
             }
-            //if the ctrl key is not pressed then the image is shown full-screen as normal
-            else{
-                try {
-                    clearSelection();
-                    imageView.setImage(image);
-                    showBigImage(imageView);
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
         });
-
         return imageView;
+    }
+
+    private void setSelectedImages(ImageView imageView, Image image, String path) {
+        if (!selectedImages.contains(path)) {
+            selectedImages.add(path);
+            //buff is the tinted
+            BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+            tint(buff, Color.blue);
+            imageView.setImage(SwingFXUtils.toFXImage(buff, null));
+        } else {
+            selectedImages.remove(path);
+            imageView.setImage(image);
+        }
     }
 
     private void showBigImage(ImageView imageView) throws IOException {
@@ -374,4 +409,46 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
+        HashMap<String, String> locations = new HashMap<>();
+        //TODO make hashmap of strings with their path as key and location
+        //TODO add all images with both longitude and longitude
+        //do this by checking ration of long at latitiude according to image pixl placing
+        //add them to the worldmap view with event listener to check when they're clicked
+
+        /*
+        for(String s : DatabaseClient.getAddedPaths()){
+            System.out.println(DatabaseClient.getAddedPaths());
+            System.out.println(databaseClient.getMetaDataFromDatabase(s));
+            System.out.println((databaseClient.getMetaDataFromDatabase(s)[3]==null && databaseClient.getMetaDataFromDatabase(s)[4]==null));// {
+              //  locations.put(s, databaseClient.getMetaDataFromDatabase(s)[6]+","+databaseClient.getMetaDataFromDatabase(s)[7]);
+        //    }
+        }*/
+        System.out.println(locations);
+        ImageView imageView = new ImageView();
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream("sloth.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
+        worldStage.setScene(new Scene(root));
+        worldStage.setTitle("Search");
+        worldStage.setResizable(false);
+        worldStage.showAndWait();
+
+        /*
+        Scene scene = pictureGrid.getScene();
+        System.out.println("før resource");
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/World.fxml"));
+        System.out.println("etter resource");
+        worldStage.setScene(new Scene(root));
+        worldStage.setTitle("map of photos");
+        worldStage.setResizable(false);
+        worldStage.showAndWait();
+        */
+
+    }
 }

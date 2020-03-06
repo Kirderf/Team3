@@ -128,10 +128,10 @@ public class Database {
      */
     public String[] getImageMetadata(String path) throws SQLException {
         logger.log(Level.INFO,"getting ImageMetadata");
-        String sql = "SELECT * FROM " + table + "\n" +
-                "WHERE " + table + ".Path" + " LIKE '%" + path + "%' LIMIT 1";
+        String sql = "SELECT * FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path + "%' LIMIT 1";
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
+        //TODO fi bug where this is always false, and the statement is always empty
         if (rs.next()) {
             String[] returnValues = new String[8];
             returnValues[0] = rs.getString(2);

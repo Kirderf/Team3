@@ -1,14 +1,18 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
@@ -32,7 +36,7 @@ public class ControllerSearch implements Initializable {
     @FXML
     TextField searchField;
     @FXML
-    VBox tagVBox;
+    ListView tagsListView;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -45,6 +49,11 @@ public class ControllerSearch implements Initializable {
     private void searchAction(ActionEvent event) throws SQLException {
         //clears static resultList
         searchResults.clear();
+
+       insertTags();    //  for ScrollSearch
+
+
+/*              Old tag search, uses the searchField
         if(tagCheck.isSelected()){
             ArrayList<String> tagResult = ControllerMain.databaseClient.search(searchField.getText(),"Tags");
             if (tagResult!=null) {
@@ -55,6 +64,8 @@ public class ControllerSearch implements Initializable {
                 }
             }
         }
+
+ */
         if(metaCheck.isSelected()){
             ArrayList<String> metaResult = ControllerMain.databaseClient.search(searchField.getText(),"Metadata");
             if (metaResult!=null) {
@@ -77,5 +88,22 @@ public class ControllerSearch implements Initializable {
         }
         searchSucceed = true;
         cancel(event);
+    }
+
+    @FXML
+    public void insertTags(){
+        //  Use this when adding tags has been implemented
+        //  ArrayList<String> tagList = ControllerMain.databaseClient.getData("Tags");
+        ArrayList<String> tagList = new ArrayList<>();
+        tagList.add("Tag1");
+        tagList.add("Tag2");
+        tagList.add("Tag3");
+
+        //  TagList for testing
+        ObservableList<String> observeList = FXCollections.observableArrayList(tagList);
+
+        tagsListView = new ListView<String>(observeList);
+
+                //Don't Like ListView, gonna experiment with checkboxes later|
     }
 }
