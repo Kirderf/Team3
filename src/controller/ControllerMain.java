@@ -352,12 +352,14 @@ public class ControllerMain implements Initializable {
         imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
         imageView.setOnMouseClicked(event -> {
+            //first click in a series of 2 clicks
             if (time1 == 0) {
                 time1 = System.currentTimeMillis();
                 setSelectedImages(imageView, image, path);
             } else {
                 time2 = System.currentTimeMillis();
                 diff = time2-time1;
+                //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
                 if(diff < 250 && diff > 0) {
                     try {
                         time1 = 0;
@@ -368,6 +370,7 @@ public class ControllerMain implements Initializable {
                         e.printStackTrace();
                     }
                 } else {
+                    //otherwise the second click is registered as a single click
                     time1 = 0;
                     setSelectedImages(imageView, image, path);
                 }
