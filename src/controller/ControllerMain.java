@@ -199,9 +199,12 @@ public class ControllerMain implements Initializable {
     private void exportAction(ActionEvent event) throws IOException {
         if (!exportStage.isShowing()) {
             try {
+                System.out.println("før root");
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
+                System.out.println("feil med root");
                 exportStage.setScene(new Scene(root));
-                exportStage.setTitle("Import");
+                System.out.println("feil med root");
+                exportStage.setTitle("Export");
                 exportStage.setResizable(false);
                 exportStage.showAndWait();
                 if (ControllerExport.exportSucceed) {
