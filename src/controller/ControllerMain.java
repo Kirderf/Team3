@@ -10,71 +10,67 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class ControllerMain implements Initializable {
-    @FXML
-    private ScrollPane metadataScroll;
-
-    @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private ScrollPane tagsScroll;
-
-    @FXML
-    private GridPane pictureGrid;
-
-    @FXML
-    private ComboBox<?> sortDropDown;
-
-    @FXML
-    private TextArea pathDisplay;
-
-    @FXML
-    private VBox gridVbox;
-
-    @FXML
-    private VBox metadataVbox;
-
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
+    public static HashMap<String,String> locations = new HashMap<>();
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
     public static Stage searchStage = new Stage();
     public static Stage exportStage = new Stage();
     public static Stage worldStage = new Stage();
     public static Image imageBuffer;
-    private int photoCount = 0;
-    private int rowCount = 0;
-    private int columnCount = 0;
+    public static boolean loadedFromAnotherLocation = false;
     public static ArrayList<String> selectedImages = new ArrayList<String>();
     private static boolean ascending = true;
+    private final double initialGridHeight = 185;
+    private final FileChooser fc = new FileChooser();
     long time1 = 0;
     long time2 = 0;
     long diff = 0;
+    @FXML
+    private ScrollPane metadataScroll;
+    @FXML
+    private ScrollPane tagsScroll;
+    @FXML
+    private GridPane pictureGrid;
+    @FXML
+    private ComboBox<?> sortDropDown;
+    @FXML
+    private TextArea pathDisplay;
+    @FXML
+    private VBox gridVbox;
+    @FXML
+    private VBox metadataVbox;
+
+    private int photoCount = 0;
+    private int rowCount = 0;
+    private int columnCount = 0;
 
 
     /**
@@ -86,55 +82,14 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.log(Level.INFO, "Initializing");
-        refreshImages();
+        pictureGrid.setPrefHeight(initialGridHeight);
+        gridVbox.setPrefHeight(initialGridHeight);
+        if (loadedFromAnotherLocation) {
+            refreshImages();
+            loadedFromAnotherLocation = false;
+        }
     }
 
-    @FXML
-    public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
-        HashMap<String,Double> locations = new HashMap<>();
-        //TODO make hashmap of strings with their path as key and location
-        //TODO add all images with both longitude and longitude
-        //do this by checking ration of long at latitiude according to image pixel placing
-        //add them to the worldmap view with event listener to check when they're clicked
-
-
-        for(int i = 0; i<databaseClient.getColumn("GPS_Longitude").size();i++){
-            if((double)databaseClient.getColumn("GPS_Longitude").get(i)!= 0.0){
-                locations.put((String)databaseClient.getColumn("Paths").get(i),(double)databaseClient.getColumn("GPS_Longitude").get(i));
-                //System.out.println(locations.get());
-            }
-            System.out.println("JA");
-            //System.out.println((databaseClient.getMetaDataFromDatabase(s)[3]==null && databaseClient.getMetaDataFromDatabase(s)[4]==null)); {
-            //locations.put(s, databaseClient.getMetaDataFromDatabase(s)[6]+","+databaseClient.getMetaDataFromDatabase(s)[7]);
-        }
-        //}
-        //System.out.println(locations);
-        ImageView imageView = new ImageView();
-        Image image = null;
-        try {
-            image = new Image(new FileInputStream("C:/Users/Ingebrigt/Pictures/christ.jpg"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
-        worldStage.setScene(new Scene(root));
-        worldStage.setTitle("Search");
-        worldStage.setResizable(false);
-        worldStage.showAndWait();
-
-        /*
-        Scene scene = pictureGrid.getScene();
-        System.out.println("før resource");
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/World.fxml"));
-        System.out.println("etter resource");
-        worldStage.setScene(new Scene(root));
-        worldStage.setTitle("map of photos");
-        worldStage.setResizable(false);
-        worldStage.showAndWait();
-        */
-
-    }
 
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
@@ -185,11 +140,11 @@ public class ControllerMain implements Initializable {
         }
     }
 
-
+    @FXML
     /**
      * sort the pictures based on the selected value in the drop down
+
      */
-    @FXML
     private void sortAction(ActionEvent event) throws SQLException, FileNotFoundException {
         //if size is selected
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
@@ -264,7 +219,7 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    private void goToLibrary(ActionEvent event) throws IOException {
+    private void goToLibrary() throws IOException {
         //pictureGrid.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
         //clears the selected images when you press the library button
         selectedImages.clear();
@@ -317,9 +272,10 @@ public class ControllerMain implements Initializable {
      * Add rows on the bottom of the gridpane
      */
     private void addEmptyRow() {
-        double gridHeight = 185;
+        double gridHeight = gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()).getValue();
         RowConstraints con = new RowConstraints();
-        con.setMinHeight(gridHeight);
+        con.setPrefHeight(gridHeight);
+        gridVbox.setPrefHeight(gridVbox.getPrefHeight() + gridHeight);
         pictureGrid.getRowConstraints().add(con);
     }
 
@@ -344,6 +300,12 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    //removes the selected images
+    private void clearSelection() {
+        refreshImages();
+        selectedImages.clear();
+    }
+
     /**
      * Take a path, and create a ImageView that fits to a space in the grid
      *
@@ -353,17 +315,18 @@ public class ControllerMain implements Initializable {
         ImageView imageView = new ImageView();
         Image image = new Image(new FileInputStream(path));
         imageView.setImage(image);
-        imageView.fitHeightProperty().bind(scrollPane.heightProperty().divide(pictureGrid.getRowConstraints().size()));
-        imageView.fitWidthProperty().bind(scrollPane.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
+        imageView.fitHeightProperty().bind(gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()));
+        imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
         imageView.setOnMouseClicked(event -> {
             //first click in a series of 2 clicks
             if (time1 == 0) {
                 time1 = System.currentTimeMillis();
                 setSelectedImages(imageView, image, path);
+                showMetadata(event);
             } else {
                 time2 = System.currentTimeMillis();
-                diff = time2-time1;
+                diff = time2 - time1;
                 //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
                 if(diff < 500 && diff > 0) {
                     try {
@@ -426,7 +389,6 @@ public class ControllerMain implements Initializable {
         }
         return rowCount;
     }
-
     //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
     private int getNextColumn() {
         if (photoCount == 0) {
@@ -438,4 +400,33 @@ public class ControllerMain implements Initializable {
         }
         return columnCount++;
     }
+    public void showMetadata(MouseEvent event) {
+        if (!metadataVbox.getChildren().isEmpty()) {
+            metadataVbox.getChildren().clear();
+        }
+        for (String s : databaseClient.getMetaDataFromDatabase(selectedImages.get(0))) {
+            metadataVbox.getChildren().add(new Label(s));
+        }
+        metadataVbox.getChildren().remove(0,2);
+
+    }
+    public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
+        //do this by checking ration of long at latitiude according to image pixel placing
+        //add them to the worldmap view with event listener to check when they're clicked
+        for(int i = 0; i<databaseClient.getColumn("GPS_Longitude").size();i++){
+            //if both are not equal to zero, maybe this should be changed to an or
+            if((double)databaseClient.getColumn("GPS_Longitude").get(i)!= 0.0&&(double)databaseClient.getColumn("GPS_Latitude").get(i)!= 0.0){
+                locations.put((String)databaseClient.getColumn("Path").get(i),""+databaseClient.getColumn("GPS_Longitude").get(i)+","+databaseClient.getColumn("GPS_Latitude").get(i));
+            }
+        }
+
+        Image image = new Image(new FileInputStream("C:/Users/Ingebrigt/Downloads/IMG_3604 (1).png"));
+        ImageView imageView = new ImageView(image);
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
+        worldStage.setScene(new Scene(root));
+        worldStage.setTitle("Map");
+        worldStage.setResizable(false);
+        worldStage.showAndWait();
+    }
 }
+
