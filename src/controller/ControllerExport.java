@@ -19,12 +19,12 @@ public class ControllerExport {
     public static boolean exportSucceed = false;
 
     @FXML
-    private void exportPDF() throws IOException {
+    private void exportPDF() {
         //chooses album location after selecting name
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Choose folder for album");
         //the directory that the file chooser starts in
-        File defaultDirectory = new File("C:/");
+        File defaultDirectory = new File("/");
         chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(null);
         //gets the filename from the user and formats it correctly
