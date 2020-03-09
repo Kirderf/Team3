@@ -363,7 +363,6 @@ public class ControllerMain implements Initializable {
         imageView.setImage(image);
         imageView.fitHeightProperty().bind(gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()));
         imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
-        imageView.maxHeight(100);
         imageView.setPreserveRatio(true);
         imageView.setOnMouseClicked(event -> {
             //first click in a series of 2 clicks
