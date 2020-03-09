@@ -1,6 +1,7 @@
 package controller;
 
 import backend.DatabaseClient;
+import com.drew.lang.annotations.NotNull;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +34,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     @FXML
     private GridPane bigImageGrid;
-
     /**
      * Run 1 time once the window opens
      *
@@ -43,6 +43,11 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBigImage(imageBuffer);
+        if (pathBuffer != null){
+            showMetadata(pathBuffer);
+        }
+
+
     }
 
     private void setBigImage(Image image) {
@@ -52,7 +57,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     @FXML
     private void goToLibrary(ActionEvent event) throws IOException {
+        loadedFromAnotherLocation = true;
         bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
     }
-
 }
