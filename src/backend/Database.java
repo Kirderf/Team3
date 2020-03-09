@@ -57,8 +57,9 @@ public class Database {
      *
      * @param // data to add
      */
-    public boolean addImageToTable(String path, String tags, int file_size, Long date, int image_height, int image_wight, double GPS_Latitude, double GPS_Longitude) throws SQLException {
+    public boolean addImageToTable(String path, String tags, Integer file_size, Long date, Integer image_height, Integer image_wight, Double GPS_Latitude, Double GPS_Longitude) throws SQLException {
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
+        System.out.println();
         PreparedStatement preparedStatement = con.prepareStatement(sql1);
         preparedStatement.setNull(1, 0);
         preparedStatement.setString(2, path);
@@ -72,7 +73,6 @@ public class Database {
         boolean result = !preparedStatement.execute();
         preparedStatement.close();
         return result;
-
     }
 
     /**
@@ -112,7 +112,7 @@ public class Database {
         String sql = "Select " + columnName + " from " + table;
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet result = stmt.executeQuery();
-        ArrayList<Object> arrayList = new ArrayList();
+        ArrayList arrayList = new ArrayList();
         while (result.next()) {
             arrayList.add(result.getObject(columnName));
         }
@@ -133,6 +133,7 @@ public class Database {
         ResultSet rs = stmt.executeQuery();
         //TODO fi bug where this is always false, and the statement is always empty
         if (rs.next()) {
+            System.out.println("inne i rs.next()");
             String[] returnValues = new String[8];
             returnValues[0] = rs.getString(2);
             returnValues[1] = rs.getString(3);

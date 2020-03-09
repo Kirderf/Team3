@@ -24,7 +24,7 @@ public class ControllerExport {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Choose folder for album");
         //the directory that the file chooser starts in
-        File defaultDirectory = new File("C:/");
+        File defaultDirectory = new File("/");
         chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(null);
         //gets the filename from the user and formats it correctly

@@ -1,8 +1,6 @@
 package controller;
 
-import backend.Database;
 import backend.DatabaseClient;
-import backend.ImageExport;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,24 +14,18 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
-import java.security.Key;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -282,7 +274,7 @@ public class ControllerMain implements Initializable {
     private void refreshImages() {
         try {
             clearView();
-            for (Object obj : databaseClient.getData("Path")) {
+            for (Object obj : databaseClient.getColumn("Path")) {
                 if (obj != null && !databaseClient.addedPathsContains((String) obj)) {
                     DatabaseClient.getAddedPaths().add((String) obj);
                     insertImage((String) obj);
@@ -411,15 +403,19 @@ public class ControllerMain implements Initializable {
     }
 
     public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
-        HashMap<String, String> locations = new HashMap<>();
+        HashMap<String,Double> locations = new HashMap<>();
         //TODO make hashmap of strings with their path as key and location
         //TODO add all images with both longitude and longitude
-        //do this by checking ration of long at latitiude according to image pixl placing
+        //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
 
 
-        for(String s : DatabaseClient.getAddedPaths()){
-            System.out.println(Arrays.toString(databaseClient.getMetaDataFromDatabase(s)));
+        for(int i = 0; i<databaseClient.getColumn("GPS_Longitude").size();i++){
+            if((double)databaseClient.getColumn("GPS_Longitude").get(i)!= 0.0){
+                locations.put((String)databaseClient.getColumn("Paths").get(i),(double)databaseClient.getColumn("GPS_Longitude").get(i));
+                //System.out.println(locations.get());
+            }
+            System.out.println("JA");
             //System.out.println((databaseClient.getMetaDataFromDatabase(s)[3]==null && databaseClient.getMetaDataFromDatabase(s)[4]==null)); {
             //locations.put(s, databaseClient.getMetaDataFromDatabase(s)[6]+","+databaseClient.getMetaDataFromDatabase(s)[7]);
             }

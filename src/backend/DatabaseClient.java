@@ -61,7 +61,7 @@ public class DatabaseClient {
      * @return An arraylist of data objects
      * @throws SQLException could not find input from columnName
      */
-    public ArrayList getData(String columnName) throws SQLException {
+    public ArrayList getColumn(String columnName) throws SQLException {
         imageDatabase.openConnection();
         ArrayList arrayList = imageDatabase.getColumn(columnName);
         imageDatabase.closeConnection();
@@ -70,7 +70,7 @@ public class DatabaseClient {
 
     /**
      * Adds a image to database
-     * @param image imagefile to add
+     * @param image image file to add
      * @return if the image was added to database
      */
     public boolean addImage(File image) {
@@ -84,7 +84,7 @@ public class DatabaseClient {
                         imageDatabase.closeConnection();
                         return false;
                     }
-                    if (imageDatabase.addImageToTable(
+                    else if (imageDatabase.addImageToTable(
                             image.getPath(),
                             "",
                             Integer.parseInt(metadata[0]),
