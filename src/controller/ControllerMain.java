@@ -33,6 +33,7 @@ import java.net.URL;
 import java.security.Key;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -416,19 +417,18 @@ public class ControllerMain implements Initializable {
         //do this by checking ration of long at latitiude according to image pixl placing
         //add them to the worldmap view with event listener to check when they're clicked
 
-        /*
+
         for(String s : DatabaseClient.getAddedPaths()){
-            System.out.println(DatabaseClient.getAddedPaths());
-            System.out.println(databaseClient.getMetaDataFromDatabase(s));
-            System.out.println((databaseClient.getMetaDataFromDatabase(s)[3]==null && databaseClient.getMetaDataFromDatabase(s)[4]==null));// {
-              //  locations.put(s, databaseClient.getMetaDataFromDatabase(s)[6]+","+databaseClient.getMetaDataFromDatabase(s)[7]);
-        //    }
-        }*/
-        System.out.println(locations);
+            System.out.println(Arrays.toString(databaseClient.getMetaDataFromDatabase(s)));
+            //System.out.println((databaseClient.getMetaDataFromDatabase(s)[3]==null && databaseClient.getMetaDataFromDatabase(s)[4]==null)); {
+            //locations.put(s, databaseClient.getMetaDataFromDatabase(s)[6]+","+databaseClient.getMetaDataFromDatabase(s)[7]);
+            }
+        //}
+        //System.out.println(locations);
         ImageView imageView = new ImageView();
         Image image = null;
         try {
-            image = new Image(new FileInputStream("sloth.png"));
+            image = new Image(new FileInputStream("C:/Users/Ingebrigt/Pictures/christ.jpg"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
