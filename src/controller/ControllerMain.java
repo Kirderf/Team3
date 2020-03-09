@@ -258,7 +258,6 @@ public class ControllerMain implements Initializable {
             pictureGrid.setGridLinesVisible(true);
         }
         databaseClient.clearPaths();
-
     }
 
     /**
@@ -444,11 +443,16 @@ public class ControllerMain implements Initializable {
                     break;
             }
             i++;
-
         }
-
     }
 
+    /**
+     * When the user clicks on goToMap under library
+     * Checks all the added photos for valid gps data, and places the ones with valid data on the map
+     * @param actionEvent
+     * @throws IOException
+     * @throws SQLException
+     */
     public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
