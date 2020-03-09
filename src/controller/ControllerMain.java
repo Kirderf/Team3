@@ -450,10 +450,37 @@ public class ControllerMain implements Initializable {
         if (!metadataVbox.getChildren().isEmpty()) {
             metadataVbox.getChildren().clear();
         }
-        for (String s : databaseClient.getMetaDataFromDatabase(selectedImages.get(0))) {
-            metadataVbox.getChildren().add(new Label(s));
+        if (selectedImages.size() == 1){
+            int i = 0;
+            for (String s : databaseClient.getMetaDataFromDatabase(selectedImages.get(0))) {
+                switch (i){
+                    case 0:
+                        metadataVbox.getChildren().add(new Label("Path :"+s));
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        metadataVbox.getChildren().add(new Label("File size :"+s));
+                        break;
+                    case 3:
+                        metadataVbox.getChildren().add(new Label("Date :"+s));
+                        break;
+                    case 4:
+                        metadataVbox.getChildren().add(new Label("Height :"+s));
+                        break;
+                    case 5:
+                        metadataVbox.getChildren().add(new Label("Width :"+s));
+                        break;
+                    case 6:
+                        metadataVbox.getChildren().add(new Label("GPS Latitude :"+s));
+                        break;
+                    case 7:
+                        metadataVbox.getChildren().add(new Label("GPS Longitude :"+s));
+                        break;
+                }
+                i++;
+            }
         }
-        metadataVbox.getChildren().remove(0,2);
 
     }
 }
