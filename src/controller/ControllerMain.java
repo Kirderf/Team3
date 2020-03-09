@@ -3,6 +3,8 @@ package controller;
 import backend.DatabaseClient;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -79,12 +81,9 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.log(Level.INFO, "Initializing");
-        pictureGrid.setGridLinesVisible(true);
         pictureGrid.setPrefHeight(initialGridHeight);
         gridVbox.setPrefHeight(initialGridHeight);
         if (loadedFromAnotherLocation) {
-            clearView();
-            databaseClient.clearPaths();
             refreshImages();
             loadedFromAnotherLocation = false;
         }
@@ -236,7 +235,7 @@ public class ControllerMain implements Initializable {
                 exception.printStackTrace();
             }
         }
-        clearSelection();
+        selectedImages.clear();
     }
 
     /**
@@ -268,8 +267,8 @@ public class ControllerMain implements Initializable {
     private void goToLibrary() throws IOException {
         //pictureGrid.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
         //clears the selected images when you press the library button
-        //selectedImages.clear();
-        //refreshImages();
+        selectedImages.clear();
+        refreshImages();
     }
 
     /**
@@ -307,7 +306,10 @@ public class ControllerMain implements Initializable {
      * @param path to image object
      */
     private void insertImage(String path) throws FileNotFoundException {
-        pictureGrid.add(importImage(path), getNextColumn(), getNextRow());
+        int row = getNextRow();
+        int coloumn = getNextColumn();
+        pictureGrid.add(importImage(path), coloumn, row);
+        System.out.println("row"+row+".col"+coloumn);
         photoCount++;
     }
 
@@ -374,7 +376,7 @@ public class ControllerMain implements Initializable {
                 if(diff < 500 && diff > 0) {
                     try {
                         time1 = 0;
-                        clearSelection();
+                        selectedImages.clear();
                         imageView.setImage(image);
                         showBigImage(imageView);
                     } catch (IOException e) {
@@ -404,7 +406,7 @@ public class ControllerMain implements Initializable {
     }
 
     private void showBigImage(ImageView imageView) throws IOException {
-        clearSelection();
+        selectedImages.clear();
         imageBuffer = imageView.getImage();
         Scene scene = pictureGrid.getScene();
         scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
