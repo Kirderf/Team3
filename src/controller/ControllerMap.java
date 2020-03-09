@@ -47,6 +47,7 @@ public class ControllerMap implements Initializable {
         thread.setDaemon(true);
         thread.start();
 
+
     }
 
 }
