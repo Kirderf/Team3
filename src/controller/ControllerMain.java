@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -30,15 +31,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class ControllerMain implements Initializable {
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
+    public static HashMap<String,String> locations = new HashMap<>();
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
     public static Stage searchStage = new Stage();
@@ -67,6 +67,7 @@ public class ControllerMain implements Initializable {
     private VBox gridVbox;
     @FXML
     private VBox metadataVbox;
+
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -89,52 +90,6 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    @FXML
-    public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
-        HashMap<String,Double> locations = new HashMap<>();
-        //TODO make hashmap of strings with their path as key and location
-        //TODO add all images with both longitude and longitude
-        //do this by checking ration of long at latitiude according to image pixel placing
-        //add them to the worldmap view with event listener to check when they're clicked
-
-
-        for(int i = 0; i<databaseClient.getColumn("GPS_Longitude").size();i++){
-            if((double)databaseClient.getColumn("GPS_Longitude").get(i)!= 0.0){
-                locations.put((String)databaseClient.getColumn("Paths").get(i),(double)databaseClient.getColumn("GPS_Longitude").get(i));
-                //System.out.println(locations.get());
-            }
-            System.out.println("JA");
-            //System.out.println((databaseClient.getMetaDataFromDatabase(s)[3]==null && databaseClient.getMetaDataFromDatabase(s)[4]==null)); {
-            //locations.put(s, databaseClient.getMetaDataFromDatabase(s)[6]+","+databaseClient.getMetaDataFromDatabase(s)[7]);
-        }
-        //}
-        //System.out.println(locations);
-        ImageView imageView = new ImageView();
-        Image image = null;
-        try {
-            image = new Image(new FileInputStream("C:/Users/Ingebrigt/Pictures/christ.jpg"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
-        worldStage.setScene(new Scene(root));
-        worldStage.setTitle("Search");
-        worldStage.setResizable(false);
-        worldStage.showAndWait();
-
-        /*
-        Scene scene = pictureGrid.getScene();
-        System.out.println("før resource");
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/World.fxml"));
-        System.out.println("etter resource");
-        worldStage.setScene(new Scene(root));
-        worldStage.setTitle("map of photos");
-        worldStage.setResizable(false);
-        worldStage.showAndWait();
-        */
-
-    }
 
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
@@ -434,7 +389,6 @@ public class ControllerMain implements Initializable {
         }
         return rowCount;
     }
-
     //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
     private int getNextColumn() {
         if (photoCount == 0) {
@@ -483,4 +437,23 @@ public class ControllerMain implements Initializable {
         }
 
     }
+    public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
+        //do this by checking ration of long at latitiude according to image pixel placing
+        //add them to the worldmap view with event listener to check when they're clicked
+        for(int i = 0; i<databaseClient.getColumn("GPS_Longitude").size();i++){
+            //if both are not equal to zero, maybe this should be changed to an or
+            if((double)databaseClient.getColumn("GPS_Longitude").get(i)!= 0.0&&(double)databaseClient.getColumn("GPS_Latitude").get(i)!= 0.0){
+                locations.put((String)databaseClient.getColumn("Path").get(i),""+databaseClient.getColumn("GPS_Longitude").get(i)+","+databaseClient.getColumn("GPS_Latitude").get(i));
+            }
+        }
+
+        Image image = new Image(new FileInputStream("C:/Users/Ingebrigt/Downloads/IMG_3604 (1).png"));
+        ImageView imageView = new ImageView(image);
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
+        worldStage.setScene(new Scene(root));
+        worldStage.setTitle("Map");
+        worldStage.setResizable(false);
+        worldStage.showAndWait();
+    }
 }
+

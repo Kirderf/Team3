@@ -52,7 +52,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     @FXML
     private void goToLibrary(ActionEvent event) throws IOException {
-        ControllerMain.loadedFromAnotherLocation = true;
         bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
     }
 
