@@ -25,7 +25,7 @@ public class ImageImport {
     private int noOfData = interestingMetadata.size();
     //needs to be all lowercase, update if we accept other file types
     private List<String> validImageExtensions = Arrays.asList(".jpg",".png",".jpeg");
-    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
 
     /**
      * Checks whether a file is an image or not based on the extension, validImageExtions contains all file extensions that are valid
