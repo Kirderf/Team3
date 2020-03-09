@@ -39,7 +39,7 @@ public class DatabaseClient {
     }
 
     public boolean closeConnection() throws SQLException {
-        return imageDatabase.closeConnection();
+        return imageDatabase.close();
     }
 
     /**
@@ -68,7 +68,7 @@ public class DatabaseClient {
     public ArrayList getColumn(String columnName) throws SQLException {
         imageDatabase.openConnection();
         ArrayList arrayList = imageDatabase.getColumn(columnName);
-        imageDatabase.closeConnection();
+        imageDatabase.close();
         return arrayList;
     }
 
@@ -86,7 +86,7 @@ public class DatabaseClient {
                 try {
                     if (addedPathsContains(image.getPath())) {
                         System.out.println("test");
-                        imageDatabase.closeConnection();
+                        imageDatabase.close();
                         return false;
                     }
                     if (imageDatabase.addImageToTable(
@@ -99,12 +99,12 @@ public class DatabaseClient {
                             Double.parseDouble(metadata[4]),
                             Double.parseDouble(metadata[5]))) {
                     }
-                    imageDatabase.closeConnection();
+                    imageDatabase.close();
                     return true;
                 } catch (SQLIntegrityConstraintViolationException ignored) {
                     System.out.println("Already in database");
                 }
-                imageDatabase.closeConnection();
+                imageDatabase.close();
                 return false;
             }
         } catch (ImageProcessingException | IOException | SQLException e) {
@@ -142,7 +142,7 @@ public class DatabaseClient {
         try {
             imageDatabase.openConnection();
             result = imageDatabase.getImageMetadata(path);
-            imageDatabase.closeConnection();
+            imageDatabase.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -160,7 +160,7 @@ public class DatabaseClient {
     public boolean addTag(String path, String[] tag) throws SQLException {
         imageDatabase.openConnection();
         boolean result = imageDatabase.addTags(path, tag);
-        imageDatabase.closeConnection();
+        imageDatabase.close();
         return result;
     }
 
@@ -175,7 +175,7 @@ public class DatabaseClient {
     public boolean removeTag(String path, String[] tags) throws SQLException {
         imageDatabase.openConnection();
         boolean result = imageDatabase.removeTag(path, tags);
-        imageDatabase.closeConnection();
+        imageDatabase.close();
         return result;
     }
 
@@ -191,14 +191,14 @@ public class DatabaseClient {
     public ArrayList<String> search(String searchFor, String searchIn) throws SQLException {
         imageDatabase.openConnection();
         ArrayList result = imageDatabase.search(searchFor, searchIn);
-        imageDatabase.closeConnection();
+        imageDatabase.close();
         return result;
     }
 
     public ArrayList<String> sort(String sortBy, boolean ascending) throws SQLException {
         imageDatabase.openConnection();
         ArrayList<String> result = imageDatabase.sortBy(sortBy, ascending);
-        imageDatabase.closeConnection();
+        imageDatabase.close();
         return result;
     }
 }

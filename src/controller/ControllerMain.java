@@ -8,12 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
@@ -22,7 +23,9 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,27 +36,6 @@ import java.util.logging.Logger;
 
 
 public class ControllerMain implements Initializable {
-    @FXML
-    private ScrollPane metadataScroll;
-
-    @FXML
-    private ScrollPane tagsScroll;
-
-    @FXML
-    private GridPane pictureGrid;
-
-    @FXML
-    private ComboBox<?> sortDropDown;
-
-    @FXML
-    private TextArea pathDisplay;
-
-    @FXML
-    private VBox gridVbox;
-
-    @FXML
-    private VBox metadataVbox;
-
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
@@ -61,18 +43,52 @@ public class ControllerMain implements Initializable {
     public static Stage exportStage = new Stage();
     public static Stage worldStage = new Stage();
     public static Image imageBuffer;
-    private int photoCount = 0;
-    private int rowCount = 0;
-    private int columnCount = 0;
-    private final double initialGridHeight = 185;
     public static boolean loadedFromAnotherLocation = false;
     public static ArrayList<String> selectedImages = new ArrayList<String>();
-    private final FileChooser fc = new FileChooser();
     private static boolean ascending = true;
+    private final double initialGridHeight = 185;
+    private final FileChooser fc = new FileChooser();
     long time1 = 0;
     long time2 = 0;
     long diff = 0;
+    @FXML
+    private ScrollPane metadataScroll;
+    @FXML
+    private ScrollPane tagsScroll;
+    @FXML
+    private GridPane pictureGrid;
+    @FXML
+    private ComboBox<?> sortDropDown;
+    @FXML
+    private TextArea pathDisplay;
+    @FXML
+    private VBox gridVbox;
+    @FXML
+    private VBox metadataVbox;
+    private int photoCount = 0;
+    private int rowCount = 0;
+    private int columnCount = 0;
 
+    /**
+     * tints the selected images blue
+     *
+     * @param image the image that you want to tint
+     * @param color colour, this should be blue
+     */
+    private static void tint(BufferedImage image, Color color) {
+        //stolen from https://stackoverflow.com/a/36744345
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                Color pixelColor = new Color(image.getRGB(x, y), true);
+                int r = (pixelColor.getRed() + color.getRed()) / 2;
+                int g = (pixelColor.getGreen() + color.getGreen()) / 2;
+                int b = (pixelColor.getBlue() + color.getBlue()) / 2;
+                int a = pixelColor.getAlpha();
+                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
+                image.setRGB(x, y, rgba);
+            }
+        }
+    }
 
     /**
      * Run 1 time once the window opens
@@ -306,27 +322,6 @@ public class ControllerMain implements Initializable {
         pictureGrid.getRowConstraints().add(con);
     }
 
-    /**
-     * tints the selected images blue
-     *
-     * @param image the image that you want to tint
-     * @param color colour, this should be blue
-     */
-    private static void tint(BufferedImage image, Color color) {
-        //stolen from https://stackoverflow.com/a/36744345
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Color pixelColor = new Color(image.getRGB(x, y), true);
-                int r = (pixelColor.getRed() + color.getRed()) / 2;
-                int g = (pixelColor.getGreen() + color.getGreen()) / 2;
-                int b = (pixelColor.getBlue() + color.getBlue()) / 2;
-                int a = pixelColor.getAlpha();
-                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
-                image.setRGB(x, y, rgba);
-            }
-        }
-    }
-
     //removes the selected images
     private void clearSelection() {
         refreshImages();
@@ -350,11 +345,12 @@ public class ControllerMain implements Initializable {
             if (time1 == 0) {
                 time1 = System.currentTimeMillis();
                 setSelectedImages(imageView, image, path);
+                showMetadata(event);
             } else {
                 time2 = System.currentTimeMillis();
-                diff = time2-time1;
+                diff = time2 - time1;
                 //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
-                if(diff < 250 && diff > 0) {
+                if (diff < 250 && diff > 0) {
                     try {
                         time1 = 0;
                         clearSelection();
@@ -403,22 +399,22 @@ public class ControllerMain implements Initializable {
     }
 
     public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
-        HashMap<String,Double> locations = new HashMap<>();
+        HashMap<String, Double> locations = new HashMap<>();
         //TODO make hashmap of strings with their path as key and location
         //TODO add all images with both longitude and longitude
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
 
 
-        for(int i = 0; i<databaseClient.getColumn("GPS_Longitude").size();i++){
-            if((double)databaseClient.getColumn("GPS_Longitude").get(i)!= 0.0){
-                locations.put((String)databaseClient.getColumn("Paths").get(i),(double)databaseClient.getColumn("GPS_Longitude").get(i));
+        for (int i = 0; i < databaseClient.getColumn("GPS_Longitude").size(); i++) {
+            if ((double) databaseClient.getColumn("GPS_Longitude").get(i) != 0.0) {
+                locations.put((String) databaseClient.getColumn("Paths").get(i), (double) databaseClient.getColumn("GPS_Longitude").get(i));
                 //System.out.println(locations.get());
             }
             System.out.println("JA");
             //System.out.println((databaseClient.getMetaDataFromDatabase(s)[3]==null && databaseClient.getMetaDataFromDatabase(s)[4]==null)); {
             //locations.put(s, databaseClient.getMetaDataFromDatabase(s)[6]+","+databaseClient.getMetaDataFromDatabase(s)[7]);
-            }
+        }
         //}
         //System.out.println(locations);
         ImageView imageView = new ImageView();
@@ -445,6 +441,17 @@ public class ControllerMain implements Initializable {
         worldStage.setResizable(false);
         worldStage.showAndWait();
         */
+
+    }
+
+    public void showMetadata(MouseEvent event) {
+        if (!metadataVbox.getChildren().isEmpty()) {
+            metadataVbox.getChildren().clear();
+        }
+        for (String s : databaseClient.getMetaDataFromDatabase(selectedImages.get(0))) {
+            metadataVbox.getChildren().add(new Label(s));
+        }
+        metadataVbox.getChildren().remove(0,2);
 
     }
 }

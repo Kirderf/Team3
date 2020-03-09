@@ -8,19 +8,25 @@ import java.util.logging.Logger;
 
 //TODO: add javadoc
 
+/**
+ * @author Fredrik Julsen
+ */
 public class Database {
     private static final Logger logger = Logger.getLogger(Database.class.getName());
     Random random = new Random();
     int upperBound = 10000000;
     String table = "fredrjul_" + random.nextInt(upperBound);
     Connection con = null;
+    ResultSet resultSet = null;
+    PreparedStatement statement =null;
+    Statement stmt = null;
 
     public Database() {
         logger.log(Level.INFO, "Creating Database object");
         try {
             openConnection();
             createTable();
-            closeConnection();
+            close();
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getLocalizedMessage());
             System.exit(0);
@@ -32,7 +38,7 @@ public class Database {
      */
     private boolean regTable() throws SQLException {
         logger.log(Level.INFO, table);
-        PreparedStatement stmt = con.prepareStatement(
+        statement = con.prepareStatement(
                 "CREATE TABLE " + table + " (\n" +
                         "ImageID int AUTO_INCREMENT,\n" +
                         "Path varchar(255) UNIQUE ,\n" +
@@ -44,7 +50,7 @@ public class Database {
                         "GPS_Latitude double(17,15),\n" +
                         "GPS_Longitude double(17,15),\n" +
                         "PRIMARY KEY (ImageID));");
-        return !stmt.execute();
+        return !statement.execute();
     }
 
     /**
@@ -55,18 +61,18 @@ public class Database {
      */
     public boolean addImageToTable(String path, String tags, int file_size, Long date, int image_height, int image_wight, double GPS_Latitude, double GPS_Longitude) throws SQLException {
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
-        PreparedStatement preparedStatement = con.prepareStatement(sql1);
-        preparedStatement.setNull(1, 0);
-        preparedStatement.setString(2, path);
-        preparedStatement.setString(3, tags);
-        preparedStatement.setInt(4, file_size);
-        preparedStatement.setLong(5, date);
-        preparedStatement.setInt(6, image_height);
-        preparedStatement.setInt(7, image_wight);
-        preparedStatement.setDouble(8, GPS_Latitude);
-        preparedStatement.setDouble(9, GPS_Longitude);
-        boolean result = !preparedStatement.execute();
-        preparedStatement.close();
+        statement = con.prepareStatement(sql1);
+        statement.setNull(1, 0);
+        statement.setString(2, path);
+        statement.setString(3, tags);
+        statement.setInt(4, file_size);
+        statement.setLong(5, date);
+        statement.setInt(6, image_height);
+        statement.setInt(7, image_wight);
+        statement.setDouble(8, GPS_Latitude);
+        statement.setDouble(9, GPS_Longitude);
+        boolean result = !statement.execute();
+        statement.close();
         return result;
 
     }
@@ -80,8 +86,8 @@ public class Database {
     public StringBuilder getTags(String path) throws SQLException {
         logger.log(Level.INFO, "getting Tags");
         String sql = "SELECT * FROM " + table + " WHERE " + table + ".ImageID = " + findImage(path);
-        Statement statement = con.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+        stmt = con.createStatement();
+        resultSet = stmt.executeQuery(sql);
         if (resultSet.next()) {
             return new StringBuilder(resultSet.getString(3));
         }
@@ -94,8 +100,8 @@ public class Database {
         for (String string : tags) {
             oldtags.append(",").append(string);
         }
-        PreparedStatement statement1 = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
-        return !statement1.execute();
+        statement = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
+        return !statement.execute();
     }
 
     /**
@@ -108,11 +114,11 @@ public class Database {
     public ArrayList getColumn(String columnName) throws SQLException {
         logger.log(Level.INFO, "getting Column");
         String sql = "Select " + columnName + " from " + table;
-        PreparedStatement stmt = con.prepareStatement(sql);
-        ResultSet result = stmt.executeQuery();
+        statement = con.prepareStatement(sql);
+        resultSet = statement.executeQuery();
         ArrayList<Object> arrayList = new ArrayList();
-        while (result.next()) {
-            arrayList.add(result.getObject(columnName));
+        while (resultSet.next()) {
+            arrayList.add(resultSet.getObject(columnName));
         }
         return arrayList;
     }
@@ -127,11 +133,10 @@ public class Database {
     public String[] getImageMetadata(String path) throws SQLException {
         logger.log(Level.INFO, "getting ImageMetadata");
         String sql = "SELECT * FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path + "%' LIMIT 1";
-        PreparedStatement stmt = con.prepareStatement(sql);
-        ResultSet rs = stmt.executeQuery();
+        statement = con.prepareStatement(sql);
+        ResultSet rs = statement.executeQuery();
         //TODO fi bug where this is always false, and the statement is always empty
         if (rs.next()) {
-            System.out.println("HEllo");
             String[] returnValues = new String[8];
             returnValues[0] = rs.getString(2);
             returnValues[1] = rs.getString(3);
@@ -157,9 +162,9 @@ public class Database {
      */
     public boolean isTableInDatabase(String tableName) throws SQLException {
         logger.log(Level.INFO, "Checking if table in database");
-        PreparedStatement stmt = con.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'fredrjul_ImageApp' AND table_name = " + "\'" + table + "\'" +
+        statement = con.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'fredrjul_ImageApp' AND table_name = " + "\'" + table + "\'" +
                 "");
-        return stmt.executeQuery().next();
+        return statement.executeQuery().next();
     }
 
     /**
@@ -196,30 +201,30 @@ public class Database {
      */
     public boolean deleteTable() throws SQLException {
         String sql = "DROP TABLE " + table;
-        PreparedStatement stmt = con.prepareStatement(sql);
-        return stmt.execute();
+        statement = con.prepareStatement(sql);
+        return statement.execute();
     }
 
     public boolean deleteFromDatabase(String path) throws SQLException {
         String sql = "DELETE FROM " + table + " WHERE " + table + ".ImageID=" + findImage(path);
-        PreparedStatement preparedStatement = con.prepareStatement(sql);
-        return !preparedStatement.execute();
+        statement = con.prepareStatement(sql);
+        return !statement.execute();
     }
 
     public int findImage(String path) throws SQLException {
         logger.log(Level.INFO, "Finding image");
         String sql = "SELECT * FROM " + table + "\n" +
                 "WHERE " + table + ".Path" + " LIKE '%" + path + "%'";
-        Statement statement = con.createStatement();
-        ResultSet rs = statement.executeQuery(sql);
-        if (!rs.next()) {
+        stmt = con.createStatement();
+        resultSet = stmt.executeQuery(sql);
+        if (!resultSet.next()) {
             return 0;
         } else {
             do {
-                if (rs.getString(2).equalsIgnoreCase(path)) {
-                    return rs.getInt(1);
+                if (resultSet.getString(2).equalsIgnoreCase(path)) {
+                    return resultSet.getInt(1);
                 }
-            } while (rs.next());
+            } while (resultSet.next());
         }
         return 0;
     }
@@ -243,14 +248,26 @@ public class Database {
      *
      * @throws SQLException
      */
-    public boolean closeConnection() throws SQLException {
-
+    public boolean close() throws SQLException {
+        boolean closed = false;
         if (con != null) {
             con.close();
-            return con.isClosed();
-        } else {
-            return false;
+            closed = true;
         }
+        if (resultSet != null){
+            resultSet.close();
+            closed = true;
+        }
+        if (stmt != null) {
+            stmt.close();
+            closed = true;
+        }
+        if (statement != null){
+            statement.close();
+            closed = true;
+        }
+        return closed;
+
     }
 
     /**
@@ -267,7 +284,7 @@ public class Database {
                 System.out.println("Didnt delete table");
             }
         }
-        return closeConnection();
+        return close();
     }
 
     /**
@@ -285,18 +302,18 @@ public class Database {
             if (isTableInDatabase(columnName)) {
                 if (ascending) {
                     String sql = "SELECT " + " Path " + " from " + table + " ORDER BY " + columnName + " ASC";
-                    PreparedStatement stmt = con.prepareStatement(sql);
-                    ResultSet result = stmt.executeQuery();
-                    while (result.next()) {
-                        arrayList.add(result.getString("Path"));
+                    statement = con.prepareStatement(sql);
+                    resultSet = statement.executeQuery();
+                    while (resultSet.next()) {
+                        arrayList.add(resultSet.getString("Path"));
                     }
                     return arrayList;
                 } else {
                     String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " + columnName + " DESC";
-                    PreparedStatement stmt = con.prepareStatement(sql);
-                    ResultSet result = stmt.executeQuery();
-                    while (result.next()) {
-                        arrayList.add(result.getString("Path"));
+                    statement = con.prepareStatement(sql);
+                    resultSet = statement.executeQuery();
+                    while (resultSet.next()) {
+                        arrayList.add(resultSet.getString("Path"));
                     }
                     return arrayList;
                 }
@@ -330,8 +347,8 @@ public class Database {
             //if a word between two others is selected then a single comma is removed
             oldtags.replace((index == 0) ? index : index - 1, (index == 0) ? index + string.length() + 1 : index + string.length(), "");
         }
-        PreparedStatement statement1 = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
-        return !statement1.execute();
+        statement = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
+        return !statement.execute();
     }
 
     /**
@@ -353,10 +370,10 @@ public class Database {
                 sql = "SELECT * FROM " + table + " WHERE File_size LIKE " + "'%" + searchFor + "%' or DATE LIKE " + "'%" + searchFor + "%' or Height LIKE " + "'%" + searchFor + "%' or Width LIKE " + "'%" + searchFor + "%' or GPS_Longitude LIKE '%" + searchFor + "%' or GPS_Latitude LIKE '%" + searchFor + "%'";
                 System.out.println(sql);
             }
-            PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet result = stmt.executeQuery();
-            while (result.next()) {
-                searchResults.add((String) result.getObject("Path"));
+            statement = con.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                searchResults.add((String) resultSet.getObject("Path"));
             }
             return searchResults;
         } catch (Exception e) {
