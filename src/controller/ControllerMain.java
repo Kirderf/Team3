@@ -3,8 +3,7 @@ package controller;
 import backend.DatabaseClient;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,7 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -31,20 +29,23 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class ControllerMain implements Initializable {
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
-    public static HashMap<String,String> locations = new HashMap<>();
+    public static HashMap<String, String> locations = new HashMap<>();
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
     public static Stage searchStage = new Stage();
     public static Stage exportStage = new Stage();
     public static Stage worldStage = new Stage();
-    public static Image imageBuffer;
+    protected static Image imageBuffer;
+    protected static String pathBuffer;
     public static boolean loadedFromAnotherLocation = false;
     public static ArrayList<String> selectedImages = new ArrayList<String>();
     private static boolean ascending = true;
@@ -72,6 +73,26 @@ public class ControllerMain implements Initializable {
     private int rowCount = 0;
     private int columnCount = 0;
 
+    /**
+     * tints the selected images blue
+     *
+     * @param image the image that you want to tint
+     * @param color colour, this should be blue
+     */
+    private static void tint(BufferedImage image, Color color) {
+        //stolen from https://stackoverflow.com/a/36744345
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                Color pixelColor = new Color(image.getRGB(x, y), true);
+                int r = (pixelColor.getRed() + color.getRed()) / 2;
+                int g = (pixelColor.getGreen() + color.getGreen()) / 2;
+                int b = (pixelColor.getBlue() + color.getBlue()) / 2;
+                int a = pixelColor.getAlpha();
+                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
+                image.setRGB(x, y, rgba);
+            }
+        }
+    }
 
     /**
      * Run 1 time once the window opens
@@ -89,7 +110,6 @@ public class ControllerMain implements Initializable {
             loadedFromAnotherLocation = false;
         }
     }
-
 
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
@@ -219,7 +239,7 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    private void goToLibrary() throws IOException {
+    protected void goToLibrary() throws IOException {
         //pictureGrid.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
         //clears the selected images when you press the library button
         selectedImages.clear();
@@ -233,15 +253,18 @@ public class ControllerMain implements Initializable {
         rowCount = 0;
         columnCount = 0;
         photoCount = 0;
-        pictureGrid.getChildren().clear();
-        pictureGrid.setGridLinesVisible(true);
+        if (pictureGrid != null) {
+            pictureGrid.getChildren().clear();
+            pictureGrid.setGridLinesVisible(true);
+        }
         databaseClient.clearPaths();
+
     }
 
     /**
      * Refresh Start UI
      */
-    private void refreshImages() {
+    protected void refreshImages() {
         try {
             clearView();
             for (Object obj : databaseClient.getColumn("Path")) {
@@ -264,7 +287,7 @@ public class ControllerMain implements Initializable {
         int row = getNextRow();
         int coloumn = getNextColumn();
         pictureGrid.add(importImage(path), coloumn, row);
-        System.out.println("row"+row+".col"+coloumn);
+        System.out.println("row" + row + ".col" + coloumn);
         photoCount++;
     }
 
@@ -277,27 +300,6 @@ public class ControllerMain implements Initializable {
         con.setPrefHeight(gridHeight);
         gridVbox.setPrefHeight(gridVbox.getPrefHeight() + gridHeight);
         pictureGrid.getRowConstraints().add(con);
-    }
-
-    /**
-     * tints the selected images blue
-     *
-     * @param image the image that you want to tint
-     * @param color colour, this should be blue
-     */
-    private static void tint(BufferedImage image, Color color) {
-        //stolen from https://stackoverflow.com/a/36744345
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Color pixelColor = new Color(image.getRGB(x, y), true);
-                int r = (pixelColor.getRed() + color.getRed()) / 2;
-                int g = (pixelColor.getGreen() + color.getGreen()) / 2;
-                int b = (pixelColor.getBlue() + color.getBlue()) / 2;
-                int a = pixelColor.getAlpha();
-                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
-                image.setRGB(x, y, rgba);
-            }
-        }
     }
 
     //removes the selected images
@@ -318,22 +320,27 @@ public class ControllerMain implements Initializable {
         imageView.fitHeightProperty().bind(gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()));
         imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
-        imageView.setOnMouseClicked(event -> {
+        imageView.setOnMouseClicked(onImageClickedEvent(imageView,image,path));
+        return imageView;
+    }
+    private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView,Image image,String path){
+        return (EventHandler<MouseEvent>) event -> {
+
             //first click in a series of 2 clicks
             if (time1 == 0) {
                 time1 = System.currentTimeMillis();
                 setSelectedImages(imageView, image, path);
-                showMetadata(event);
+                showMetadata(null);
             } else {
                 time2 = System.currentTimeMillis();
                 diff = time2 - time1;
                 //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
-                if(diff < 500 && diff > 0) {
+                if (diff < 500 && diff > 0) {
                     try {
                         time1 = 0;
                         selectedImages.clear();
                         imageView.setImage(image);
-                        showBigImage(imageView);
+                        showBigImage(imageView,path);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -341,10 +348,10 @@ public class ControllerMain implements Initializable {
                     //otherwise the second click is registered as a single click
                     time1 = 0;
                     setSelectedImages(imageView, image, path);
+                    showMetadata(null);
                 }
             }
-        });
-        return imageView;
+        };
     }
 
     private void setSelectedImages(ImageView imageView, Image image, String path) {
@@ -360,20 +367,12 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    private void showBigImage(ImageView imageView) throws IOException {
+    private void showBigImage(ImageView imageView,String path) throws IOException {
         selectedImages.clear();
+        pathBuffer = path;
         imageBuffer = imageView.getImage();
         Scene scene = pictureGrid.getScene();
         scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
-    }
-
-    private void getMetadata(Image image) {
-        System.out.println(image.impl_getUrl());
-        String[] metadata = databaseClient.getMetaDataFromDatabase(image.impl_getUrl());
-        for (String string : metadata) {
-            metadataVbox.getChildren().add(new Label(string));
-
-        }
     }
 
     //for every 5th picture the row will increase in value
@@ -389,6 +388,7 @@ public class ControllerMain implements Initializable {
         }
         return rowCount;
     }
+
     //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
     private int getNextColumn() {
         if (photoCount == 0) {
@@ -400,55 +400,64 @@ public class ControllerMain implements Initializable {
         }
         return columnCount++;
     }
-    public void showMetadata(MouseEvent event) {
+
+    public void showMetadata(String imagePath) {
+        String path;
         if (!metadataVbox.getChildren().isEmpty()) {
             metadataVbox.getChildren().clear();
         }
-        if (selectedImages.size() == 1){
-            int i = 0;
-            for (String s : databaseClient.getMetaDataFromDatabase(selectedImages.get(0))) {
-                switch (i){
-                    case 0:
-                        metadataVbox.getChildren().add(new Label("Path :"+s));
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        metadataVbox.getChildren().add(new Label("File size :"+s));
-                        break;
-                    case 3:
-                        metadataVbox.getChildren().add(new Label("Date :"+s));
-                        break;
-                    case 4:
-                        metadataVbox.getChildren().add(new Label("Height :"+s));
-                        break;
-                    case 5:
-                        metadataVbox.getChildren().add(new Label("Width :"+s));
-                        break;
-                    case 6:
-                        metadataVbox.getChildren().add(new Label("GPS Latitude :"+s));
-                        break;
-                    case 7:
-                        metadataVbox.getChildren().add(new Label("GPS Longitude :"+s));
-                        break;
-                }
-                i++;
+        if (imagePath != null) {
+            path = imagePath;
+        } else if (selectedImages.size() != 0) {
+            path = selectedImages.get(0);
+        } else {
+            return;
+        }
+        if (path == null) {
+            return;
+        }
+        int i = 0;
+        for (String s : databaseClient.getMetaDataFromDatabase(path)) {
+            switch (i) {
+                case 0:
+                    metadataVbox.getChildren().add(new Label("Path :" + s));
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    metadataVbox.getChildren().add(new Label("File size :" + s));
+                    break;
+                case 3:
+                    metadataVbox.getChildren().add(new Label("Date :" + s));
+                    break;
+                case 4:
+                    metadataVbox.getChildren().add(new Label("Height :" + s));
+                    break;
+                case 5:
+                    metadataVbox.getChildren().add(new Label("Width :" + s));
+                    break;
+                case 6:
+                    metadataVbox.getChildren().add(new Label("GPS Latitude :" + s));
+                    break;
+                case 7:
+                    metadataVbox.getChildren().add(new Label("GPS Longitude :" + s));
+                    break;
             }
+            i++;
+
         }
 
     }
+
     public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
-        for(int i = 0; i<databaseClient.getColumn("GPS_Longitude").size();i++){
+        for (int i = 0; i < databaseClient.getColumn("GPS_Longitude").size(); i++) {
             //if both are not equal to zero, maybe this should be changed to an or
-            if((double)databaseClient.getColumn("GPS_Longitude").get(i)!= 0.0&&(double)databaseClient.getColumn("GPS_Latitude").get(i)!= 0.0){
-                locations.put((String)databaseClient.getColumn("Path").get(i),""+databaseClient.getColumn("GPS_Longitude").get(i)+","+databaseClient.getColumn("GPS_Latitude").get(i));
+            if ((double) databaseClient.getColumn("GPS_Longitude").get(i) != 0.0 && (double) databaseClient.getColumn("GPS_Latitude").get(i) != 0.0) {
+                locations.put((String) databaseClient.getColumn("Path").get(i), "" + databaseClient.getColumn("GPS_Longitude").get(i) + "," + databaseClient.getColumn("GPS_Latitude").get(i));
             }
         }
-
-        Image image = new Image(new FileInputStream("C:/Users/Ingebrigt/Downloads/IMG_3604 (1).png"));
-        ImageView imageView = new ImageView(image);
         Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
         worldStage.setScene(new Scene(root));
         worldStage.setTitle("Map");
