@@ -1,8 +1,12 @@
 package backend;
 
+import javafx.stage.FileChooser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,6 +16,7 @@ class DatabaseClientTest {
     void setUp() {
         database = new DatabaseClient();
     }
+
 
     @AfterEach
     void tearDown() {
@@ -27,6 +32,8 @@ class DatabaseClientTest {
 
     @Test
     void addImage() {
+        File file = new File("resources/worldmap.png");
+        assertTrue(database.addImage(file));
     }
 
     @Test
@@ -41,4 +48,5 @@ class DatabaseClientTest {
     @Test
     void addTag() {
     }
+
 }

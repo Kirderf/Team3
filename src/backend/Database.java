@@ -1,9 +1,5 @@
 package backend;
 
-import com.sun.corba.se.spi.monitoring.StatisticMonitoredAttribute;
-import javafx.beans.binding.StringBinding;
-
-import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,13 +16,13 @@ public class Database {
     Connection con = null;
 
     public Database() {
-        logger.log(Level.INFO,"Creating Database object");
+        logger.log(Level.INFO, "Creating Database object");
         try {
             openConnection();
             createTable();
             closeConnection();
         } catch (SQLException e) {
-            logger.log(Level.SEVERE,e.getLocalizedMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage());
             System.exit(0);
         }
     }
@@ -35,7 +31,7 @@ public class Database {
      * This method is going to create a new database table and declare a variable to the rest of the class
      */
     private boolean regTable() throws SQLException {
-        logger.log(Level.INFO,table);
+        logger.log(Level.INFO, table);
         PreparedStatement stmt = con.prepareStatement(
                 "CREATE TABLE " + table + " (\n" +
                         "ImageID int AUTO_INCREMENT,\n" +
@@ -77,26 +73,28 @@ public class Database {
 
     /**
      * Only use if getting for one image. For getting all tags from all images use getData
+     *
      * @param path
      * @return String
      */
     public StringBuilder getTags(String path) throws SQLException {
-        logger.log(Level.INFO,"getting Tags");
-        String sql = "SELECT * FROM "+table+" WHERE "+table+".ImageID = "+findImage(path);
+        logger.log(Level.INFO, "getting Tags");
+        String sql = "SELECT * FROM " + table + " WHERE " + table + ".ImageID = " + findImage(path);
         Statement statement = con.createStatement();
-        ResultSet resultSet =statement.executeQuery(sql);
-        if (resultSet.next()){
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (resultSet.next()) {
             return new StringBuilder(resultSet.getString(3));
         }
         return new StringBuilder("");
     }
-    public boolean addTags(String path,String[] tags) throws SQLException {
-        logger.log(Level.INFO,"Adding Tags");
+
+    public boolean addTags(String path, String[] tags) throws SQLException {
+        logger.log(Level.INFO, "Adding Tags");
         StringBuilder oldtags = getTags(path);
         for (String string : tags) {
             oldtags.append(",").append(string);
         }
-        PreparedStatement statement1 = con.prepareStatement("UPDATE fredrjul_ImageApp."+table+" SET fredrjul_ImageApp."+table+".Tags = '"+oldtags+"' WHERE fredrjul_ImageApp."+table+".ImageID = "+findImage(path));
+        PreparedStatement statement1 = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
         return !statement1.execute();
     }
 
@@ -108,7 +106,7 @@ public class Database {
      * @throws SQLException
      */
     public ArrayList getColumn(String columnName) throws SQLException {
-        logger.log(Level.INFO,"getting Column");
+        logger.log(Level.INFO, "getting Column");
         String sql = "Select " + columnName + " from " + table;
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet result = stmt.executeQuery();
@@ -127,12 +125,13 @@ public class Database {
      * @throws SQLException
      */
     public String[] getImageMetadata(String path) throws SQLException {
-        logger.log(Level.INFO,"getting ImageMetadata");
+        logger.log(Level.INFO, "getting ImageMetadata");
         String sql = "SELECT * FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path + "%' LIMIT 1";
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
         //TODO fi bug where this is always false, and the statement is always empty
         if (rs.next()) {
+            System.out.println("HEllo");
             String[] returnValues = new String[8];
             returnValues[0] = rs.getString(2);
             returnValues[1] = rs.getString(3);
@@ -157,7 +156,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean isTableInDatabase(String tableName) throws SQLException {
-        logger.log(Level.INFO,"Checking if table in database");
+        logger.log(Level.INFO, "Checking if table in database");
         PreparedStatement stmt = con.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'fredrjul_ImageApp' AND table_name = " + "\'" + table + "\'" +
                 "");
         return stmt.executeQuery().next();
@@ -181,7 +180,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean createTable() throws SQLException {
-        logger.log(Level.INFO,"Creating Table");
+        logger.log(Level.INFO, "Creating Table");
         while (isTableInDatabase(table)) {
             table = "fredrjul_" + random.nextInt(upperBound);
         }
@@ -208,7 +207,7 @@ public class Database {
     }
 
     public int findImage(String path) throws SQLException {
-        logger.log(Level.INFO,"Finding image");
+        logger.log(Level.INFO, "Finding image");
         String sql = "SELECT * FROM " + table + "\n" +
                 "WHERE " + table + ".Path" + " LIKE '%" + path + "%'";
         Statement statement = con.createStatement();
@@ -273,26 +272,26 @@ public class Database {
 
     /**
      * columnname is the column the table is to be sorted by, the method then returns an arraylist with the paths in ascending or descending order
+     *
      * @param columnName name of the column that is to be sorted by
-     * @param ascending boolean whether or smallest or the largest values are to be at the top
+     * @param ascending  boolean whether or smallest or the largest values are to be at the top
      * @return arraylist with the all of the paths in the database in correct order
      * @throws SQLException
      * @author Ingebrigt
      */
-    public ArrayList<String> sortBy(String columnName, boolean ascending) throws SQLException{
+    public ArrayList<String> sortBy(String columnName, boolean ascending) throws SQLException {
         ArrayList<String> arrayList = new ArrayList<>();
         try {
             if (isTableInDatabase(columnName)) {
-                if(ascending){
-                    String sql = "SELECT " + " Path " + " from " + table + " ORDER BY " +columnName+ " ASC";
+                if (ascending) {
+                    String sql = "SELECT " + " Path " + " from " + table + " ORDER BY " + columnName + " ASC";
                     PreparedStatement stmt = con.prepareStatement(sql);
                     ResultSet result = stmt.executeQuery();
                     while (result.next()) {
                         arrayList.add(result.getString("Path"));
                     }
                     return arrayList;
-                }
-                else{
+                } else {
                     String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " + columnName + " DESC";
                     PreparedStatement stmt = con.prepareStatement(sql);
                     ResultSet result = stmt.executeQuery();
@@ -310,6 +309,7 @@ public class Database {
 
     /**
      * removes all the tag in the given array
+     *
      * @param path path of the file that you want to remove tags from
      * @param tags a string array with the tags you want to remove, not case-sensetive
      * @return boolean if removal was successful
@@ -317,7 +317,7 @@ public class Database {
      * @author Ingebrigt Hovind
      */
     public boolean removeTag(String path, String[] tags) throws SQLException {
-        logger.log(Level.INFO,"Removing Tags");
+        logger.log(Level.INFO, "Removing Tags");
         //gets all the tags for the specific path
         StringBuilder oldtags = getTags(path);
         //iterates through tags for the given image
@@ -328,25 +328,26 @@ public class Database {
             //if the first word is selected, then no comma is removed
             //if the last word is selected then the last comma is selected
             //if a word between two others is selected then a single comma is removed
-            oldtags.replace((index == 0) ? index : index-1,(index == 0) ? index+string.length()+1:index+string.length(),"");
+            oldtags.replace((index == 0) ? index : index - 1, (index == 0) ? index + string.length() + 1 : index + string.length(), "");
         }
-        PreparedStatement statement1 = con.prepareStatement("UPDATE fredrjul_ImageApp."+table+" SET fredrjul_ImageApp."+table+".Tags = '"+oldtags+"' WHERE fredrjul_ImageApp."+table+".ImageID = "+findImage(path));
+        PreparedStatement statement1 = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
         return !statement1.execute();
     }
 
     /**
      * Searches the database and returns the paths of all elements that contain the given parameter in their metadata or tags
+     *
      * @param searchFor the phrase you want to search for
      * @return an arraylist with the paths that contain data that mathch the search
      * @author Ingebrigt Hovind
      */
     public ArrayList<String> search(String searchFor, String searchIn) throws SQLException {
         ArrayList<String> searchResults = new ArrayList<>();
-        try{
-            logger.log(Level.INFO,"Searching for matching values");
+        try {
+            logger.log(Level.INFO, "Searching for matching values");
             //select paths where the search term is present in any column
-            String sql = "SELECT * FROM " + table +" WHERE " + searchIn + " LIKE " + "'%"+ searchFor +"%'";
-            if(searchIn.equalsIgnoreCase("metadata")){
+            String sql = "SELECT * FROM " + table + " WHERE " + searchIn + " LIKE " + "'%" + searchFor + "%'";
+            if (searchIn.equalsIgnoreCase("metadata")) {
                 System.out.println("ja kommer inn i metadata if");
                 //TODO this is a pretty ghetto way of doing this, check if there's a better way of searching through these columns in the database
                 sql = "SELECT * FROM " + table + " WHERE File_size LIKE " + "'%" + searchFor + "%' or DATE LIKE " + "'%" + searchFor + "%' or Height LIKE " + "'%" + searchFor + "%' or Width LIKE " + "'%" + searchFor + "%' or GPS_Longitude LIKE '%" + searchFor + "%' or GPS_Latitude LIKE '%" + searchFor + "%'";
@@ -358,8 +359,7 @@ public class Database {
                 searchResults.add((String) result.getObject("Path"));
             }
             return searchResults;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

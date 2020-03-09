@@ -28,7 +28,7 @@ class ImageImportTest {
     }
     @Test
     void getMetaData() throws IOException, ImageProcessingException {
-        File testFile = new File("/Users/tommyluu/Documents/Intellj prosjekter/systemutvikling/target/classes/IMG_0963.JPG");
+        File testFile = new File("resources/worldmap.png");
         System.out.println(testFile.exists());
         for(String s : imageImport.getMetaData(testFile)){
             System.out.println(s);

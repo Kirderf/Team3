@@ -125,7 +125,7 @@ public class ControllerImport implements Initializable{
      * @param event button clicked
      */
     @FXML
-    private void importAction(ActionEvent event) {
+    private void importAction(ActionEvent event) throws SQLException {
         if(bufferList != null) {
             for (File file : bufferList) {
                 if (!ControllerMain.databaseClient.addedPathsContains(file.getPath())) {
