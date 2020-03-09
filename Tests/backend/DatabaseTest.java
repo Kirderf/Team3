@@ -34,8 +34,8 @@ class DatabaseTest {
         createTable();
         try {
             database.openConnection();
-            assertTrue(database.addImageToTable("path to file", "Tags", 1000, (long) 20200812, 2000, 2000, 11.02, 13.09));
-            assertTrue(database.addImageToTable("AAfekfj.jpg","Tags", 999,(long) 2015112,100,2555,11,13));
+            //assertTrue(database.addImageToTable("path to file", "Tags", 1000, (long) 20200812, 2000, 2000, 11.02, 13.09));
+           // assertTrue(database.addImageToTable("AAfekfj.jpg","Tags", 999,(long) 2015112,100,2555,11,13));
             database.closeDatabase();
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +48,7 @@ class DatabaseTest {
         try {
             database.openConnection();
             assertTrue(database.addImageToTable("path to file", "Tags", 1000, (long) 20200812, 2000, 2000, 11.02, 13.09));
-            assertTrue(database.addImageToTable("AAfekfj.jpg", "Tags", 999, (long) 2015112, 100, 2555, 11, 13));
+            assertTrue(database.addImageToTable("AAfekfj.jpg", "Tags", 999, (long) 2015112, 100, 2555, 11.5, 13.2));
             ArrayList<String> sortedImages = database.sortBy("Path", true);
             assertEquals(sortedImages.get(0), "AAfekfj.jpg");
             database.closeDatabase();
