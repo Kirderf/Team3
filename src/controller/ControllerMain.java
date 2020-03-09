@@ -40,6 +40,9 @@ public class ControllerMain implements Initializable {
     private ScrollPane metadataScroll;
 
     @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
     private ScrollPane tagsScroll;
 
     @FXML
@@ -67,10 +70,7 @@ public class ControllerMain implements Initializable {
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
-    private final double initialGridHeight = 185;
-    public static boolean loadedFromAnotherLocation = false;
     public static ArrayList<String> selectedImages = new ArrayList<String>();
-    private final FileChooser fc = new FileChooser();
     private static boolean ascending = true;
     long time1 = 0;
     long time2 = 0;
@@ -86,12 +86,7 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.log(Level.INFO, "Initializing");
-        pictureGrid.setPrefHeight(initialGridHeight);
-        gridVbox.setPrefHeight(initialGridHeight);
-        if (loadedFromAnotherLocation) {
-            refreshImages();
-            loadedFromAnotherLocation = false;
-        }
+        refreshImages();
     }
 
     @FXML
@@ -190,11 +185,11 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    @FXML
+
     /**
      * sort the pictures based on the selected value in the drop down
-
      */
+    @FXML
     private void sortAction(ActionEvent event) throws SQLException, FileNotFoundException {
         //if size is selected
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
@@ -269,7 +264,7 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    private void goToLibrary() throws IOException {
+    private void goToLibrary(ActionEvent event) throws IOException {
         //pictureGrid.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
         //clears the selected images when you press the library button
         selectedImages.clear();
@@ -322,10 +317,9 @@ public class ControllerMain implements Initializable {
      * Add rows on the bottom of the gridpane
      */
     private void addEmptyRow() {
-        double gridHeight = gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()).getValue();
+        double gridHeight = 185;
         RowConstraints con = new RowConstraints();
-        con.setPrefHeight(gridHeight);
-        gridVbox.setPrefHeight(gridVbox.getPrefHeight() + gridHeight);
+        con.setMinHeight(gridHeight);
         pictureGrid.getRowConstraints().add(con);
     }
 
@@ -359,8 +353,8 @@ public class ControllerMain implements Initializable {
         ImageView imageView = new ImageView();
         Image image = new Image(new FileInputStream(path));
         imageView.setImage(image);
-        imageView.fitHeightProperty().bind(gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()));
-        imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
+        imageView.fitHeightProperty().bind(scrollPane.heightProperty().divide(pictureGrid.getRowConstraints().size()));
+        imageView.fitWidthProperty().bind(scrollPane.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
         imageView.setPreserveRatio(true);
         imageView.setOnMouseClicked(event -> {
             //first click in a series of 2 clicks
