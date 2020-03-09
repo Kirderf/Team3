@@ -19,7 +19,7 @@ public class ControllerExport {
     public static boolean exportSucceed = false;
 
     @FXML
-    private void exportPDF() throws IOException {
+    private void exportPDF() {
         //chooses album location after selecting name
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Choose folder for album");
