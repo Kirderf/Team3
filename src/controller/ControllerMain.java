@@ -86,38 +86,59 @@ public class ControllerMain implements Initializable {
         pictureGrid.setGridLinesVisible(true);
         pictureGrid.setPrefHeight(initialGridHeight);
         gridVbox.setPrefHeight(initialGridHeight);
-        gridVbox.setStyle("-fx-border-color: black");
         if (loadedFromAnotherLocation) {
+            clearView();
             databaseClient.clearPaths();
             refreshImages();
             loadedFromAnotherLocation = false;
         }
     }
 
-    //for every 5th picture the row will increase in value
-    private int getNextRow() {
-        if (photoCount == 0) {
-            return rowCount;
-        }
-        if ((photoCount) % 5 == 0) {
-            rowCount++;
-            if (pictureGrid.getRowConstraints().size() <= rowCount) {
-                addEmptyRow();
-            }
-        }
-        return rowCount;
-    }
+    @FXML
+    public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
+        HashMap<String,Double> locations = new HashMap<>();
+        //TODO make hashmap of strings with their path as key and location
+        //TODO add all images with both longitude and longitude
+        //do this by checking ration of long at latitiude according to image pixel placing
+        //add them to the worldmap view with event listener to check when they're clicked
 
-    //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
-    private int getNextColumn() {
-        if (photoCount == 0) {
-            return columnCount++;
+
+        for(int i = 0; i<databaseClient.getColumn("GPS_Longitude").size();i++){
+            if((double)databaseClient.getColumn("GPS_Longitude").get(i)!= 0.0){
+                locations.put((String)databaseClient.getColumn("Paths").get(i),(double)databaseClient.getColumn("GPS_Longitude").get(i));
+                //System.out.println(locations.get());
+            }
+            System.out.println("JA");
+            //System.out.println((databaseClient.getMetaDataFromDatabase(s)[3]==null && databaseClient.getMetaDataFromDatabase(s)[4]==null)); {
+            //locations.put(s, databaseClient.getMetaDataFromDatabase(s)[6]+","+databaseClient.getMetaDataFromDatabase(s)[7]);
         }
-        if (photoCount % 5 == 0) {
-            columnCount = 0;
-            return columnCount++;
+        //}
+        //System.out.println(locations);
+        ImageView imageView = new ImageView();
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream("C:/Users/Ingebrigt/Pictures/christ.jpg"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        return columnCount++;
+
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
+        worldStage.setScene(new Scene(root));
+        worldStage.setTitle("Search");
+        worldStage.setResizable(false);
+        worldStage.showAndWait();
+
+        /*
+        Scene scene = pictureGrid.getScene();
+        System.out.println("før resource");
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/World.fxml"));
+        System.out.println("etter resource");
+        worldStage.setScene(new Scene(root));
+        worldStage.setTitle("map of photos");
+        worldStage.setResizable(false);
+        worldStage.showAndWait();
+        */
+
     }
 
     @FXML
@@ -251,14 +272,13 @@ public class ControllerMain implements Initializable {
     private void goToLibrary() throws IOException {
         //pictureGrid.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
         //clears the selected images when you press the library button
-        selectedImages.clear();
-        refreshImages();
+        //selectedImages.clear();
+        //refreshImages();
     }
 
     /**
      * Clears all rows on the gridView and creates a new one.
      */
-    @FXML
     private void clearView() {
         rowCount = 0;
         columnCount = 0;
@@ -266,6 +286,11 @@ public class ControllerMain implements Initializable {
         pictureGrid.getChildren().clear();
         pictureGrid.setGridLinesVisible(true);
         databaseClient.clearPaths();
+    }
+
+    //removes the selected images
+    private void clearSelection() {
+        selectedImages.clear();
     }
 
     /**
@@ -327,12 +352,6 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    //removes the selected images
-    private void clearSelection() {
-        refreshImages();
-        selectedImages.clear();
-    }
-
     /**
      * Take a path, and create a ImageView that fits to a space in the grid
      *
@@ -344,6 +363,7 @@ public class ControllerMain implements Initializable {
         imageView.setImage(image);
         imageView.fitHeightProperty().bind(gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()));
         imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
+        imageView.maxHeight(100);
         imageView.setPreserveRatio(true);
         imageView.setOnMouseClicked(event -> {
             //first click in a series of 2 clicks
@@ -354,7 +374,7 @@ public class ControllerMain implements Initializable {
                 time2 = System.currentTimeMillis();
                 diff = time2-time1;
                 //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
-                if(diff < 250 && diff > 0) {
+                if(diff < 500 && diff > 0) {
                     try {
                         time1 = 0;
                         clearSelection();
@@ -402,49 +422,29 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
-        HashMap<String,Double> locations = new HashMap<>();
-        //TODO make hashmap of strings with their path as key and location
-        //TODO add all images with both longitude and longitude
-        //do this by checking ration of long at latitiude according to image pixel placing
-        //add them to the worldmap view with event listener to check when they're clicked
-
-
-        for(int i = 0; i<databaseClient.getColumn("GPS_Longitude").size();i++){
-            if((double)databaseClient.getColumn("GPS_Longitude").get(i)!= 0.0){
-                locations.put((String)databaseClient.getColumn("Paths").get(i),(double)databaseClient.getColumn("GPS_Longitude").get(i));
-                //System.out.println(locations.get());
-            }
-            System.out.println("JA");
-            //System.out.println((databaseClient.getMetaDataFromDatabase(s)[3]==null && databaseClient.getMetaDataFromDatabase(s)[4]==null)); {
-            //locations.put(s, databaseClient.getMetaDataFromDatabase(s)[6]+","+databaseClient.getMetaDataFromDatabase(s)[7]);
-            }
-        //}
-        //System.out.println(locations);
-        ImageView imageView = new ImageView();
-        Image image = null;
-        try {
-            image = new Image(new FileInputStream("C:/Users/Ingebrigt/Pictures/christ.jpg"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    //for every 5th picture the row will increase in value
+    private int getNextRow() {
+        if (photoCount == 0) {
+            return rowCount;
         }
+        if ((photoCount) % 5 == 0) {
+            rowCount++;
+            if (pictureGrid.getRowConstraints().size() <= rowCount) {
+                addEmptyRow();
+            }
+        }
+        return rowCount;
+    }
 
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
-        worldStage.setScene(new Scene(root));
-        worldStage.setTitle("Search");
-        worldStage.setResizable(false);
-        worldStage.showAndWait();
-
-        /*
-        Scene scene = pictureGrid.getScene();
-        System.out.println("før resource");
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/World.fxml"));
-        System.out.println("etter resource");
-        worldStage.setScene(new Scene(root));
-        worldStage.setTitle("map of photos");
-        worldStage.setResizable(false);
-        worldStage.showAndWait();
-        */
-
+    //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
+    private int getNextColumn() {
+        if (photoCount == 0) {
+            return columnCount++;
+        }
+        if (photoCount % 5 == 0) {
+            columnCount = 0;
+            return columnCount++;
+        }
+        return columnCount++;
     }
 }
