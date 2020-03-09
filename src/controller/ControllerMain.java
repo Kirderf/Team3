@@ -446,12 +446,14 @@ public class ControllerMain implements Initializable {
      * @throws SQLException
      */
     public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
+        ArrayList<Double> longitude = databaseClient.getColumn("GPS_Longitude");
+        ArrayList<Double> latitude = databaseClient.getColumn("GPS_Latitude");
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
         for(int i = 0; i<databaseClient.getColumn("GPS_Longitude").size();i++){
             //if both are not equal to zero, maybe this should be changed to an or
-            if((double)databaseClient.getColumn("GPS_Longitude").get(i)!= 0.0&&(double)databaseClient.getColumn("GPS_Latitude").get(i)!= 0.0){
-                locations.put((String)databaseClient.getColumn("Path").get(i),""+databaseClient.getColumn("GPS_Longitude").get(i)+","+databaseClient.getColumn("GPS_Latitude").get(i));
+            if(longitude.get(i)!= 0.0&&latitude.get(i)!= 0.0){
+                locations.put((String)databaseClient.getColumn("Path").get(i),""+longitude.get(i)+","+latitude.get(i));
             }
         }
 
@@ -460,6 +462,9 @@ public class ControllerMain implements Initializable {
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
         worldStage.showAndWait();
+        if(ControllerMap.clickedImage!=null){
+            showBigImage(ControllerMap.clickedImage);
+        }
     }
 }
 

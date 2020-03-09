@@ -2,6 +2,7 @@ package controller;
 
 import com.drew.metadata.heif.HeifBoxHandler;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -36,6 +38,7 @@ public class ControllerMap implements Initializable {
     //these start at 0, but longitude and latitude start at -180 and -90
     private final int HEIGHT = 340;
     private final int WIDTH = 616;
+    public static ImageView clickedImage;
     public void initialize(URL location, ResourceBundle resources) {
         try {
             updateImage();
@@ -72,6 +75,17 @@ public class ControllerMap implements Initializable {
             imageView.setTranslateY(-(HEIGHT/2*yRatio));
             //longitude, east west
             imageView.setTranslateX((WIDTH/2*xRatio));
+            imageView.setId((String) mapElement.getKey());
+            EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    Stage stage = (Stage) mapStackPane.getScene().getWindow();
+                    clickedImage = (ImageView) e.getSource();
+                    stage.close();
+
+                }
+            };
+            imageView.addEventHandler(MouseEvent.MOUSE_CLICKED,eventHandler);
             //adds the image to where it is to be placed
             mapStackPane.getChildren().add(imageView);
         }
