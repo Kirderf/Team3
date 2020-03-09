@@ -410,6 +410,14 @@ public class ControllerMain implements Initializable {
         metadataVbox.getChildren().remove(0,2);
 
     }
+
+    /**
+     * When the user clicks on goToMap under library
+     * Checks all the added photos for valid gps data, and places the ones with valid data on the map
+     * @param actionEvent
+     * @throws IOException
+     * @throws SQLException
+     */
     public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
@@ -420,8 +428,6 @@ public class ControllerMain implements Initializable {
             }
         }
 
-        Image image = new Image(new FileInputStream("C:/Users/Ingebrigt/Downloads/IMG_3604 (1).png"));
-        ImageView imageView = new ImageView(image);
         Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
         worldStage.setScene(new Scene(root));
         worldStage.setTitle("Map");
