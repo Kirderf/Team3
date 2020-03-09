@@ -9,6 +9,11 @@ import com.drew.metadata.exif.GpsDirectory;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 import java.util.*;
 
 /**
@@ -20,6 +25,7 @@ public class ImageImport {
     private int noOfData = interestingMetadata.size();
     //needs to be all lowercase, update if we accept other file types
     private List<String> validImageExtensions = Arrays.asList(".jpg",".png",".jpeg");
+    private SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
 
     /**
      * Checks whether a file is an image or not based on the extension, validImageExtions contains all file extensions that are valid
@@ -92,7 +98,7 @@ public class ImageImport {
                 }
                 //even if there is no interesting metadata, then an empty array is returned
                 if (metaArray[1] == null){
-                    metaArray[1] = "0";
+                    metaArray[1] = format.format(new Date());
                 }else {
                     metaArray[1] = metaArray[1].replaceAll(":","").substring(0,8).trim();
                 }

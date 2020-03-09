@@ -3,17 +3,20 @@ package controller;
 import backend.DatabaseClient;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
@@ -23,7 +26,9 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -32,47 +37,40 @@ import java.util.logging.Logger;
 
 
 public class ControllerMain implements Initializable {
-    @FXML
-    private ScrollPane metadataScroll;
-
-    @FXML
-    private ScrollPane tagsScroll;
-
-    @FXML
-    private GridPane pictureGrid;
-
-    @FXML
-    private ComboBox<?> sortDropDown;
-
-    @FXML
-    private TextArea pathDisplay;
-    @FXML
-    private StackPane mapStackPane;
-    @FXML
-    private VBox gridVbox;
-
-    @FXML
-    private VBox metadataVbox;
-
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
-    public static DatabaseClient databaseClient = new DatabaseClient();
     public static HashMap<String,String> locations = new HashMap<>();
+    public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
     public static Stage searchStage = new Stage();
     public static Stage exportStage = new Stage();
     public static Stage worldStage = new Stage();
     public static Image imageBuffer;
-    private int photoCount = 0;
-    private int rowCount = 0;
-    private int columnCount = 0;
-    private final double initialGridHeight = 185;
     public static boolean loadedFromAnotherLocation = false;
     public static ArrayList<String> selectedImages = new ArrayList<String>();
-    private final FileChooser fc = new FileChooser();
     private static boolean ascending = true;
+    private final double initialGridHeight = 185;
+    private final FileChooser fc = new FileChooser();
     long time1 = 0;
     long time2 = 0;
     long diff = 0;
+    @FXML
+    private ScrollPane metadataScroll;
+    @FXML
+    private ScrollPane tagsScroll;
+    @FXML
+    private GridPane pictureGrid;
+    @FXML
+    private ComboBox<?> sortDropDown;
+    @FXML
+    private TextArea pathDisplay;
+    @FXML
+    private VBox gridVbox;
+    @FXML
+    private VBox metadataVbox;
+
+    private int photoCount = 0;
+    private int rowCount = 0;
+    private int columnCount = 0;
 
 
     /**
@@ -84,42 +82,14 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.log(Level.INFO, "Initializing");
-        pictureGrid.setGridLinesVisible(true);
         pictureGrid.setPrefHeight(initialGridHeight);
         gridVbox.setPrefHeight(initialGridHeight);
-        gridVbox.setStyle("-fx-border-color: black");
         if (loadedFromAnotherLocation) {
-            databaseClient.clearPaths();
             refreshImages();
             loadedFromAnotherLocation = false;
         }
     }
 
-    //for every 5th picture the row will increase in value
-    private int getNextRow() {
-        if (photoCount == 0) {
-            return rowCount;
-        }
-        if ((photoCount) % 5 == 0) {
-            rowCount++;
-            if (pictureGrid.getRowConstraints().size() <= rowCount) {
-                addEmptyRow();
-            }
-        }
-        return rowCount;
-    }
-
-    //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
-    private int getNextColumn() {
-        if (photoCount == 0) {
-            return columnCount++;
-        }
-        if (photoCount % 5 == 0) {
-            columnCount = 0;
-            return columnCount++;
-        }
-        return columnCount++;
-    }
 
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
@@ -220,7 +190,7 @@ public class ControllerMain implements Initializable {
                 exception.printStackTrace();
             }
         }
-        clearSelection();
+        selectedImages.clear();
     }
 
     /**
@@ -259,7 +229,6 @@ public class ControllerMain implements Initializable {
     /**
      * Clears all rows on the gridView and creates a new one.
      */
-    @FXML
     private void clearView() {
         rowCount = 0;
         columnCount = 0;
@@ -292,7 +261,10 @@ public class ControllerMain implements Initializable {
      * @param path to image object
      */
     private void insertImage(String path) throws FileNotFoundException {
-        pictureGrid.add(importImage(path), getNextColumn(), getNextRow());
+        int row = getNextRow();
+        int coloumn = getNextColumn();
+        pictureGrid.add(importImage(path), coloumn, row);
+        System.out.println("row"+row+".col"+coloumn);
         photoCount++;
     }
 
@@ -351,14 +323,15 @@ public class ControllerMain implements Initializable {
             if (time1 == 0) {
                 time1 = System.currentTimeMillis();
                 setSelectedImages(imageView, image, path);
+                showMetadata(event);
             } else {
                 time2 = System.currentTimeMillis();
-                diff = time2-time1;
+                diff = time2 - time1;
                 //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
-                if(diff < 250 && diff > 0) {
+                if(diff < 500 && diff > 0) {
                     try {
                         time1 = 0;
-                        clearSelection();
+                        selectedImages.clear();
                         imageView.setImage(image);
                         showBigImage(imageView);
                     } catch (IOException e) {
@@ -388,7 +361,7 @@ public class ControllerMain implements Initializable {
     }
 
     private void showBigImage(ImageView imageView) throws IOException {
-        clearSelection();
+        selectedImages.clear();
         imageBuffer = imageView.getImage();
         Scene scene = pictureGrid.getScene();
         scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
@@ -403,6 +376,40 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    //for every 5th picture the row will increase in value
+    private int getNextRow() {
+        if (photoCount == 0) {
+            return rowCount;
+        }
+        if ((photoCount) % 5 == 0) {
+            rowCount++;
+            if (pictureGrid.getRowConstraints().size() <= rowCount) {
+                addEmptyRow();
+            }
+        }
+        return rowCount;
+    }
+    //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
+    private int getNextColumn() {
+        if (photoCount == 0) {
+            return columnCount++;
+        }
+        if (photoCount % 5 == 0) {
+            columnCount = 0;
+            return columnCount++;
+        }
+        return columnCount++;
+    }
+    public void showMetadata(MouseEvent event) {
+        if (!metadataVbox.getChildren().isEmpty()) {
+            metadataVbox.getChildren().clear();
+        }
+        for (String s : databaseClient.getMetaDataFromDatabase(selectedImages.get(0))) {
+            metadataVbox.getChildren().add(new Label(s));
+        }
+        metadataVbox.getChildren().remove(0,2);
+
+    }
     public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
@@ -422,3 +429,4 @@ public class ControllerMain implements Initializable {
         worldStage.showAndWait();
     }
 }
+

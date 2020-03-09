@@ -21,7 +21,7 @@ class DatabaseTest {
         try {
             database.openConnection();
             assertTrue(database.createTable());
-            database.closeConnection();
+            database.close();
         } catch (Exception e) {
             System.out.println("Error setting ut database");
             e.printStackTrace();
@@ -133,7 +133,7 @@ class DatabaseTest {
     void openConnection() {
         try {
             assertTrue(database.openConnection());
-            database.closeConnection();
+            database.close();
         } catch (SQLException e) {
             e.printStackTrace();
             fail();
@@ -146,7 +146,7 @@ class DatabaseTest {
             if (!database.isConnection()) {
                 database.openConnection();
             }
-            assertTrue(database.closeConnection());
+            assertTrue(database.close());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -175,7 +175,7 @@ class DatabaseTest {
         try {
             database.openConnection();
             assertTrue(database.addTags("path to file",new String[]{"String","test"}));
-            database.closeConnection();
+            database.close();
         } catch (SQLException e) {
             e.printStackTrace();
             fail();
@@ -189,7 +189,7 @@ class DatabaseTest {
             database.addTags("path to file",new String[]{"String","test","test5"});
             assertTrue(database.removeTag("path to file", new String[]{"test","test5"}));
             assertEquals(database.getTags("path to file").toString(),"Tags,String");
-            database.closeConnection();
+            database.close();
         } catch (SQLException e) {
             e.printStackTrace();
             fail();
