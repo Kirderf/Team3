@@ -65,7 +65,7 @@ public class DatabaseClient {
      * @return An arraylist of data objects
      * @throws SQLException could not find input from columnName
      */
-    public ArrayList getData(String columnName) throws SQLException {
+    public ArrayList getColumn(String columnName) throws SQLException {
         imageDatabase.openConnection();
         ArrayList arrayList = imageDatabase.getColumn(columnName);
         imageDatabase.closeConnection();
