@@ -7,6 +7,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -50,7 +52,6 @@ public class ControllerMain implements Initializable {
     public static ArrayList<String> selectedImages = new ArrayList<String>();
     private static boolean ascending = true;
     private final double initialGridHeight = 185;
-    private final FileChooser fc = new FileChooser();
     long time1 = 0;
     long time2 = 0;
     long diff = 0;
@@ -74,27 +75,6 @@ public class ControllerMain implements Initializable {
     private int columnCount = 0;
 
     /**
-     * tints the selected images blue
-     *
-     * @param image the image that you want to tint
-     * @param color colour, this should be blue
-     */
-    private static void tint(BufferedImage image, Color color) {
-        //stolen from https://stackoverflow.com/a/36744345
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Color pixelColor = new Color(image.getRGB(x, y), true);
-                int r = (pixelColor.getRed() + color.getRed()) / 2;
-                int g = (pixelColor.getGreen() + color.getGreen()) / 2;
-                int b = (pixelColor.getBlue() + color.getBlue()) / 2;
-                int a = pixelColor.getAlpha();
-                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
-                image.setRGB(x, y, rgba);
-            }
-        }
-    }
-
-    /**
      * Run 1 time once the window opens
      *
      * @param location
@@ -103,8 +83,7 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.log(Level.INFO, "Initializing");
-        pictureGrid.setPrefHeight(initialGridHeight);
-        gridVbox.setPrefHeight(initialGridHeight);
+        pictureGrid.setAlignment(Pos.CENTER);
         if (loadedFromAnotherLocation) {
             refreshImages();
             loadedFromAnotherLocation = false;
@@ -112,7 +91,7 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    private void searchAction(ActionEvent event) throws IOException {
+    private void searchAction(ActionEvent event) {
         logger.log(Level.INFO, "SearchAction");
         if (!searchStage.isShowing()) {
             try {
@@ -138,10 +117,9 @@ public class ControllerMain implements Initializable {
      * Opens import window, once window closes, all pictures from database will get inserted into the UI
      *
      * @param event user has clicked this item
-     * @throws IOException Bad path input
      */
     @FXML
-    private void importAction(ActionEvent event) throws IOException {
+    private void importAction(ActionEvent event) {
         if (!importStage.isShowing()) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
@@ -160,11 +138,11 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    @FXML
+
     /**
      * sort the pictures based on the selected value in the drop down
-
      */
+    @FXML
     private void sortAction(ActionEvent event) throws SQLException, FileNotFoundException {
         //if size is selected
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
@@ -192,7 +170,7 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    private void exportAction(ActionEvent event) throws IOException {
+    private void exportAction(ActionEvent event) {
         if (!exportStage.isShowing()) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
@@ -217,10 +195,9 @@ public class ControllerMain implements Initializable {
      * Closes application, and closes connections to database. Cannot close if other windows are open
      *
      * @param event item is clicked
-     * @throws SQLException Database error
      */
     @FXML
-    private void quitAction(ActionEvent event) throws SQLException {
+    private void quitAction(ActionEvent event) {
         if (importStage.isShowing()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Remember to close all other windows before exiting UwU");
@@ -239,23 +216,29 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    protected void goToLibrary() throws IOException {
+    protected void goToLibrary() {
         //pictureGrid.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
         //clears the selected images when you press the library button
         selectedImages.clear();
         refreshImages();
     }
 
+    @FXML
+    public void helpAction(ActionEvent actionEvent) {
+        addEmptyRow();
+    }
+
     /**
-     * Clears all rows on the gridView and creates a new one.
+     * Clears all rows on the gridView
      */
     private void clearView() {
+        Node node = pictureGrid.getChildren().get(0); // to retain gridlines
         rowCount = 0;
         columnCount = 0;
         photoCount = 0;
         if (pictureGrid != null) {
             pictureGrid.getChildren().clear();
-            pictureGrid.setGridLinesVisible(true);
+            pictureGrid.getChildren().add(0, node);
         }
         databaseClient.clearPaths();
     }
@@ -286,7 +269,6 @@ public class ControllerMain implements Initializable {
         int row = getNextRow();
         int coloumn = getNextColumn();
         pictureGrid.add(importImage(path), coloumn, row);
-        System.out.println("row" + row + ".col" + coloumn);
         photoCount++;
     }
 
@@ -294,17 +276,10 @@ public class ControllerMain implements Initializable {
      * Add rows on the bottom of the gridpane
      */
     private void addEmptyRow() {
-        double gridHeight = gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()).getValue();
+        double gridHeight = initialGridHeight;
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(gridHeight);
-        gridVbox.setPrefHeight(gridVbox.getPrefHeight() + gridHeight);
         pictureGrid.getRowConstraints().add(con);
-    }
-
-    //removes the selected images
-    private void clearSelection() {
-        refreshImages();
-        selectedImages.clear();
     }
 
     /**
@@ -313,16 +288,15 @@ public class ControllerMain implements Initializable {
      * @param path to image
      */
     private ImageView importImage(String path) throws FileNotFoundException {
-        ImageView imageView = new ImageView();
         Image image = new Image(new FileInputStream(path));
-        imageView.setImage(image);
-        imageView.fitHeightProperty().bind(gridVbox.heightProperty().divide(pictureGrid.getRowConstraints().size()));
-        imageView.fitWidthProperty().bind(gridVbox.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
-        imageView.setPreserveRatio(true);
-        imageView.setOnMouseClicked(onImageClickedEvent(imageView,image,path));
+        ImageView imageView = new ImageView(image);
+        imageView.fitHeightProperty().bind(pictureGrid.getRowConstraints().get(0).prefHeightProperty());
+        imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(5));
+        imageView.setOnMouseClicked(onImageClickedEvent(imageView, image, path));
         return imageView;
     }
-    private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView,Image image,String path){
+
+    private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path){
         return (EventHandler<MouseEvent>) event -> {
 
             //first click in a series of 2 clicks
@@ -337,9 +311,8 @@ public class ControllerMain implements Initializable {
                 if (diff < 500 && diff > 0) {
                     try {
                         time1 = 0;
-                        selectedImages.clear();
                         imageView.setImage(image);
-                        showBigImage(imageView,path);
+                        showBigImage(imageView, path);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -475,5 +448,28 @@ public class ControllerMain implements Initializable {
             showBigImage(ControllerMap.clickedImage,ControllerMap.clickedImage.getId());
         }
     }
+
+    /**
+     * tints the selected images blue
+     *
+     * @param image the image that you want to tint
+     * @param color colour, this should be blue
+     */
+    private static void tint(BufferedImage image, Color color) {
+        //stolen from https://stackoverflow.com/a/36744345
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                Color pixelColor = new Color(image.getRGB(x, y), true);
+                int r = (pixelColor.getRed() + color.getRed()) / 2;
+                int g = (pixelColor.getGreen() + color.getGreen()) / 2;
+                int b = (pixelColor.getBlue() + color.getBlue()) / 2;
+                int a = pixelColor.getAlpha();
+                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
+                image.setRGB(x, y, rgba);
+            }
+        }
+    }
+
+
 }
 

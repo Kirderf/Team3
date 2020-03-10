@@ -19,7 +19,7 @@ class ImageImportTest {
         imageImport = new ImageImport();
     }
     @Test
-    void isImage() throws IOException{
+    void isImage() {
         File testFile = new File(pathToNonPhoto).getAbsoluteFile();
         File testFile2 = new File(pathToPhoto).getAbsoluteFile();
         System.out.println(testFile2.exists());

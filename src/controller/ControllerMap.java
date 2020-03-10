@@ -46,6 +46,7 @@ public class ControllerMap implements Initializable {
             e.printStackTrace();
         }
     }
+
     //TODO check if scaling the image before adding it makes it look less pixelated
     public void updateImage() throws FileNotFoundException {
         //used to iterate through the images

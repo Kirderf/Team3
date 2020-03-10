@@ -182,7 +182,7 @@ class DatabaseTest {
         }
     }
     @Test
-    void removeTags() throws SQLException {
+    void removeTags() {
         writeToDatabase();
         try {
             database.openConnection();

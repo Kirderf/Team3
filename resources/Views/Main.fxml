@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -20,7 +21,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
     <top>
         <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
             <menus>
@@ -53,7 +54,7 @@
                 </Menu>
                 <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" onAction="#helpAction" text="About" />
                     </items>
                 </Menu>
             </menus>
@@ -111,22 +112,32 @@
         </HBox>
     </bottom>
    <center>
-      <VBox fx:id="gridVbox" alignment="CENTER" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
               <ScrollPane fx:id="scrollPane" fitToWidth="true" VBox.vgrow="ALWAYS">
                <content>
-                        <GridPane fx:id="pictureGrid" alignment="CENTER" gridLinesVisible="true" minHeight="150.0">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="185.0" vgrow="ALWAYS" />
-                            </rowConstraints>
-                        </GridPane>
+                  <VBox fx:id="gridVbox">
+                     <children>
+                              <GridPane fx:id="pictureGrid" alignment="CENTER" gridLinesVisible="true" minHeight="185.0" VBox.vgrow="ALWAYS">
+                                  <columnConstraints>
+                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  </columnConstraints>
+                                  <rowConstraints>
+                                      <RowConstraints minHeight="10.0" prefHeight="185.0" vgrow="ALWAYS" />
+                                  </rowConstraints>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                              </GridPane>
+                     </children>
+                  </VBox>
                </content>
               </ScrollPane>
          </children>
