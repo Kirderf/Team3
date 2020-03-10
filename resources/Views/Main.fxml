@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -63,30 +64,30 @@
     <left>
         <SplitPane dividerPositions="0.5112612612612613" orientation="VERTICAL" prefHeight="446.0" prefWidth="184.0" BorderPane.alignment="CENTER">
             <items>
-                <AnchorPane>
-                    <children>
+            <Pane>
+               <children>
                         <Label layoutX="57.0" layoutY="1.0" text="Metadata" textFill="#787878">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="26.0" maxWidth="180.0" minHeight="50.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="14.0" AnchorPane.topAnchor="26.0">
+                        <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="26.0" maxWidth="180.0" minHeight="50.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS">
                             <VBox fx:id="metadataVbox">
 
                             </VBox>
                         </ScrollPane>
-                    </children>
-                </AnchorPane>
-                <AnchorPane prefWidth="184.0">
-                    <children>
+               </children>
+            </Pane>
+            <Pane>
+               <children>
                         <Label layoutX="74.0" layoutY="1.0" text="Tags" textFill="#787878">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="169.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="31.0" />
-                    </children>
-                </AnchorPane>
+                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="223.0" prefWidth="170.0" vbarPolicy="ALWAYS" />
+               </children>
+            </Pane>
             </items>
         </SplitPane>
     </left>
@@ -112,7 +113,7 @@
         </HBox>
     </bottom>
    <center>
-      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" minHeight="0.0" minWidth="0.0" BorderPane.alignment="CENTER">
          <children>
               <ScrollPane fx:id="scrollPane" fitToWidth="true" VBox.vgrow="ALWAYS">
                <content>
@@ -127,7 +128,7 @@
                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                   </columnConstraints>
                                   <rowConstraints>
-                                      <RowConstraints minHeight="10.0" prefHeight="185.0" vgrow="ALWAYS" />
+                                      <RowConstraints minHeight="0.0" prefHeight="185.0" valignment="CENTER" vgrow="ALWAYS" />
                                   </rowConstraints>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

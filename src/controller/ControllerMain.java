@@ -296,6 +296,7 @@ public class ControllerMain implements Initializable {
         return imageView;
     }
 
+    //EventHandler for mouseclicks on images
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path){
         return (EventHandler<MouseEvent>) event -> {
 

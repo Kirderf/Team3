@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.StackPane?>
 
 
-<StackPane maxWidth="-Infinity" minHeight="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:id="mapStackPane" fx:controller="controller.ControllerMap">
+<StackPane maxWidth="-Infinity" minHeight="-Infinity" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:id="mapStackPane" fx:controller="controller.ControllerMap">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" fx:id="world">
          <image>
