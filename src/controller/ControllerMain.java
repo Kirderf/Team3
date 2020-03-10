@@ -416,6 +416,7 @@ public class ControllerMain implements Initializable {
             return;
         }
         int i = 0;
+
         for (String s : databaseClient.getMetaDataFromDatabase(path)) {
             switch (i) {
                 case 0:
@@ -456,12 +457,13 @@ public class ControllerMain implements Initializable {
     public void goToMap(ActionEvent actionEvent) throws IOException, SQLException {
         ArrayList<Double> longitude = databaseClient.getColumn("GPS_Longitude");
         ArrayList<Double> latitude = databaseClient.getColumn("GPS_Latitude");
+        ArrayList paths = databaseClient.getColumn("Path");
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
         for (int i = 0; i < databaseClient.getColumn("GPS_Longitude").size(); i++) {
             //if both are not equal to zero, maybe this should be changed to an or
-            if(longitude.get(i)!= 0.0&&latitude.get(i)!= 0.0){
-                locations.put((String)databaseClient.getColumn("Path").get(i),""+longitude.get(i)+","+latitude.get(i));
+            if(longitude.get(i)!= 0&&latitude.get(i)!= 0){
+                locations.put((String)paths.get(i),""+longitude.get(i)+","+latitude.get(i));
             }
         }
         Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));

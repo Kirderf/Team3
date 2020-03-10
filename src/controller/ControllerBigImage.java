@@ -42,9 +42,9 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBigImage(imageBuffer);
-        if (pathBuffer != null){
-            showMetadata(pathBuffer);
+        setBigImage(ControllerMain.imageBuffer);
+        if (ControllerMain.pathBuffer != null){
+            showMetadata(ControllerMain.pathBuffer);
         }
 
 

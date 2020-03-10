@@ -63,7 +63,7 @@ public class Database {
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         statement = con.prepareStatement(sql1);
         statement.setNull(1, 0);
-        statement.setString(2, path);
+        statement.setString(2, path.replaceAll("\\\\","/"));
         statement.setString(3, tags);
         statement.setInt(4, file_size);
         statement.setLong(5, date);
@@ -132,10 +132,10 @@ public class Database {
      */
     public String[] getImageMetadata(String path) throws SQLException {
         logger.log(Level.INFO, "getting ImageMetadata");
-        String sql = "SELECT * FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path + "%' LIMIT 1";
+        String sql = "SELECT * FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path.replaceAll("\\\\","/") + "%' LIMIT 1";
         statement = con.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
-        //TODO fi bug where this is always false, and the statement is always empty
+        //TODO fix bug where this is always false, and the statement is always empty
         if (rs.next()) {
             String[] returnValues = new String[8];
             returnValues[0] = rs.getString(2);

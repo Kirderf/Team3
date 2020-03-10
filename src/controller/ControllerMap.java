@@ -42,7 +42,6 @@ public class ControllerMap implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             updateImage();
-            System.out.println(mapStackPane.getWidth());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -85,7 +84,25 @@ public class ControllerMap implements Initializable {
 
                 }
             };
+            EventHandler<MouseEvent> mouseOn = new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    ((ImageView) e.getSource()).setFitHeight(60);
+                    ((ImageView) e.getSource()).setFitWidth(60);
+                }
+            };
+            EventHandler<MouseEvent> mouseOff = new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    ((ImageView) e.getSource()).setFitHeight(20);
+                    ((ImageView) e.getSource()).setFitWidth(20);
+
+                }
+            };
+
+            imageView.addEventHandler(MouseEvent.MOUSE_ENTERED,mouseOn);
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED,eventHandler);
+            imageView.addEventHandler(MouseEvent.MOUSE_EXITED,mouseOff);
             //adds the image to where it is to be placed
             mapStackPane.getChildren().add(imageView);
         }

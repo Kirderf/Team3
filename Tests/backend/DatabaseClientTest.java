@@ -6,15 +6,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseClientTest {
-    private DatabaseClient database;
+    private DatabaseClient databaseClient;
     @BeforeEach
     void setUp() {
-        database = new DatabaseClient();
+        databaseClient = new DatabaseClient();
     }
 
 
@@ -33,7 +34,7 @@ class DatabaseClientTest {
     @Test
     void addImage() {
         File file = new File("resources/worldmap.png");
-        assertTrue(database.addImage(file));
+        assertTrue(databaseClient.addImage(file));
     }
 
     @Test
@@ -42,7 +43,15 @@ class DatabaseClientTest {
 
     @Test
     void getMetaDataFromDatabase() {
-
+        try {
+            File file = new File("resources/worldmap.png");
+            databaseClient.addImage(file);
+            System.out.println(Arrays.toString(databaseClient.getMetaDataFromDatabase(file.getPath())));
+            System.out.println((databaseClient.getColumn("File_size")).toString());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test
