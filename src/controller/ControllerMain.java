@@ -74,26 +74,7 @@ public class ControllerMain implements Initializable {
     private int rowCount = 0;
     private int columnCount = 0;
 
-    /**
-     * tints the selected images blue
-     *
-     * @param image the image that you want to tint
-     * @param color colour, this should be blue
-     */
-    private static void tint(BufferedImage image, Color color) {
-        //stolen from https://stackoverflow.com/a/36744345
-        for (int x = 0; x < image.getWidth(); x++) {
-                for (int y = 0; y < image.getHeight(); y++) {
-                    if((y<image.getHeight()/20||y>19*image.getHeight()/20)||(x<image.getWidth()/20||x>19*image.getWidth()/20)) {
-                        Color pixelColor = new Color(image.getRGB(x, y), true);
-                        int b = (pixelColor.getBlue() + color.getBlue()) / 2;
-                        int a = pixelColor.getAlpha();
-                        int rgba = (a << 24) | b;
-                        image.setRGB(x, y, rgba);
-                    }
-            }
-        }
-    }
+
 
     /**
      * Run 1 time once the window opens
@@ -471,5 +452,26 @@ public class ControllerMain implements Initializable {
             showBigImage(ControllerMap.clickedImage,ControllerMap.clickedImage.getId());
         }
     }
+    /**
+     * tints the selected images blue
+     *
+     * @param image the image that you want to tint
+     * @param color colour, this should be blue
+     */
+    private static void tint(BufferedImage image, Color color) {
+        //stolen from https://stackoverflow.com/a/36744345
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                Color pixelColor = new Color(image.getRGB(x, y), true);
+                int r = (pixelColor.getRed() + color.getRed()) / 2;
+                int g = (pixelColor.getGreen() + color.getGreen()) / 2;
+                int b = (pixelColor.getBlue() + color.getBlue()) / 2;
+                int a = pixelColor.getAlpha();
+                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
+                image.setRGB(x, y, rgba);
+            }
+        }
+    }
+
 }
 
