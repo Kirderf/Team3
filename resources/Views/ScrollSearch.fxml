@@ -7,30 +7,30 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="368.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.ControllerSearch">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerSearch">
    <children>
-      <Pane layoutX="4.0" layoutY="5.0" prefHeight="279.0" prefWidth="361.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="5.0">
+      <AnchorPane prefHeight="280.0" prefWidth="335.0">
          <children>
-            <TextField fx:id="searchField" alignment="TOP_CENTER" layoutX="23.0" layoutY="21.0" promptText="Search term" />
-            <CheckBox fx:id="metaCheck" layoutX="197.0" layoutY="13.0" mnemonicParsing="false" text="Search by meatadata" />
-            <!-- Should be deleted, but still has an fx:id so keep until replaced properly -->
-            <CheckBox fx:id="tagCheck" layoutX="23.0" layoutY="246.0" mnemonicParsing="false" text="Search by tags" />
-            <CheckBox fx:id="pathCheck" layoutX="197.0" layoutY="38.0" mnemonicParsing="false" text="Search by path" />
-            <Button fx:id="searchButton" layoutX="141.0" layoutY="242.0" mnemonicParsing="false" onAction="#searchAction" text="Start Search" />
-            <ScrollPane layoutX="23.0" layoutY="79.0" prefHeight="156.0" prefWidth="316.0">
+            <TextField fx:id="searchField" alignment="TOP_CENTER" layoutX="17.0" layoutY="10.0" promptText="Search term" AnchorPane.leftAnchor="15.0" />
+            <CheckBox fx:id="metaCheck" layoutX="183.0" layoutY="14.0" mnemonicParsing="false" text="Search by meatadata" />
+            <Button fx:id="searchButton" layoutX="135.0" layoutY="245.0" mnemonicParsing="false" onAction="#searchAction" text="Start Search" />
+            <ScrollPane layoutX="17.0" layoutY="82.0" prefHeight="156.0" prefWidth="300.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                <content>
-                  <ListView fx:id="tagsListView" prefWidth="300.0" />
+                  <ListView fx:id="tagsListView" prefHeight="400.0" prefWidth="289.0" />
                </content>
             </ScrollPane>
-            <Label layoutX="23.0" layoutY="58.0" text="Tags:" textFill="#938989">
+            <Label layoutX="17.0" layoutY="61.0" text="Tags:" textFill="#938989" AnchorPane.leftAnchor="15.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
+            <CheckBox fx:id="nameCheck" layoutX="17.0" layoutY="39.0" mnemonicParsing="false" text="Search by filename" AnchorPane.leftAnchor="15.0" />
+            <CheckBox fx:id="pathCheck" layoutX="183.0" layoutY="39.0" mnemonicParsing="false" text="Search by path" />
          </children>
-      </Pane>
+      </AnchorPane>
+      <!-- Should be deleted, but still has an fx:id so keep until replaced properly -->
+      <CheckBox fx:id="tagCheck" layoutX="-7.0" layoutY="283.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="123.0" text="Search by tags" />
    </children>
 </AnchorPane>

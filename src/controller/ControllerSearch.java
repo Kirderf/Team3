@@ -34,6 +34,8 @@ public class ControllerSearch implements Initializable {
     @FXML
     CheckBox pathCheck;
     @FXML
+    CheckBox nameCheck;
+    @FXML
     TextField searchField;
     @FXML
     ListView tagsListView;
