@@ -293,10 +293,9 @@ public class Database {
      * @param columnName name of the column that is to be sorted by
      * @param ascending  boolean whether or smallest or the largest values are to be at the top
      * @return arraylist with the all of the paths in the database in correct order
-     * @throws SQLException
      * @author Ingebrigt
      */
-    public ArrayList<String> sortBy(String columnName, boolean ascending) throws SQLException {
+    public ArrayList<String> sortBy(String columnName, boolean ascending) {
         ArrayList<String> arrayList = new ArrayList<>();
         try {
             if (isTableInDatabase(columnName)) {
@@ -358,7 +357,7 @@ public class Database {
      * @return an arraylist with the paths that contain data that mathch the search
      * @author Ingebrigt Hovind
      */
-    public ArrayList<String> search(String searchFor, String searchIn) throws SQLException {
+    public ArrayList<String> search(String searchFor, String searchIn) {
         ArrayList<String> searchResults = new ArrayList<>();
         try {
             logger.log(Level.INFO, "Searching for matching values");

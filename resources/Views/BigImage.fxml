@@ -10,18 +10,19 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.VBox?>
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerBigImage">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerBigImage">
     <top>
         <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
             <menus>
@@ -55,63 +56,82 @@
     <left>
         <SplitPane dividerPositions="0.5112612612612613" orientation="VERTICAL" prefHeight="446.0" prefWidth="184.0" BorderPane.alignment="CENTER">
             <items>
-                <AnchorPane>
-                    <children>
+            <Pane>
+               <children>
                         <Label layoutX="57.0" layoutY="1.0" text="Metadata" textFill="#787878">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="26.0" maxWidth="180.0" minHeight="50.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="14.0" AnchorPane.topAnchor="26.0">
-                            <VBox fx:id="metadataVbox"/>
+                        <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="26.0" maxWidth="180.0" minHeight="50.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS">
+                            <VBox fx:id="metadataVbox" />
                         </ScrollPane>
-                    </children>
-                </AnchorPane>
-                <AnchorPane prefWidth="184.0">
-                    <children>
+               </children>
+            </Pane>
+            <Pane>
+               <children>
                         <Label layoutX="74.0" layoutY="1.0" text="Tags" textFill="#787878">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="169.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="31.0" />
-                    </children>
-                </AnchorPane>
+                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="169.0" prefWidth="170.0" vbarPolicy="ALWAYS" />
+               </children>
+            </Pane>
             </items>
         </SplitPane>
     </left>
     <bottom>
-        <HBox maxHeight="25.0" minHeight="30.0" prefHeight="25.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <HBox fillHeight="false" focusTraversable="true" BorderPane.alignment="CENTER">
             <children>
-                <ComboBox fx:id="sortDropDown" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="184.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="175.0" promptText="Sort by" />
-                <AnchorPane minWidth="150.0" HBox.hgrow="ALWAYS">
-                    <children>
-                        <TextArea fx:id="pathDisplay" disable="true" maxHeight="26.0" minHeight="25.0" prefHeight="30.0" prefWidth="561.3333333333334" promptText="Path..." AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="2.0" />
-                    </children>
-                </AnchorPane>
+                <ComboBox fx:id="sortDropDown" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="176.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="176.0" promptText="Sort by">
+               <HBox.margin>
+                  <Insets bottom="7.0" left="5.0" top="7.0" />
+               </HBox.margin></ComboBox>
+            <Region>
+               <padding>
+                  <Insets bottom="7.0" left="2.0" right="2.0" top="7.0" />
+               </padding>
+            </Region>
+            <TextField fx:id="textField" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="7.0" right="5.0" top="7.0" />
+               </HBox.margin>
+            </TextField>
             </children>
         </HBox>
     </bottom>
    <center>
-      <GridPane fx:id="bigImageGrid" gridLinesVisible="true" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="257.891357421875" minHeight="10.0" prefHeight="45.00785446166992" vgrow="NEVER" />
-          <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
-        </rowConstraints>
+      <VBox minHeight="0.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="bigImage" fitHeight="418.0" fitWidth="617.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button mnemonicParsing="false" text="Add Tag" GridPane.halignment="RIGHT">
-               <GridPane.margin>
-                  <Insets right="25.0" />
-               </GridPane.margin>
-               <padding>
-                  <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
-               </padding>
-            </Button>
+            <GridPane fx:id="bigImageGrid" gridLinesVisible="true" VBox.vgrow="ALWAYS">
+              <columnConstraints>
+                <ColumnConstraints fillWidth="false" halignment="CENTER" minWidth="10.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
+                <RowConstraints minHeight="0.0" valignment="CENTER" vgrow="ALWAYS" />
+              </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" text="Add Tag" GridPane.halignment="RIGHT">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" right="25.0" top="10.0" />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                     </padding>
+                  </Button>
+                  <VBox fx:id="imageVbox" alignment="CENTER" minHeight="0.0" minWidth="0.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <children>
+                        <ImageView fx:id="bigImage" pickOnBounds="true" smooth="false" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
          </children>
-      </GridPane>
+      </VBox>
    </center>
 </BorderPane>

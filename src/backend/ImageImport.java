@@ -63,11 +63,9 @@ public class ImageImport {
      * needs to be public
      * @param file the file you want to find the metadata for
      * @return an array with the interesting metadata, the metadata is in the same order as the interestingmetadata arraylist, null if no corresponding data is found
-     * @throws ImageProcessingException com.drew.metadata
-     * @throws IOException needs to read a file from com.drew.metadata
      * @author Ingebrigt Hovind
      */
-    public String[] getMetaData(File file) throws ImageProcessingException, IOException {
+    public String[] getMetaData(File file) {
         try {
             if (isImage(file)) {
                 //array with metadata

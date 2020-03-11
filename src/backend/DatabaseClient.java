@@ -107,7 +107,7 @@ public class DatabaseClient {
                 imageDatabase.close();
                 return false;
             }
-        } catch (ImageProcessingException | IOException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
