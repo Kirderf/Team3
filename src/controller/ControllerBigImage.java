@@ -42,7 +42,11 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBigImage(ControllerMain.imageBuffer);
+        try {
+            setBigImage(ControllerMain.pathBuffer);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         if (ControllerMain.pathBuffer != null){
             showMetadata(ControllerMain.pathBuffer);
         }
@@ -50,7 +54,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     }
 
-    private void setBigImage(Image image) {
+    private void setBigImage(String path) throws FileNotFoundException {
+        Image image = new Image(new FileInputStream(path));
         bigImage.fitHeightProperty().bind(bigImageGrid.getRowConstraints().get(1).prefHeightProperty());
         bigImage.setImage(image);
     }

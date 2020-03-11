@@ -82,14 +82,14 @@ public class ControllerMain implements Initializable {
     private static void tint(BufferedImage image, Color color) {
         //stolen from https://stackoverflow.com/a/36744345
         for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Color pixelColor = new Color(image.getRGB(x, y), true);
-                int r = (pixelColor.getRed() + color.getRed()) / 2;
-                int g = (pixelColor.getGreen() + color.getGreen()) / 2;
-                int b = (pixelColor.getBlue() + color.getBlue()) / 2;
-                int a = pixelColor.getAlpha();
-                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
-                image.setRGB(x, y, rgba);
+                for (int y = 0; y < image.getHeight(); y++) {
+                    if((y<image.getHeight()/20||y>19*image.getHeight()/20)||(x<image.getWidth()/20||x>19*image.getWidth()/20)) {
+                        Color pixelColor = new Color(image.getRGB(x, y), true);
+                        int b = (pixelColor.getBlue() + color.getBlue()) / 2;
+                        int a = pixelColor.getAlpha();
+                        int rgba = (a << 24) | b;
+                        image.setRGB(x, y, rgba);
+                    }
             }
         }
     }
@@ -265,9 +265,11 @@ public class ControllerMain implements Initializable {
      */
     protected void refreshImages() {
         try {
+            ArrayList paths = databaseClient.getColumn("Path");
+            ArrayList addedPaths = DatabaseClient.getAddedPaths();
             clearView();
-            for (Object obj : databaseClient.getColumn("Path")) {
-                if (obj != null && !databaseClient.addedPathsContains((String) obj)) {
+            for (Object obj : paths) {
+                if (obj != null && !addedPaths.contains((String) obj)) {
                     DatabaseClient.getAddedPaths().add((String) obj);
                     insertImage((String) obj);
                 }
@@ -324,7 +326,6 @@ public class ControllerMain implements Initializable {
     }
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView,Image image,String path){
         return (EventHandler<MouseEvent>) event -> {
-
             //first click in a series of 2 clicks
             if (time1 == 0) {
                 time1 = System.currentTimeMillis();
@@ -335,6 +336,7 @@ public class ControllerMain implements Initializable {
                 diff = time2 - time1;
                 //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
                 if (diff < 500 && diff > 0) {
+                    System.out.println(path);
                     try {
                         time1 = 0;
                         selectedImages.clear();
@@ -369,7 +371,6 @@ public class ControllerMain implements Initializable {
     private void showBigImage(ImageView imageView,String path) throws IOException {
         selectedImages.clear();
         pathBuffer = path;
-        imageBuffer = imageView.getImage();
         Scene scene = pictureGrid.getScene();
         scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
     }
