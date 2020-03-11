@@ -97,6 +97,7 @@
                 <ComboBox fx:id="sortDropDown" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="184.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#sortAction" prefHeight="25.0" prefWidth="175.0" promptText="Sort by">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
+                            <String fx:id="sortByFilename" fx:value="Filename"/>
                             <String fx:id="sortByPath" fx:value="Path" />
                             <String fx:id="sortByDate" fx:value="Date" />
                             <String fx:id="sortBySize" fx:value="Size" />

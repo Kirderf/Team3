@@ -31,9 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -159,6 +157,21 @@ public class ControllerMain implements Initializable {
         else if (sortDropDown.getValue().toString().equalsIgnoreCase("Location")) {
             //TODO make this work
             //I am thinking that we will sort based on the sum of latitude and longitude for the moment
+        }
+        else if(sortDropDown.getValue().toString().equalsIgnoreCase("Filename")){
+            //this is just a way to get an arraylist with the paths, theres no use for the sort function here 
+            ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
+            Collections.sort(sortedList, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return o1.substring(o1.lastIndexOf("/")).compareTo(o2.substring(o2.lastIndexOf("/")));
+                }
+            });
+            clearView();
+            for(String s : sortedList){
+                insertImage(s);
+            }
+
         }
         //if path or date is selected
         else {
