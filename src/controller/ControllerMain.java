@@ -83,6 +83,8 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.log(Level.INFO, "Initializing");
+        //this is required, as disabling the textfield in the fxml file made the path way too light to see
+        pathDisplay.setEditable(false);
         pictureGrid.setAlignment(Pos.CENTER);
         if (loadedFromAnotherLocation) {
             refreshImages();
@@ -159,7 +161,7 @@ public class ControllerMain implements Initializable {
             //I am thinking that we will sort based on the sum of latitude and longitude for the moment
         }
         else if(sortDropDown.getValue().toString().equalsIgnoreCase("Filename")){
-            //this is just a way to get an arraylist with the paths, theres no use for the sort function here 
+            //this is just a way to get an arraylist with the paths, theres no use for the sort function here
             ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
             Collections.sort(sortedList, new Comparator<String>() {
                 @Override
@@ -410,7 +412,7 @@ public class ControllerMain implements Initializable {
         for (String s : databaseClient.getMetaDataFromDatabase(path)) {
             switch (i) {
                 case 0:
-                    metadataVbox.getChildren().add(new Label("Path :" + s));
+                    pathDisplay.setText("Path :" + s);
                     break;
                 case 1:
                     break;
@@ -418,7 +420,7 @@ public class ControllerMain implements Initializable {
                     metadataVbox.getChildren().add(new Label("File size :" + s));
                     break;
                 case 3:
-                    metadataVbox.getChildren().add(new Label("Date :" + s));
+                    metadataVbox.getChildren().add(new Label("Date :" + s.substring(0,4)+"/"+ s.substring(4,6)+"/"+ s.substring(6)));
                     break;
                 case 4:
                     metadataVbox.getChildren().add(new Label("Height :" + s));
