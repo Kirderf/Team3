@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="111.0" prefWidth="238.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.ControllerAlbumNamePicker">
+    <children>
+        <TextField layoutX="45.0" layoutY="41.0" fx:id="inputText"/>
+        <HBox layoutX="33.0" layoutY="66.0">
+            <children>
+                <Button mnemonicParsing="false" text="Cancel" fx:id="cancelButton" onAction="#cancelExport" >
+                    <padding>
+                        <Insets left="10.0" right="10.0" />
+                    </padding>
+                    <HBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" text="Ok" fx:id="okButton" onAction="#saveAlbum">
+                    <padding>
+                        <Insets left="20.0" right="20.0" />
+                    </padding>
+                    <HBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+            <padding>
+                <Insets top="10.0" />
+            </padding>
+        </HBox>
+        <Label layoutX="45.0" layoutY="21.0" text="Choose album name:" textFill="#7a7a7a">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

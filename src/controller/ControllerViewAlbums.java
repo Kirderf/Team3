@@ -32,13 +32,6 @@ public class ControllerViewAlbums implements Initializable {
     public static boolean albumSelected = false;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ArrayList<String> testPictures = new ArrayList<>();
-        testPictures.add("C:/Users/ingebrigt Hovind/Pictures/Capture.PNG");
-        testPictures.add("C:/Users/ingebrigt Hovind/Pictures/Skjermbilde.PNG");
-        testPictures.add("C:/Users/ingebrigt Hovind/Pictures/Ingebrigt.jpg");
-        testPictures.add("C:/Users/ingebrigt Hovind/Pictures/Skjermbilde2.PNG");
-        ControllerMain.albums.put("Italia 2020",testPictures);
-        ControllerMain.albums.put("Hjemmeferie",testPictures);
         Iterator albumIterator = ControllerMain.albums.entrySet().iterator();
         // Iterate through the hashmap
         // and add some bonus marks for every student

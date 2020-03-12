@@ -490,6 +490,26 @@ public class ControllerMain implements Initializable {
     }
 
     public void saveAlbumAction(ActionEvent actionEvent) throws IOException {
+        Stage albumNameStage = new Stage();
+        if (!albumNameStage.isShowing()) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNamePicker.fxml"));
+                albumNameStage.setScene(new Scene(root));
+                albumNameStage.setTitle("Save album");
+                albumNameStage.setResizable(false);
+                albumNameStage.showAndWait();
+                //exportSucceed is a static variable in controllerExport
+                if (!ControllerAlbumNamePicker.savedName.equals("")) {
+                    refreshImages();
+                    ArrayList<String> tempAlbum = selectedImages;
+                    albums.put(ControllerAlbumNamePicker.savedName,tempAlbum);
+                    selectedImages.clear();
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+        selectedImages.clear();
 
     }
 
