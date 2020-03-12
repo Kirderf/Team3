@@ -5,7 +5,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+<<<<<<< HEAD
 import javafx.scene.control.Button;
+=======
+import javafx.scene.control.Menu;
+>>>>>>> 672453e1d463351cbe9c60440cd533b426b83501
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,6 +36,9 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     private TextField textField;
 
     @FXML
+    private Menu exportButton;
+
+    @FXML
     private VBox imageVbox;
 
     /**
@@ -46,6 +53,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         if (pathBuffer != null) {
             showMetadata(pathBuffer);
         }
+        exportButton.setDisable(true);
+        exportButton.setOnAction(event -> event.consume());
     }
 
     @FXML

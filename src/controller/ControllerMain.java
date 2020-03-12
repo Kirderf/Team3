@@ -153,7 +153,6 @@ public class ControllerMain implements Initializable {
     private void sortAction(ActionEvent event) throws SQLException, FileNotFoundException {
         //if size is selected
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
-
             ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
             clearView();
             for (String s : sortedList) {
@@ -177,7 +176,6 @@ public class ControllerMain implements Initializable {
             for (String s : sortedList) {
                 insertImage(s);
             }
-
         }
         //if path or date is selected
         else {
@@ -220,13 +218,14 @@ public class ControllerMain implements Initializable {
     @FXML
     private void quitAction(ActionEvent event) {
         try {
+            logger.log(Level.WARNING, "Closing application");
             databaseClient.closeApplication();
+            Platform.exit();
+            System.exit(0);
         } catch (SQLException e) {
             e.printStackTrace();
             logger.log(Level.WARNING, "Could not close application / delete table");
         }
-        Platform.exit();
-        System.exit(0);
     }
 
     @FXML
@@ -239,7 +238,7 @@ public class ControllerMain implements Initializable {
 
     @FXML
     public void helpAction(ActionEvent actionEvent) {
-        addEmptyRow();
+        System.out.println(selectedImages.toString());
     }
 
     /**
@@ -312,35 +311,34 @@ public class ControllerMain implements Initializable {
         return imageView;
     }
 
-    //EventHandler for mouseclicks on images
+    /**
+     * EventHandler for mouseclicks on images
+     *
+     * @param imageView
+     * @param image
+     * @param path
+     * @return
+     */
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path) {
-
         return (EventHandler<MouseEvent>) event -> {
-            //first click in a series of 2 clicks
-            if (time1 == 0) {
-                time1 = System.currentTimeMillis();
+            //Ctrl click
+            if (event.isControlDown()) {
+                imageView.setImage(image);
+                try {
+                    showBigImage(imageView, path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                //Single click
                 setSelectedImages(imageView, image, path);
                 showMetadata(null);
-            } else {
-                time2 = System.currentTimeMillis();
-                diff = time2 - time1;
-                //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
-                if (diff < 500 && diff > 0) {
-                    try {
-                        time1 = 0;
-                        imageView.setImage(image);
-                        showBigImage(imageView, path);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    //otherwise the second click is registered as a single click
-                    time1 = 0;
-                    setSelectedImages(imageView, image, path);
-                    showMetadata(null);
+                if (selectedImages.size() == 0 || selectedImages.size() > 1) {
+                    pathDisplay.clear();
+                    metadataVbox.getChildren().clear();
                 }
             }
+
         };
     }
 
@@ -412,9 +410,7 @@ public class ControllerMain implements Initializable {
             switch (i) {
                 case 0:
                     metadataVbox.getChildren().add(new Label("Path :" + s));
-                    if (!(this instanceof ControllerBigImage)) {
-                        pathDisplay.setText("Path :" + s);
-                    }
+                    if (!(this instanceof ControllerBigImage)) pathDisplay.setText("Path :" + s);
                     break;
                 case 1:
                     break;
@@ -439,6 +435,7 @@ public class ControllerMain implements Initializable {
             }
             i++;
         }
+
     }
 
     /**
