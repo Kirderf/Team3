@@ -281,7 +281,7 @@ public class Database {
             try {
                 deleteTable();
             } catch (SQLException e) {
-                System.out.println("Didnt delete table");
+                logger.log(Level.SEVERE, e.getLocalizedMessage());
             }
         }
         return close();
@@ -318,7 +318,7 @@ public class Database {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getLocalizedMessage());
         }
         return null;
     }
@@ -364,10 +364,8 @@ public class Database {
             //select paths where the search term is present in any column
             String sql = "SELECT * FROM " + table + " WHERE " + searchIn + " LIKE " + "'%" + searchFor + "%'";
             if (searchIn.equalsIgnoreCase("metadata")) {
-                System.out.println("ja kommer inn i metadata if");
                 //TODO this is a pretty ghetto way of doing this, check if there's a better way of searching through these columns in the database
                 sql = "SELECT * FROM " + table + " WHERE File_size LIKE " + "'%" + searchFor + "%' or DATE LIKE " + "'%" + searchFor + "%' or Height LIKE " + "'%" + searchFor + "%' or Width LIKE " + "'%" + searchFor + "%' or GPS_Longitude LIKE '%" + searchFor + "%' or GPS_Latitude LIKE '%" + searchFor + "%'";
-                System.out.println(sql);
             }
             statement = con.prepareStatement(sql);
             resultSet = statement.executeQuery();
@@ -376,7 +374,7 @@ public class Database {
             }
             return searchResults;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, e.getLocalizedMessage());
         }
         return null;
     }
