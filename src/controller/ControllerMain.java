@@ -52,13 +52,7 @@ public class ControllerMain implements Initializable {
     protected static boolean loadedFromAnotherLocation = false;
     private static boolean ascending = true;
     private final double initialGridHeight = 185;
-    long time1 = 0;
-    long time2 = 0;
-    long diff = 0;
-    @FXML
-    private ScrollPane metadataScroll;
-    @FXML
-    private ScrollPane tagsScroll;
+
     @FXML
     private GridPane pictureGrid;
     @FXML
@@ -71,26 +65,6 @@ public class ControllerMain implements Initializable {
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
-
-    /**
-     * tints the selected images blue
-     *  @param image the image that you want to tint
-     *
-     */
-    private static void tint(BufferedImage image) {
-        //stolen from https://stackoverflow.com/a/36744345
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Color pixelColor = new Color(image.getRGB(x, y), true);
-                int r = (pixelColor.getRed() + Color.blue.getRed()) / 2;
-                int g = (pixelColor.getGreen() + Color.blue.getGreen()) / 2;
-                int b = (pixelColor.getBlue() + Color.blue.getBlue()) / 2;
-                int a = pixelColor.getAlpha();
-                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
-                image.setRGB(x, y, rgba);
-            }
-        }
-    }
 
     /**
      * Run 1 time once the window opens
@@ -491,6 +465,26 @@ public class ControllerMain implements Initializable {
             ControllerViewAlbums.albumSelected = false;
             for(String s : selectedImages){
                 insertImage(s);
+            }
+        }
+    }
+
+    /**
+     * tints the selected images blue
+     *  @param image the image that you want to tint
+     *
+     */
+    private static void tint(BufferedImage image) {
+        //stolen from https://stackoverflow.com/a/36744345
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                Color pixelColor = new Color(image.getRGB(x, y), true);
+                int r = (pixelColor.getRed() + Color.blue.getRed()) / 2;
+                int g = (pixelColor.getGreen() + Color.blue.getGreen()) / 2;
+                int b = (pixelColor.getBlue() + Color.blue.getBlue()) / 2;
+                int a = pixelColor.getAlpha();
+                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
+                image.setRGB(x, y, rgba);
             }
         }
     }
