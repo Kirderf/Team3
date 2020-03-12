@@ -419,7 +419,10 @@ public class ControllerMain implements Initializable {
         for (String s : databaseClient.getMetaDataFromDatabase(path)) {
             switch (i) {
                 case 0:
-                    pathDisplay.setText("Path :" + s);
+                    metadataVbox.getChildren().add(new Label("Path :" + s));
+                    if (!(this instanceof ControllerBigImage)){
+                        pathDisplay.setText("Path :" + s);
+                    }
                     break;
                 case 1:
                     break;
