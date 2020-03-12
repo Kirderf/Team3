@@ -19,10 +19,7 @@ import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ControllerViewAlbums implements Initializable {
     @FXML
@@ -42,6 +39,7 @@ public class ControllerViewAlbums implements Initializable {
             pane.setMinWidth(100);
             pane.setMinHeight(100);
             pane.setMaxWidth(100);
+            String key = new String(mapElement.getKey().toString());
             Text name = new Text(mapElement.getKey().toString());
             name.setFill(Paint.valueOf("#FFFFFF"));
             name.setLayoutX(25);
@@ -52,7 +50,10 @@ public class ControllerViewAlbums implements Initializable {
             EventHandler<MouseEvent> clickedOn = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    showAlbum(name.toString());
+                    Iterator albumIterator = ControllerMain.albums.entrySet().iterator();
+                    System.out.println(ControllerMain.albums.toString());
+                    System.out.println(ControllerMain.albums.get(key));
+                    showAlbum(key);
                 }
             };
             pane.addEventHandler(MouseEvent.MOUSE_CLICKED,clickedOn);
@@ -126,6 +127,7 @@ public class ControllerViewAlbums implements Initializable {
      */
     private void showAlbum(String name){
         ControllerMain.selectedImages = ControllerMain.albums.get(name);
+        System.out.println(ControllerMain.albums.get(name));
         albumSelected = true;
         ((Stage) albumTilePane.getScene().getWindow()).close();
     }

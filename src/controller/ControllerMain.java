@@ -501,9 +501,14 @@ public class ControllerMain implements Initializable {
                 //exportSucceed is a static variable in controllerExport
                 if (!ControllerAlbumNamePicker.savedName.equals("")) {
                     refreshImages();
-                    ArrayList<String> tempAlbum = selectedImages;
+                    ArrayList<String> tempAlbum = new ArrayList<>();
+                    //deep copy of selectedImages
+                    for(String s : selectedImages){
+                        tempAlbum.add(s);
+                    }
                     albums.put(ControllerAlbumNamePicker.savedName,tempAlbum);
                     selectedImages.clear();
+                    ControllerAlbumNamePicker.savedName = "";
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -523,7 +528,6 @@ public class ControllerMain implements Initializable {
         albumStage.setResizable(false);
         albumStage.showAndWait();
         clearView();
-
         if(ControllerViewAlbums.albumSelected){
             ControllerViewAlbums.albumSelected = false;
             for(String s : selectedImages){
