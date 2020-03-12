@@ -83,7 +83,6 @@ public class DatabaseClient {
         try {
             imageDatabase.openConnection();
             String[] metadata = imageImport.getMetaData(image);
-            System.out.println(Arrays.toString(metadata));
             if (metadata != null) {
                 try {
                     if (addedPathsContains(image.getPath())) {

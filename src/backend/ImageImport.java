@@ -25,7 +25,7 @@ import java.util.*;
 public class ImageImport {
     //this is the names of the various kinds of metadata we are interested in in com.drew.metadata methods
     private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude","File Modified Date");
-    private int noOfData = interestingMetadata.size();
+    private int noOfData = interestingMetadata.size() -1;
     //needs to be all lowercase, update if we accept other file types
     private List<String> validImageExtensions = Arrays.asList(".jpg",".png",".jpeg");
     private SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
@@ -89,7 +89,6 @@ public class ImageImport {
                                     metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
                                 }
                                 else if(!hasDateTime&&tag.getTagName().equalsIgnoreCase("File Modified Date")){
-                                    System.out.println(tag.getDescription());
                                     //this converts from three letter month codes into numbers, e.g "feb" = 02
                                     DateTimeFormatter parser = DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH);
                                     String tempMonth = tag.getDescription().substring(tag.getDescription().indexOf(" ")+1,tag.getDescription().indexOf(" ")+4);
@@ -105,7 +104,6 @@ public class ImageImport {
                                     if(Integer.parseInt(month)<10){
                                         month = "0" + month;
                                     }
-                                    //TODO test if this works when the day is before the tenth
                                     //formats the day correctly
                                     String day = "";
                                     //finds the first space

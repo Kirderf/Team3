@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -20,8 +21,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -44,12 +45,16 @@ public class ControllerMain implements Initializable {
     public static Stage searchStage = new Stage();
     public static Stage exportStage = new Stage();
     public static Stage worldStage = new Stage();
+    public static Stage albumStage = new Stage();
     protected static Image imageBuffer;
     protected static String pathBuffer;
     public static boolean loadedFromAnotherLocation = false;
     public static ArrayList<String> selectedImages = new ArrayList<String>();
     private static boolean ascending = true;
     private final double initialGridHeight = 185;
+    public static HashMap<String,ArrayList<String>> albums = new HashMap<String,ArrayList<String>>();
+    //thinking this will be used to check if it's the same image that's being clicked twice in a row
+    private static String clickedImage = "";
     long time1 = 0;
     long time2 = 0;
     long diff = 0;
@@ -317,11 +322,10 @@ public class ControllerMain implements Initializable {
 
     //EventHandler for mouseclicks on images
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path){
+
         return (EventHandler<MouseEvent>) event -> {
-            String tempPath = "";
             //first click in a series of 2 clicks
             if (time1 == 0) {
-                tempPath=path;
                 time1 = System.currentTimeMillis();
                 setSelectedImages(imageView, image, path);
                 showMetadata(null);
@@ -329,11 +333,12 @@ public class ControllerMain implements Initializable {
                 time2 = System.currentTimeMillis();
                 diff = time2 - time1;
                 //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
-                if (diff < 500 && diff > 0 && tempPath.equals(path)) {
+                if (diff < 500 && diff > 0) {
                     try {
                         time1 = 0;
                         imageView.setImage(image);
                         showBigImage(imageView, path);
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -490,5 +495,19 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    public void saveAlbumAction(ActionEvent actionEvent) throws IOException {
+
+    }
+
+    public void viewAlbums(ActionEvent actionEvent) throws IOException {
+        Iterator albumIterator = albums.entrySet().iterator();
+        // Iterate through the hashmap
+        // and add some bonus marks for every student
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
+        albumStage.setScene(new Scene(root));
+        albumStage.setTitle("Albums");
+        albumStage.setResizable(false);
+        albumStage.showAndWait();
+    }
 }
 
