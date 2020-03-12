@@ -1,6 +1,7 @@
 package controller;
 
 import backend.DatabaseClient;
+import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -52,7 +53,7 @@ public class ControllerMain implements Initializable {
     public static ArrayList<String> selectedImages = new ArrayList<String>();
     private static boolean ascending = true;
     private final double initialGridHeight = 185;
-    public static HashMap<String,ArrayList<String>> albums = new HashMap<String,ArrayList<String>>();
+    public static HashMap<String, ArrayList<String>> albums = new HashMap<String, ArrayList<String>>();
     //thinking this will be used to check if it's the same image that's being clicked twice in a row
     private static String clickedImage = "";
     long time1 = 0;
@@ -76,7 +77,6 @@ public class ControllerMain implements Initializable {
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
-
 
 
     /**
@@ -153,7 +153,6 @@ public class ControllerMain implements Initializable {
     private void sortAction(ActionEvent event) throws SQLException, FileNotFoundException {
         //if size is selected
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
-
             ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
             clearView();
             for (String s : sortedList) {
@@ -164,8 +163,7 @@ public class ControllerMain implements Initializable {
         else if (sortDropDown.getValue().toString().equalsIgnoreCase("Location")) {
             //TODO make this work
             //I am thinking that we will sort based on the sum of latitude and longitude for the moment
-        }
-        else if(sortDropDown.getValue().toString().equalsIgnoreCase("Filename")){
+        } else if (sortDropDown.getValue().toString().equalsIgnoreCase("Filename")) {
             //this is just a way to get an arraylist with the paths, theres no use for the sort function here
             ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
             Collections.sort(sortedList, new Comparator<String>() {
@@ -175,10 +173,9 @@ public class ControllerMain implements Initializable {
                 }
             });
             clearView();
-            for(String s : sortedList){
+            for (String s : sortedList) {
                 insertImage(s);
             }
-
         }
         //if path or date is selected
         else {
@@ -220,20 +217,14 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     private void quitAction(ActionEvent event) {
-        if (importStage.isShowing()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Remember to close all other windows before exiting UwU");
-            alert.showAndWait();
-        } else {
-            try {
-                databaseClient.closeApplication();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                logger.log(Level.WARNING, "Could not close application / delete table");
-            }
-            Stage stage = (Stage) pathDisplay.getScene().getWindow();
-            stage.close();
+        try {
+            logger.log(Level.WARNING, "Closing application");
+            databaseClient.closeApplication();
+            Platform.exit();
             System.exit(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.log(Level.WARNING, "Could not close application / delete table");
         }
     }
 
@@ -247,7 +238,7 @@ public class ControllerMain implements Initializable {
 
     @FXML
     public void helpAction(ActionEvent actionEvent) {
-        addEmptyRow();
+        System.out.println(selectedImages.toString());
     }
 
     /**
@@ -320,35 +311,34 @@ public class ControllerMain implements Initializable {
         return imageView;
     }
 
-    //EventHandler for mouseclicks on images
-    private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path){
-
+    /**
+     * EventHandler for mouseclicks on images
+     *
+     * @param imageView
+     * @param image
+     * @param path
+     * @return
+     */
+    private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path) {
         return (EventHandler<MouseEvent>) event -> {
-            //first click in a series of 2 clicks
-            if (time1 == 0) {
-                time1 = System.currentTimeMillis();
+            //Ctrl click
+            if (event.isControlDown()) {
+                imageView.setImage(image);
+                try {
+                    showBigImage(imageView, path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                //Single click
                 setSelectedImages(imageView, image, path);
                 showMetadata(null);
-            } else {
-                time2 = System.currentTimeMillis();
-                diff = time2 - time1;
-                //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
-                if (diff < 500 && diff > 0) {
-                    try {
-                        time1 = 0;
-                        imageView.setImage(image);
-                        showBigImage(imageView, path);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    //otherwise the second click is registered as a single click
-                    time1 = 0;
-                    setSelectedImages(imageView, image, path);
-                    showMetadata(null);
+                if (selectedImages.size() == 0 || selectedImages.size() > 1) {
+                    pathDisplay.clear();
+                    metadataVbox.getChildren().clear();
                 }
             }
+
         };
     }
 
@@ -365,7 +355,7 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    private void showBigImage(ImageView imageView,String path) throws IOException {
+    private void showBigImage(ImageView imageView, String path) throws IOException {
         selectedImages.clear();
         pathBuffer = path;
         imageBuffer = imageView.getImage();
@@ -419,7 +409,8 @@ public class ControllerMain implements Initializable {
         for (String s : databaseClient.getMetaDataFromDatabase(path)) {
             switch (i) {
                 case 0:
-                    pathDisplay.setText("Path :" + s);
+                    metadataVbox.getChildren().add(new Label("Path :" + s));
+                    if (!(this instanceof ControllerBigImage)) pathDisplay.setText("Path :" + s);
                     break;
                 case 1:
                     break;
@@ -427,7 +418,7 @@ public class ControllerMain implements Initializable {
                     metadataVbox.getChildren().add(new Label("File size :" + s));
                     break;
                 case 3:
-                    metadataVbox.getChildren().add(new Label("Date :" + s.substring(0,4)+"/"+ s.substring(4,6)+"/"+ s.substring(6)));
+                    metadataVbox.getChildren().add(new Label("Date :" + s.substring(0, 4) + "/" + s.substring(4, 6) + "/" + s.substring(6)));
                     break;
                 case 4:
                     metadataVbox.getChildren().add(new Label("Height :" + s));
@@ -444,11 +435,13 @@ public class ControllerMain implements Initializable {
             }
             i++;
         }
+
     }
 
     /**
      * When the user clicks on goToMap under library
      * Checks all the added photos for valid gps data, and places the ones with valid data on the map
+     *
      * @param actionEvent
      * @throws IOException
      * @throws SQLException
@@ -461,8 +454,8 @@ public class ControllerMain implements Initializable {
         //add them to the worldmap view with event listener to check when they're clicked
         for (int i = 0; i < databaseClient.getColumn("GPS_Longitude").size(); i++) {
             //if both are not equal to zero, maybe this should be changed to an or
-            if(longitude.get(i)!= 0&&latitude.get(i)!= 0){
-                locations.put((String)paths.get(i),""+longitude.get(i)+","+latitude.get(i));
+            if (longitude.get(i) != 0 && latitude.get(i) != 0) {
+                locations.put((String) paths.get(i), "" + longitude.get(i) + "," + latitude.get(i));
             }
         }
         Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
@@ -470,10 +463,11 @@ public class ControllerMain implements Initializable {
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
         worldStage.showAndWait();
-        if(ControllerMap.clickedImage!=null){
-            showBigImage(ControllerMap.clickedImage,ControllerMap.clickedImage.getId());
+        if (ControllerMap.clickedImage != null) {
+            showBigImage(ControllerMap.clickedImage, ControllerMap.clickedImage.getId());
         }
     }
+
     /**
      * tints the selected images blue
      *

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 
 public class Start extends Application {
-    private static final Logger  logger = Logger.getLogger(Start.class.getName());
+    private static final Logger logger = Logger.getLogger(Start.class.getName());
 
     /**
      * @param primaryStage
@@ -34,22 +34,16 @@ public class Start extends Application {
             ControllerMain.importStage.initStyle(StageStyle.UTILITY);
             ControllerMain.searchStage.initModality(Modality.APPLICATION_MODAL);
             ControllerMain.searchStage.initStyle(StageStyle.UTILITY);
-            logger.log(Level.INFO,"Showing app");
+            logger.log(Level.INFO, "Showing app");
             primaryStage.show();
             primaryStage.setOnCloseRequest((event -> {
-                if (ControllerMain.importStage.isShowing()) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setContentText("Remember to close all other windows before exiting UwU");
-                    alert.showAndWait();
-                    event.consume();
-                } else {
-                    try {
-                        ControllerMain.databaseClient.closeApplication();
-                        Platform.exit();
-                        System.exit(0);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                logger.log(Level.INFO, "Closing application");
+                try {
+                    ControllerMain.databaseClient.closeApplication();
+                    Platform.exit();
+                    System.exit(0);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }));
         } catch (Exception e) {

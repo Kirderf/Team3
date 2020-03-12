@@ -28,26 +28,31 @@
             <menus>
                 <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="importButton" mnemonicParsing="false" onAction="#importAction" text="Import">
-                        </MenuItem>
-                        <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" text="Export">
-                        </MenuItem>
+                        <Menu fx:id="importButton" mnemonicParsing="false" onAction="#importAction" text="Import"/>
+                        <Menu fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" text="Export"/>
+                        <Menu fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" text="Save to album"/>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Preferences..." />
                         <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
                     </items>
                 </Menu>
-                <Menu fx:id="openSearch" mnemonicParsing="false" onAction="#searchAction" text="Search">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#searchAction" text="Search" />
-               </items></Menu>
+                <Menu fx:id="searchbutton" mnemonicParsing="false" onAction="#searchAction" text="Search">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Search" />
+                    </items>
+                </Menu>
                 <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#goToLibrary" text="Go to library" />
-               </items></Menu>
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#goToLibrary" text="Go to library" />
+                        <MenuItem mnemonicParsing="false" onAction="#viewAlbums" text="View Albums" />
+                    </items>
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#goToMap" text="Go to map" />
+                    </items>
+                </Menu>
                 <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" onAction="#helpAction" text="About" />
                     </items>
                 </Menu>
             </menus>
@@ -64,7 +69,8 @@
                             </font>
                         </Label>
                         <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="26.0" maxWidth="180.0" minHeight="50.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS">
-                            <VBox fx:id="metadataVbox" />
+                            <VBox fx:id="metadataVbox">
+                            </VBox>
                         </ScrollPane>
                </children>
             </Pane>
@@ -113,7 +119,7 @@
                 <RowConstraints minHeight="0.0" valignment="CENTER" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" text="Add Tag" GridPane.halignment="RIGHT">
+                  <Button fx:id="addTagButton" mnemonicParsing="false" onAction="#addTagAction" text="Add Tag" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets bottom="10.0" right="25.0" top="10.0" />
                      </GridPane.margin>

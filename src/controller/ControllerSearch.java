@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.awt.Button;
 import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
@@ -40,7 +41,9 @@ public class ControllerSearch implements Initializable {
     @FXML
     TextField searchField;
     @FXML
-    ListView tagsListView;
+    TextField addTagField;
+    @FXML
+    Button addDone;
     @FXML
     TableColumn<TableGetterSetter , String> tagName;
     @FXML
@@ -108,6 +111,10 @@ public class ControllerSearch implements Initializable {
 
     ObservableList<TableGetterSetter> observeList = FXCollections.observableArrayList();
 
+    /**
+     * Finds all available tags, assigns their labels and checkboxes and adds them to an observable
+     * list, which is then inserted into a table list that's presented to the user.
+     */
     @FXML
     public void insertTags(){
         //  Use this when adding tags has been implemented

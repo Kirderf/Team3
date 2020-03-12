@@ -19,7 +19,7 @@ public class Text_To_Speech {
 
     public Text_To_Speech() throws IOException {
         //Startup message
-        speak("お前はもう死んでいるのですが、ご主人様お元気ですか。");
+        speak("お早う御座います");
     }
 
     /**
