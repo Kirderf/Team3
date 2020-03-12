@@ -303,8 +303,10 @@ public class ControllerMain implements Initializable {
     //EventHandler for mouseclicks on images
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path){
         return (EventHandler<MouseEvent>) event -> {
+            String tempPath = "";
             //first click in a series of 2 clicks
             if (time1 == 0) {
+                tempPath=path;
                 time1 = System.currentTimeMillis();
                 setSelectedImages(imageView, image, path);
                 showMetadata(null);
@@ -312,7 +314,7 @@ public class ControllerMain implements Initializable {
                 time2 = System.currentTimeMillis();
                 diff = time2 - time1;
                 //Checks for time between first click and second click, if time< 250 millis, it is a doubleclick
-                if (diff < 500 && diff > 0) {
+                if (diff < 500 && diff > 0 && tempPath.equals(path)) {
                     try {
                         time1 = 0;
                         imageView.setImage(image);
