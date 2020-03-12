@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author Ingebrigt Hovind & Fredrik Julsen

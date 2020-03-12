@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -20,8 +21,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -31,9 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,12 +45,16 @@ public class ControllerMain implements Initializable {
     public static Stage searchStage = new Stage();
     public static Stage exportStage = new Stage();
     public static Stage worldStage = new Stage();
+    public static Stage albumStage = new Stage();
     protected static Image imageBuffer;
     protected static String pathBuffer;
     public static boolean loadedFromAnotherLocation = false;
     public static ArrayList<String> selectedImages = new ArrayList<String>();
     private static boolean ascending = true;
     private final double initialGridHeight = 185;
+    public static HashMap<String,ArrayList<String>> albums = new HashMap<String,ArrayList<String>>();
+    //thinking this will be used to check if it's the same image that's being clicked twice in a row
+    private static String clickedImage = "";
     long time1 = 0;
     long time2 = 0;
     long diff = 0;
@@ -74,6 +77,8 @@ public class ControllerMain implements Initializable {
     private int rowCount = 0;
     private int columnCount = 0;
 
+
+
     /**
      * Run 1 time once the window opens
      *
@@ -83,6 +88,8 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.log(Level.INFO, "Initializing");
+        //this is required, as disabling the textfield in the fxml file made the path way too light to see
+        pathDisplay.setEditable(false);
         pictureGrid.setAlignment(Pos.CENTER);
         if (loadedFromAnotherLocation) {
             refreshImages();
@@ -95,7 +102,7 @@ public class ControllerMain implements Initializable {
         logger.log(Level.INFO, "SearchAction");
         if (!searchStage.isShowing()) {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/Views/Search.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
                 searchStage.setScene(new Scene(root));
                 searchStage.setTitle("Search");
                 searchStage.setResizable(false);
@@ -157,6 +164,21 @@ public class ControllerMain implements Initializable {
         else if (sortDropDown.getValue().toString().equalsIgnoreCase("Location")) {
             //TODO make this work
             //I am thinking that we will sort based on the sum of latitude and longitude for the moment
+        }
+        else if(sortDropDown.getValue().toString().equalsIgnoreCase("Filename")){
+            //this is just a way to get an arraylist with the paths, theres no use for the sort function here
+            ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
+            Collections.sort(sortedList, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return o1.substring(o1.lastIndexOf("/")).compareTo(o2.substring(o2.lastIndexOf("/")));
+                }
+            });
+            clearView();
+            for(String s : sortedList){
+                insertImage(s);
+            }
+
         }
         //if path or date is selected
         else {
@@ -248,9 +270,11 @@ public class ControllerMain implements Initializable {
      */
     protected void refreshImages() {
         try {
+            ArrayList paths = databaseClient.getColumn("Path");
+            ArrayList addedPaths = DatabaseClient.getAddedPaths();
             clearView();
-            for (Object obj : databaseClient.getColumn("Path")) {
-                if (obj != null && !databaseClient.addedPathsContains((String) obj)) {
+            for (Object obj : paths) {
+                if (obj != null && !addedPaths.contains((String) obj)) {
                     DatabaseClient.getAddedPaths().add((String) obj);
                     insertImage((String) obj);
                 }
@@ -298,8 +322,8 @@ public class ControllerMain implements Initializable {
 
     //EventHandler for mouseclicks on images
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path){
-        return (EventHandler<MouseEvent>) event -> {
 
+        return (EventHandler<MouseEvent>) event -> {
             //first click in a series of 2 clicks
             if (time1 == 0) {
                 time1 = System.currentTimeMillis();
@@ -314,6 +338,7 @@ public class ControllerMain implements Initializable {
                         time1 = 0;
                         imageView.setImage(image);
                         showBigImage(imageView, path);
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -394,7 +419,7 @@ public class ControllerMain implements Initializable {
         for (String s : databaseClient.getMetaDataFromDatabase(path)) {
             switch (i) {
                 case 0:
-                    metadataVbox.getChildren().add(new Label("Path :" + s));
+                    pathDisplay.setText("Path :" + s);
                     break;
                 case 1:
                     break;
@@ -402,7 +427,7 @@ public class ControllerMain implements Initializable {
                     metadataVbox.getChildren().add(new Label("File size :" + s));
                     break;
                 case 3:
-                    metadataVbox.getChildren().add(new Label("Date :" + s));
+                    metadataVbox.getChildren().add(new Label("Date :" + s.substring(0,4)+"/"+ s.substring(4,6)+"/"+ s.substring(6)));
                     break;
                 case 4:
                     metadataVbox.getChildren().add(new Label("Height :" + s));
@@ -449,7 +474,6 @@ public class ControllerMain implements Initializable {
             showBigImage(ControllerMap.clickedImage,ControllerMap.clickedImage.getId());
         }
     }
-
     /**
      * tints the selected images blue
      *
@@ -471,6 +495,19 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    public void saveAlbumAction(ActionEvent actionEvent) throws IOException {
 
+    }
+
+    public void viewAlbums(ActionEvent actionEvent) throws IOException {
+        Iterator albumIterator = albums.entrySet().iterator();
+        // Iterate through the hashmap
+        // and add some bonus marks for every student
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
+        albumStage.setScene(new Scene(root));
+        albumStage.setTitle("Albums");
+        albumStage.setResizable(false);
+        albumStage.showAndWait();
+    }
 }
 
