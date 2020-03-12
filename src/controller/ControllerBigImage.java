@@ -2,6 +2,7 @@ package controller;
 
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -51,7 +52,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
             showMetadata(pathBuffer);
         }
         exportButton.setDisable(true);
-        exportButton.setOnAction(event -> event.consume());
+        exportButton.setOnAction(Event::consume);
     }
 
     @FXML
@@ -61,7 +62,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     @FXML
-    private void addTagAction(ActionEvent event) throws IOException{
+    private void addTagAction(ActionEvent event) {
         String path = pathBuffer;
     }
 
