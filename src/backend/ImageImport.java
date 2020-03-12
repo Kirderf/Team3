@@ -13,7 +13,9 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 
 /**
@@ -21,7 +23,7 @@ import java.util.*;
  */
 public class ImageImport {
     //this is the names of the various kinds of metadata we are interested in in com.drew.metadata methods
-    private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude");
+    private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude","File Modified Date");
     private int noOfData = interestingMetadata.size();
     //needs to be all lowercase, update if we accept other file types
     private List<String> validImageExtensions = Arrays.asList(".jpg",".png",".jpeg");
@@ -78,8 +80,27 @@ public class ImageImport {
                     for (Tag tag : directory.getTags()) {
                         //if the tag is part of the tags we are interested in
                         if(interestingMetadata.contains(tag.getTagName())){
-                            //the new tag is placed in the index that corresponds with the index of the tag in the interestingmetadata array
-                            metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
+                            //png images have slightly different metadata for dates, this fixes that
+                            if(getExtensionFromFile(file).equalsIgnoreCase(".png")&&tag.getTagName().equalsIgnoreCase("File Modified Date")){
+                                //this converts from three letter month codes into numbers, e.g "feb" = 02
+                                DateTimeFormatter parser = DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH);
+                                TemporalAccessor accessor = parser.parse(tag.getDescription().substring(4,7));
+                                String month = String.valueOf(accessor.get(ChronoField.MONTH_OF_YEAR));
+                                //formats the data into YYYYMMDD
+                                String day = "";
+                                        if(tag.getDescription().substring(8,9).equalsIgnoreCase(" ")){
+                                             day = "0" + tag.getDescription().charAt(8);
+                                        }
+                                        else{
+                                            day = tag.getDescription().substring(8,10);
+                                        }
+                                String formattedDate = tag.getDescription().substring(tag.getDescription().lastIndexOf(" ")) + month +day;
+                                metaArray[interestingMetadata.indexOf("Date/Time Original")] = formattedDate;
+                            }
+                            if(!tag.getTagName().equalsIgnoreCase("File Modified Date")) {
+                                //the new tag is placed in the index that corresponds with the index of the tag in the interestingmetadata array
+                                metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
+                            }
                         }
                     }
                 }

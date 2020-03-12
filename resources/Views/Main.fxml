@@ -97,6 +97,7 @@
                 <ComboBox fx:id="sortDropDown" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="184.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#sortAction" prefHeight="25.0" prefWidth="175.0" promptText="Sort by">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
+                            <String fx:id="sortByFilename" fx:value="Filename"/>
                             <String fx:id="sortByPath" fx:value="Path" />
                             <String fx:id="sortByDate" fx:value="Date" />
                             <String fx:id="sortBySize" fx:value="Size" />
@@ -106,7 +107,7 @@
                 </ComboBox>
                 <AnchorPane minWidth="150.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <TextArea fx:id="pathDisplay" disable="true" maxHeight="26.0" minHeight="25.0" prefHeight="30.0" prefWidth="561.3333333333334" promptText="Path..." AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="2.0" />
+                        <TextArea fx:id="pathDisplay" disable="false" maxHeight="26.0" minHeight="25.0" prefHeight="30.0" prefWidth="561.3333333333334" promptText="Path..." AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="2.0"/>
                     </children>
                 </AnchorPane>
             </children>

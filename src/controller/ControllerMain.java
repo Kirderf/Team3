@@ -31,9 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,6 +83,8 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.log(Level.INFO, "Initializing");
+        //this is required, as disabling the textfield in the fxml file made the path way too light to see
+        pathDisplay.setEditable(false);
         pictureGrid.setAlignment(Pos.CENTER);
         if (loadedFromAnotherLocation) {
             refreshImages();
@@ -159,6 +159,21 @@ public class ControllerMain implements Initializable {
         else if (sortDropDown.getValue().toString().equalsIgnoreCase("Location")) {
             //TODO make this work
             //I am thinking that we will sort based on the sum of latitude and longitude for the moment
+        }
+        else if(sortDropDown.getValue().toString().equalsIgnoreCase("Filename")){
+            //this is just a way to get an arraylist with the paths, theres no use for the sort function here
+            ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
+            Collections.sort(sortedList, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return o1.substring(o1.lastIndexOf("/")).compareTo(o2.substring(o2.lastIndexOf("/")));
+                }
+            });
+            clearView();
+            for(String s : sortedList){
+                insertImage(s);
+            }
+
         }
         //if path or date is selected
         else {
@@ -399,7 +414,7 @@ public class ControllerMain implements Initializable {
         for (String s : databaseClient.getMetaDataFromDatabase(path)) {
             switch (i) {
                 case 0:
-                    metadataVbox.getChildren().add(new Label("Path :" + s));
+                    pathDisplay.setText("Path :" + s);
                     break;
                 case 1:
                     break;
@@ -407,7 +422,7 @@ public class ControllerMain implements Initializable {
                     metadataVbox.getChildren().add(new Label("File size :" + s));
                     break;
                 case 3:
-                    metadataVbox.getChildren().add(new Label("Date :" + s));
+                    metadataVbox.getChildren().add(new Label("Date :" + s.substring(0,4)+"/"+ s.substring(4,6)+"/"+ s.substring(6)));
                     break;
                 case 4:
                     metadataVbox.getChildren().add(new Label("Height :" + s));
