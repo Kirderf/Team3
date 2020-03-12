@@ -70,7 +70,6 @@
                         </Label>
                         <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="26.0" maxWidth="180.0" minHeight="50.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS">
                             <VBox fx:id="metadataVbox">
-
                             </VBox>
                         </ScrollPane>
                </children>
