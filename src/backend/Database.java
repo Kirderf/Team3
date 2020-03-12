@@ -116,7 +116,7 @@ public class Database {
         String sql = "Select " + columnName + " from " + table;
         statement = con.prepareStatement(sql);
         resultSet = statement.executeQuery();
-        ArrayList<Object> arrayList = new ArrayList();
+        ArrayList arrayList = new ArrayList();
         while (resultSet.next()) {
             arrayList.add(resultSet.getObject(columnName));
         }
