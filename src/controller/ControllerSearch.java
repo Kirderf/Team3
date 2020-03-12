@@ -1,14 +1,16 @@
 package controller;
 
+import backend.TableGetterSetter;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -39,10 +41,22 @@ public class ControllerSearch implements Initializable {
     TextField searchField;
     @FXML
     ListView tagsListView;
+    @FXML
+    TableColumn<TableGetterSetter , String> tagName;
+    @FXML
+    TableColumn<TableGetterSetter , Integer> id;
+    @FXML
+    TableColumn<TableGetterSetter , CheckBox> select;
+    @FXML
+    TableView<TableGetterSetter> tagTable;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        insertTags();
     }
+
+    @FXML
     private void cancel(ActionEvent event) {
         ((Stage) searchField.getScene().getWindow()).close();
     }
@@ -92,6 +106,8 @@ public class ControllerSearch implements Initializable {
         cancel(event);
     }
 
+    ObservableList<TableGetterSetter> observeList = FXCollections.observableArrayList();
+
     @FXML
     public void insertTags(){
         //  Use this when adding tags has been implemented
@@ -101,11 +117,16 @@ public class ControllerSearch implements Initializable {
         tagList.add("Tag2");
         tagList.add("Tag3");
 
-        //  TagList for testing
-        ObservableList<String> observeList = FXCollections.observableArrayList(tagList);
+        for (int i = 0; i < tagList.size(); i++) {
+            String t = tagList.get(i);
+            CheckBox ch = new CheckBox(""+t);
+            observeList.add(new TableGetterSetter(i, "", ch));
+        }
 
-        tagsListView = new ListView<String>(observeList);
 
-                //Don't Like ListView, gonna experiment with checkboxes later|
+        tagTable.setItems(observeList);
+        id.setCellValueFactory(new PropertyValueFactory<TableGetterSetter, Integer>("id"));
+        tagName.setCellValueFactory(new PropertyValueFactory<TableGetterSetter, String>("tagName"));
+        select.setCellValueFactory(new PropertyValueFactory<TableGetterSetter, CheckBox>("checkBox"));
     }
 }

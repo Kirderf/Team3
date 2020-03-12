@@ -10,6 +10,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.github.goxr3plus:java-google-speech-api:V2.1" level="project" />
+    <orderEntry type="library" name="Maven: com.github.axet:java-flac-encoder:0.3.8" level="project" />
+    <orderEntry type="library" name="Maven: org.json:json:20150729" level="project" />
+    <orderEntry type="library" name="Maven: javazoom:jlayer:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:13.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:13.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:13.0.1" level="project" />
