@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author Ingebrigt Hovind & Fredrik Julsen
@@ -82,6 +83,7 @@ public class DatabaseClient {
         try {
             imageDatabase.openConnection();
             String[] metadata = imageImport.getMetaData(image);
+            System.out.println(Arrays.toString(metadata));
             if (metadata != null) {
                 try {
                     if (addedPathsContains(image.getPath())) {

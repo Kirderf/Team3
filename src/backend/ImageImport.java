@@ -9,6 +9,7 @@ import com.drew.metadata.exif.GpsDirectory;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -80,25 +81,47 @@ public class ImageImport {
                     for (Tag tag : directory.getTags()) {
                         //if the tag is part of the tags we are interested in
                         if(interestingMetadata.contains(tag.getTagName())){
+                            boolean hasDateTime = false;
                             //png images have slightly different metadata for dates, this fixes that
-                            if(getExtensionFromFile(file).equalsIgnoreCase(".png")&&tag.getTagName().equalsIgnoreCase("File Modified Date")){
-                                //this converts from three letter month codes into numbers, e.g "feb" = 02
-                                DateTimeFormatter parser = DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH);
-                                TemporalAccessor accessor = parser.parse(tag.getDescription().substring(4,7));
-                                String month = String.valueOf(accessor.get(ChronoField.MONTH_OF_YEAR));
-                                //formats the data into YYYYMMDD
-                                String day = "";
-                                        if(tag.getDescription().substring(8,9).equalsIgnoreCase(" ")){
-                                             day = "0" + tag.getDescription().charAt(8);
-                                        }
-                                        else{
-                                            day = tag.getDescription().substring(8,10);
-                                        }
-                                String formattedDate = tag.getDescription().substring(tag.getDescription().lastIndexOf(" ")) + month +day;
-                                metaArray[interestingMetadata.indexOf("Date/Time Original")] = formattedDate;
-                            }
-                            if(!tag.getTagName().equalsIgnoreCase("File Modified Date")) {
+                            if(tag.getTagName().equals("Date/Time Original")||tag.getTagName().equals("File Modified Date")){
+                                if(tag.getDescription().equals("Date/Time Original")){
+                                    hasDateTime = true;
+                                    metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
+                                }
+                                else if(!hasDateTime&&tag.getTagName().equalsIgnoreCase("File Modified Date")){
+                                    System.out.println(tag.getDescription());
+                                    //this converts from three letter month codes into numbers, e.g "feb" = 02
+                                    DateTimeFormatter parser = DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH);
+                                    String tempMonth = tag.getDescription().substring(tag.getDescription().indexOf(" ")+1,tag.getDescription().indexOf(" ")+4);
+                                    //in case the system is gives norwegian months
+                                    tempMonth = tempMonth.replaceAll("k","c");
+                                    tempMonth = tempMonth.replaceAll("i","y");
+                                    tempMonth = tempMonth.replaceAll("s","c");
+                                    //parses the month from letters into numbers
+                                    Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(tempMonth);
+                                    Calendar cal = Calendar.getInstance();
+                                    cal.setTime(date);
+                                    String month = String.valueOf(cal.get(Calendar.MONTH) +1);
+                                    if(Integer.parseInt(month)<10){
+                                        month = "0" + month;
+                                    }
+                                    //TODO test if this works when the day is before the tenth
+                                    //formats the day correctly
+                                    String day = "";
+                                    //finds the first space
+                                    String testString = tag.getDescription().trim().substring(tag.getDescription().indexOf(" ")+1);
+                                    ////finds the second space
+                                    testString = testString.substring(testString.indexOf(" ")+1);
+                                    //selects the string between the second and third space
+                                    testString = testString.substring(0,testString.indexOf(" "));
+                                    day = testString;
+                                    String formattedDate = tag.getDescription().substring(tag.getDescription().lastIndexOf(" ")) + month +day;
+                                    formattedDate = formattedDate.trim();
+                                    metaArray[interestingMetadata.indexOf("Date/Time Original")] = formattedDate;
+                                }
                                 //the new tag is placed in the index that corresponds with the index of the tag in the interestingmetadata array
+                            }
+                            else {
                                 metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
                             }
                         }
@@ -143,6 +166,8 @@ public class ImageImport {
         } catch (ImageProcessingException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         //if the file this is run on is not a valid image
