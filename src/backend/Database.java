@@ -59,7 +59,7 @@ public class Database {
      *
      * @param // data to add
      */
-    public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWight, double gpslatitude, double gpslongitude) throws SQLException {
+    public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWight, double gpsLatitude, double gpsLongitude) throws SQLException {
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         statement = con.prepareStatement(sql1);
         statement.setNull(1, 0);
@@ -69,8 +69,8 @@ public class Database {
         statement.setLong(5, date);
         statement.setInt(6, imageHeight);
         statement.setInt(7, imageWight);
-        statement.setDouble(8, gpslatitude);
-        statement.setDouble(9, gpslongitude);
+        statement.setDouble(8, gpsLatitude);
+        statement.setDouble(9, gpsLongitude);
         boolean result = !statement.execute();
         statement.close();
         return result;
@@ -184,7 +184,7 @@ public class Database {
      * @return
      * @throws SQLException
      */
-    public boolean createTable() throws SQLException {
+    private boolean createTable() throws SQLException {
         logger.log(Level.INFO, "Creating Table");
         while (isTableInDatabase()) {
             table = "fredrjul_" + random.nextInt(upperBound);
