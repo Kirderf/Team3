@@ -97,7 +97,7 @@ public class ControllerMain implements Initializable {
         logger.log(Level.INFO, "SearchAction");
         if (!searchStage.isShowing()) {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/Views/Search.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
                 searchStage.setScene(new Scene(root));
                 searchStage.setTitle("Search");
                 searchStage.setResizable(false);
