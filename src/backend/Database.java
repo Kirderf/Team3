@@ -13,13 +13,13 @@ import java.util.logging.Logger;
  */
 public class Database {
     private static final Logger logger = Logger.getLogger(Database.class.getName());
-    Random random = new Random();
-    int upperBound = 10000000;
-    String table = "fredrjul_" + random.nextInt(upperBound);
-    Connection con = null;
-    ResultSet resultSet = null;
-    PreparedStatement statement =null;
-    Statement stmt = null;
+    private Random random = new Random();
+    private int upperBound = 10000000;
+    private String table = "fredrjul_" + random.nextInt(upperBound);
+    private Connection con = null;
+    private ResultSet resultSet = null;
+    private PreparedStatement statement = null;
+    private Statement stmt = null;
 
     public Database() {
         logger.log(Level.INFO, "Creating Database object");
@@ -59,18 +59,18 @@ public class Database {
      *
      * @param // data to add
      */
-    public boolean addImageToTable(String path, String tags, int file_size, Long date, int image_height, int image_wight, double GPS_Latitude, double GPS_Longitude) throws SQLException {
+    public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWight, double gpslatitude, double gpslongitude) throws SQLException {
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         statement = con.prepareStatement(sql1);
         statement.setNull(1, 0);
-        statement.setString(2, path.replaceAll("\\\\","/"));
+        statement.setString(2, path.replaceAll("\\\\", "/"));
         statement.setString(3, tags);
-        statement.setInt(4, file_size);
+        statement.setInt(4, fileSize);
         statement.setLong(5, date);
-        statement.setInt(6, image_height);
-        statement.setInt(7, image_wight);
-        statement.setDouble(8, GPS_Latitude);
-        statement.setDouble(9, GPS_Longitude);
+        statement.setInt(6, imageHeight);
+        statement.setInt(7, imageWight);
+        statement.setDouble(8, gpslatitude);
+        statement.setDouble(9, gpslongitude);
         boolean result = !statement.execute();
         statement.close();
         return result;
@@ -84,7 +84,7 @@ public class Database {
      * @return String
      */
     public StringBuilder getTags(String path) throws SQLException {
-        logger.log(Level.INFO, "getting Tags");
+        logger.log(Level.INFO, "Getting Tags");
         String sql = "SELECT * FROM " + table + " WHERE " + table + ".ImageID = " + findImage(path);
         stmt = con.createStatement();
         resultSet = stmt.executeQuery(sql);
@@ -131,24 +131,25 @@ public class Database {
      * @throws SQLException
      */
     public String[] getImageMetadata(String path) throws SQLException {
-        logger.log(Level.INFO, "getting ImageMetadata");
-        String sql = "SELECT * FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path.replaceAll("\\\\","/") + "%' LIMIT 1";
+        logger.log(Level.INFO, "Getting ImageMetadata");
+        String sql = "SELECT * FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path.replaceAll("\\\\", "/") + "%' LIMIT 1";
         statement = con.prepareStatement(sql);
-        ResultSet rs = statement.executeQuery();
-        //TODO fix bug where this is always false, and the statement is always empty
-        if (rs.next()) {
-            String[] returnValues = new String[8];
-            returnValues[0] = rs.getString(2);
-            returnValues[1] = rs.getString(3);
-            returnValues[2] = String.valueOf(rs.getInt(4));
-            returnValues[3] = String.valueOf(rs.getLong(5));
-            returnValues[4] = String.valueOf(rs.getInt(6));
-            returnValues[5] = String.valueOf(rs.getInt(7));
-            returnValues[6] = String.valueOf(rs.getDouble(8));
-            returnValues[7] = String.valueOf(rs.getDouble(9));
-            return returnValues;
-        } else {
-            return null;
+        try (ResultSet rs = statement.executeQuery()) {
+            //TODO fix bug where this is always false, and the statement is always empty
+            if (rs.next()) {
+                String[] returnValues = new String[8];
+                returnValues[0] = rs.getString(2);
+                returnValues[1] = rs.getString(3);
+                returnValues[2] = String.valueOf(rs.getInt(4));
+                returnValues[3] = String.valueOf(rs.getLong(5));
+                returnValues[4] = String.valueOf(rs.getInt(6));
+                returnValues[5] = String.valueOf(rs.getInt(7));
+                returnValues[6] = String.valueOf(rs.getDouble(8));
+                returnValues[7] = String.valueOf(rs.getDouble(9));
+                return returnValues;
+            } else {
+                return null;
+            }
         }
 
     }
@@ -156,11 +157,10 @@ public class Database {
     /**
      * Checks if a table is in a database
      *
-     * @param tableName table to check
      * @return boolean
      * @throws SQLException
      */
-    public boolean isTableInDatabase(String tableName) throws SQLException {
+    public boolean isTableInDatabase() throws SQLException {
         logger.log(Level.INFO, "Checking if table in database");
         statement = con.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'fredrjul_ImageApp' AND table_name = " + "\'" + table + "\'" +
                 "");
@@ -186,7 +186,7 @@ public class Database {
      */
     public boolean createTable() throws SQLException {
         logger.log(Level.INFO, "Creating Table");
-        while (isTableInDatabase(table)) {
+        while (isTableInDatabase()) {
             table = "fredrjul_" + random.nextInt(upperBound);
         }
         return regTable();
@@ -254,7 +254,7 @@ public class Database {
             con.close();
             closed = true;
         }
-        if (resultSet != null){
+        if (resultSet != null) {
             resultSet.close();
             closed = true;
         }
@@ -262,7 +262,7 @@ public class Database {
             stmt.close();
             closed = true;
         }
-        if (statement != null){
+        if (statement != null) {
             statement.close();
             closed = true;
         }
@@ -298,7 +298,7 @@ public class Database {
     public ArrayList<String> sortBy(String columnName, boolean ascending) {
         ArrayList<String> arrayList = new ArrayList<>();
         try {
-            if (isTableInDatabase(columnName)) {
+            if (isTableInDatabase()) {
                 if (ascending) {
                     String sql = "SELECT " + " Path " + " from " + table + " ORDER BY " + columnName + " ASC";
                     statement = con.prepareStatement(sql);
