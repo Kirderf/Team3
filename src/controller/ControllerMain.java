@@ -508,6 +508,14 @@ public class ControllerMain implements Initializable {
         albumStage.setTitle("Albums");
         albumStage.setResizable(false);
         albumStage.showAndWait();
+        clearView();
+
+        if(ControllerViewAlbums.albumSelected){
+            ControllerViewAlbums.albumSelected = false;
+            for(String s : selectedImages){
+                insertImage(s);
+            }
+        }
     }
 }
 

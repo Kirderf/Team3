@@ -40,7 +40,6 @@ public class ControllerExport {
      */
     public void closeWindow(){
         ((Stage) inputText.getScene().getWindow()).close();
-
     }
     /**
      * if the cancel button is clicked
