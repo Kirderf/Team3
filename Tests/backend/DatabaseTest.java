@@ -17,21 +17,7 @@ class DatabaseTest {
     }
 
     @Test
-    void createTable() {
-        try {
-            database.openConnection();
-            assertTrue(database.createTable());
-            database.close();
-        } catch (Exception e) {
-            System.out.println("Error setting ut database");
-            e.printStackTrace();
-            fail();
-        }
-    }
-
-    @Test
     void writeToDatabase() {
-        createTable();
         try {
             database.openConnection();
             //assertTrue(database.addImageToTable("path to file", "Tags", 1000, (long) 20200812, 2000, 2000, 11.02, 13.09));
@@ -44,7 +30,6 @@ class DatabaseTest {
     }
     @Test
     void sort() {
-        createTable();
         try {
             database.openConnection();
             assertTrue(database.addImageToTable("path to file", "Tags", 1000, (long) 20200812, 2000, 2000, 11.02, 13.09));
@@ -60,7 +45,6 @@ class DatabaseTest {
 
         @Test
     void readDatabase() {
-        createTable();
         ArrayList list = null;
         try {
             database.openConnection();
@@ -85,7 +69,6 @@ class DatabaseTest {
 
     @Test
     void findImage() {
-        createTable();
         try {
             database.openConnection();
             database.addImageToTable("path to file", "Tags", 1000, (long) 20200812, 2000, 2000, 11.02, 13.09);
@@ -99,7 +82,6 @@ class DatabaseTest {
 
     @Test
     void deleteFromDatabase() throws SQLException {
-        createTable();
         try {
             database.openConnection();
             database.addImageToTable("path to file", "Tags", 1000, (long) 20200812, 2000, 2000, 11.02, 13.09);
@@ -117,7 +99,6 @@ class DatabaseTest {
     void getImageMetadata() throws SQLException {
         try {
             database.openConnection();
-            database.createTable();
             database.addImageToTable("path to file", "Tags", 1000,20200812L, 2000, 2000, 11.02, 13.09);
             database.addImageToTable("path to file2", "Tags2", 2000, 20210812L, 2000, 2000, 11.02, 13.09);
             System.out.println(Arrays.toString(database.getImageMetadata("path to file2")));

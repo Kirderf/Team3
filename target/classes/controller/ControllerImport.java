@@ -1,31 +1,28 @@
 package controller;
 
-import backend.DatabaseClient;
-import com.drew.imaging.ImageProcessingException;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ControllerImport implements Initializable{
+public class ControllerImport implements Initializable {
+    public static boolean importSucceed = false;
+    /**
+     * File explorer
+     */
+    private final FileChooser fc = new FileChooser();
     /**
      * Container for textfields
      */
@@ -37,21 +34,13 @@ public class ControllerImport implements Initializable{
     @FXML
     private ScrollPane scrollPane;
     /**
-     * File explorer
-     */
-    private final FileChooser fc = new FileChooser();
-    /**
      * List for containing file explorer results
      */
     private ArrayList<File> bufferList = new ArrayList<>();
-    /**
-     * List for containing temporary file explorer results
-     */
-    private List<File> list;
-    public static boolean importSucceed = false;
 
     /**
      * Set container content and alignment of elements
+     *
      * @param location
      * @param resources
      */
@@ -70,11 +59,14 @@ public class ControllerImport implements Initializable{
     @FXML
     private void addImageFile(ActionEvent event) {
         fc.setTitle("Open Resource File");
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Pictures","*.png","*.jpg","*.jpeg","*.PNG","*.JPG","*.JPEG"));
-        list = fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Pictures", "*.png", "*.jpg", "*.jpeg", "*.PNG", "*.JPG", "*.JPEG"));
+        /**
+         * List for containing temporary file explorer results
+         */
+        List<File> list = fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
         if (list != null) {
-            list.forEach((x)->{
-                if(!bufferList.contains(x)) bufferList.add(x);
+            list.forEach((x) -> {
+                if (!bufferList.contains(x)) bufferList.add(x);
             });
         }
         if (bufferList != null) {
@@ -98,6 +90,7 @@ public class ControllerImport implements Initializable{
 
     /**
      * Clear the buffer list and view buffer
+     *
      * @param event
      */
     @FXML
@@ -126,7 +119,7 @@ public class ControllerImport implements Initializable{
      */
     @FXML
     private void importAction(ActionEvent event) {
-        if(bufferList != null) {
+        if (bufferList != null) {
             for (File file : bufferList) {
                 if (!ControllerMain.databaseClient.addedPathsContains(file.getPath())) {
                     ControllerMain.databaseClient.addImage(file);
