@@ -51,12 +51,14 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         if (pathBuffer != null) {
             showMetadata(pathBuffer);
         }
+        textField.setEditable(false);
         exportButton.setDisable(true);
         exportButton.setOnAction(Event::consume);
     }
 
     @FXML
     private void goToLibrary(ActionEvent event) throws IOException {
+        voice.speak("Going to library");
         loadedFromAnotherLocation = true;
         bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
     }

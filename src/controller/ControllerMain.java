@@ -1,6 +1,7 @@
 package controller;
 
 import backend.DatabaseClient;
+import backend.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -38,6 +39,7 @@ import java.util.logging.Logger;
 
 public class ControllerMain implements Initializable {
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
+    public static Text_To_Speech voice;
     public static HashMap<String, String> locations = new HashMap<>();
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Stage importStage = new Stage();
@@ -74,6 +76,7 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        voice = new Text_To_Speech();
         logger.log(Level.INFO, "Initializing");
         //this is required, as disabling the textfield in the fxml file made the path way too light to see
         pathDisplay.setEditable(false);
@@ -87,6 +90,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private void searchAction() {
         logger.log(Level.INFO, "SearchAction");
+        voice.speak("Searching");
         if (!searchStage.isShowing()) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
@@ -113,6 +117,7 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     private void importAction() {
+        voice.speak("Importing");
         if (!importStage.isShowing()) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
@@ -121,6 +126,7 @@ public class ControllerMain implements Initializable {
                 importStage.setResizable(false);
                 importStage.showAndWait();
                 if (ControllerImport.importSucceed) {
+                    voice.speak("Import succeeded");
                     logger.log(Level.INFO, "Refreshing");
                     refreshImages();
                     ControllerImport.importSucceed = false;
@@ -137,6 +143,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private void sortAction() throws SQLException, FileNotFoundException {
         //if size is selected
+        voice.speak("Sorting");
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
             ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
             clearView();
@@ -170,6 +177,7 @@ public class ControllerMain implements Initializable {
 
     @FXML
     private void exportAction() {
+        voice.speak("Exporting");
         if (!exportStage.isShowing()) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
@@ -197,11 +205,13 @@ public class ControllerMain implements Initializable {
     @FXML
     private void quitAction() {
         try {
+            voice.speak("Closing application");
+            Thread.sleep(1500);
             logger.log(Level.WARNING, "Closing application");
             databaseClient.closeApplication();
             Platform.exit();
             System.exit(0);
-        } catch (SQLException e) {
+        } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
             logger.log(Level.WARNING, "Could not close application / delete table");
         }
@@ -209,12 +219,14 @@ public class ControllerMain implements Initializable {
 
     @FXML
     protected void goToLibrary() {
+        voice.speak("Going to library");
         selectedImages.clear();
         refreshImages();
     }
 
     @FXML
     public void helpAction(ActionEvent actionEvent) {
+        voice.speak("Help");
         System.out.println(selectedImages.toString());
     }
 
@@ -333,6 +345,7 @@ public class ControllerMain implements Initializable {
     }
 
     private void showBigImage(ImageView imageView, String path) throws IOException {
+        voice.speak("Magnifying image");
         selectedImages.clear();
         pathBuffer = path;
         imageBuffer = imageView.getImage();
@@ -425,6 +438,7 @@ public class ControllerMain implements Initializable {
      * @throws SQLException
      */
     public void goToMap() throws IOException, SQLException {
+        voice.speak("Showing map");
         ArrayList<Double> longitude = databaseClient.getColumn("GPS_Longitude");
         ArrayList<Double> latitude = databaseClient.getColumn("GPS_Latitude");
         ArrayList paths = databaseClient.getColumn("Path");
@@ -447,6 +461,7 @@ public class ControllerMain implements Initializable {
     }
 
     public void saveAlbumAction(ActionEvent actionEvent) throws IOException {
+        voice.speak("Creating album");
         Stage albumNameStage = new Stage();
         if (!albumNameStage.isShowing()) {
             try {
