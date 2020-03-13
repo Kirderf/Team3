@@ -2,12 +2,12 @@ package backend;
 
 import javafx.scene.control.CheckBox;
 
-public class TableGetterSetter {
+public class TagTableRow {
     int id;
     String tagName;
     CheckBox checkBox;
 
-    public TableGetterSetter(int id, String tagName, CheckBox checkBox) {
+    public TagTableRow(int id, String tagName, CheckBox checkBox) {
         this.id = id;
         this.tagName = tagName;
         this.checkBox = checkBox;
