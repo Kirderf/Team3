@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 public class Start extends Application {
     private static final Logger logger = Logger.getLogger(Start.class.getName());
-
+    private static Text_To_Speech voice;
     /**
      * @param primaryStage
      */
@@ -26,7 +26,7 @@ public class Start extends Application {
     public void start(Stage primaryStage) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Main.fxml"));
-            primaryStage.setTitle("Hello World");
+            primaryStage.setTitle("The Greatest Bestests Awesomest Photo Program That Ever Was!!11 AGAINST covid-19");
             primaryStage.setMinWidth(800);
             primaryStage.setMinHeight(600);
             primaryStage.setScene(new Scene(root));
@@ -53,7 +53,8 @@ public class Start extends Application {
 
 
     public static void main(String[] args) throws IOException {
-        new Text_To_Speech();
+        voice = new Text_To_Speech();
+        voice.speak("お早う御座います");
         launch(args);
     }
 }

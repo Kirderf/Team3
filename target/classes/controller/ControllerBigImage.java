@@ -2,6 +2,7 @@ package controller;
 
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -50,18 +51,20 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         if (pathBuffer != null) {
             showMetadata(pathBuffer);
         }
+        textField.setEditable(false);
         exportButton.setDisable(true);
-        exportButton.setOnAction(event -> event.consume());
+        exportButton.setOnAction(Event::consume);
     }
 
     @FXML
     private void goToLibrary(ActionEvent event) throws IOException {
+        voice.speak("Going to library");
         loadedFromAnotherLocation = true;
         bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
     }
 
     @FXML
-    private void addTagAction(ActionEvent event) throws IOException{
+    private void addTagAction(ActionEvent event) {
         String path = pathBuffer;
     }
 

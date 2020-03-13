@@ -391,7 +391,7 @@ public class ControllerMain implements Initializable {
         } else {
             return;
         }
-        if (path == null) {
+        if (path == null || selectedImages.size() > 1) {
             return;
         }
         int i = 0;

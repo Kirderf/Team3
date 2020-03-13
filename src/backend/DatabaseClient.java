@@ -29,7 +29,6 @@ public class DatabaseClient {
     /**
      * @throws SQLException
      */
-    //TODO delete tables when closing program
     public void closeApplication() throws SQLException {
         if (imageDatabase.isConnection()) {
             imageDatabase.openConnection();
