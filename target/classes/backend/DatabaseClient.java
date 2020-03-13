@@ -1,18 +1,19 @@
 package backend;
 
+import com.drew.imaging.ImageProcessingException;
+
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Arrays;
 
 /**
  * @author Ingebrigt Hovind & Fredrik Julsen
  */
 //TODO add javadoc
 public class DatabaseClient {
-    private static Logger logger = Logger.getLogger(DatabaseClient.class.getName());
     private static ArrayList<String> addedPaths = new ArrayList<>();
     private Database imageDatabase = new Database();
     private ImageImport imageImport = new ImageImport();
@@ -27,14 +28,19 @@ public class DatabaseClient {
     }
 
     /**
+     * @return
      * @throws SQLException
      */
     //TODO delete tables when closing program
-    public void closeApplication() throws SQLException {
+    public boolean closeApplication() throws SQLException {
         if (imageDatabase.isConnection()) {
             imageDatabase.openConnection();
         }
-        imageDatabase.closeDatabase();
+        return imageDatabase.closeDatabase();
+    }
+
+    public boolean closeConnection() throws SQLException {
+        return imageDatabase.close();
     }
 
     /**
@@ -80,10 +86,11 @@ public class DatabaseClient {
             if (metadata != null) {
                 try {
                     if (addedPathsContains(image.getPath())) {
+                        System.out.println("test");
                         imageDatabase.close();
                         return false;
                     }
-                    imageDatabase.addImageToTable(
+                    if (imageDatabase.addImageToTable(
                             image.getPath(),
                             "",
                             Integer.parseInt(metadata[0]),
@@ -91,23 +98,37 @@ public class DatabaseClient {
                             Integer.parseInt(metadata[2]),
                             Integer.parseInt(metadata[3]),
                             Double.parseDouble(metadata[4]),
-                            Double.parseDouble(metadata[5]));
-
+                            Double.parseDouble(metadata[5]))) {
+                    }
                     imageDatabase.close();
                     return true;
-                } catch (SQLIntegrityConstraintViolationException e) {
-                    logger.log(Level.WARNING, e.getLocalizedMessage());
+                } catch (SQLIntegrityConstraintViolationException ignored) {
+                    System.out.println("Already in database");
                 }
                 imageDatabase.close();
                 return false;
             }
         } catch (SQLException e) {
-            logger.log(Level.WARNING, e.getLocalizedMessage());
+            e.printStackTrace();
             return false;
         }
         return false;
     }
 
+    /**
+     * WORK IN PROGRESS
+     *
+     * @param path
+     * @return
+     * @throws SQLException
+     */
+    @Deprecated
+    public boolean removeImage(String path) throws SQLException {
+        if (imageDatabase.deleteFromDatabase(path)) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Get metadata for one specific image
@@ -124,7 +145,7 @@ public class DatabaseClient {
             result = imageDatabase.getImageMetadata(path);
             imageDatabase.close();
         } catch (SQLException e) {
-            logger.log(Level.WARNING, e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return result;
     }

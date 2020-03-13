@@ -17,6 +17,11 @@ public class Text_To_Speech {
     SynthesiserV2 synthesizer = new SynthesiserV2("AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw");
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Text_To_Speech.class.getName());
 
+    public Text_To_Speech() throws IOException {
+        //Startup message
+        speak("お早う御座います");
+    }
+
     /**
      * Calls the MaryTTS to say the given text
      * @param text

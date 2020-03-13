@@ -1,67 +1,52 @@
 package controller;
 
-import javafx.event.Event;
+import com.drew.metadata.heif.HeifBoxHandler;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.reflect.WildcardType;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.ResourceBundle;
 
-public class ControllerViewAlbums implements Initializable {
+//TODO add eventlisteners to each image so that they can be clicked on
+public class ControllerMap implements Initializable {
     @FXML
-    private TilePane albumTilePane;
+    private ImageView world;
     @FXML
-    private VBox albumView;
-    public static boolean albumSelected = false;
-    @Override
+    private StackPane mapStackPane;
+    //width and height of the world stage
+    //these start at 0, but longitude and latitude start at -180 and -90
+    private final int HEIGHT = 340;
+    private final int WIDTH = 616;
+    public static ImageView clickedImage;
     public void initialize(URL location, ResourceBundle resources) {
-        Iterator albumIterator = ControllerMain.albums.entrySet().iterator();
-        // Iterate through the hashmap
-        // and add some bonus marks for every student
-        while(albumIterator.hasNext()){
-            Map.Entry mapElement = (Map.Entry)albumIterator.next();
-            Pane pane = new Pane();
-            pane.setMaxHeight(100);
-            pane.setMinWidth(100);
-            pane.setMinHeight(100);
-            pane.setMaxWidth(100);
-            String key = new String(mapElement.getKey().toString());
-            Text name = new Text(mapElement.getKey().toString());
-            name.setFill(Paint.valueOf("#FFFFFF"));
-            name.setLayoutX(25);
-            name.setLayoutY(25);
-            pane.getChildren().add(name);
-            pane.setLayoutX(pane.getLayoutX());
-            pane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#000000"),CornerRadii.EMPTY, Insets.EMPTY)));
-            EventHandler<MouseEvent> clickedOn = new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    Iterator albumIterator = ControllerMain.albums.entrySet().iterator();
-                    System.out.println(ControllerMain.albums.toString());
-                    System.out.println(ControllerMain.albums.get(key));
-                    showAlbum(key);
-                }
-            };
-            pane.addEventHandler(MouseEvent.MOUSE_CLICKED,clickedOn);
-            albumTilePane.getChildren().add(pane);
+        try {
+            updateImage();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-
     }
-    /*
+
     //TODO check if scaling the image before adding it makes it look less pixelated
     public void updateImage() throws FileNotFoundException {
         //used to iterate through the images
@@ -122,13 +107,5 @@ public class ControllerViewAlbums implements Initializable {
             //adds the image to where it is to be placed
             mapStackPane.getChildren().add(imageView);
         }
-    }
-
-     */
-    private void showAlbum(String name){
-        ControllerMain.selectedImages = ControllerMain.albums.get(name);
-        System.out.println(ControllerMain.albums.get(name));
-        albumSelected = true;
-        ((Stage) albumTilePane.getScene().getWindow()).close();
     }
 }

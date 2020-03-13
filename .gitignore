@@ -1,6 +1,6 @@
 /out/*
 .idea/*
-target
+/target/*
 .vscode/*
 .settings/*
 .classpath
