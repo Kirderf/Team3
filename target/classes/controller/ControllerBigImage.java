@@ -1,11 +1,14 @@
 package controller;
 
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
@@ -68,6 +71,17 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         String path = pathBuffer;
     }
 
+    @FXML
+    protected void importAction(ActionEvent event) throws IOException {
+        voice.speak("Importing");
+        if (!importStage.isShowing()) {
+            Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
+            importStage.setScene(new Scene(root));
+            importStage.setTitle("Import");
+            importStage.setResizable(false);
+            importStage.showAndWait();
+        }
+    }
     private void setBigImage(Image image) {
         bigImage.setImage(image);
         bigImage.fitWidthProperty().bind(bigImageGrid.widthProperty());

@@ -1,20 +1,16 @@
 package controller;
 
-import backend.TableGetterSetter;
-import javafx.application.Platform;
+import backend.TagTableRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.awt.Button;
 import java.io.File;
 import java.net.URL;
@@ -45,13 +41,13 @@ public class ControllerSearch implements Initializable {
     @FXML
     Button addDone;
     @FXML
-    TableColumn<TableGetterSetter , String> tagName;
+    TableColumn<TagTableRow, String> tagName;
     @FXML
-    TableColumn<TableGetterSetter , Integer> id;
+    TableColumn<TagTableRow, Integer> id;
     @FXML
-    TableColumn<TableGetterSetter , CheckBox> select;
+    TableColumn<TagTableRow, CheckBox> select;
     @FXML
-    TableView<TableGetterSetter> tagTable;
+    TableView<TagTableRow> tagTable;
 
 
     @Override
@@ -109,7 +105,7 @@ public class ControllerSearch implements Initializable {
         cancel(event);
     }
 
-    ObservableList<TableGetterSetter> observeList = FXCollections.observableArrayList();
+    ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
 
     /**
      * Finds all available tags, assigns their labels and checkboxes and adds them to an observable
@@ -127,13 +123,13 @@ public class ControllerSearch implements Initializable {
         for (int i = 0; i < tagList.size(); i++) {
             String t = tagList.get(i);
             CheckBox ch = new CheckBox(""+t);
-            observeList.add(new TableGetterSetter(i, "", ch));
+            observeList.add(new TagTableRow(i, "", ch));
         }
 
 
         tagTable.setItems(observeList);
-        id.setCellValueFactory(new PropertyValueFactory<TableGetterSetter, Integer>("id"));
-        tagName.setCellValueFactory(new PropertyValueFactory<TableGetterSetter, String>("tagName"));
-        select.setCellValueFactory(new PropertyValueFactory<TableGetterSetter, CheckBox>("checkBox"));
+        id.setCellValueFactory(new PropertyValueFactory<TagTableRow, Integer>("id"));
+        tagName.setCellValueFactory(new PropertyValueFactory<TagTableRow, String>("tagName"));
+        select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
     }
 }

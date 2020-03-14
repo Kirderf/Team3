@@ -22,7 +22,6 @@ public class Text_To_Speech {
      * @param text
      */
     public void speak(String text) {
-        System.out.println(text);
         //Create a new Thread because JLayer is running on the current Thread and will make the application to lag
         Thread thread = new Thread(() -> {
             try {

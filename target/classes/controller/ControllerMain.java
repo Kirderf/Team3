@@ -113,27 +113,23 @@ public class ControllerMain implements Initializable {
 
     /**
      * Opens import window, once window closes, all pictures from database will get inserted into the UI
-     *
      */
     @FXML
-    private void importAction() {
+    protected void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
         if (!importStage.isShowing()) {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
-                importStage.setScene(new Scene(root));
-                importStage.setTitle("Import");
-                importStage.setResizable(false);
-                importStage.showAndWait();
-                if (ControllerImport.importSucceed) {
-                    voice.speak("Import succeeded");
-                    logger.log(Level.INFO, "Refreshing");
-                    refreshImages();
-                    ControllerImport.importSucceed = false;
-                }
-            } catch (Exception exception) {
-                exception.printStackTrace();
+            Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
+            importStage.setScene(new Scene(root));
+            importStage.setTitle("Import");
+            importStage.setResizable(false);
+            importStage.showAndWait();
+            if (ControllerImport.importSucceed) {
+                voice.speak("Import succeeded");
+                logger.log(Level.INFO, "Refreshing");
+                refreshImages();
+                ControllerImport.importSucceed = false;
             }
+
         }
     }
 
@@ -200,7 +196,6 @@ public class ControllerMain implements Initializable {
 
     /**
      * Closes application, and closes connections to database. Cannot close if other windows are open
-     *
      */
     @FXML
     private void quitAction() {
@@ -475,10 +470,10 @@ public class ControllerMain implements Initializable {
                     refreshImages();
                     ArrayList<String> tempAlbum = new ArrayList<>();
                     //deep copy of selectedImages
-                    for(String s : selectedImages){
+                    for (String s : selectedImages) {
                         tempAlbum.add(s);
                     }
-                    albums.put(ControllerAlbumNamePicker.savedName,tempAlbum);
+                    albums.put(ControllerAlbumNamePicker.savedName, tempAlbum);
                     selectedImages.clear();
                     ControllerAlbumNamePicker.savedName = "";
                 }
@@ -500,9 +495,9 @@ public class ControllerMain implements Initializable {
         albumStage.setResizable(false);
         albumStage.showAndWait();
         clearView();
-        if(ControllerViewAlbums.albumSelected){
+        if (ControllerViewAlbums.albumSelected) {
             ControllerViewAlbums.albumSelected = false;
-            for(String s : selectedImages){
+            for (String s : selectedImages) {
                 insertImage(s);
             }
         }
@@ -510,8 +505,8 @@ public class ControllerMain implements Initializable {
 
     /**
      * tints the selected images blue
-     *  @param image the image that you want to tint
      *
+     * @param image the image that you want to tint
      */
     private static void tint(BufferedImage image) {
         //stolen from https://stackoverflow.com/a/36744345
