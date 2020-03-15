@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  * @author Fredrik Julsen
  */
 public class Database {
-    private static final Logger logger = Logger.getLogger(Database.class.getName());
+    private static final Log logger = new Log("Log.log");
     private Random random = new Random();
     private int upperBound = 10000000;
     private String table = "fredrjul_" + random.nextInt(upperBound);
@@ -22,13 +22,13 @@ public class Database {
     private Statement stmt = null;
 
     public Database() {
-        logger.log(Level.INFO, "Creating Database object");
+        logger.logNewInfo("Creating Database object");
         try {
             openConnection();
             createTable();
             close();
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage());
+            logger.logNewFatalError(e.getLocalizedMessage());
             System.exit(0);
         }
     }
@@ -37,7 +37,7 @@ public class Database {
      * This method is going to create a new database table and declare a variable to the rest of the class
      */
     private boolean regTable() throws SQLException {
-        logger.log(Level.INFO, table);
+        logger.logNewInfo(table);
         statement = con.prepareStatement(
                 "CREATE TABLE " + table + " (\n" +
                         "ImageID int AUTO_INCREMENT,\n" +
@@ -60,6 +60,7 @@ public class Database {
      * @param // data to add
      */
     public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWight, double gpsLatitude, double gpsLongitude) throws SQLException {
+        logger.logNewInfo("Added Image to path" + path);
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         statement = con.prepareStatement(sql1);
         statement.setNull(1, 0);
@@ -84,7 +85,7 @@ public class Database {
      * @return String
      */
     public StringBuilder getTags(String path) throws SQLException {
-        logger.log(Level.INFO, "Getting Tags");
+        logger.logNewInfo("Getting Tags");
         String sql = "SELECT * FROM " + table + " WHERE " + table + ".ImageID = " + findImage(path);
         stmt = con.createStatement();
         resultSet = stmt.executeQuery(sql);
@@ -95,7 +96,7 @@ public class Database {
     }
 
     public boolean addTags(String path, String[] tags) throws SQLException {
-        logger.log(Level.INFO, "Adding Tags");
+        logger.logNewInfo("Adding Tags");
         StringBuilder oldtags = getTags(path);
         for (String string : tags) {
             oldtags.append(",").append(string);
@@ -112,7 +113,7 @@ public class Database {
      * @throws SQLException
      */
     public ArrayList getColumn(String columnName) throws SQLException {
-        logger.log(Level.INFO, "getting Column");
+        logger.logNewInfo("Getting Column");
         String sql = "Select " + columnName + " from " + table;
         statement = con.prepareStatement(sql);
         resultSet = statement.executeQuery();
@@ -131,7 +132,7 @@ public class Database {
      * @throws SQLException
      */
     public String[] getImageMetadata(String path) throws SQLException {
-        logger.log(Level.INFO, "Getting ImageMetadata");
+        logger.logNewInfo("Getting ImageMetaData from " + path);
         String sql = "SELECT * FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path.replaceAll("\\\\", "/") + "%' LIMIT 1";
         statement = con.prepareStatement(sql);
         try (ResultSet rs = statement.executeQuery()) {
@@ -161,7 +162,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean isTableInDatabase() throws SQLException {
-        logger.log(Level.INFO, "Checking if table in database");
+        logger.logNewInfo("Checking if table is in the database");
         statement = con.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'fredrjul_ImageApp' AND table_name = " + "\'" + table + "\'" +
                 "");
         return statement.executeQuery().next();
@@ -174,7 +175,9 @@ public class Database {
      * @throws SQLException Failed to check
      */
     public boolean isConnection() throws SQLException {
+        logger.logNewInfo("Checking database connection");
         if (con == null) {
+            logger.logNewInfo("There is no connection");
             return false;
         }
         return !con.isClosed();
@@ -185,7 +188,7 @@ public class Database {
      * @throws SQLException
      */
     private boolean createTable() throws SQLException {
-        logger.log(Level.INFO, "Creating Table");
+        logger.logNewInfo("Creating table");
         while (isTableInDatabase()) {
             table = "fredrjul_" + random.nextInt(upperBound);
         }
@@ -200,19 +203,21 @@ public class Database {
      * @throws SQLException
      */
     public boolean deleteTable() throws SQLException {
+        logger.logNewInfo("Deleting table");
         String sql = "DROP TABLE " + table;
         statement = con.prepareStatement(sql);
         return statement.execute();
     }
 
     public boolean deleteFromDatabase(String path) throws SQLException {
+        logger.logNewWarning("Deleting image from database from " + path);
         String sql = "DELETE FROM " + table + " WHERE " + table + ".ImageID=" + findImage(path);
         statement = con.prepareStatement(sql);
         return !statement.execute();
     }
 
     public int findImage(String path) throws SQLException {
-        logger.log(Level.INFO, "Finding image");
+        logger.logNewInfo("Finding image from " + path);
         String sql = "SELECT * FROM " + table + "\n" +
                 "WHERE " + table + ".Path" + " LIKE '%" + path + "%'";
         stmt = con.createStatement();
@@ -235,6 +240,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean openConnection() throws SQLException {
+        logger.logNewInfo("Opening connection to database..");
         if (!isConnection()) {
             con = Datasource.getConnection();
             return true;
@@ -277,11 +283,12 @@ public class Database {
      * @throws SQLException
      */
     public boolean closeDatabase() throws SQLException {
+        logger.logNewInfo("Closing database");
         if (openConnection()) {
             try {
                 deleteTable();
             } catch (SQLException e) {
-                logger.log(Level.SEVERE, e.getLocalizedMessage());
+                logger.logNewFatalError(e.getLocalizedMessage());
             }
         }
         return close();
@@ -318,7 +325,7 @@ public class Database {
                 }
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage());
+            logger.logNewFatalError(e.getLocalizedMessage());
         }
         return null;
     }
@@ -333,7 +340,7 @@ public class Database {
      * @author Ingebrigt Hovind
      */
     public boolean removeTag(String path, String[] tags) throws SQLException {
-        logger.log(Level.INFO, "Removing Tags");
+        logger.logNewInfo("Removing tags from " + path);
         //gets all the tags for the specific path
         StringBuilder oldtags = getTags(path);
         //iterates through tags for the given image
@@ -360,7 +367,7 @@ public class Database {
     public ArrayList<String> search(String searchFor, String searchIn) {
         ArrayList<String> searchResults = new ArrayList<>();
         try {
-            logger.log(Level.INFO, "Searching for matching values");
+            logger.logNewInfo("Searching for matching values");
             //select paths where the search term is present in any column
             String sql = "SELECT * FROM " + table + " WHERE " + searchIn + " LIKE " + "'%" + searchFor + "%'";
             if (searchIn.equalsIgnoreCase("metadata")) {
@@ -374,7 +381,7 @@ public class Database {
             }
             return searchResults;
         } catch (Exception e) {
-            logger.log(Level.WARNING, e.getLocalizedMessage());
+            logger.logNewFatalError(e.getLocalizedMessage());
         }
         return null;
     }

@@ -15,7 +15,7 @@ import java.util.logging.Level;
 public class Text_To_Speech {
     //Create a Synthesizer instance
     SynthesiserV2 synthesizer = new SynthesiserV2("AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw");
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Text_To_Speech.class.getName());
+    private static final Log logger = new Log("Log.log");
 
     /**
      * Calls the MaryTTS to say the given text
@@ -28,9 +28,9 @@ public class Text_To_Speech {
                 //Create a JLayer instance
                 AdvancedPlayer player = new AdvancedPlayer(synthesizer.getMP3Data(text));
                 player.play();
-                logger.log(Level.INFO, "Successfully received synthesizer data");
+                logger.logNewInfo("Successfully recieved synthesizer data");
             } catch (IOException | JavaLayerException e) {
-                e.printStackTrace(); //Print the exception ( we want to know , not hide below our finger , like many developers do...)
+                logger.logNewFatalError(e.getLocalizedMessage());
             }
         });
 

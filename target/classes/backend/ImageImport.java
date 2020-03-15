@@ -23,6 +23,7 @@ import java.util.*;
  * @author Ingebrigt Hovind
  */
 public class ImageImport {
+    private static final Log logger = new Log("Log.log");
     //this is the names of the various kinds of metadata we are interested in in com.drew.metadata methods
     private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude","File Modified Date");
     private int noOfData = interestingMetadata.size() -1;
@@ -44,7 +45,7 @@ public class ImageImport {
             }
             return false;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.logNewFatalError(e.getLocalizedMessage());
             return false;
         }
     }
@@ -69,6 +70,7 @@ public class ImageImport {
      * @author Ingebrigt Hovind
      */
     public String[] getMetaData(File file) {
+        logger.logNewInfo("Getting metadata from file");
         try {
             if (isImage(file)) {
                 //array with metadata
@@ -162,11 +164,11 @@ public class ImageImport {
             }
             //thrown by the metadata-library we are using
         } catch (ImageProcessingException e) {
-            e.printStackTrace();
+            logger.logNewFatalError(e.getLocalizedMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.logNewFatalError(e.getLocalizedMessage());
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.logNewFatalError(e.getLocalizedMessage());
         }
         //if the file this is run on is not a valid image
         return null;
