@@ -28,9 +28,9 @@ public class Text_To_Speech {
                 //Create a JLayer instance
                 AdvancedPlayer player = new AdvancedPlayer(synthesizer.getMP3Data(text));
                 player.play();
-                logger.logNewInfo("Successfully recieved synthesizer data");
+                logger.logNewInfo("Text_To_Speech : " + "Successfully recieved synthesizer data");
             } catch (IOException | JavaLayerException e) {
-                logger.logNewFatalError(e.getLocalizedMessage());
+                logger.logNewFatalError("Text_To_Speech : " + e.getLocalizedMessage());
             }
         });
 

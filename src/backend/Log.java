@@ -13,9 +13,14 @@ public class Log{
     FileHandler fh;
 
     public Log(String file_name){
+        boolean fileRemade = false;
         try{
             File f = new File(file_name);
-            if(!f.exists()){
+            if(f.exists()){
+                f.delete();
+                fileRemade=true;
+            }
+            if(!f.exists()||fileRemade){
                 f.createNewFile();
             }
             LogManager.getLogManager().reset();
