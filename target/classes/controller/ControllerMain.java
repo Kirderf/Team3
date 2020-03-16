@@ -251,7 +251,6 @@ public class ControllerMain implements Initializable {
     protected void refreshImages() {
         try {
             ArrayList paths = databaseClient.getColumn("Path");
-            //System.out.println(paths.size());
             clearView();
             for (Object obj : paths) {
                 //the view is cleared, so there's no use checking if the image has been added as there are no added photos to start with

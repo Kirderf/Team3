@@ -3,8 +3,6 @@ package backend;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 //TODO: add javadoc
 
@@ -60,7 +58,6 @@ public class Database {
      * @param // data to add
      */
     public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWight, double gpsLatitude, double gpsLongitude) throws SQLException {
-        System.out.println(path);
         logger.logNewInfo("Added Image to path" + path);
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         statement = con.prepareStatement(sql1);
@@ -75,7 +72,6 @@ public class Database {
         statement.setDouble(9, gpsLongitude);
         boolean result = !statement.execute();
         statement.close();
-        System.out.println(result);
         return result;
 
     }
@@ -88,6 +84,7 @@ public class Database {
      */
     public StringBuilder getTags(String path) throws SQLException {
         logger.logNewInfo("Getting Tags");
+        if(!isPathInDatabase(path)) return null;
         String sql = "SELECT * FROM " + table + " WHERE " + table + ".ImageID = " + findImage(path);
         stmt = con.createStatement();
         resultSet = stmt.executeQuery(sql);
@@ -97,7 +94,22 @@ public class Database {
         return new StringBuilder("");
     }
 
+    /**
+     * adds all all the tags to the specified picture
+     * @param path the picture that the tags are to be added to
+     * @param tags arraylist with tags, the tags may not contain a comma
+     * @return true if the tags were added successfully
+     * @throws SQLException
+     */
     public boolean addTags(String path, String[] tags) throws SQLException {
+        if(!isPathInDatabase(path)) throw new IllegalArgumentException("Path is not in database");
+        //tags are seperated by commas in the database, it is therefore not allowed to add a tag that contains a comma
+        for(String s : tags){
+            if(s == null) throw new IllegalArgumentException("The string may not be null");
+            if(s.replaceAll(" ","").equals("")) throw new IllegalArgumentException("The string may not consist of only spaces");
+            if(s.contains(",")) throw new IllegalArgumentException("The tag contains a comma, this is not allowed");
+        }
+
         logger.logNewInfo("Adding Tags");
         StringBuilder oldtags = getTags(path);
         for (String string : tags) {
@@ -108,6 +120,25 @@ public class Database {
     }
 
     /**
+     * checks whether path is in database
+     * @param path the path you are searching for
+     * @return boolean
+     * @throws SQLException
+     * @author Ingebrigt Hovind
+     */
+    public boolean isPathInDatabase(String path) throws SQLException {
+        if(path == null) return false;
+        String sql = "SELECT Path FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path.replaceAll("\\\\", "/") + "%' LIMIT 1";
+        statement = con.prepareStatement(sql);
+        try(ResultSet rs = statement.executeQuery()){
+            return rs.next();
+        }
+        catch (Exception e){
+            logger.logNewFatalError(e.getLocalizedMessage());
+        }
+        return false;
+    }
+    /**
      * Reads the database table and finds the column with columnName. Then return a ArrayList with the elements.
      *
      * @param columnName
@@ -116,14 +147,24 @@ public class Database {
      */
     public ArrayList getColumn(String columnName) throws SQLException {
         logger.logNewInfo("Getting Column");
-        String sql = "Select " + columnName + " from " + table;
-        statement = con.prepareStatement(sql);
-        resultSet = statement.executeQuery();
-        ArrayList arrayList = new ArrayList();
-        while (resultSet.next()) {
-            arrayList.add(resultSet.getObject(columnName));
+        try {
+            String sql = "Select " + columnName + " from " + table;
+            statement = con.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            ArrayList arrayList = new ArrayList();
+            while (resultSet.next()) {
+                arrayList.add(resultSet.getObject(columnName));
+            }
+            return arrayList;
         }
-        return arrayList;
+        catch(SQLSyntaxErrorException e){
+            logger.logNewFatalError(e.getLocalizedMessage());
+            return null;
+        }
+        catch (Exception e){
+            logger.logNewFatalError(e.getLocalizedMessage());
+            return null;
+        }
     }
 
     /**
@@ -138,7 +179,6 @@ public class Database {
         String sql = "SELECT * FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path.replaceAll("\\\\", "/") + "%' LIMIT 1";
         statement = con.prepareStatement(sql);
         try (ResultSet rs = statement.executeQuery()) {
-            //TODO fix bug where this is always false, and the statement is always empty
             if (rs.next()) {
                 String[] returnValues = new String[8];
                 returnValues[0] = rs.getString(2);
@@ -163,7 +203,7 @@ public class Database {
      * @return boolean
      * @throws SQLException
      */
-    public boolean isTableInDatabase() throws SQLException {
+    private boolean isTableInDatabase() throws SQLException {
         logger.logNewInfo("Checking if table is in the database");
         statement = con.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'fredrjul_ImageApp' AND table_name = " + "\'" + table + "\'" +
                 "");
@@ -343,20 +383,33 @@ public class Database {
      */
     public boolean removeTag(String path, String[] tags) throws SQLException {
         logger.logNewInfo("Removing tags from " + path);
+        if(!isPathInDatabase(path)) throw new IllegalArgumentException("The specified path is not in the databse");
+        for(int i = 0; i<tags.length;i++){
+            if(tags[i] == null) throw new IllegalArgumentException("The string may not be null");
+            if(tags[i].contains(",")) throw new IllegalArgumentException("The tag contains a comma, this is not allowed");
+            if(getTags(path).indexOf(tags[i])<0){
+                tags[i] = "";
+            }
+
+        }
         //gets all the tags for the specific path
         StringBuilder oldtags = getTags(path);
+        boolean validTag = false;
         //iterates through tags for the given image
         for (String string : tags) {
-            //TODO fix bug where substrings of tags are also removed, e.g if carpet is a tag and you attempt to remove a "car" tag, then you will be left with "pet"
-            int index = oldtags.toString().toLowerCase().indexOf(string.toLowerCase());
-            //the conditionals are here to ensure that a single comma is left between each word
-            //if the first word is selected, then no comma is removed
-            //if the last word is selected then the last comma is selected
-            //if a word between two others is selected then a single comma is removed
-            oldtags.replace((index == 0) ? index : index - 1, (index == 0) ? index + string.length() + 1 : index + string.length(), "");
+            if(!string.equals("")) {
+                validTag = true;
+                //TODO fix bug where substrings of tags are also removed, e.g if carpet is a tag and you attempt to remove a "car" tag, then you will be left with "pet"
+                int index = oldtags.toString().toLowerCase().indexOf(string.toLowerCase());
+                //the conditionals are here to ensure that a single comma is left between each word
+                //if the first word is selected, then no comma is removed
+                //if the last word is selected then the last comma is selected
+                //if a word between two others is selected then a single comma is removed
+                oldtags.replace((index == 0) ? index : index - 1, (index == 0) ? index + string.length() + 1 : index + string.length(), "");
+            }
         }
         statement = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
-        return !statement.execute();
+        return !statement.execute()&&validTag;
     }
 
     /**

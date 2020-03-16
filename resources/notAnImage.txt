@@ -1,1 +1,0 @@
-this is used to test imageImportClass and anywhere else where an exception should be thrown when the wrong format is used

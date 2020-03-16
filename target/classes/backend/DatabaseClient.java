@@ -13,18 +13,8 @@ import java.util.logging.Logger;
 //TODO add javadoc
 public class DatabaseClient {
     private static final Log logger = new Log("Log.log");
-    private static ArrayList<String> addedPaths = new ArrayList<>();
     private Database imageDatabase = new Database();
     private ImageImport imageImport = new ImageImport();
-
-    /**
-     * get all the paths that were added locally
-     *
-     * @return arraylist with all the paths
-     */
-    public static ArrayList<String> getAddedPaths() {
-        return addedPaths;
-    }
 
     /**
      * @throws SQLException
@@ -37,16 +27,6 @@ public class DatabaseClient {
         imageDatabase.closeDatabase();
     }
 
-    public boolean addedPathsContains(String path) {
-        return addedPaths.contains(path);
-    }
-
-    /**
-     * clears all the added paths in the local list
-     */
-    public void clearPaths() {
-        addedPaths.clear();
-    }
 
     /**
      * Gets all the data in a given column, e.g all the paths
@@ -79,7 +59,6 @@ public class DatabaseClient {
                     }
                     else {
                         imageDatabase.openConnection();
-                        System.out.println("adding image");
                         imageDatabase.addImageToTable(
                                 image.getPath(),
                                 "",
@@ -89,16 +68,9 @@ public class DatabaseClient {
                                 Integer.parseInt(metadata[3]),
                                 Double.parseDouble(metadata[4]),
                                 Double.parseDouble(metadata[5]));
-
-                        //System.out.println("tru ");
                         imageDatabase.close();
                         return true;
                     }
-                    /*else{
-                        System.out.println("false");
-                        imageDatabase.close();
-                        return false;
-                    }*/
                 } catch (SQLIntegrityConstraintViolationException e) {
                     logger.logNewFatalError(e.getLocalizedMessage());
                     imageDatabase.close();
@@ -111,7 +83,20 @@ public class DatabaseClient {
         }
         return false;
     }
+    public String getTags(String path){
+        logger.logNewInfo("Getting tags from " + path);
 
+        try {
+            imageDatabase.openConnection();
+            //returns null if the image is not in the database
+            String result = imageDatabase.getTags(path).toString().substring(1);
+            imageDatabase.close();
+            return result;
+        } catch (SQLException e) {
+            logger.logNewFatalError(e.getLocalizedMessage());
+            return null;
+        }
+    }
 
     /**
      * Get metadata for one specific image
@@ -126,6 +111,7 @@ public class DatabaseClient {
         String[] result = new String[0];
         try {
             imageDatabase.openConnection();
+            //returns null if the image is not in the database
             result = imageDatabase.getImageMetadata(path);
             imageDatabase.close();
         } catch (SQLException e) {
@@ -145,9 +131,19 @@ public class DatabaseClient {
     public boolean addTag(String path, String[] tag) throws SQLException {
         logger.logNewInfo("Adding tag to " + path);
         imageDatabase.openConnection();
-        boolean result = imageDatabase.addTags(path, tag);
-        imageDatabase.close();
-        return result;
+        try {
+            boolean result = imageDatabase.addTags(path, tag);
+            imageDatabase.close();
+            return result;
+        }
+        catch (IllegalArgumentException e){
+            logger.logNewFatalError(e.getLocalizedMessage());
+            return false;
+        }
+        catch (Exception e){
+            logger.logNewFatalError(e.getLocalizedMessage());
+            return false;
+        }
     }
 
     /**
@@ -160,10 +156,16 @@ public class DatabaseClient {
      */
     public boolean removeTag(String path, String[] tags) throws SQLException {
         logger.logNewInfo("Removing tag from " + path);
-        imageDatabase.openConnection();
-        boolean result = imageDatabase.removeTag(path, tags);
-        imageDatabase.close();
-        return result;
+        try {
+            imageDatabase.openConnection();
+            boolean result = imageDatabase.removeTag(path, tags);
+            imageDatabase.close();
+            return result;
+        }
+        catch (Exception e){
+            logger.logNewFatalError(e.getLocalizedMessage());
+            return false;
+        }
     }
 
     /**
