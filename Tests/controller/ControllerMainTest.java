@@ -26,36 +26,6 @@ class ControllerMainTest {
     }
     @Test
     void exportToPdf() {
-        exportToPdf("faen.pdf",testPaths);
     }
-    public boolean exportToPdf(String name, String[] paths){
-        System.out.println("test");
-        PDDocument document = new PDDocument();
-        try{
-            for(String s : paths){
-                System.out.println("inne i for løkke");
-                InputStream in = new FileInputStream(s);
-                System.out.println("fileinput");
-                BufferedImage bimg = ImageIO.read(in);
-                float width = bimg.getWidth();
-                float height = bimg.getHeight();
-                PDPage page = new PDPage(new PDRectangle(width, height));
-                document.addPage(page);
-                PDImageXObject img = PDImageXObject.createFromFile(s,document);
-                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-                contentStream.drawImage(img, 0f, 0f);
-                contentStream.close();
-                in.close();
-
-            }
-            document.save("C://Users/Ingebrigt/Pictures/helloworld.pdf");
-            document.close();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 
 }

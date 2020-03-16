@@ -15,7 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,6 +47,7 @@ public class ControllerMain implements Initializable {
     public static Stage exportStage = new Stage();
     public static Stage worldStage = new Stage();
     public static Stage albumStage = new Stage();
+    public static Stage aboutStage = new Stage();
     public static ArrayList<String> selectedImages = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
     protected static Image imageBuffer;
@@ -54,7 +55,9 @@ public class ControllerMain implements Initializable {
     protected static boolean loadedFromAnotherLocation = false;
     private static boolean ascending = true;
     private final double initialGridHeight = 185;
-
+    private ArrayList<String> displayedImages = new ArrayList<>();
+    @FXML
+    public MenuItem about;
     @FXML
     private GridPane pictureGrid;
     @FXML
@@ -183,7 +186,6 @@ public class ControllerMain implements Initializable {
                 exportStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
                 if (ControllerExport.exportSucceed) {
-                    System.out.println("Exporting ");
                     refreshImages();
                     ControllerExport.exportSucceed = false;
                 }
@@ -220,9 +222,13 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    public void helpAction(ActionEvent actionEvent) {
+    public void helpAction(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
         voice.speak("Help");
-        System.out.println(selectedImages.toString());
+        aboutStage.setScene(new Scene(root));
+        aboutStage.setTitle("Map");
+        aboutStage.setResizable(false);
+        aboutStage.showAndWait();
     }
 
     /**
@@ -237,7 +243,6 @@ public class ControllerMain implements Initializable {
             pictureGrid.getChildren().clear();
             pictureGrid.getChildren().add(0, node);
         }
-        databaseClient.clearPaths();
     }
 
     /**
@@ -246,15 +251,15 @@ public class ControllerMain implements Initializable {
     protected void refreshImages() {
         try {
             ArrayList paths = databaseClient.getColumn("Path");
-            ArrayList addedPaths = DatabaseClient.getAddedPaths();
             clearView();
             for (Object obj : paths) {
-                if (obj != null && !addedPaths.contains(obj)) {
-                    DatabaseClient.getAddedPaths().add((String) obj);
+                //the view is cleared, so there's no use checking if the image has been added as there are no added photos to start with
+                if (obj != null ) {
                     insertImage((String) obj);
                 }
             }
         } catch (FileNotFoundException | SQLException e) {
+            //TODO change this to logger
             System.out.println(e.getLocalizedMessage());
         }
     }
@@ -434,15 +439,15 @@ public class ControllerMain implements Initializable {
      */
     public void goToMap() throws IOException, SQLException {
         voice.speak("Showing map");
-        ArrayList<Double> longitude = databaseClient.getColumn("GPS_Longitude");
-        ArrayList<Double> latitude = databaseClient.getColumn("GPS_Latitude");
         ArrayList paths = databaseClient.getColumn("Path");
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
         for (int i = 0; i < databaseClient.getColumn("GPS_Longitude").size(); i++) {
+            Double longitude = Double.parseDouble(databaseClient.getMetaDataFromDatabase((String)paths.get(i))[7]);
+            Double latitude = Double.parseDouble(databaseClient.getMetaDataFromDatabase((String)paths.get(i))[6]);
             //if both are not equal to zero, maybe this should be changed to an or
-            if (longitude.get(i) != 0 && latitude.get(i) != 0) {
-                locations.put((String) paths.get(i), "" + longitude.get(i) + "," + latitude.get(i));
+            if (longitude != 0 && latitude != 0) {
+                locations.put((String) paths.get(i), "" + longitude + "," + latitude);
             }
         }
         Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
@@ -494,8 +499,8 @@ public class ControllerMain implements Initializable {
         albumStage.setTitle("Albums");
         albumStage.setResizable(false);
         albumStage.showAndWait();
-        clearView();
         if (ControllerViewAlbums.albumSelected) {
+            clearView();
             ControllerViewAlbums.albumSelected = false;
             for (String s : selectedImages) {
                 insertImage(s);
@@ -508,6 +513,7 @@ public class ControllerMain implements Initializable {
      *
      * @param image the image that you want to tint
      */
+    //TODO check if any of the other methods on stackoverflow tint quicker
     private static void tint(BufferedImage image) {
         //stolen from https://stackoverflow.com/a/36744345
         for (int x = 0; x < image.getWidth(); x++) {

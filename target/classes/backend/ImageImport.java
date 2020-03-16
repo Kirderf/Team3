@@ -29,7 +29,7 @@ public class ImageImport {
     private int noOfData = interestingMetadata.size() -1;
     //needs to be all lowercase, update if we accept other file types
     private List<String> validImageExtensions = Arrays.asList(".jpg",".png",".jpeg");
-    private SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
+    private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 
     /**
      * Checks whether a file is an image or not based on the extension, validImageExtions contains all file extensions that are valid
@@ -38,7 +38,7 @@ public class ImageImport {
      * @return true if the file has an extension that is in validImageExtensions
      * @author Ingebrigt Hovind
      */
-    public boolean isImage(File file){
+     private boolean isImage(File file){
         try {
             if(file.exists()){
                 return validImageExtensions.contains(getExtensionFromFile(file).toLowerCase());
@@ -49,7 +49,6 @@ public class ImageImport {
             return false;
         }
     }
-    //public for tests only
 
     /**
      * Converts from degrees, minutes and seconds to just degrees
@@ -57,7 +56,7 @@ public class ImageImport {
      * @return the corresponding coordinate in decimal form
      * @author Ingebrigt Hovind
      */
-    public Double conMinutesToDecimal(String latOrLong) {
+    private Double conMinutesToDecimal(String latOrLong) {
         //number of seconds
         double second = Double.parseDouble(latOrLong.substring(latOrLong.indexOf(" "),latOrLong.indexOf("'")))*60 + Double.parseDouble(latOrLong.substring(latOrLong.indexOf("' ")+1,latOrLong.length()-1).replaceAll(",","."));
         return Double.parseDouble(latOrLong.substring(0,latOrLong.indexOf("°"))) + second/3600;
@@ -162,12 +161,19 @@ public class ImageImport {
                 return metaArray;
 
             }
+            else{
+                throw new IllegalArgumentException("The file does not exist, or is not an image");
+            }
             //thrown by the metadata-library we are using
         } catch (ImageProcessingException e) {
             logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         } catch (IOException e) {
             logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         } catch (ParseException e) {
+            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
+        } catch(IllegalArgumentException e){
+            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
+        } catch(Exception e){
             logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         }
         //if the file this is run on is not a valid image
@@ -181,7 +187,7 @@ public class ImageImport {
      * @return a string with the extension, including the full stop
      * @author Ingebrigt Hovind
      */
-    public String getExtensionFromFile(File file){
+    private String getExtensionFromFile(File file){
         //public for tests only
         return file.getPath().substring(file.getPath().lastIndexOf("."));
     }

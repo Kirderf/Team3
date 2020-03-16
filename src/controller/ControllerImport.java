@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -118,12 +119,11 @@ public class ControllerImport implements Initializable {
      * @param event button clicked
      */
     @FXML
-    private void importAction(ActionEvent event) {
+    private void importAction(ActionEvent event) throws SQLException {
         if (bufferList != null) {
             for (File file : bufferList) {
-                if (!ControllerMain.databaseClient.addedPathsContains(file.getPath())) {
-                    ControllerMain.databaseClient.addImage(file);
-                }
+                ControllerMain.databaseClient.addImage(file);
+
             }
             importSucceed = true;
         }
