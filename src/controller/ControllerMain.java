@@ -434,15 +434,17 @@ public class ControllerMain implements Initializable {
      */
     public void goToMap() throws IOException, SQLException {
         voice.speak("Showing map");
-        ArrayList<Double> longitude = databaseClient.getColumn("GPS_Longitude");
-        ArrayList<Double> latitude = databaseClient.getColumn("GPS_Latitude");
         ArrayList paths = databaseClient.getColumn("Path");
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
         for (int i = 0; i < databaseClient.getColumn("GPS_Longitude").size(); i++) {
+            Double longitude = Double.parseDouble(databaseClient.getMetaDataFromDatabase((String)paths.get(i))[7]);
+            Double latitude = Double.parseDouble(databaseClient.getMetaDataFromDatabase((String)paths.get(i))[6]);
+            System.out.println(databaseClient.getColumn("GPS_Longitude").toString());
+            System.out.println(longitude);
             //if both are not equal to zero, maybe this should be changed to an or
-            if (longitude.get(i) != 0 && latitude.get(i) != 0) {
-                locations.put((String) paths.get(i), "" + longitude.get(i) + "," + latitude.get(i));
+            if (longitude != 0 && latitude != 0) {
+                locations.put((String) paths.get(i), "" + longitude + "," + latitude);
             }
         }
         Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
