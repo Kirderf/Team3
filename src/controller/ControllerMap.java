@@ -88,6 +88,7 @@ public class ControllerMap implements Initializable {
             EventHandler<MouseEvent> mouseOn = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
+                    ((ImageView) e.getSource()).toFront();
                     ((ImageView) e.getSource()).setFitHeight(60);
                     ((ImageView) e.getSource()).setFitWidth(60);
                 }
@@ -95,6 +96,8 @@ public class ControllerMap implements Initializable {
             EventHandler<MouseEvent> mouseOff = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
+                    ((ImageView) e.getSource()).toBack();
+                    world.toBack();
                     ((ImageView) e.getSource()).setFitHeight(20);
                     ((ImageView) e.getSource()).setFitWidth(20);
 
