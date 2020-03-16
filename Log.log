@@ -1,228 +1,268 @@
-Mar 16, 2020 5:05:03 PM backend.Log logNewInfo
-INFO: Creating Database object
-Mar 16, 2020 5:05:03 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:03 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:03 PM backend.Log logNewInfo
-INFO: There is no connection
-Mar 16, 2020 5:05:03 PM backend.Log logNewInfo
-INFO: Loading .properties file
-Mar 16, 2020 5:05:05 PM backend.Log logNewInfo
-INFO: Creating table
-Mar 16, 2020 5:05:05 PM backend.Log logNewInfo
-INFO: Checking if table is in the database
-Mar 16, 2020 5:05:05 PM backend.Log logNewInfo
-INFO: fredrjul_1240140
-Mar 16, 2020 5:05:07 PM backend.Log logNewInfo
-INFO: Successfully recieved synthesizer data
-Mar 16, 2020 5:05:09 PM backend.Log logNewInfo
-INFO: Successfully recieved synthesizer data
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde.PNG
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde2.PNG
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde3.PNG
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde4.PNG
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:13 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:14 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:14 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:14 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\tryu.JPG
-Mar 16, 2020 5:05:14 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:14 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:14 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:16 PM backend.Log logNewInfo
-INFO: Successfully recieved synthesizer data
-Mar 16, 2020 5:05:17 PM backend.Log logNewInfo
-INFO: Successfully recieved synthesizer data
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Ingebrigt.jpg
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\maxresdefault (2).jpg
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\profil (2).jpg
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde4.PNG
-Mar 16, 2020 5:05:22 PM backend.Log logNewFatalError
-SEVERE: Duplicate entry 'C:/Users/ingebrigt Hovind/Pictures/Skjermbilde4.PNG' for key 'Path'
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:22 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde5.PNG
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Adding image
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Getting metadata from file
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde6.PNG
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:23 PM backend.Log logNewInfo
-INFO: Getting Column
-Mar 16, 2020 5:05:25 PM backend.Log logNewInfo
-INFO: Successfully recieved synthesizer data
-Mar 16, 2020 5:05:28 PM backend.Log logNewInfo
-INFO: Clsoing application
-Mar 16, 2020 5:05:28 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:28 PM backend.Log logNewInfo
-INFO: Closing database
-Mar 16, 2020 5:05:28 PM backend.Log logNewInfo
-INFO: Opening connection to database..
-Mar 16, 2020 5:05:28 PM backend.Log logNewInfo
-INFO: Checking database connection
-Mar 16, 2020 5:05:28 PM backend.Log logNewInfo
-INFO: Deleting table
+Mar 16, 2020 9:43:49 PM backend.Log logNewInfo
+INFO: Database : Creating Database object
+Mar 16, 2020 9:43:50 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:50 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:50 PM backend.Log logNewInfo
+INFO: Database : There is no connection
+Mar 16, 2020 9:43:50 PM backend.Log logNewInfo
+INFO: Databasesource : Loading .properties file
+Mar 16, 2020 9:43:51 PM backend.Log logNewInfo
+INFO: Database : Creating table
+Mar 16, 2020 9:43:51 PM backend.Log logNewInfo
+INFO: Database : Checking if table is in the database
+Mar 16, 2020 9:43:51 PM backend.Log logNewInfo
+INFO: Database : fredrjul_7522644
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding tag to resources/worldmap.png
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Adding Tags
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Getting Tags
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Finding image from resources/worldmap.png
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Finding image from resources/worldmap.png
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding tag to resources/samplephoto.jpg
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Adding Tags
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Getting Tags
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Finding image from resources/samplephoto.jpg
+Mar 16, 2020 9:43:52 PM backend.Log logNewInfo
+INFO: Database : Finding image from resources/samplephoto.jpg
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding tag to resources/flower.jpeg
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Adding Tags
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Getting Tags
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Finding image from resources/flower.jpeg
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Finding image from resources/flower.jpeg
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching foraway
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching foraway
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching fornot a tag
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching fornot,valid tag
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching fornull
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching foraway
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching forairforce
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching forresources
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching forIngebrigt
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching for732
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching for733
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching for732
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\images with gps data for testing\12382975864_09e6e069e7_o.jpg
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching for50.81905277777778
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching for0.136791666666667
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:53 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching for20200316
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching for3968
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching for6327505
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 16, 2020 9:43:54 PM backend.Log logNewInfo
+INFO: Database : Searching for matching values

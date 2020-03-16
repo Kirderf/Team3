@@ -19,6 +19,7 @@ class DatabaseClientTest {
     private String testPath1 = new String("resources/worldmap.png");
     private String testPath2 = new String("resources/samplephoto.jpg");
     private String testPath3 = new String("resources/flower.jpeg");
+    private String gpsPath = "resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg";
     private File testImage1 = new File(testPath1);
     private File testImage2 = new File(testPath2);
     private File testImage3 = new File(testPath3);
@@ -105,7 +106,63 @@ class DatabaseClientTest {
 
     @Test
     void search() throws SQLException {
-        //TODO write these tests after tags have been implemented
+        assertTrue(databaseClient.addTag(testPath1,new String[]{"home","away", "rockstar","last tag"}));
+        assertTrue(databaseClient.addTag(testPath2,new String[]{"airforce","one", "music","final"}));
+        assertTrue(databaseClient.addTag(testPath3,new String[]{"airforce","sound", "music","last tag"}));
+        //finds one and only result
+        assertEquals(databaseClient.search("away","Tags").get(0),testPath1);
+        assertEquals(databaseClient.search("away","Tags").size(),1);
+        //finds no result
+        assertEquals(databaseClient.search("not a tag","Tags").size(),0);
+        assertEquals(databaseClient.search("not,valid tag","Tags").size(),0);
+        //empty array when null is searched for or in
+        assertEquals(databaseClient.search(null,"Metadata").size(),0);
+        assertEquals(databaseClient.search("away",null).size(),0);
+        //finds both results
+        ArrayList<String> searchResult = new ArrayList<String>();
+        searchResult.add(testPath2);
+        searchResult.add(testPath3);
+        assertEquals(databaseClient.search("airforce","Tags"),searchResult);
+        //Path searches finds all three
+        searchResult.add(testPath1);
+        Collections.sort(searchResult, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return -o1.compareTo(o2);
+            }
+        });
+        assertEquals(databaseClient.search("resources","Path"),searchResult);
+        assertEquals(databaseClient.search("Ingebrigt","Path").size(),0);
+        //Metadata
+        searchResult.clear();
+        searchResult.add(testPath2);
+        //image height
+        assertEquals(databaseClient.search("732","Metadata"),searchResult);
+        assertEquals(databaseClient.search("733","Metadata").size(),0);
+        //testing invalid searchin
+        assertEquals(databaseClient.search("732","metadata").size(),0);
+        databaseClient.addImage(gpsImage);
+        searchResult.clear();
+        searchResult.add(gpsPath);
+        //latitude
+        assertEquals(databaseClient.search("50.81905277777778","Metadata"),searchResult);
+        //longitude
+        assertEquals(databaseClient.search("0.136791666666667","Metadata"),searchResult);
+        //date
+        searchResult.add(testPath3);
+        Collections.sort(searchResult, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        assertEquals(databaseClient.search("20200316","Metadata"),searchResult);
+        searchResult.remove(0);
+        //image width
+        assertEquals(databaseClient.search("3968","Metadata"),searchResult);
+        //file size
+        assertEquals(databaseClient.search("6327505","Metadata"),searchResult);
+
     }
 
     @Test

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
+    //we might not need to test database, as it is implicit in the databaseclient tests that these methods also wor
     Database database;
 
     @BeforeEach
@@ -16,7 +17,6 @@ class DatabaseTest {
         database = new Database();
     }
 
-    @Test
     void writeToDatabase() {
         try {
             database.openConnection();
@@ -27,6 +27,14 @@ class DatabaseTest {
             e.printStackTrace();
             fail();
         }
+    }
+    @Test
+    void addImageToTable(){
+
+    }
+    @Test
+    void getTags(){
+
     }
     @Test
     void sort() {

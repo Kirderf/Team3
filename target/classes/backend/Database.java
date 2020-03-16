@@ -58,7 +58,7 @@ public class Database {
      *
      * @param // data to add
      */
-public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWight, double gpsLatitude, double gpsLongitude) throws SQLException {   
+    public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWight, double gpsLatitude, double gpsLongitude) throws SQLException {
         logger.logNewInfo("Added Image to path" + path);
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         statement = con.prepareStatement(sql1);
@@ -436,21 +436,18 @@ public boolean addImageToTable(String path, String tags, int fileSize, Long date
         ArrayList<String> searchResults = new ArrayList<>();
         ArrayList<String> validColumns = new ArrayList<>();
         validColumns.add("Path");
-        validColumns.add("tags");
-        validColumns.add("File_size");
-        validColumns.add("DATE");
-        validColumns.add("Heigth");
-        validColumns.add("Width");
-        validColumns.add("GPS_Latitude");
-        validColumns.add("GPS_Longitude");
-        if(!validColumns.contains(searchIn)||searchFor == null) return null;
+        validColumns.add("Tags");
+        validColumns.add("Metadata");
+        if(!validColumns.contains(searchIn)||searchFor == null) return new ArrayList<>();
         try {
             logger.logNewInfo("Database : " + "Searching for matching values");
             //select paths where the search term is present in any column
             String sql = "SELECT * FROM " + table + " WHERE " + searchIn + " LIKE " + "'%" + searchFor + "%'";
-            if (searchIn.equalsIgnoreCase("metadata")) {
-                //TODO this is a pretty ghetto way of doing this, check if there's a better way of searching through these columns in the database
+            if (searchIn.equals("Metadata")) {
                 sql = "SELECT * FROM " + table + " WHERE File_size LIKE " + "'%" + searchFor + "%' or DATE LIKE " + "'%" + searchFor + "%' or Height LIKE " + "'%" + searchFor + "%' or Width LIKE " + "'%" + searchFor + "%' or GPS_Longitude LIKE '%" + searchFor + "%' or GPS_Latitude LIKE '%" + searchFor + "%'";
+            }
+            else if(searchIn.equals("Tags")){
+                sql = "SELECT * FROM " + table + " WHERE Tags LIKE " + "'%" + searchFor + "%'";
             }
             statement = con.prepareStatement(sql);
             resultSet = statement.executeQuery();
