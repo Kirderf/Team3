@@ -55,6 +55,7 @@ public class ControllerMain implements Initializable {
     protected static boolean loadedFromAnotherLocation = false;
     private static boolean ascending = true;
     private final double initialGridHeight = 185;
+    private ArrayList<String> displayedImages = new ArrayList<>();
     @FXML
     public MenuItem about;
     @FXML
@@ -185,7 +186,6 @@ public class ControllerMain implements Initializable {
                 exportStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
                 if (ControllerExport.exportSucceed) {
-                    System.out.println("Exporting ");
                     refreshImages();
                     ControllerExport.exportSucceed = false;
                 }
@@ -243,7 +243,6 @@ public class ControllerMain implements Initializable {
             pictureGrid.getChildren().clear();
             pictureGrid.getChildren().add(0, node);
         }
-        databaseClient.clearPaths();
     }
 
     /**
@@ -252,15 +251,16 @@ public class ControllerMain implements Initializable {
     protected void refreshImages() {
         try {
             ArrayList paths = databaseClient.getColumn("Path");
-            ArrayList addedPaths = DatabaseClient.getAddedPaths();
+            //System.out.println(paths.size());
             clearView();
             for (Object obj : paths) {
-                if (obj != null && !addedPaths.contains(obj)) {
-                    DatabaseClient.getAddedPaths().add((String) obj);
+                //the view is cleared, so there's no use checking if the image has been added as there are no added photos to start with
+                if (obj != null ) {
                     insertImage((String) obj);
                 }
             }
         } catch (FileNotFoundException | SQLException e) {
+            //TODO change this to logger
             System.out.println(e.getLocalizedMessage());
         }
     }
@@ -446,8 +446,6 @@ public class ControllerMain implements Initializable {
         for (int i = 0; i < databaseClient.getColumn("GPS_Longitude").size(); i++) {
             Double longitude = Double.parseDouble(databaseClient.getMetaDataFromDatabase((String)paths.get(i))[7]);
             Double latitude = Double.parseDouble(databaseClient.getMetaDataFromDatabase((String)paths.get(i))[6]);
-            System.out.println(databaseClient.getColumn("GPS_Longitude").toString());
-            System.out.println(longitude);
             //if both are not equal to zero, maybe this should be changed to an or
             if (longitude != 0 && latitude != 0) {
                 locations.put((String) paths.get(i), "" + longitude + "," + latitude);

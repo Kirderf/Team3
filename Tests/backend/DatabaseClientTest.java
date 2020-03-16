@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +33,7 @@ class DatabaseClientTest {
     }
 
     @Test
-    void addImage() {
+    void addImage() throws SQLException {
         File file = new File("resources/worldmap.png");
         assertTrue(databaseClient.addImage(file));
     }

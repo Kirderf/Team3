@@ -37,11 +37,6 @@ public class DatabaseClient {
         imageDatabase.closeDatabase();
     }
 
-    /**
-     * method checks if all the paths in addedPaths are also present in the sql database
-     *
-     * @return true if they are all present, false if not
-     */
     public boolean addedPathsContains(String path) {
         return addedPaths.contains(path);
     }
@@ -73,34 +68,42 @@ public class DatabaseClient {
      * @param image imagefile to add
      * @return if the image was added to database
      */
-    public boolean addImage(File image) {
+    public boolean addImage(File image) throws SQLException {
         try {
             logger.logNewInfo("Adding image");
-            imageDatabase.openConnection();
             String[] metadata = imageImport.getMetaData(image);
             if (metadata != null) {
                 try {
-                    if (addedPathsContains(image.getPath())) {
-                        imageDatabase.close();
+                    if (getColumn("Path").contains(image.getPath())) {
                         return false;
                     }
-                    imageDatabase.addImageToTable(
-                            image.getPath(),
-                            "",
-                            Integer.parseInt(metadata[0]),
-                            Long.parseLong(metadata[1]),
-                            Integer.parseInt(metadata[2]),
-                            Integer.parseInt(metadata[3]),
-                            Double.parseDouble(metadata[4]),
-                            Double.parseDouble(metadata[5]));
+                    else {
+                        imageDatabase.openConnection();
+                        System.out.println("adding image");
+                        imageDatabase.addImageToTable(
+                                image.getPath(),
+                                "",
+                                Integer.parseInt(metadata[0]),
+                                Long.parseLong(metadata[1]),
+                                Integer.parseInt(metadata[2]),
+                                Integer.parseInt(metadata[3]),
+                                Double.parseDouble(metadata[4]),
+                                Double.parseDouble(metadata[5]));
 
-                    imageDatabase.close();
-                    return true;
+                        //System.out.println("tru ");
+                        imageDatabase.close();
+                        return true;
+                    }
+                    /*else{
+                        System.out.println("false");
+                        imageDatabase.close();
+                        return false;
+                    }*/
                 } catch (SQLIntegrityConstraintViolationException e) {
                     logger.logNewFatalError(e.getLocalizedMessage());
+                    imageDatabase.close();
+                    return false;
                 }
-                imageDatabase.close();
-                return false;
             }
         } catch (SQLException e) {
             logger.logNewFatalError(e.getLocalizedMessage());

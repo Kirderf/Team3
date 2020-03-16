@@ -60,6 +60,7 @@ public class Database {
      * @param // data to add
      */
     public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWight, double gpsLatitude, double gpsLongitude) throws SQLException {
+        System.out.println(path);
         logger.logNewInfo("Added Image to path" + path);
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         statement = con.prepareStatement(sql1);
@@ -74,6 +75,7 @@ public class Database {
         statement.setDouble(9, gpsLongitude);
         boolean result = !statement.execute();
         statement.close();
+        System.out.println(result);
         return result;
 
     }
