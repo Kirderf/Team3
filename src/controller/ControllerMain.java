@@ -513,6 +513,7 @@ public class ControllerMain implements Initializable {
      *
      * @param image the image that you want to tint
      */
+    //TODO check if any of the other methods on stackoverflow tint quicker
     private static void tint(BufferedImage image) {
         //stolen from https://stackoverflow.com/a/36744345
         for (int x = 0; x < image.getWidth(); x++) {
