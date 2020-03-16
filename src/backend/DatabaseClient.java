@@ -54,7 +54,7 @@ public class DatabaseClient {
             String[] metadata = imageImport.getMetaData(image);
             if (metadata != null) {
                 try {
-                    if (getColumn("Path").contains(image.getPath())) {
+                    if (getColumn("Path").contains(image.getPath().replaceAll("\\\\","/"))) {
                         return false;
                     }
                     else {

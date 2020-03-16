@@ -351,7 +351,7 @@ public class Database {
         validColumns.add("Path");
         validColumns.add("tags");
         validColumns.add("File_size");
-        validColumns.add("DATE");
+        validColumns.add("Date");
         validColumns.add("Heigth");
         validColumns.add("Width");
         validColumns.add("GPS_Latitude");
@@ -443,7 +443,7 @@ public class Database {
         validColumns.add("Width");
         validColumns.add("GPS_Latitude");
         validColumns.add("GPS_Longitude");
-        if(!validColumns.contains(searchIn)||searchFor==null) return null;
+        if(!validColumns.contains(searchIn)||searchFor == null) return null;
         try {
             logger.logNewInfo("Searching for matching values");
             //select paths where the search term is present in any column

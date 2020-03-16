@@ -513,14 +513,17 @@ public class ControllerMain implements Initializable {
      *
      * @param image the image that you want to tint
      */
+    //TODO check if any of the other methods on stackoverflow tint quicker
     private static void tint(BufferedImage image) {
         //stolen from https://stackoverflow.com/a/36744345
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
                 Color pixelColor = new Color(image.getRGB(x, y), true);
+                int r = (pixelColor.getRed() + Color.blue.getRed()) / 2;
+                int g = (pixelColor.getGreen() + Color.blue.getGreen()) / 2;
                 int b = (pixelColor.getBlue() + Color.blue.getBlue()) / 2;
                 int a = pixelColor.getAlpha();
-                int rgba = (a << 24) | b;
+                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
                 image.setRGB(x, y, rgba);
             }
         }
