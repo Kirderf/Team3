@@ -10,3 +10,4 @@
 /resources/.properties
 systemutvikling.iml
 target
+*.class
