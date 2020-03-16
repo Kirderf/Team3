@@ -45,7 +45,7 @@ public class ImageImport {
             }
             return false;
         } catch (Exception e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
+            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
             return false;
         }
     }
@@ -69,7 +69,7 @@ public class ImageImport {
      * @author Ingebrigt Hovind
      */
     public String[] getMetaData(File file) {
-        logger.logNewInfo("Getting metadata from file");
+        logger.logNewInfo("ImageImport : " + "Getting metadata from file");
         try {
             if (isImage(file)) {
                 //array with metadata
@@ -166,15 +166,15 @@ public class ImageImport {
             }
             //thrown by the metadata-library we are using
         } catch (ImageProcessingException e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
+            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         } catch (IOException e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
+            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         } catch (ParseException e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
+            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         } catch(IllegalArgumentException e){
-            logger.logNewWarning(e.getLocalizedMessage());
+            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         } catch(Exception e){
-            logger.logNewFatalError(e.getLocalizedMessage());
+            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         }
         //if the file this is run on is not a valid image
         return null;

@@ -20,7 +20,7 @@ public class DatabaseClient {
      * @throws SQLException
      */
     public void closeApplication() throws SQLException {
-        logger.logNewInfo("Clsoing application");
+        logger.logNewInfo("DatabaseClient : " + "Clsoing application");
         if (imageDatabase.isConnection()) {
             imageDatabase.openConnection();
         }
@@ -50,7 +50,8 @@ public class DatabaseClient {
      */
     public boolean addImage(File image) throws SQLException {
         try {
-            logger.logNewInfo("Adding image");
+            logger.logNewInfo("DatabaseClient : " + "Adding image");
+            imageDatabase.openConnection();
             String[] metadata = imageImport.getMetaData(image);
             if (metadata != null) {
                 try {
@@ -72,13 +73,13 @@ public class DatabaseClient {
                         return true;
                     }
                 } catch (SQLIntegrityConstraintViolationException e) {
-                    logger.logNewFatalError(e.getLocalizedMessage());
+                    logger.logNewFatalError("DatabaseClient : " + e.getLocalizedMessage());
                     imageDatabase.close();
                     return false;
                 }
             }
         } catch (SQLException e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
+            logger.logNewFatalError("DatabaseClient : " + e.getLocalizedMessage());
             return false;
         }
         return false;
@@ -106,7 +107,7 @@ public class DatabaseClient {
      * @throws SQLException
      */
     public String[] getMetaDataFromDatabase(String path) {
-        logger.logNewInfo("Getting metadata from " + path);
+        logger.logNewInfo("DatabaseClient : " + "Getting metadata from " + path);
 
         String[] result = new String[0];
         try {
@@ -115,7 +116,7 @@ public class DatabaseClient {
             result = imageDatabase.getImageMetadata(path);
             imageDatabase.close();
         } catch (SQLException e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
+            logger.logNewFatalError("DatabaseClient : " + e.getLocalizedMessage());
         }
         return result;
     }
@@ -129,7 +130,7 @@ public class DatabaseClient {
      * @throws SQLException
      */
     public boolean addTag(String path, String[] tag) throws SQLException {
-        logger.logNewInfo("Adding tag to " + path);
+        logger.logNewInfo("DatabaseClient : " + "Adding tag to " + path);
         imageDatabase.openConnection();
         try {
             boolean result = imageDatabase.addTags(path, tag);
@@ -155,7 +156,7 @@ public class DatabaseClient {
      * @throws SQLException
      */
     public boolean removeTag(String path, String[] tags) throws SQLException {
-        logger.logNewInfo("Removing tag from " + path);
+        logger.logNewInfo("DatabaseClient : " + "Removing tag from " + path);
         try {
             imageDatabase.openConnection();
             boolean result = imageDatabase.removeTag(path, tags);
@@ -178,7 +179,7 @@ public class DatabaseClient {
      * @author Ingebrigt Hovind
      */
     public ArrayList<String> search(String searchFor, String searchIn) throws SQLException {
-        logger.logNewInfo("Searching for" + searchFor);
+        logger.logNewInfo("DatabaseClient : " + "Searching for" + searchFor);
         try {
             imageDatabase.openConnection();
             ArrayList result = imageDatabase.search(searchFor, searchIn);
@@ -199,7 +200,7 @@ public class DatabaseClient {
      * @throws SQLException
      */
     public ArrayList<String> sort(String sortBy, boolean ascending) throws SQLException {
-        logger.logNewInfo("Sorting by " + sortBy);
+        logger.logNewInfo("DatabaseClient : " + "Sorting by " + sortBy);
         try {
             imageDatabase.openConnection();
             ArrayList<String> result = imageDatabase.sortBy(sortBy, ascending);

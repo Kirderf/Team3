@@ -35,7 +35,7 @@ public class Datasource {
     }
 
     private static void loadProperties() {
-        logger.logNewInfo("Loading .properties file");
+        logger.logNewInfo("Databasesource : " + "Loading .properties file");
         try {
             prop = new Properties();
             String propFileName = ".properties";
@@ -46,7 +46,7 @@ public class Datasource {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
         } catch (IOException e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
+            logger.logNewFatalError("Databasesource : " + e.getLocalizedMessage());
         }
     }
 }
