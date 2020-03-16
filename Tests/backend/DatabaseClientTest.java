@@ -68,8 +68,9 @@ class DatabaseClientTest {
         assertNull(databaseClient.getMetaDataFromDatabase(gpsImage.getPath().replaceAll("\\\\","/")));
     }
     @Test
-    void getTag(){
-        
+    void getTag() throws SQLException {
+        assertTrue(databaseClient.addTag(testPath1,new String[]{"home","away", "rockstar","last tag"}));
+        assertEquals(databaseClient.getTags(testPath1),"home,away,rockstar,last tag");
     }
 
     @Test
@@ -98,14 +99,36 @@ class DatabaseClientTest {
         assertFalse(databaseClient.removeTag(testPath2, new String[]{""}));
         //away should not be removed as the second tag is null
         assertFalse(databaseClient.removeTag(testPath1,new String[]{"away",null}));
+        //away should not be removed in the last test
         assertEquals(databaseClient.getTags(testPath1),"away");
     }
 
     @Test
-    void search() {
+    void search() throws SQLException {
+        //TODO write these tests after tags have been implemented
     }
 
     @Test
-    void sort() {
+    void sort() throws SQLException {
+        ArrayList<String> addedPaths = new ArrayList<>();
+        addedPaths.add(testPath3);
+        addedPaths.add(testPath2);
+        addedPaths.add(testPath1);
+        databaseClient.addImage(testImage1);
+        databaseClient.addImage(testImage2);
+        databaseClient.addImage(testImage3);
+        Collections.sort(addedPaths, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        assertEquals(databaseClient.sort("Path",true),addedPaths);
+        assertNotEquals(databaseClient.sort("Path",false),addedPaths);
+        assertNull(databaseClient.sort(null,true));
+        //column not in table
+        assertNull(databaseClient.sort("notINTable",false));
+        assertNotNull(databaseClient.sort("File_size",false));
+
     }
 }

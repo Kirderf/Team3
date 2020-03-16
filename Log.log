@@ -13714,3 +13714,1125 @@ Mar 16, 2020 1:59:51 PM backend.Log logNewInfo
 INFO: Getting Tags
 Mar 16, 2020 1:59:51 PM backend.Log logNewInfo
 INFO: Finding image from resources/worldmap.png
+Mar 16, 2020 2:04:25 PM backend.Log logNewInfo
+INFO: Creating Database object
+Mar 16, 2020 2:04:25 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:04:25 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:04:25 PM backend.Log logNewInfo
+INFO: There is no connection
+Mar 16, 2020 2:04:25 PM backend.Log logNewInfo
+INFO: Loading .properties file
+Mar 16, 2020 2:04:29 PM backend.Log logNewInfo
+INFO: Creating table
+Mar 16, 2020 2:04:29 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:04:29 PM backend.Log logNewInfo
+INFO: fredrjul_3784838
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:04:30 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Adding tag to resources/worldmap.png
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Adding Tags
+Mar 16, 2020 2:04:31 PM backend.Log logNewInfo
+INFO: Getting Tags
+Mar 16, 2020 2:04:32 PM backend.Log logNewInfo
+INFO: Finding image from resources/worldmap.png
+Mar 16, 2020 2:04:32 PM backend.Log logNewInfo
+INFO: Finding image from resources/worldmap.png
+Mar 16, 2020 2:04:32 PM backend.Log logNewInfo
+INFO: Getting tags from resources/worldmap.png
+Mar 16, 2020 2:04:32 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:04:32 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:04:32 PM backend.Log logNewInfo
+INFO: Getting Tags
+Mar 16, 2020 2:04:32 PM backend.Log logNewInfo
+INFO: Finding image from resources/worldmap.png
+Mar 16, 2020 2:13:09 PM backend.Log logNewInfo
+INFO: Creating Database object
+Mar 16, 2020 2:13:09 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:09 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:09 PM backend.Log logNewInfo
+INFO: There is no connection
+Mar 16, 2020 2:13:09 PM backend.Log logNewInfo
+INFO: Loading .properties file
+Mar 16, 2020 2:13:12 PM backend.Log logNewInfo
+INFO: Creating table
+Mar 16, 2020 2:13:12 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:13:12 PM backend.Log logNewInfo
+INFO: fredrjul_5736012
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:13 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:13:14 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/worldmap.png' for key 'Path'
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:14 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:13:15 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/samplephoto.jpg' for key 'Path'
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:13:15 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/flower.jpeg' for key 'Path'
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:15 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:13:52 PM backend.Log logNewInfo
+INFO: Creating Database object
+Mar 16, 2020 2:13:52 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:52 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:52 PM backend.Log logNewInfo
+INFO: There is no connection
+Mar 16, 2020 2:13:52 PM backend.Log logNewInfo
+INFO: Loading .properties file
+Mar 16, 2020 2:13:55 PM backend.Log logNewInfo
+INFO: Creating table
+Mar 16, 2020 2:13:55 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:13:55 PM backend.Log logNewInfo
+INFO: fredrjul_3535730
+Mar 16, 2020 2:13:55 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:55 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:56 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:13:57 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/worldmap.png' for key 'Path'
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:13:57 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/samplephoto.jpg' for key 'Path'
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:13:57 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/flower.jpeg' for key 'Path'
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:57 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:13:58 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:13:58 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:13:58 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:13:58 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:14:44 PM backend.Log logNewInfo
+INFO: Creating Database object
+Mar 16, 2020 2:14:44 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:44 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:44 PM backend.Log logNewInfo
+INFO: There is no connection
+Mar 16, 2020 2:14:44 PM backend.Log logNewInfo
+INFO: Loading .properties file
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: Creating table
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: fredrjul_2772798
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:48 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:49 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:50 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:14:51 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/worldmap.png' for key 'Path'
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:14:51 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/samplephoto.jpg' for key 'Path'
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:14:51 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/flower.jpeg' for key 'Path'
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:51 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:14:52 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:14:52 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:52 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:52 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:14:52 PM backend.Log logNewInfo
+INFO: Sorting by null
+Mar 16, 2020 2:14:52 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:14:52 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:14:52 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:20:41 PM backend.Log logNewInfo
+INFO: Creating Database object
+Mar 16, 2020 2:20:41 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:41 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:41 PM backend.Log logNewInfo
+INFO: There is no connection
+Mar 16, 2020 2:20:41 PM backend.Log logNewInfo
+INFO: Loading .properties file
+Mar 16, 2020 2:20:45 PM backend.Log logNewInfo
+INFO: Creating table
+Mar 16, 2020 2:20:45 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:20:46 PM backend.Log logNewInfo
+INFO: fredrjul_4648818
+Mar 16, 2020 2:20:46 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:20:46 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:20:46 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:46 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:46 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:20:46 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:46 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:46 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:20:47 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/worldmap.png' for key 'Path'
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:47 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:20:48 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/samplephoto.jpg' for key 'Path'
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:20:48 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/flower.jpeg' for key 'Path'
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Sorting by null
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:20:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:20:48 PM backend.Log logNewFatalError
+SEVERE: Invalid column name
+Mar 16, 2020 2:22:48 PM backend.Log logNewInfo
+INFO: Creating Database object
+Mar 16, 2020 2:22:48 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:48 PM backend.Log logNewInfo
+INFO: There is no connection
+Mar 16, 2020 2:22:48 PM backend.Log logNewInfo
+INFO: Loading .properties file
+Mar 16, 2020 2:22:51 PM backend.Log logNewInfo
+INFO: Creating table
+Mar 16, 2020 2:22:51 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:22:51 PM backend.Log logNewInfo
+INFO: fredrjul_4743850
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:52 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:22:53 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:53 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:53 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:22:54 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:22:54 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:22:54 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:54 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:54 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:22:55 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/worldmap.png' for key 'Path'
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:22:55 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/samplephoto.jpg' for key 'Path'
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:55 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:22:56 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/flower.jpeg' for key 'Path'
+Mar 16, 2020 2:22:56 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:22:56 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:56 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:56 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:22:57 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:22:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:57 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:22:57 PM backend.Log logNewInfo
+INFO: Sorting by null
+Mar 16, 2020 2:22:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:57 PM backend.Log logNewFatalError
+SEVERE: Invalid column name
+Mar 16, 2020 2:22:57 PM backend.Log logNewInfo
+INFO: Sorting by File_size
+Mar 16, 2020 2:22:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:22:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:22:57 PM backend.Log logNewFatalError
+SEVERE: Invalid column name
+Mar 16, 2020 2:23:23 PM backend.Log logNewInfo
+INFO: Creating Database object
+Mar 16, 2020 2:23:23 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:23 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:23 PM backend.Log logNewInfo
+INFO: There is no connection
+Mar 16, 2020 2:23:23 PM backend.Log logNewInfo
+INFO: Loading .properties file
+Mar 16, 2020 2:23:27 PM backend.Log logNewInfo
+INFO: Creating table
+Mar 16, 2020 2:23:27 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:23:27 PM backend.Log logNewInfo
+INFO: fredrjul_4828119
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:28 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:23:29 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:29 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:29 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:23:30 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/worldmap.png' for key 'Path'
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:23:30 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/samplephoto.jpg' for key 'Path'
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:23:30 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/flower.jpeg' for key 'Path'
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:30 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:23:31 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:23:31 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:31 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:31 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:23:32 PM backend.Log logNewInfo
+INFO: Sorting by null
+Mar 16, 2020 2:23:32 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:32 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:32 PM backend.Log logNewFatalError
+SEVERE: Invalid column name
+Mar 16, 2020 2:23:32 PM backend.Log logNewInfo
+INFO: Sorting by File_size
+Mar 16, 2020 2:23:32 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:23:32 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:23:32 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:24:57 PM backend.Log logNewInfo
+INFO: Creating Database object
+Mar 16, 2020 2:24:57 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:24:57 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:24:57 PM backend.Log logNewInfo
+INFO: There is no connection
+Mar 16, 2020 2:24:57 PM backend.Log logNewInfo
+INFO: Loading .properties file
+Mar 16, 2020 2:25:00 PM backend.Log logNewInfo
+INFO: Creating table
+Mar 16, 2020 2:25:00 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:25:00 PM backend.Log logNewInfo
+INFO: fredrjul_3321394
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:01 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:25:04 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:25:04 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:25:04 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:04 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:04 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\worldmap.png
+Mar 16, 2020 2:25:05 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/worldmap.png' for key 'Path'
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:05 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:25:06 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:06 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:06 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\samplephoto.jpg
+Mar 16, 2020 2:25:07 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/samplephoto.jpg' for key 'Path'
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Adding image
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Getting metadata from file
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Getting Column
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Added Image to pathresources\flower.jpeg
+Mar 16, 2020 2:25:07 PM backend.Log logNewFatalError
+SEVERE: Duplicate entry 'resources/flower.jpeg' for key 'Path'
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:07 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Sorting by Path
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Sorting by null
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:08 PM backend.Log logNewFatalError
+SEVERE: Invalid column name
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Sorting by notINTable
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:08 PM backend.Log logNewFatalError
+SEVERE: Invalid column name
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Sorting by File_size
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:25:08 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:30:28 PM backend.Log logNewInfo
+INFO: Creating Database object
+Mar 16, 2020 2:30:28 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:30:28 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:30:28 PM backend.Log logNewInfo
+INFO: There is no connection
+Mar 16, 2020 2:30:28 PM backend.Log logNewInfo
+INFO: Loading .properties file
+Mar 16, 2020 2:30:31 PM backend.Log logNewInfo
+INFO: Creating table
+Mar 16, 2020 2:30:31 PM backend.Log logNewInfo
+INFO: Checking if table is in the database
+Mar 16, 2020 2:30:32 PM backend.Log logNewInfo
+INFO: fredrjul_3583022
+Mar 16, 2020 2:30:32 PM backend.Log logNewInfo
+INFO: Successfully recieved synthesizer data
+Mar 16, 2020 2:30:36 PM backend.Log logNewInfo
+INFO: Successfully recieved synthesizer data
+Mar 16, 2020 2:30:48 PM backend.Log logNewInfo
+INFO: Clsoing application
+Mar 16, 2020 2:30:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:30:48 PM backend.Log logNewInfo
+INFO: Closing database
+Mar 16, 2020 2:30:48 PM backend.Log logNewInfo
+INFO: Opening connection to database..
+Mar 16, 2020 2:30:48 PM backend.Log logNewInfo
+INFO: Checking database connection
+Mar 16, 2020 2:30:48 PM backend.Log logNewInfo
+INFO: Deleting table

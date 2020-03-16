@@ -2,6 +2,7 @@ package backend;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 //TODO: add javadoc
@@ -57,7 +58,7 @@ public class Database {
      *
      * @param // data to add
      */
-    public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWight, double gpsLatitude, double gpsLongitude) throws SQLException {
+    public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) throws SQLException {
         logger.logNewInfo("Added Image to path" + path);
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         statement = con.prepareStatement(sql1);
@@ -67,7 +68,7 @@ public class Database {
         statement.setInt(4, fileSize);
         statement.setLong(5, date);
         statement.setInt(6, imageHeight);
-        statement.setInt(7, imageWight);
+        statement.setInt(7, imageWidth);
         statement.setDouble(8, gpsLatitude);
         statement.setDouble(9, gpsLongitude);
         boolean result = !statement.execute();
@@ -346,6 +347,18 @@ public class Database {
      */
     public ArrayList<String> sortBy(String columnName, boolean ascending) {
         ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<String> validColumns = new ArrayList<>();
+        validColumns.add("Path");
+        validColumns.add("tags");
+        validColumns.add("File_size");
+        validColumns.add("DATE");
+        validColumns.add("Heigth");
+        validColumns.add("Width");
+        validColumns.add("GPS_Latitude");
+        validColumns.add("GPS_Longitude");
+        if(!validColumns.contains(columnName)){
+            throw new IllegalArgumentException("Invalid column name");
+        }
         try {
             if (isTableInDatabase()) {
                 if (ascending) {
@@ -421,6 +434,16 @@ public class Database {
      */
     public ArrayList<String> search(String searchFor, String searchIn) {
         ArrayList<String> searchResults = new ArrayList<>();
+        ArrayList<String> validColumns = new ArrayList<>();
+        validColumns.add("Path");
+        validColumns.add("tags");
+        validColumns.add("File_size");
+        validColumns.add("DATE");
+        validColumns.add("Heigth");
+        validColumns.add("Width");
+        validColumns.add("GPS_Latitude");
+        validColumns.add("GPS_Longitude");
+        if(!validColumns.contains(searchIn)||searchFor==null) return null;
         try {
             logger.logNewInfo("Searching for matching values");
             //select paths where the search term is present in any column

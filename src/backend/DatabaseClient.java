@@ -179,17 +179,37 @@ public class DatabaseClient {
      */
     public ArrayList<String> search(String searchFor, String searchIn) throws SQLException {
         logger.logNewInfo("Searching for" + searchFor);
-        imageDatabase.openConnection();
-        ArrayList result = imageDatabase.search(searchFor, searchIn);
-        imageDatabase.close();
-        return result;
+        try {
+            imageDatabase.openConnection();
+            ArrayList result = imageDatabase.search(searchFor, searchIn);
+            imageDatabase.close();
+            return result;
+        }
+        catch (Exception e){
+            logger.logNewFatalError(e.getLocalizedMessage());
+            return null;
+        }
     }
 
+    /**
+     * Returns an sorted arraylist sorted by the column in sortby
+     * @param sortBy column in database to sort by
+     * @param ascending
+     * @return sorted arraylist
+     * @throws SQLException
+     */
     public ArrayList<String> sort(String sortBy, boolean ascending) throws SQLException {
         logger.logNewInfo("Sorting by " + sortBy);
-        imageDatabase.openConnection();
-        ArrayList<String> result = imageDatabase.sortBy(sortBy, ascending);
-        imageDatabase.close();
-        return result;
+        try {
+            imageDatabase.openConnection();
+            ArrayList<String> result = imageDatabase.sortBy(sortBy, ascending);
+            imageDatabase.close();
+            return result;
+        }
+        catch (Exception e){
+            logger.logNewFatalError(e.getLocalizedMessage());
+            imageDatabase.close();
+            return null;
+        }
     }
 }
