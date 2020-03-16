@@ -15,7 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,6 +47,7 @@ public class ControllerMain implements Initializable {
     public static Stage exportStage = new Stage();
     public static Stage worldStage = new Stage();
     public static Stage albumStage = new Stage();
+    public static Stage aboutStage = new Stage();
     public static ArrayList<String> selectedImages = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
     protected static Image imageBuffer;
@@ -54,7 +55,8 @@ public class ControllerMain implements Initializable {
     protected static boolean loadedFromAnotherLocation = false;
     private static boolean ascending = true;
     private final double initialGridHeight = 185;
-
+    @FXML
+    public MenuItem about;
     @FXML
     private GridPane pictureGrid;
     @FXML
@@ -220,9 +222,13 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    public void helpAction(ActionEvent actionEvent) {
+    public void helpAction(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
         voice.speak("Help");
-        System.out.println(selectedImages.toString());
+        aboutStage.setScene(new Scene(root));
+        aboutStage.setTitle("Map");
+        aboutStage.setResizable(false);
+        aboutStage.showAndWait();
     }
 
     /**
@@ -496,8 +502,8 @@ public class ControllerMain implements Initializable {
         albumStage.setTitle("Albums");
         albumStage.setResizable(false);
         albumStage.showAndWait();
-        clearView();
         if (ControllerViewAlbums.albumSelected) {
+            clearView();
             ControllerViewAlbums.albumSelected = false;
             for (String s : selectedImages) {
                 insertImage(s);
