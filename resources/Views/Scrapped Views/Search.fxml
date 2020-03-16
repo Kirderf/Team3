@@ -26,12 +26,12 @@
                   <Insets bottom="5.0" left="2.0" top="5.0" />
                </padding>
             </CheckBox>
-            <Button fx:id="searchButton" layoutX="34.0" layoutY="149.0" mnemonicParsing="false" onAction="#searchAction" text="Start Search" />
-            <CheckBox layoutX="1.0" layoutY="58.0" mnemonicParsing="false" text="Search by filename" AnchorPane.leftAnchor="0.0">
+            <CheckBox fx:id="filenameCheck" layoutX="1.0" layoutY="58.0" mnemonicParsing="false" text="Search by filename" AnchorPane.leftAnchor="0.0">
                <padding>
-                  <Insets bottom="5.0" left="1.0" top="5.0" />
+                  <Insets bottom="5.0" left="2.0" top="5.0" />
                </padding>
             </CheckBox>
+            <Button fx:id="searchButton" layoutX="34.0" layoutY="149.0" mnemonicParsing="false" onAction="#searchAction" text="Start Search" />
          </children>
          <padding>
             <Insets top="25.0" />

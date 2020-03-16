@@ -33,7 +33,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <CheckBox fx:id="nameCheck" layoutX="17.0" layoutY="39.0" mnemonicParsing="false" text="Search by filename" AnchorPane.leftAnchor="15.0" />
+            <CheckBox fx:id="filenameCheck" layoutX="17.0" layoutY="39.0" mnemonicParsing="false" text="Search by filename" AnchorPane.leftAnchor="15.0" />
             <CheckBox fx:id="pathCheck" layoutX="183.0" layoutY="39.0" mnemonicParsing="false" text="Search by path" />
          </children>
       </AnchorPane>
