@@ -20,7 +20,7 @@ public class DatabaseClient {
      * @throws SQLException
      */
     public void closeApplication() throws SQLException {
-        logger.logNewInfo("DatabaseClient : " + "Clsoing application");
+        logger.logNewInfo("DatabaseClient : " + "Closing application");
         if (imageDatabase.isConnection()) {
             imageDatabase.openConnection();
         }
