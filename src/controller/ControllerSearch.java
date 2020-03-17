@@ -41,8 +41,6 @@ public class ControllerSearch implements Initializable {
     @FXML
     Button addDone;
     @FXML
-    TableColumn<TagTableRow, String> tagName;
-    @FXML
     TableColumn<TagTableRow, Integer> id;
     @FXML
     TableColumn<TagTableRow, CheckBox> select;
@@ -64,8 +62,6 @@ public class ControllerSearch implements Initializable {
     private void searchAction(ActionEvent event) throws SQLException {
         //clears static resultList
         searchResults.clear();
-
-       insertTags();    //  for ScrollSearch
 
         if(metaCheck.isSelected()){
             ArrayList<String> metaResult = ControllerMain.databaseClient.search(searchField.getText(),"Metadata");
@@ -130,7 +126,6 @@ public class ControllerSearch implements Initializable {
 
         tagTable.setItems(observeList);
         id.setCellValueFactory(new PropertyValueFactory<TagTableRow, Integer>("id"));
-        tagName.setCellValueFactory(new PropertyValueFactory<TagTableRow, String>("tagName"));
         select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
     }
 }

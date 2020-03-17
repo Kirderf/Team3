@@ -67,8 +67,18 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     @FXML
-    private void addTagAction(ActionEvent event) {
-        String path = pathBuffer;
+    private void addTagAction(){
+        if(!addTagStage.isShowing()){
+            try{
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/Tagging.fxml"));
+                addTagStage.setScene(new Scene(root));
+                addTagStage.setTitle("Tagging");
+                addTagStage.setResizable(false);
+                addTagStage.showAndWait();
+            }catch (Exception exception){
+                exception.printStackTrace();
+            }
+        }
     }
 
     @FXML

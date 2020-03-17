@@ -5,6 +5,7 @@ import backend.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -50,6 +52,7 @@ public class ControllerMain implements Initializable {
     public static Stage albumStage = new Stage();
     public static Stage aboutStage = new Stage();
     public static Stage errorStage = new Stage();
+    public static Stage addTagStage = new Stage();
     public static ArrayList<String> selectedImages = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
     protected static Image imageBuffer;
@@ -57,6 +60,7 @@ public class ControllerMain implements Initializable {
     protected static boolean loadedFromAnotherLocation = false;
     private static boolean ascending = true;
     private final double initialGridHeight = 185;
+    public Menu fileButton;
     private ArrayList<String> displayedImages = new ArrayList<>();
     @FXML
     public MenuItem about;
@@ -81,6 +85,7 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         voice = new Text_To_Speech();
         logger.log(Level.INFO, "Initializing");
         //this is required, as disabling the textfield in the fxml file made the path way too light to see
@@ -90,6 +95,7 @@ public class ControllerMain implements Initializable {
             refreshImages();
             loadedFromAnotherLocation = false;
         }
+
     }
 
     public ArrayList<String> getSelectedImages(){
@@ -549,6 +555,10 @@ public class ControllerMain implements Initializable {
                 image.setRGB(x, y, rgba);
             }
         }
+    }
+
+    public void TextToSpeakOnMenu(Event event) {
+        voice.speak(((Menu) event.getSource()).getText());
     }
 }
 

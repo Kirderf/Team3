@@ -1,47 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
     <top>
         <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
             <menus>
-                <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
+                <Menu fx:id="fileButton" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="File">
                     <items>
-                        <Menu fx:id="importButton" mnemonicParsing="false" onAction="#importAction" text="Import"/>
-                        <Menu fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" text="Export"/>
-                        <Menu fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" text="Save to album"/>
+                        <Menu fx:id="importButton" mnemonicParsing="false" onAction="#importAction" onMenuValidation="#TextToSpeakOnMenu" text="Import" />
+                        <Menu fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" onMenuValidation="#TextToSpeakOnMenu" text="Export" />
+                        <Menu fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Save to album" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Preferences..." />
                         <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
                     </items>
                 </Menu>
-                <Menu fx:id="searchbutton" mnemonicParsing="false" onAction="#searchAction" text="Search">
+                <Menu fx:id="searchbutton" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" onAction="#searchAction" text="Search">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Search" />
                     </items>
                 </Menu>
-                <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library">
+                <Menu fx:id="returnToLibrary" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="Library">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#goToLibrary" text="Go to library" />
                    <MenuItem mnemonicParsing="false" onAction="#viewAlbums" text="View Albums" />
@@ -50,7 +35,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#goToMap" text="Go to map" />
                     </items>
                 </Menu>
-                <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
+                <Menu fx:id="helpButton" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="Help">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#helpAction" text="About" />
                     </items>
@@ -93,7 +78,7 @@
                 <ComboBox fx:id="sortDropDown" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="184.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#sortAction" prefHeight="25.0" prefWidth="175.0" promptText="Sort by">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:id="sortByFilename" fx:value="Filename"/>
+                            <String fx:id="sortByFilename" fx:value="Filename" />
                             <String fx:id="sortByPath" fx:value="Path" />
                             <String fx:id="sortByDate" fx:value="Date" />
                             <String fx:id="sortBySize" fx:value="Size" />
@@ -103,7 +88,7 @@
                 </ComboBox>
                 <AnchorPane minWidth="150.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <TextArea fx:id="pathDisplay" disable="false" maxHeight="26.0" minHeight="25.0" prefHeight="30.0" prefWidth="561.3333333333334" promptText="Path..." AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="2.0"/>
+                        <TextArea fx:id="pathDisplay" disable="false" maxHeight="26.0" minHeight="25.0" prefHeight="30.0" prefWidth="561.3333333333334" promptText="Path..." AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="2.0" />
                     </children>
                 </AnchorPane>
             </children>
