@@ -31,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
@@ -39,6 +40,7 @@ import java.util.logging.Logger;
 
 public class ControllerMain implements Initializable {
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
+
     public static Text_To_Speech voice;
     public static HashMap<String, String> locations = new HashMap<>();
     public static DatabaseClient databaseClient = new DatabaseClient();
@@ -217,7 +219,8 @@ public class ControllerMain implements Initializable {
     @FXML
     protected void goToLibrary() {
         voice.speak("Going to library");
-        selectedImages.clear();
+        //when this uses selectedImages.clear it causes a bug with the albums, clearing them as well
+        selectedImages = new ArrayList<String>();
         refreshImages();
     }
 
@@ -472,26 +475,32 @@ public class ControllerMain implements Initializable {
                 albumNameStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
                 if (!ControllerAlbumNamePicker.savedName.equals("")) {
-                    refreshImages();
-                    ArrayList<String> tempAlbum = new ArrayList<>();
-                    //deep copy of selectedImages
-                    for (String s : selectedImages) {
-                        tempAlbum.add(s);
+                    if(albums.containsKey(ControllerAlbumNamePicker.savedName)){
+                        throw new IllegalArgumentException("That name already exists");
                     }
-                    albums.put(ControllerAlbumNamePicker.savedName, tempAlbum);
-                    selectedImages.clear();
-                    ControllerAlbumNamePicker.savedName = "";
+                    else {
+                        refreshImages();
+                        albums.put(ControllerAlbumNamePicker.savedName, new ArrayList<>());
+                        ArrayList<String> tempArray = new ArrayList<>();
+                        for (String s : selectedImages) {
+                            albums.get(ControllerAlbumNamePicker.savedName).add(s);
+                            tempArray.add(s);
+                        }
+                        selectedImages.clear();
+                        Collections.copy(albums.get(ControllerAlbumNamePicker.savedName),tempArray);
+                        ControllerAlbumNamePicker.savedName = "";
+                    }
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
         selectedImages.clear();
-
     }
 
     public void viewAlbums(ActionEvent actionEvent) throws IOException {
         Iterator albumIterator = albums.entrySet().iterator();
+        Map.Entry mapElement = (Map.Entry)albumIterator.next();
         // Iterate through the hashmap
         // and add some bonus marks for every student
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
