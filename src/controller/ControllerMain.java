@@ -23,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -31,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
@@ -39,6 +41,7 @@ import java.util.logging.Logger;
 
 public class ControllerMain implements Initializable {
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
+
     public static Text_To_Speech voice;
     public static HashMap<String, String> locations = new HashMap<>();
     public static DatabaseClient databaseClient = new DatabaseClient();
@@ -48,6 +51,7 @@ public class ControllerMain implements Initializable {
     public static Stage worldStage = new Stage();
     public static Stage albumStage = new Stage();
     public static Stage aboutStage = new Stage();
+    public static Stage errorStage = new Stage();
     public static ArrayList<String> selectedImages = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
     protected static Image imageBuffer;
@@ -217,7 +221,8 @@ public class ControllerMain implements Initializable {
     @FXML
     protected void goToLibrary() {
         voice.speak("Going to library");
-        selectedImages.clear();
+        //when this uses selectedImages.clear it causes a bug with the albums, clearing them as well
+        selectedImages = new ArrayList<String>();
         refreshImages();
     }
 
@@ -454,6 +459,8 @@ public class ControllerMain implements Initializable {
         worldStage.setScene(new Scene(root));
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
+        //disable back stage
+        worldStage.initModality(Modality.APPLICATION_MODAL);
         worldStage.showAndWait();
         if (ControllerMap.clickedImage != null) {
             showBigImage(ControllerMap.clickedImage, ControllerMap.clickedImage.getId());
@@ -469,29 +476,45 @@ public class ControllerMain implements Initializable {
                 albumNameStage.setScene(new Scene(root));
                 albumNameStage.setTitle("Save album");
                 albumNameStage.setResizable(false);
+                //disables back stage
+                albumNameStage.initModality(Modality.APPLICATION_MODAL);
                 albumNameStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
                 if (!ControllerAlbumNamePicker.savedName.equals("")) {
-                    refreshImages();
-                    ArrayList<String> tempAlbum = new ArrayList<>();
-                    //deep copy of selectedImages
-                    for (String s : selectedImages) {
-                        tempAlbum.add(s);
+                    if (albums.containsKey(ControllerAlbumNamePicker.savedName)) {
+                        throw new IllegalArgumentException("That name already exists");
+                    } else {
+                        refreshImages();
+                        albums.put(ControllerAlbumNamePicker.savedName, new ArrayList<>());
+                        ArrayList<String> tempArray = new ArrayList<>();
+                        for (String s : selectedImages) {
+                            albums.get(ControllerAlbumNamePicker.savedName).add(s);
+                            tempArray.add(s);
+                        }
+                        selectedImages.clear();
+                        Collections.copy(albums.get(ControllerAlbumNamePicker.savedName), tempArray);
+                        ControllerAlbumNamePicker.savedName = "";
                     }
-                    albums.put(ControllerAlbumNamePicker.savedName, tempAlbum);
-                    selectedImages.clear();
-                    ControllerAlbumNamePicker.savedName = "";
                 }
+            } catch(IllegalArgumentException e){
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
+                errorStage.setScene(new Scene(root));
+                errorStage.setTitle("Albums");
+                errorStage.setResizable(false);
+                errorStage.setAlwaysOnTop(true);
+                errorStage.initModality(Modality.APPLICATION_MODAL);
+                errorStage.showAndWait();
+                albumNameStage.setAlwaysOnTop(false);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
         selectedImages.clear();
-
     }
 
     public void viewAlbums(ActionEvent actionEvent) throws IOException {
         Iterator albumIterator = albums.entrySet().iterator();
+        Map.Entry mapElement = (Map.Entry)albumIterator.next();
         // Iterate through the hashmap
         // and add some bonus marks for every student
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));

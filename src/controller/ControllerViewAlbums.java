@@ -29,6 +29,7 @@ public class ControllerViewAlbums implements Initializable {
     public static boolean albumSelected = false;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         Iterator albumIterator = ControllerMain.albums.entrySet().iterator();
         // Iterate through the hashmap
         // and add some bonus marks for every student
