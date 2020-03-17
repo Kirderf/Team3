@@ -54,6 +54,7 @@ public class ControllerMain implements Initializable {
     public static Stage albumStage = new Stage();
     public static Stage aboutStage = new Stage();
     public static Stage errorStage = new Stage();
+    public static Stage addTagStage = new Stage();
     public static ArrayList<String> selectedImages = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
     protected static Image imageBuffer;
