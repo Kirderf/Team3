@@ -23,7 +23,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -32,7 +31,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
@@ -94,6 +92,12 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    public ArrayList<String> getSelectedImages(){
+        return selectedImages;
+    }
+    public void addToSelectedImages(String s){
+        selectedImages.add(s);
+    }
     @FXML
     private void searchAction() {
         logger.log(Level.INFO, "SearchAction");
@@ -459,8 +463,6 @@ public class ControllerMain implements Initializable {
         worldStage.setScene(new Scene(root));
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
-        //disable back stage
-        worldStage.initModality(Modality.APPLICATION_MODAL);
         worldStage.showAndWait();
         if (ControllerMap.clickedImage != null) {
             showBigImage(ControllerMap.clickedImage, ControllerMap.clickedImage.getId());
@@ -477,7 +479,6 @@ public class ControllerMain implements Initializable {
                 albumNameStage.setTitle("Save album");
                 albumNameStage.setResizable(false);
                 //disables back stage
-                albumNameStage.initModality(Modality.APPLICATION_MODAL);
                 albumNameStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
                 if (!ControllerAlbumNamePicker.savedName.equals("")) {
@@ -497,12 +498,11 @@ public class ControllerMain implements Initializable {
                     }
                 }
             } catch(IllegalArgumentException e){
-                Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/DeleteConfirmation.fxml"));
                 errorStage.setScene(new Scene(root));
                 errorStage.setTitle("Albums");
                 errorStage.setResizable(false);
                 errorStage.setAlwaysOnTop(true);
-                errorStage.initModality(Modality.APPLICATION_MODAL);
                 errorStage.showAndWait();
                 albumNameStage.setAlwaysOnTop(false);
             } catch (Exception exception) {
@@ -514,7 +514,6 @@ public class ControllerMain implements Initializable {
 
     public void viewAlbums(ActionEvent actionEvent) throws IOException {
         Iterator albumIterator = albums.entrySet().iterator();
-        Map.Entry mapElement = (Map.Entry)albumIterator.next();
         // Iterate through the hashmap
         // and add some bonus marks for every student
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
@@ -522,9 +521,9 @@ public class ControllerMain implements Initializable {
         albumStage.setTitle("Albums");
         albumStage.setResizable(false);
         albumStage.showAndWait();
-        if (ControllerViewAlbums.albumSelected) {
+        if (ControllerViewAlbums.isAlbumSelected()) {
             clearView();
-            ControllerViewAlbums.albumSelected = false;
+            ControllerViewAlbums.setAlbumSelected(false);
             for (String s : selectedImages) {
                 insertImage(s);
             }
