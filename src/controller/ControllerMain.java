@@ -23,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -50,6 +51,7 @@ public class ControllerMain implements Initializable {
     public static Stage worldStage = new Stage();
     public static Stage albumStage = new Stage();
     public static Stage aboutStage = new Stage();
+    public static Stage errorStage = new Stage();
     public static ArrayList<String> selectedImages = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
     protected static Image imageBuffer;
@@ -457,6 +459,8 @@ public class ControllerMain implements Initializable {
         worldStage.setScene(new Scene(root));
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
+        //disable back stage
+        worldStage.initModality(Modality.APPLICATION_MODAL);
         worldStage.showAndWait();
         if (ControllerMap.clickedImage != null) {
             showBigImage(ControllerMap.clickedImage, ControllerMap.clickedImage.getId());
@@ -472,13 +476,14 @@ public class ControllerMain implements Initializable {
                 albumNameStage.setScene(new Scene(root));
                 albumNameStage.setTitle("Save album");
                 albumNameStage.setResizable(false);
+                //disables back stage
+                albumNameStage.initModality(Modality.APPLICATION_MODAL);
                 albumNameStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
                 if (!ControllerAlbumNamePicker.savedName.equals("")) {
-                    if(albums.containsKey(ControllerAlbumNamePicker.savedName)){
+                    if (albums.containsKey(ControllerAlbumNamePicker.savedName)) {
                         throw new IllegalArgumentException("That name already exists");
-                    }
-                    else {
+                    } else {
                         refreshImages();
                         albums.put(ControllerAlbumNamePicker.savedName, new ArrayList<>());
                         ArrayList<String> tempArray = new ArrayList<>();
@@ -487,10 +492,19 @@ public class ControllerMain implements Initializable {
                             tempArray.add(s);
                         }
                         selectedImages.clear();
-                        Collections.copy(albums.get(ControllerAlbumNamePicker.savedName),tempArray);
+                        Collections.copy(albums.get(ControllerAlbumNamePicker.savedName), tempArray);
                         ControllerAlbumNamePicker.savedName = "";
                     }
                 }
+            } catch(IllegalArgumentException e){
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
+                errorStage.setScene(new Scene(root));
+                errorStage.setTitle("Albums");
+                errorStage.setResizable(false);
+                errorStage.setAlwaysOnTop(true);
+                errorStage.initModality(Modality.APPLICATION_MODAL);
+                errorStage.showAndWait();
+                albumNameStage.setAlwaysOnTop(false);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
