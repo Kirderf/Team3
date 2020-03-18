@@ -15,12 +15,12 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Delete Album">
                   <items>
-                    <MenuItem fx:id="albumDelete" onAction="#deleteAction" mnemonicParsing="false" text="Delete Album" />
+                    <MenuItem fx:id="albumDelete" mnemonicParsing="false" onAction="#deleteAction" text="Delete Album" />
                   </items>
                 </Menu>
               </menus>
             </MenuBar>
-         <TilePane fx:id="albumTilePane" layoutY="60.0" maxHeight="375.0" maxWidth="640.0" prefHeight="334.0" prefWidth="640.0" />
+         <TilePane fx:id="albumTilePane" layoutY="27.0" maxHeight="375.0" maxWidth="640.0" prefHeight="367.0" prefWidth="640.0" />
          </children>
       </AnchorPane>
   </children>

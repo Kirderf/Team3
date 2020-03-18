@@ -1,24 +1,86 @@
-Mar 18, 2020 10:14:20 AM backend.Log logNewInfo
-INFO: ImageExport : Exporting images to pdf
-Mar 18, 2020 10:14:21 AM backend.Log logNewInfo
-INFO: ImageExport : Exporting images to pdf
-Mar 18, 2020 10:14:21 AM backend.Log logNewInfo
-INFO: ImageExport : Exporting images to pdf
-Mar 18, 2020 10:14:21 AM backend.Log logNewFatalError
-SEVERE: ImageExport : C:\Users\ingebrigt%20Hovind\Documents\Uni%201\Systemutvikling\Kode\target\classes\Views\Import.fxml (The system cannot find the path specified)
-Mar 18, 2020 10:14:21 AM backend.Log logNewInfo
-INFO: ImageExport : Exporting images to pdf
-Mar 18, 2020 10:14:21 AM backend.Log logNewFatalError
-SEVERE: ImageExport : null
-Mar 18, 2020 10:14:21 AM backend.Log logNewInfo
-INFO: ImageExport : Exporting images to pdf
-Mar 18, 2020 10:14:21 AM backend.Log logNewFatalError
-SEVERE: ImageExport : null
-Mar 18, 2020 10:14:21 AM backend.Log logNewInfo
-INFO: ImageExport : Exporting images to pdf
-Mar 18, 2020 10:14:21 AM backend.Log logNewFatalError
-SEVERE: ImageExport : null
-Mar 18, 2020 10:14:21 AM backend.Log logNewInfo
-INFO: ImageExport : Exporting images to pdf
-Mar 18, 2020 10:14:21 AM backend.Log logNewFatalError
-SEVERE: ImageExport : null
+Mar 18, 2020 4:17:38 PM backend.Log logNewInfo
+INFO: Database : Creating Database object
+Mar 18, 2020 4:17:38 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 18, 2020 4:17:38 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 4:17:38 PM backend.Log logNewInfo
+INFO: Database : There is no connection
+Mar 18, 2020 4:17:38 PM backend.Log logNewInfo
+INFO: Databasesource : Loading .properties file
+Mar 18, 2020 4:17:41 PM backend.Log logNewInfo
+INFO: Database : Creating table
+Mar 18, 2020 4:17:41 PM backend.Log logNewInfo
+INFO: Database : Checking if table is in the database
+Mar 18, 2020 4:17:42 PM backend.Log logNewInfo
+INFO: Database : fredrjul_9626316
+Mar 18, 2020 4:17:42 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 4:17:46 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 4:17:47 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\2018-02\IMG_2505.JPG
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 4:17:55 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Mar 18, 2020 4:17:56 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-02/IMG_2505.JPG
+Mar 18, 2020 4:17:56 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 18, 2020 4:17:56 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 4:17:56 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Pictures/2018-02/IMG_2505.JPG
+Mar 18, 2020 4:17:57 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 4:17:58 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 4:17:59 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 4:18:01 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 18, 2020 4:18:01 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 4:18:01 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Mar 18, 2020 4:18:04 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 4:18:11 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 4:18:17 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 4:18:17 PM backend.Log logNewInfo
+INFO: DatabaseClient : Closing application
+Mar 18, 2020 4:18:17 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 4:18:17 PM backend.Log logNewInfo
+INFO: Database : Closing database
+Mar 18, 2020 4:18:17 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 18, 2020 4:18:17 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 4:18:17 PM backend.Log logNewInfo
+INFO: Database : Deleting table

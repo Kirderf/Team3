@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -9,15 +10,23 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+
+import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class ControllerViewAlbums implements Initializable {
     @FXML
@@ -29,6 +38,9 @@ public class ControllerViewAlbums implements Initializable {
     private static String albumToBeDeleted;
     EventHandler clickedOn;
     private static boolean albumSelected = false;
+    private String testPath1 = new String("resources/worldmap.png");
+
+    private File testImage1 = new File(testPath1);
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Iterator albumIterator = ControllerMain.albums.entrySet().iterator();
@@ -41,15 +53,29 @@ public class ControllerViewAlbums implements Initializable {
             pane.setMinWidth(100);
             pane.setMinHeight(100);
             pane.setMaxWidth(100);
+            BufferedImage bufferedImage = new BufferedImage(100,100,TYPE_INT_ARGB);
+            for (int x = 0; x<bufferedImage.getWidth(); x++) {
+                for (int y = 0; y<bufferedImage.getHeight(); y++) {
+                    if((x>5*bufferedImage.getWidth()/6||x<bufferedImage.getWidth()/6)||(y>5*bufferedImage.getHeight()/6||y<bufferedImage.getHeight()/6)) {
+                        Color black = new Color(0, 0, 0);
+                        bufferedImage.setRGB(x, y, black.getRGB());
+                    }
+                }
+            }
+            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+            ImageView testView = new ImageView();
+            testView.setImage(image);
             String key = (mapElement.getKey().toString());
             Text name = new Text(mapElement.getKey().toString());
             name.setId(mapElement.getKey().toString());
-            name.setFill(Paint.valueOf("#FFFFFF"));
+            name.setFill(Paint.valueOf("#000000"));
             name.setLayoutX(25);
-            name.setLayoutY(25);
+            name.setLayoutY(35);
             pane.getChildren().add(name);
+            pane.getChildren().add(testView);
             pane.setLayoutX(pane.getLayoutX());
-            pane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#000000"),CornerRadii.EMPTY, Insets.EMPTY)));
+
+            //pane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#000000"),CornerRadii.EMPTY, Insets.EMPTY)));
             clickedOn = event -> showAlbum(key);
             pane.addEventHandler(MouseEvent.MOUSE_CLICKED,clickedOn);
             albumTilePane.getChildren().add(pane);
