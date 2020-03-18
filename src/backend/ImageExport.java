@@ -11,22 +11,25 @@ import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ImageExport {
     /**
      * prints out an pdf of all the images in the path array
-     * @param name the location, including the name, of where uou want to save it, in the format "C://Users/Ingebrigt/Pictures/helloworld.pdf"
+     * @param name the location, including the name, of where you want to save it, in the format "C://Users/Ingebrigt/Pictures/helloworld.pdf"
      * @param paths array with the path that you want to print to a pdf
      * @return supposed to be true if successful, but this is not implemented yet
      * @author Ingebrigt Hovind
      */
     //stolen from https://stackoverflow.com/questions/22358478/java-create-pdf-pages-from-images-using-pdfbox-library
     private static final Log logger = new Log("Log.log");
-    public static boolean exportToPdf(String name, ArrayList<String> paths){
+    public static boolean exportToPdf(String name, List<String> paths){
         logger.logNewInfo("ImageExport : " + "Exporting images to pdf");
         PDDocument document = new PDDocument();
         try{
-            System.out.println(name);
+            if(paths.isEmpty()){
+                throw new IllegalArgumentException("You are attempting to export an empty list");
+            }
             for(String s : paths){
                 InputStream in = new FileInputStream(s);
                 BufferedImage bimg = ImageIO.read(in);
@@ -35,20 +38,23 @@ public class ImageExport {
                 PDPage page = new PDPage(new PDRectangle(width, height));
                 document.addPage(page);
                 PDImageXObject img = PDImageXObject.createFromFile(s,document);
-                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-                contentStream.drawImage(img, 0f, 0f);
-                contentStream.close();
+                try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                    contentStream.drawImage(img, 0f, 0f);
+                }
                 in.close();
 
             }
             document.save(name);
             document.close();
             return true;
+        }catch(IllegalArgumentException e){
+            e.printStackTrace();
+            return false;
         }
         catch (Exception e){
             logger.logNewFatalError("ImageExport : " + e.getLocalizedMessage());
+            return false;
         }
-        return false;
     }
 
 }
