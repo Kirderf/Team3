@@ -55,6 +55,7 @@ public class ControllerMain implements Initializable {
     public static Stage aboutStage = new Stage();
     public static Stage errorStage = new Stage();
     public static Stage addTagStage = new Stage();
+    private Stage preferenceStage = new Stage();
     public static ArrayList<String> selectedImages = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
     protected static Image imageBuffer;
@@ -89,6 +90,7 @@ public class ControllerMain implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //when i have the modality anywhere else i get an illegalstateexception
         errorStage.initModality(Modality.APPLICATION_MODAL);
+        preferenceStage.initModality(Modality.APPLICATION_MODAL);
         voice = new Text_To_Speech();
         logger.log(Level.INFO, "Initializing");
         //this is required, as disabling the textfield in the fxml file made the path way too light to see
@@ -525,9 +527,6 @@ public class ControllerMain implements Initializable {
     }
 
     public void viewAlbums(ActionEvent actionEvent) throws IOException {
-        Iterator albumIterator = albums.entrySet().iterator();
-        // Iterate through the hashmap
-        // and add some bonus marks for every student
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         albumStage.setScene(new Scene(root));
         albumStage.setTitle("Albums");
@@ -550,21 +549,43 @@ public class ControllerMain implements Initializable {
     //TODO check if any of the other methods on stackoverflow tint quicker
     private static void tint(BufferedImage image) {
         //stolen from https://stackoverflow.com/a/36744345
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Color pixelColor = new Color(image.getRGB(x, y), true);
-                int r = (pixelColor.getRed() + Color.blue.getRed()) / 2;
-                int g = (pixelColor.getGreen() + Color.blue.getGreen()) / 2;
-                int b = (pixelColor.getBlue() + Color.blue.getBlue()) / 2;
-                int a = pixelColor.getAlpha();
-                int rgba = (a << 24) | (r << 16) | (g << 8) | b;
-                image.setRGB(x, y, rgba);
+        //if colourblind
+        if(ControllerPreferences.isColourChecked()){
+            for (int x = 0; x < image.getWidth(); x++) {
+                for (int y = 0; y < image.getHeight(); y++) {
+                    if((x<2*image.getWidth()/3&&x>image.getHeight()/3)||(y<2*image.getHeight()/3&&y>image.getHeight()/3)) {
+                        Color black = new Color(0, 0, 0);
+                        image.setRGB(x, y, black.getRGB());
+                    }
+                }
+            }
+        }
+        else {
+            for (int x = 0; x < image.getWidth(); x++) {
+                for (int y = 0; y < image.getHeight(); y++) {
+                    Color pixelColor = new Color(image.getRGB(x, y), true);
+                    int r = (pixelColor.getRed() + Color.blue.getRed()) / 2;
+                    int g = (pixelColor.getGreen() + Color.blue.getGreen()) / 2;
+                    int b = (pixelColor.getBlue() + Color.blue.getBlue()) / 2;
+                    int a = pixelColor.getAlpha();
+                    int rgba = (a << 24) | (r << 16) | (g << 8) | b;
+                    image.setRGB(x, y, rgba);
+                }
             }
         }
     }
 
     public void TextToSpeakOnMenu(Event event) {
         voice.speak(((Menu) event.getSource()).getText());
+    }
+
+    public void prefrencesAction(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/Preferences.fxml"));
+        preferenceStage.setScene(new Scene(root));
+        preferenceStage.setTitle("Albums");
+        preferenceStage.setResizable(false);
+        preferenceStage.showAndWait();
+        System.out.println(ControllerPreferences.isColourChecked());
     }
 }
 
