@@ -237,7 +237,8 @@ public class ControllerMain implements Initializable {
     protected void goToLibrary() {
         voice.speak("Going to library");
         //when this uses selectedImages.clear it causes a bug with the albums, clearing them as well
-        selectedImages = new ArrayList<String>();
+        //selectedImages = new ArrayList<String>();
+        selectedImages.clear();
         refreshImages();
     }
 
@@ -512,6 +513,7 @@ public class ControllerMain implements Initializable {
                     }
                 }
             } catch(IllegalArgumentException e){
+                //TODO add logger
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
                 errorStage.setScene(new Scene(root));
                 errorStage.setTitle("Albums");
@@ -520,6 +522,7 @@ public class ControllerMain implements Initializable {
                 errorStage.showAndWait();
                 albumNameStage.setAlwaysOnTop(false);
             } catch (Exception exception) {
+                //TODO change to logger
                 exception.printStackTrace();
             }
         }
@@ -533,10 +536,15 @@ public class ControllerMain implements Initializable {
         albumStage.setResizable(false);
         albumStage.showAndWait();
         if (ControllerViewAlbums.isAlbumSelected()) {
-            clearView();
-            ControllerViewAlbums.setAlbumSelected(false);
-            for (String s : selectedImages) {
-                insertImage(s);
+            if(!selectedImages.isEmpty()) {
+                clearView();
+                ControllerViewAlbums.setAlbumSelected(false);
+                for (String s : selectedImages) {
+                    insertImage(s);
+                }
+            }
+            else{
+                refreshImages();
             }
         }
     }
@@ -585,7 +593,6 @@ public class ControllerMain implements Initializable {
         preferenceStage.setTitle("Albums");
         preferenceStage.setResizable(false);
         preferenceStage.showAndWait();
-        System.out.println(ControllerPreferences.isColourChecked());
     }
 }
 

@@ -22,6 +22,9 @@ public class ControllerConfirmDeleteAlbum implements Initializable {
     static boolean isStageClosed(){
         return stageClosed;
     }
+    static boolean getStageClosed(){
+        return stageClosed;
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //sets the text equal to the title

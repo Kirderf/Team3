@@ -2,6 +2,7 @@ package controller;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,9 +39,6 @@ public class ControllerViewAlbums implements Initializable {
     private static String albumToBeDeleted;
     EventHandler clickedOn;
     private static boolean albumSelected = false;
-    private String testPath1 = new String("resources/worldmap.png");
-
-    private File testImage1 = new File(testPath1);
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Iterator albumIterator = ControllerMain.albums.entrySet().iterator();
@@ -75,7 +73,6 @@ public class ControllerViewAlbums implements Initializable {
             pane.getChildren().add(testView);
             pane.setLayoutX(pane.getLayoutX());
 
-            //pane.setBackground(new Background(new BackgroundFill(Paint.valueOf("#000000"),CornerRadii.EMPTY, Insets.EMPTY)));
             clickedOn = event -> showAlbum(key);
             pane.addEventHandler(MouseEvent.MOUSE_CLICKED,clickedOn);
             albumTilePane.getChildren().add(pane);
@@ -95,7 +92,14 @@ public class ControllerViewAlbums implements Initializable {
         albumToBeDeleted = s;
     }
     private void showAlbum(String name){
-        ControllerMain.selectedImages = ControllerMain.albums.get(name);
+        if(!ControllerMain.albums.isEmpty()) {
+            if(ControllerMain.albums.get(name)!=null) {
+                ControllerMain.selectedImages = ControllerMain.albums.get(name);
+            }
+            else{
+                ControllerMain.selectedImages.clear();
+            }
+        }
         albumSelected = true;
         ((Stage) albumTilePane.getScene().getWindow()).close();
     }
