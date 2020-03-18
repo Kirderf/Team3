@@ -1,0 +1,42 @@
+Mar 18, 2020 8:59:14 AM backend.Log logNewInfo
+INFO: Database : Creating Database object
+Mar 18, 2020 8:59:14 AM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 18, 2020 8:59:14 AM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 8:59:14 AM backend.Log logNewInfo
+INFO: Database : There is no connection
+Mar 18, 2020 8:59:14 AM backend.Log logNewInfo
+INFO: Databasesource : Loading .properties file
+Mar 18, 2020 8:59:15 AM backend.Log logNewInfo
+INFO: Database : Creating table
+Mar 18, 2020 8:59:15 AM backend.Log logNewInfo
+INFO: Database : Checking if table is in the database
+Mar 18, 2020 8:59:15 AM backend.Log logNewInfo
+INFO: Database : fredrjul_8087645
+Mar 18, 2020 8:59:17 AM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 8:59:18 AM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 8:59:18 AM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 8:59:19 AM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 8:59:20 AM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 8:59:21 AM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 8:59:22 AM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 8:59:23 AM backend.Log logNewInfo
+INFO: DatabaseClient : Closing application
+Mar 18, 2020 8:59:23 AM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 8:59:23 AM backend.Log logNewInfo
+INFO: Database : Closing database
+Mar 18, 2020 8:59:23 AM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Mar 18, 2020 8:59:23 AM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Mar 18, 2020 8:59:23 AM backend.Log logNewInfo
+INFO: Database : Deleting table

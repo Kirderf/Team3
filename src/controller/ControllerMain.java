@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -25,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -85,7 +87,8 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        //when i have the modality anywhere else i get an illegalstateexception
+        errorStage.initModality(Modality.APPLICATION_MODAL);
         voice = new Text_To_Speech();
         logger.log(Level.INFO, "Initializing");
         //this is required, as disabling the textfield in the fxml file made the path way too light to see
@@ -480,6 +483,9 @@ public class ControllerMain implements Initializable {
         Stage albumNameStage = new Stage();
         if (!albumNameStage.isShowing()) {
             try {
+                if(selectedImages.size()==0) {
+                    throw new IllegalArgumentException("You need to select more than one image for your album");
+                }
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNamePicker.fxml"));
                 albumNameStage.setScene(new Scene(root));
                 albumNameStage.setTitle("Save album");
@@ -487,7 +493,7 @@ public class ControllerMain implements Initializable {
                 //disables back stage
                 albumNameStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
-                if (!ControllerAlbumNamePicker.savedName.equals("")) {
+                if (!ControllerAlbumNamePicker.savedName.trim().equals("")) {
                     if (albums.containsKey(ControllerAlbumNamePicker.savedName)) {
                         throw new IllegalArgumentException("That name already exists");
                     } else {
@@ -504,7 +510,7 @@ public class ControllerMain implements Initializable {
                     }
                 }
             } catch(IllegalArgumentException e){
-                Parent root = FXMLLoader.load(getClass().getResource("/Views/DeleteConfirmation.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
                 errorStage.setScene(new Scene(root));
                 errorStage.setTitle("Albums");
                 errorStage.setResizable(false);
