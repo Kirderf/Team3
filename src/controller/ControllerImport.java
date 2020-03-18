@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerImport implements Initializable {
-    public static boolean importSucceed = false;
+    private static boolean importSucceed = false;
     /**
      * File explorer
      */
@@ -51,7 +51,12 @@ public class ControllerImport implements Initializable {
         pathVbox.setPadding(new Insets(5, 0, 0, 5));
         pathVbox.setSpacing(7);
     }
-
+    public static void setImportSucceed(boolean b){
+        importSucceed = b;
+    }
+    public static boolean isImportSucceed(){
+        return importSucceed;
+    }
     /**
      * Opens file chooser, and gets path, then displays it to the user.
      *
@@ -125,7 +130,7 @@ public class ControllerImport implements Initializable {
                 ControllerMain.databaseClient.addImage(file);
 
             }
-            importSucceed = true;
+            setImportSucceed(true);
         }
         cancel(event);
     }

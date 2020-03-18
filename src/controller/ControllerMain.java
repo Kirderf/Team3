@@ -145,11 +145,11 @@ public class ControllerMain implements Initializable {
             importStage.setTitle("Import");
             importStage.setResizable(false);
             importStage.showAndWait();
-            if (ControllerImport.importSucceed) {
+            if (ControllerImport.isImportSucceed()) {
                 voice.speak("Import succeeded");
                 logger.log(Level.INFO, "Refreshing");
                 refreshImages();
-                ControllerImport.importSucceed = false;
+                ControllerImport.setImportSucceed(false);
             }
 
         }
@@ -204,9 +204,9 @@ public class ControllerMain implements Initializable {
                 exportStage.setResizable(false);
                 exportStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
-                if (ControllerExport.exportSucceed) {
+                if (ControllerExport.isExportSucceed()) {
                     refreshImages();
-                    ControllerExport.exportSucceed = false;
+                    ControllerExport.setExportSucceed(false);
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();

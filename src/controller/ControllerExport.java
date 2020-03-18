@@ -17,6 +17,12 @@ public class ControllerExport {
     javafx.scene.control.TextField inputText;
 
     public static boolean exportSucceed = false;
+    public static boolean isExportSucceed(){
+        return exportSucceed;
+    }
+    public static void setExportSucceed(boolean b){
+        exportSucceed = b;
+    }
 
     @FXML
     private void exportPDF() {
