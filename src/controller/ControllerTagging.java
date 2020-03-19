@@ -67,6 +67,11 @@ public class ControllerTagging implements Initializable {
         select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
     }
 
+    /**
+     * when the done button is clicked
+     * @param ae
+     * @throws SQLException
+     */
     @FXML
     private void doneAction(ActionEvent ae) throws SQLException {
         ArrayList<String> tempTagList = new ArrayList<>();

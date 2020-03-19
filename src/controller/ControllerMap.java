@@ -48,6 +48,11 @@ public class ControllerMap implements Initializable {
     }
 
     //TODO check if scaling the image before adding it makes it look less pixelated
+
+    /**
+     * loads all the pictures into the map and adds their eventlisteners
+     * @throws FileNotFoundException if the path to the images are invalid
+     */
     public void updateImage() throws FileNotFoundException {
         //used to iterate through the images
         //TODO does this need to be a static hashmap? can it be a parameter in some way
