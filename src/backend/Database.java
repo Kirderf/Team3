@@ -137,7 +137,7 @@ public class Database {
     }
 
     /**
-     * checks whether path is in databasee
+     * checks whether path is in database
      *
      * @param path the path you are searching for
      * @return boolean
@@ -309,7 +309,7 @@ public class Database {
     public boolean openConnection() throws SQLException {
         logger.logNewInfo("Database : " + "Opening connection to database..");
         if (!isConnection()) {
-            con = Datasource.getConnection();
+            con = DataSource.getConnection();
             return true;
         }
         return false;

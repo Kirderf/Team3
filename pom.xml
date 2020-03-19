@@ -114,6 +114,7 @@
                 <version>0.0.4</version>
                 <configuration>
                     <mainClass>Start</mainClass>
+                    <includePathExceptionsInClasspath>true</includePathExceptionsInClasspath>
                 </configuration>
             </plugin>
         </plugins>
