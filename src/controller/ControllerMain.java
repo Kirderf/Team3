@@ -207,7 +207,9 @@ public class ControllerMain implements Initializable {
                 exportStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
                 if (ControllerExport.isExportSucceed()) {
-                    refreshImages();
+                   if(this.getClass() == ControllerMain.class){
+                       refreshImages();
+                   }
                     ControllerExport.setExportSucceed(false);
                 }
             } catch (Exception exception) {
@@ -249,7 +251,7 @@ public class ControllerMain implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
         voice.speak("Help");
         aboutStage.setScene(new Scene(root));
-        aboutStage.setTitle("Map");
+        aboutStage.setTitle("About");
         aboutStage.setResizable(false);
         aboutStage.showAndWait();
     }
