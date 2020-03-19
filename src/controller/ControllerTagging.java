@@ -12,6 +12,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.lang.reflect.Array;
 import java.net.URL;
@@ -76,6 +77,8 @@ public class ControllerTagging implements Initializable {
         }
         String[] tagList = tempTagList.toArray(new String[tempTagList.size()]);
         ControllerMain.databaseClient.addTag(ControllerMain.pathBuffer, tagList);
+
+        ((Stage) taggingDone.getScene().getWindow()).close();
     }
 
 }
