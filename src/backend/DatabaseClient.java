@@ -6,19 +6,16 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 /**
- * @author Ingebrigt Hovind & Fredrik Julsen
+ * @author Fredrik Julsen & Ingebrigt Hovind
  */
-//TODO add javadoc
 public class DatabaseClient {
     private static final Log logger = new Log("Log.log");
     private Database imageDatabase = new Database();
     private ImageImport imageImport = new ImageImport();
 
-    /**
-     * @throws SQLException
-     */
+
     public void closeApplication() throws SQLException {
-        logger.logNewInfo("DatabaseClient : " + "Closing application");
+        logger.logNewInfo("DatabaseClient : Closing application");
         if (imageDatabase.isConnection()) {
             imageDatabase.openConnection();
         }
@@ -48,35 +45,30 @@ public class DatabaseClient {
      */
     public boolean addImage(File image) throws SQLException {
         try {
-            logger.logNewInfo("DatabaseClient : " + "Adding image");
+            logger.logNewInfo("DatabaseClient : Adding image");
             imageDatabase.openConnection();
             String[] metadata = imageImport.getMetaData(image);
             if (metadata != null) {
-                try {
-                    if (getColumn("Path").contains(image.getPath().replaceAll("\\\\", "/"))) {
-                        return false;
-                    } else {
-                        imageDatabase.openConnection();
-                        imageDatabase.addImageToTable(
-                                image.getPath(),
-                                "",
-                                Integer.parseInt(metadata[0]),
-                                Long.parseLong(metadata[1]),
-                                Integer.parseInt(metadata[2]),
-                                Integer.parseInt(metadata[3]),
-                                Double.parseDouble(metadata[4]),
-                                Double.parseDouble(metadata[5]));
-                        imageDatabase.close();
-                        return true;
-                    }
-                } catch (SQLIntegrityConstraintViolationException e) {
-                    logger.logNewFatalError("DatabaseClient : " + e.getLocalizedMessage());
-                    imageDatabase.close();
+                if (getColumn("Path").contains(image.getPath().replaceAll("\\\\", "/"))) {
                     return false;
+                } else {
+                    imageDatabase.openConnection();
+                    imageDatabase.addImageToTable(
+                            image.getPath(),
+                            "",
+                            Integer.parseInt(metadata[0]),
+                            Long.parseLong(metadata[1]),
+                            Integer.parseInt(metadata[2]),
+                            Integer.parseInt(metadata[3]),
+                            Double.parseDouble(metadata[4]),
+                            Double.parseDouble(metadata[5]));
+                    imageDatabase.close();
+                    return true;
                 }
             }
         } catch (SQLException e) {
             logger.logNewFatalError("DatabaseClient : " + e.getLocalizedMessage());
+            imageDatabase.close();
             return false;
         }
         return false;
@@ -105,7 +97,7 @@ public class DatabaseClient {
      * @throws SQLException
      */
     public String[] getMetaDataFromDatabase(String path) {
-        logger.logNewInfo("DatabaseClient : " + "Getting metadata from " + path);
+        logger.logNewInfo("DatabaseClient : Getting metadata from " + path);
 
         String[] result = new String[0];
         try {
@@ -134,9 +126,6 @@ public class DatabaseClient {
             boolean result = imageDatabase.addTags(path, tag);
             imageDatabase.close();
             return result;
-        } catch (IllegalArgumentException e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
-            return false;
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
             return false;
