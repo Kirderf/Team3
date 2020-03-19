@@ -19,6 +19,9 @@ public class Database {
     private PreparedStatement statement = null;
     private Statement stmt = null;
 
+    /**
+     * Constructor
+     */
     public Database() {
         logger.logNewInfo("Database : Creating Database object");
         try {
@@ -51,13 +54,21 @@ public class Database {
         return !statement.execute();
     }
 
+
     /**
-     * This method is going to write data to the database
-     * //TODO: Add parameter to method
-     *
-     * @param // data to add
+     * Adds the image path and the related data to a new row in the table
+     * @param path Local path to image
+     * @param tags This will be empty, as tags are empty when first registering
+     * @param fileSize bytes of the image
+     * @param date date the image was taken, or if that is not available, the last time it was edited
+     * @param imageHeight height of the image in pixels
+     * @param imageWidth Width of image in pixels
+     * @param gpsLatitude latitude in decimals
+     * @param gpsLongitude longitude in decimals
+     * @return boolean if registration was successful
+     * @throws SQLException
      */
-    public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWight, double gpsLatitude, double gpsLongitude) throws SQLException {
+    public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) throws SQLException {
         logger.logNewInfo("Added Image to path" + path);
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         statement = con.prepareStatement(sql1);
@@ -67,7 +78,7 @@ public class Database {
         statement.setInt(4, fileSize);
         statement.setLong(5, date);
         statement.setInt(6, imageHeight);
-        statement.setInt(7, imageWight);
+        statement.setInt(7, imageWidth);
         statement.setDouble(8, gpsLatitude);
         statement.setDouble(9, gpsLongitude);
         boolean result = !statement.execute();
@@ -77,10 +88,9 @@ public class Database {
     }
 
     /**
-     * Only use if getting for one image. For getting all tags from all images use getData
-     *
-     * @param path
-     * @return String
+     * Gets all the tags related to the image path given
+     * @param path the path to the image you want to get the tags from
+     * @return StringBuilder with all the tags
      */
     public StringBuilder getTags(String path) throws SQLException {
         logger.logNewInfo("Database : " + "Getting Tags");
@@ -114,7 +124,12 @@ public class Database {
 
         logger.logNewInfo("Database : " + "Adding Tags");
         StringBuilder oldtags = getTags(path);
+        String tagTest = oldtags.toString().toLowerCase();
         for (String string : tags) {
+            if (tagTest.contains(string.toLowerCase())){
+                System.out.println("The image already has the tag: " + string);
+                continue;
+            }
             oldtags.append(",").append(string);
         }
         statement = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
@@ -122,7 +137,7 @@ public class Database {
     }
 
     /**
-     * checks whether path is in database
+     * checks whether path is in databasee
      *
      * @param path the path you are searching for
      * @return boolean
@@ -249,6 +264,12 @@ public class Database {
         return statement.execute();
     }
 
+    /**
+     * deletes a specified row from the database
+     * @param path image that you want to delete
+     * @return boolean if deletion was successful
+     * @throws SQLException
+     */
     public boolean deleteFromDatabase(String path) throws SQLException {
         logger.logNewWarning("Database : " + "Deleting image from database from " + path);
         String sql = "DELETE FROM " + table + " WHERE " + table + ".ImageID=" + findImage(path);
@@ -256,6 +277,12 @@ public class Database {
         return !statement.execute();
     }
 
+    /**
+     * Finds index of an image in the database
+     * @param path path of the image you want to find
+     * @return index of the given image, -1 if it's not found
+     * @throws SQLException
+     */
     public int findImage(String path) throws SQLException {
         logger.logNewInfo("Database : " + "Finding image from " + path);
         String sql = "SELECT * FROM " + table + "\n" +
@@ -263,7 +290,7 @@ public class Database {
         stmt = con.createStatement();
         resultSet = stmt.executeQuery(sql);
         if (!resultSet.next()) {
-            return 0;
+            return -1;
         } else {
             do {
                 if (resultSet.getString(2).equalsIgnoreCase(path)) {
@@ -271,12 +298,12 @@ public class Database {
                 }
             } while (resultSet.next());
         }
-        return 0;
+        return -1;
     }
 
     /**
      * Must be called before calling any other method
-     *
+     * @return boolean if the opening was succesful
      * @throws SQLException
      */
     public boolean openConnection() throws SQLException {
@@ -290,8 +317,9 @@ public class Database {
     }
 
     /**
+     * Closes connection to database
      * Must be called last after openConnection and any other method
-     *
+     * @return boolean if closing was succesful
      * @throws SQLException
      */
     public boolean close() throws SQLException {
@@ -318,8 +346,7 @@ public class Database {
 
     /**
      * This method closes the database and deletes the current table to free up space.
-     *
-     * @return
+     * @return boolean if deletion was successful
      * @throws SQLException
      */
     public boolean closeDatabase() throws SQLException {
@@ -425,7 +452,6 @@ public class Database {
 
     /**
      * Searches the database and returns the paths of all elements that contain the given parameter in their metadata or tags
-     *
      * @param searchFor the phrase you want to search for
      * @return an arraylist with the paths that contain data that mathch the search
      * @author Ingebrigt Hovind
