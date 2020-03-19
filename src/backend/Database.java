@@ -127,7 +127,7 @@ public class Database {
     }
 
     /**
-     * checks whether path is in databasee
+     * checks whether path is in database
      *
      * @param path the path you are searching for
      * @return boolean
