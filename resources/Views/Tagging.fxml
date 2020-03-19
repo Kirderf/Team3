@@ -11,29 +11,30 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerTagging">
    <children>
-      <Label layoutX="156.0" layoutY="8.0" text="Tags" textFill="#787878" AnchorPane.leftAnchor="156.0" AnchorPane.topAnchor="7.0">
+      <Label layoutX="156.0" layoutY="8.0" text="Tags" textFill="#787878" AnchorPane.leftAnchor="156.0" AnchorPane.topAnchor="8.0">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
       <HBox prefHeight="27.0" prefWidth="304.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <Button fx:id="taggingAdd" mnemonicParsing="false" prefWidth="60.0" text="Add">
+            <Button fx:id="newTagButton" mnemonicParsing="false" prefWidth="60.0" text="New Tag">
                <HBox.margin>
-                  <Insets right="5.0" />
+                  <Insets right="80.0" />
                </HBox.margin>
-            </Button>
-            <Button fx:id="taggingRemove" mnemonicParsing="false" prefWidth="60.0" text="Remove">
-               <HBox.margin>
-                  <Insets right="40.0" />
-               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
             </Button>
             <Button fx:id="taggingCancel" mnemonicParsing="false" prefWidth="60.0" text="Cancel">
                <HBox.margin>
-                  <Insets left="40.0" right="5.0" />
+                  <Insets left="70.0" right="5.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="taggingDone" mnemonicParsing="false" prefWidth="60.0" text="Done" />
+            <Button fx:id="taggingDone" mnemonicParsing="false" prefWidth="60.0" text="Done" onAction="#doneAction">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Button>
          </children>
       </HBox>
       <TableView fx:id="taggingTable" layoutX="15.0" layoutY="42.0" prefHeight="136.0" prefWidth="330.0">
@@ -41,6 +42,9 @@
           <TableColumn fx:id="select" prefWidth="296.0" text="Tag" />
           <TableColumn fx:id="id" minWidth="0.0" prefWidth="33.0" text="id" />
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
    </children>
 </AnchorPane>

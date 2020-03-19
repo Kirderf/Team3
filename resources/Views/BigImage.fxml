@@ -22,6 +22,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.AnchorPane?>
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerBigImage">
     <top>
         <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
@@ -61,29 +62,29 @@
     <left>
         <SplitPane dividerPositions="0.5112612612612613" orientation="VERTICAL" prefHeight="446.0" prefWidth="184.0" BorderPane.alignment="CENTER">
             <items>
-            <Pane>
-               <children>
-                        <Label layoutX="57.0" layoutY="1.0" text="Metadata" textFill="#787878">
+                <AnchorPane minHeight="200.0" prefHeight="272.0" prefWidth="157.0">
+                    <children>
+                        <Label layoutX="51.0" text="Metadata" textFill="#787878">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="26.0" maxWidth="180.0" minHeight="50.0" prefHeight="227.0" prefWidth="170.0" vbarPolicy="ALWAYS">
+                        <ScrollPane fx:id="metadataScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="23.0" maxWidth="180.0" minHeight="50.0" prefHeight="245.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="25.0">
                             <VBox fx:id="metadataVbox">
                             </VBox>
                         </ScrollPane>
-               </children>
-            </Pane>
-            <Pane>
-               <children>
-                        <Label layoutX="74.0" layoutY="1.0" text="Tags" textFill="#787878">
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="200.0">
+                    <children>
+                        <Label layoutX="68.0" text="Tags" textFill="#787878">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="169.0" prefWidth="170.0" vbarPolicy="ALWAYS" />
-               </children>
-            </Pane>
+                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="223.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="25.0" />
+                    </children>
+                </AnchorPane>
             </items>
         </SplitPane>
     </left>

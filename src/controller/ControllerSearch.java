@@ -27,8 +27,6 @@ public class ControllerSearch implements Initializable {
     public static boolean searchSucceed = false;
 
     @FXML
-    CheckBox tagCheck;
-    @FXML
     CheckBox metaCheck;
     @FXML
     CheckBox pathCheck;
@@ -109,7 +107,7 @@ public class ControllerSearch implements Initializable {
      * list, which is then inserted into a table list that's presented to the user.
      */
     @FXML
-    public void insertTags(){
+    protected void insertTags(){
         //  Use this when adding tags has been implemented
         //  ArrayList<String> tagList = ControllerMain.databaseClient.getData("Tags");
         ArrayList<String> tagList = new ArrayList<>();
