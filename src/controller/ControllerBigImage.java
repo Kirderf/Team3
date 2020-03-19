@@ -55,8 +55,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
             showMetadata(pathBuffer);
         }
         textField.setEditable(false);
-        exportButton.setDisable(true);
-        exportButton.setOnAction(Event::consume);
+        selectedImages.add(pathBuffer);
     }
 
     @FXML

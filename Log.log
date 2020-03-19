@@ -1,40 +1,30 @@
-Mar 18, 2020 7:22:52 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:35 P.M. backend.Log logNewInfo
 INFO: Database : Creating Database object
-Mar 18, 2020 7:22:52 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:35 P.M. backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 7:22:52 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:35 P.M. backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 7:22:52 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:35 P.M. backend.Log logNewInfo
 INFO: Database : There is no connection
-Mar 18, 2020 7:22:52 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:35 P.M. backend.Log logNewInfo
 INFO: Databasesource : Loading .properties file
-Mar 18, 2020 7:22:54 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:36 P.M. backend.Log logNewInfo
 INFO: Database : Creating table
-Mar 18, 2020 7:22:54 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:36 P.M. backend.Log logNewInfo
 INFO: Database : Checking if table is in the database
-Mar 18, 2020 7:22:54 PM backend.Log logNewInfo
-INFO: Database : fredrjul_9221769
-Mar 18, 2020 7:22:56 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:36 P.M. backend.Log logNewInfo
+INFO: Database : fredrjul_268019
+mar. 19, 2020 12:59:38 P.M. backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 7:23:09 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 7:23:10 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 7:26:14 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:38 P.M. backend.Log logNewInfo
 INFO: DatabaseClient : Closing application
-Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:38 P.M. backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:38 P.M. backend.Log logNewInfo
 INFO: Database : Closing database
-Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:38 P.M. backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:38 P.M. backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
+mar. 19, 2020 12:59:38 P.M. backend.Log logNewInfo
 INFO: Database : Deleting table
