@@ -15,7 +15,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -105,12 +104,41 @@ public class ControllerMain implements Initializable {
 
     }
 
-    public ArrayList<String> getSelectedImages(){
+    /**
+     * gets all selected images
+     * @return returns all selected images
+     */
+    public static ArrayList<String> getSelectedImages(){
         return selectedImages;
     }
-    public void addToSelectedImages(String s){
+
+    /**
+     * clears the selected images and sets it equal to the new arraylist
+     * @param s the new arraylist with image paths
+     */
+    public static void setSelectedImages(ArrayList<String> s){
+        selectedImages.clear();
+        selectedImages = s;
+    }
+
+    /**
+     * adds a path to the selectedimages
+     * @param s the path that you want to add to the image
+     */
+    public static void addToSelectedImages(String s){
         selectedImages.add(s);
     }
+
+    /**
+     * clears the selected images
+     */
+    public void clearSelectedImages(){
+        selectedImages.clear();
+    }
+
+    /**
+     * When the search button is clicked
+     */
     @FXML
     private void searchAction() {
         logger.log(Level.INFO, "SearchAction");
@@ -195,6 +223,9 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    /**
+     * when the export button is clicked
+     */
     @FXML
     private void exportAction() {
         voice.speak("Exporting");
@@ -237,6 +268,9 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    /**
+     * when go library is clicked, refreshes the images
+     */
     @FXML
     protected void goToLibrary() {
         voice.speak("Going to library");
@@ -246,6 +280,11 @@ public class ControllerMain implements Initializable {
         refreshImages();
     }
 
+    /**
+     * Shows the about stage
+     * @param actionEvent auto generated
+     * @throws IOException
+     */
     @FXML
     public void helpAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
@@ -291,7 +330,6 @@ public class ControllerMain implements Initializable {
 
     /**
      * Insert image into the gridpane
-     *
      * @param path to image object
      */
     private void insertImage(String path) throws FileNotFoundException {
@@ -327,11 +365,12 @@ public class ControllerMain implements Initializable {
 
     /**
      * EventHandler for mouseclicks on images
-     *
-     * @param imageView
-     * @param image
-     * @param path
-     * @return
+     * in the event of an control click then big image is shown
+     * normal clicks tags the image and adds it to selected images
+     * @param imageView the image that you want to view or mark when clicked
+     * @param image the image that the imageview should display
+     * @param path the local path to the image on the user's machine
+     * @return eventhandler that marks the images as directed
      */
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path) {
         return (EventHandler<MouseEvent>) event -> {
@@ -345,7 +384,7 @@ public class ControllerMain implements Initializable {
                 }
             } else {
                 //Single click
-                setSelectedImages(imageView, image, path);
+                selectImage(imageView, image, path);
                 showMetadata(null);
                 if (selectedImages.size() != 1) {
                     pathDisplay.clear();
@@ -356,7 +395,13 @@ public class ControllerMain implements Initializable {
         };
     }
 
-    private void setSelectedImages(ImageView imageView, Image image, String path) {
+    /**
+     * select the image and tints it, if it is already selected then the tint is removed
+     * @param imageView the imageview that you want to update with the new image
+     * @param image the image that you want to tint
+     * @param path the path to the photo
+     */
+    private void selectImage(ImageView imageView, Image image, String path) {
         if (!selectedImages.contains(path)) {
             selectedImages.add(path);
             //buff is the tinted
@@ -369,6 +414,12 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    /**
+     * shows a image in fullscreen mode
+     * @param imageView the image that is to be shown
+     * @param path the path to the image
+     * @throws IOException
+     */
     private void showBigImage(ImageView imageView, String path) throws IOException {
         voice.speak("Magnifying image");
         selectedImages.clear();
@@ -378,6 +429,10 @@ public class ControllerMain implements Initializable {
         scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
     }
 
+    /**
+     * gets rowcount, is used to facilitate increasing the number of rows when adding pictures
+     * @return int with the number of rows
+     */
     //for every 5th picture the row will increase in value
     private int getNextRow() {
         if (photoCount == 0) {
@@ -393,6 +448,11 @@ public class ControllerMain implements Initializable {
     }
 
     //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
+
+    /**
+     * for every 5th picture the column will reset, therefore this is used to give the column of the next imageview
+     * @return
+     */
     private int getNextColumn() {
         if (photoCount == 0) {
             return columnCount++;
@@ -404,6 +464,10 @@ public class ControllerMain implements Initializable {
         return columnCount++;
     }
 
+    /**
+     * displays the metadata of each image in the sidebar
+     * @param imagePath the path to the image from which you are getting the metadata
+     */
     public void showMetadata(String imagePath) {
         String path;
         if (!metadataVbox.getChildren().isEmpty()) {
@@ -411,8 +475,8 @@ public class ControllerMain implements Initializable {
         }
         if (imagePath != null) {
             path = imagePath;
-        } else if (selectedImages.size() != 0) {
-            path = selectedImages.get(0);
+        } else if (!getSelectedImages().isEmpty()) {
+            path = getSelectedImages().get(0);
         } else {
             return;
         }
@@ -485,6 +549,11 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    /**
+     * when save to album is clicked
+     * @param actionEvent auto-generated
+     * @throws IOException
+     */
     public void saveAlbumAction(ActionEvent actionEvent) throws IOException {
         voice.speak("Creating album");
         if (!albumNameStage.isShowing()) {
@@ -532,6 +601,11 @@ public class ControllerMain implements Initializable {
         selectedImages.clear();
     }
 
+    /**
+     * When view albums is clicked
+     * @param actionEvent auto-generated
+     * @throws IOException
+     */
     public void viewAlbums(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         albumStage.setScene(new Scene(root));
@@ -554,12 +628,11 @@ public class ControllerMain implements Initializable {
 
     /**
      * tints the selected images blue
-     *
-     * @param image the image that you want to tint
+     * @param image the Bufferedimage that you want to tint
      */
+    //TODO take in image as parameter, and convert to buffered image inside the method
     //TODO check if any of the other methods on stackoverflow tint quicker
     private static void tint(BufferedImage image) {
-        //stolen from https://stackoverflow.com/a/36744345
         //if colourblind
         if(ControllerPreferences.isColourChecked()){
             for (int x = 0; x < image.getWidth(); x++) {
@@ -586,11 +659,20 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    /**
+     * speaks when hovering over the menu
+     * @param event event that led to this being called, e.g hovering over or clicking on menu
+     */
     public void TextToSpeakOnMenu(Event event) {
         voice.speak(((Menu) event.getSource()).getText());
     }
 
-    public void prefrencesAction(ActionEvent actionEvent) throws IOException {
+    /**
+     * opens prefrences window
+     * @param actionEvent auto-generated
+     * @throws IOException
+     */
+    public void preferencesAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/Preferences.fxml"));
         preferenceStage.setScene(new Scene(root));
         preferenceStage.setTitle("Albums");

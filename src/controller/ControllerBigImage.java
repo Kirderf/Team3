@@ -59,6 +59,9 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     @FXML
+    /**
+     * when go to library is pressed
+     */
     private void goToLibrary(ActionEvent event) throws IOException {
         voice.speak("Going to library");
         loadedFromAnotherLocation = true;
@@ -66,6 +69,9 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     @FXML
+    /**
+     * add tag is clicked
+     */
     private void addTagAction(){
         if(!addTagStage.isShowing()){
             try{
@@ -81,6 +87,9 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     @FXML
+    /**
+     * when import image is clicked
+     */
     protected void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
         if (!importStage.isShowing()) {
@@ -91,6 +100,11 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
             importStage.showAndWait();
         }
     }
+
+    /**
+     * opens a image to fullscreen view
+     * @param image the image that you want to show in fullscreen
+     */
     private void setBigImage(Image image) {
         bigImage.setImage(image);
         bigImage.fitWidthProperty().bind(bigImageGrid.widthProperty());

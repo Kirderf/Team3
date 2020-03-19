@@ -15,14 +15,29 @@ public class ControllerPreferences implements Initializable {
     @FXML
     private CheckBox colourCheck;
     private static boolean colourChecked = false;
+
+    /**
+     * when the prefrence window is open
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        colourCheck.setSelected(colourChecked);
     }
-    public static boolean isColourChecked(){
+
+    /**
+     * returns whether or not the colour has been checked
+     * @return boolean
+     */
+    static boolean isColourChecked(){
         return colourChecked;
     }
 
+    /**
+     * if the checkbox is selected, then the class variable is changed
+     * @param actionEvent auto-generated
+     */
     public void setColourBlind(ActionEvent actionEvent) {
         colourChecked = colourCheck.isSelected();
     }

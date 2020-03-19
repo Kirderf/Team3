@@ -45,22 +45,29 @@ public class ControllerSearch implements Initializable {
     @FXML
     TableView<TagTableRow> tagTable;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         insertTags();
     }
 
+    /**
+     * if the close button is clicked
+     * @param event
+     */
     @FXML
     private void cancel(ActionEvent event) {
         ((Stage) searchField.getScene().getWindow()).close();
     }
 
+    /**
+     * if the search button is clicked
+     * @param event the eventlistener on the button that called this method
+     * @throws SQLException
+     */
     @FXML
     private void searchAction(ActionEvent event) throws SQLException {
         //clears static resultList
         searchResults.clear();
-
         if(metaCheck.isSelected()){
             ArrayList<String> metaResult = ControllerMain.databaseClient.search(searchField.getText(),"Metadata");
             if (metaResult!=null) {

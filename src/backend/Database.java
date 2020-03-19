@@ -25,8 +25,8 @@ public class Database {
     public Database() {
         logger.logNewInfo("Database : Creating Database object");
         try {
-            openConnection();
-            createTable();
+            logger.logNewInfo("OpenConnection is "+ openConnection());
+            logger.logNewInfo("Create table is "+ createTable());
             close();
         } catch (SQLException e) {
             logger.logNewFatalError("Database : " + e.getLocalizedMessage());
@@ -309,7 +309,7 @@ public class Database {
     public boolean openConnection() throws SQLException {
         logger.logNewInfo("Database : " + "Opening connection to database..");
         if (!isConnection()) {
-            con = Datasource.getConnection();
+            con = DataSource.getConnection();
             return true;
         }
         return false;
@@ -451,10 +451,10 @@ public class Database {
     }
 
     /**
-     * Searches the database and returns the paths of all elements that contain the given parameter in their metadata or tags
-     * @param searchFor the phrase you want to search for
-     * @return an arraylist with the paths that contain data that mathch the search
-     * @author Ingebrigt Hovind
+     * Searches for a specific term in database
+     * @param searchFor the term you want to search for
+     * @param searchIn the area you want to search in, either path or tags or metadata
+     * @return arraylist with results, is empty in the case of no result or invalid inputdata
      */
     public ArrayList<String> search(String searchFor, String searchIn) {
         ArrayList<String> searchResults = new ArrayList<>();

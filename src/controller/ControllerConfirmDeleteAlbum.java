@@ -22,27 +22,38 @@ public class ControllerConfirmDeleteAlbum implements Initializable {
     static boolean isStageClosed(){
         return stageClosed;
     }
-    static boolean getStageClosed(){
-        return stageClosed;
+    static void setStageClosed(boolean b){
+        stageClosed = b;
     }
     @Override
+    /**
+     * when the image is opened
+     */
     public void initialize(URL location, ResourceBundle resources) {
         //sets the text equal to the title
         albumToBeDeleted.setText(ControllerViewAlbums.getAlbumToBeDeleted());
     }
 
+    /**
+     * when the cancel button is closed
+     * @param actionEvent auto generated
+     */
     public void cancelDelete(ActionEvent actionEvent) {
         //closes stage
         ((Stage) albumToBeDeleted.getScene().getWindow()).close();
         //the album to be deleted is set to nothing
         ControllerViewAlbums.setAlbumToBeDeleted("");
-        stageClosed = true;
+        setStageClosed(true);
     }
 
+    /**
+     * when the confirm delete button is clicked
+     * @param actionEvent auto generated
+     */
     public void confirmDelete(ActionEvent actionEvent) {
         //deletes the album
         ControllerViewAlbums.deleteAlbum(albumToBeDeleted.getText());
         ((Stage) albumToBeDeleted.getScene().getWindow()).close();
-        stageClosed = true;
+        setStageClosed(true);
     }
 }

@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ControllerExport {
+    //the text field where the user enters their desired pdf name
     @FXML
     javafx.scene.control.TextField inputText;
 
@@ -25,6 +26,9 @@ public class ControllerExport {
     }
 
     @FXML
+    /**
+     * opens an directory chooser which allows th euser to choose the placement of their new pdf
+     */
     private void exportPDF() {
         //chooses album location after selecting name
         DirectoryChooser chooser = new DirectoryChooser();
@@ -42,7 +46,7 @@ public class ControllerExport {
     }
 
     /**
-     * closes the windo
+     * closes the window
      */
     public void closeWindow(){
         ((Stage) inputText.getScene().getWindow()).close();

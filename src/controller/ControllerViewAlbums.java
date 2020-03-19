@@ -37,8 +37,14 @@ public class ControllerViewAlbums implements Initializable {
     @FXML
     private VBox albumView;
     private static String albumToBeDeleted;
-    EventHandler clickedOn;
+    private EventHandler clickedOn;
     private static boolean albumSelected = false;
+
+    /**
+     * adds all the albums to the view when the window is first opened
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Iterator albumIterator = ControllerMain.albums.entrySet().iterator();
@@ -79,22 +85,48 @@ public class ControllerViewAlbums implements Initializable {
         }
 
     }
+
+    /**
+     * whether or not a specific album has been selected
+     * @return boolean
+     */
     public static boolean isAlbumSelected(){
         return albumSelected;
     }
+
+    /**
+     * Is used to change whether or not an album is selected
+     * @param b boolean
+     */
     public static void setAlbumSelected(boolean b){
         albumSelected = b;
     }
+
+    /**
+     * the name of the album that is to be deleted
+     * @return String
+     */
     static String getAlbumToBeDeleted(){
         return albumToBeDeleted;
     }
+
+    /**
+     * Changes the album that the user wants to delete
+     * @param s the name of the new album that is to be deleted
+     */
     static void setAlbumToBeDeleted(String s){
         albumToBeDeleted = s;
     }
+
+    /**
+     * when an album is clicked on, this shows it in the main view
+     * @param name name of the album that the user wants to view
+     */
     private void showAlbum(String name){
         if(!ControllerMain.albums.isEmpty()) {
             if(ControllerMain.albums.get(name)!=null) {
-                ControllerMain.selectedImages = ControllerMain.albums.get(name);
+                //TODO change use accessor methods for albums instead
+                ControllerMain.setSelectedImages(ControllerMain.albums.get(name));
             }
             else{
                 ControllerMain.selectedImages.clear();
@@ -117,6 +149,11 @@ public class ControllerViewAlbums implements Initializable {
             }
         });
     }
+
+    /**
+     * when delete album is selected
+     * @param actionEvent
+     */
     public void deleteAction(ActionEvent actionEvent) {
         //iterates through all albums
         for(int i = 0; i<albumTilePane.getChildren().size();i++){
@@ -165,9 +202,15 @@ public class ControllerViewAlbums implements Initializable {
         }
 
     }
+
+    /**
+     * removes the album from the hashmap in main
+     * @param name
+     */
     //TODO change this to boolean
     public static void deleteAlbum(String name){
         //deletes the selected album from the arraylist
+        //TODO use accessor methods instead
         ControllerMain.albums.remove(name);
     }
 }

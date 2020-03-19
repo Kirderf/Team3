@@ -15,6 +15,17 @@ public class ControllerAlbumNamePicker implements Initializable {
     public void closeWindow(){
         ((Stage) inputText.getScene().getWindow()).close();
     }
+
+    /**
+     * gets the album name that was inputted
+     * @return
+     */
+    public static String getSavedName(){
+        return savedName;
+    }
+    public static void setSavedName(String s){
+        savedName = s;
+    }
     /**
      * if the cancel button is clicked
      */
@@ -24,9 +35,15 @@ public class ControllerAlbumNamePicker implements Initializable {
     }
 
     @Override
+    /**
+     * when the stage opens
+     */
     public void initialize(URL location, ResourceBundle resources) {
     }
 
+    /**
+     * If the save album button is clicked
+     */
     public void saveAlbum(ActionEvent actionEvent) {
         savedName = inputText.getText();
         closeWindow();
