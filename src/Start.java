@@ -53,7 +53,7 @@ public class Start extends Application {
 
     public static void main(String[] args) {
         voice = new Text_To_Speech();
-        voice.speak("お早う御座います");
+        voice.startup("お早う御座います");
         launch(args);
     }
 }

@@ -176,7 +176,7 @@ public class ControllerMain implements Initializable {
             importStage.setResizable(false);
             importStage.showAndWait();
             if (ControllerImport.isImportSucceed()) {
-                voice.speak("Import succeeded");
+                if(ControllerPreferences.isTtsChecked()) voice.speak("Import succeeded");
                 logger.log(Level.INFO, "Refreshing");
                 refreshImages();
                 ControllerImport.setImportSucceed(false);
