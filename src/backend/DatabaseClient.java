@@ -4,8 +4,6 @@ import java.io.File;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Ingebrigt Hovind & Fredrik Julsen
@@ -55,10 +53,9 @@ public class DatabaseClient {
             String[] metadata = imageImport.getMetaData(image);
             if (metadata != null) {
                 try {
-                    if (getColumn("Path").contains(image.getPath().replaceAll("\\\\","/"))) {
+                    if (getColumn("Path").contains(image.getPath().replaceAll("\\\\", "/"))) {
                         return false;
-                    }
-                    else {
+                    } else {
                         imageDatabase.openConnection();
                         imageDatabase.addImageToTable(
                                 image.getPath(),
@@ -84,7 +81,8 @@ public class DatabaseClient {
         }
         return false;
     }
-    public String getTags(String path){
+
+    public String getTags(String path) {
         logger.logNewInfo("Getting tags from " + path);
 
         try {
@@ -136,12 +134,10 @@ public class DatabaseClient {
             boolean result = imageDatabase.addTags(path, tag);
             imageDatabase.close();
             return result;
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             logger.logNewFatalError(e.getLocalizedMessage());
             return false;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
             return false;
         }
@@ -162,8 +158,7 @@ public class DatabaseClient {
             boolean result = imageDatabase.removeTag(path, tags);
             imageDatabase.close();
             return result;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
             return false;
         }
@@ -185,8 +180,7 @@ public class DatabaseClient {
             ArrayList result = imageDatabase.search(searchFor, searchIn);
             imageDatabase.close();
             return result;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
             return null;
         }
@@ -194,7 +188,8 @@ public class DatabaseClient {
 
     /**
      * Returns an sorted arraylist sorted by the column in sortby
-     * @param sortBy column in database to sort by
+     *
+     * @param sortBy    column in database to sort by
      * @param ascending
      * @return sorted arraylist
      * @throws SQLException
@@ -206,8 +201,7 @@ public class DatabaseClient {
             ArrayList<String> result = imageDatabase.sortBy(sortBy, ascending);
             imageDatabase.close();
             return result;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
             imageDatabase.close();
             return null;

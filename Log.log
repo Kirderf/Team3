@@ -1,120 +1,178 @@
-Mar 18, 2020 5:07:16 PM backend.Log logNewInfo
+mar 19, 2020 12:12:02 PM backend.Log logNewInfo
 INFO: Database : Creating Database object
-Mar 18, 2020 5:07:16 PM backend.Log logNewInfo
+mar 19, 2020 12:12:02 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:16 PM backend.Log logNewInfo
+mar 19, 2020 12:12:02 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:16 PM backend.Log logNewInfo
+mar 19, 2020 12:12:02 PM backend.Log logNewInfo
 INFO: Database : There is no connection
-Mar 18, 2020 5:07:16 PM backend.Log logNewInfo
+mar 19, 2020 12:12:02 PM backend.Log logNewInfo
 INFO: Databasesource : Loading .properties file
-Mar 18, 2020 5:07:18 PM backend.Log logNewInfo
+mar 19, 2020 12:12:03 PM backend.Log logNewInfo
 INFO: Database : Creating table
-Mar 18, 2020 5:07:18 PM backend.Log logNewInfo
+mar 19, 2020 12:12:03 PM backend.Log logNewInfo
 INFO: Database : Checking if table is in the database
-Mar 18, 2020 5:07:18 PM backend.Log logNewInfo
-INFO: Database : fredrjul_3920358
-Mar 18, 2020 5:07:20 PM backend.Log logNewInfo
+mar 19, 2020 12:12:03 PM backend.Log logNewInfo
+INFO: Database : fredrjul_4529696
+mar 19, 2020 12:12:04 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:21 PM backend.Log logNewInfo
+mar 19, 2020 12:12:06 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:22 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:26 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:27 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:28 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:29 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
+mar 19, 2020 12:12:16 PM backend.Log logNewInfo
 INFO: DatabaseClient : Adding image
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
+mar 19, 2020 12:12:16 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
+mar 19, 2020 12:12:16 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: ImageImport : Getting metadata from file
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Getting Column
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde2.PNG
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
+mar 19, 2020 12:12:25 PM backend.Log logNewFatalError
+SEVERE: Text_To_Speech : No route to host: connect
+mar 19, 2020 12:12:46 PM backend.Log logNewFatalError
+SEVERE: DatabaseClient : HikariPool-1 - Connection is not available, request timed out after 30007ms.
+mar 19, 2020 12:12:46 PM backend.Log logNewInfo
 INFO: DatabaseClient : Adding image
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
+mar 19, 2020 12:12:46 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
+mar 19, 2020 12:12:46 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
+mar 19, 2020 12:13:16 PM backend.Log logNewFatalError
+SEVERE: DatabaseClient : HikariPool-1 - Connection is not available, request timed out after 30000ms.
+mar 19, 2020 12:13:16 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+mar 19, 2020 12:13:16 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:13:16 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:13:46 PM backend.Log logNewFatalError
+SEVERE: DatabaseClient : HikariPool-1 - Connection is not available, request timed out after 30000ms.
+mar 19, 2020 12:13:46 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:13:46 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:13:48 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+mar 19, 2020 12:13:50 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+mar 19, 2020 12:13:54 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+mar 19, 2020 12:13:55 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:13:55 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:13:55 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+mar 19, 2020 12:13:55 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+mar 19, 2020 12:13:55 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+mar 19, 2020 12:13:56 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+mar 19, 2020 12:13:57 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+mar 19, 2020 12:13:57 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: ImageImport : Getting metadata from file
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde3.PNG
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Added Image to pathC:\Users\fredr\IdeaProjects\systemutvikling\resources\images with gps data for testing\12382975864_09e6e069e7_o.jpg
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Mar 18, 2020 5:07:36 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:38 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:38 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:38 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:39 PM backend.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde2.PNG
-Mar 18, 2020 5:07:39 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:39 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:39 PM backend.Log logNewInfo
-INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde2.PNG
-Mar 18, 2020 5:07:39 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:40 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Added Image to pathC:\Users\fredr\IdeaProjects\systemutvikling\resources\images with gps data for testing\DSCN0010.jpg
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:40 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:40 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Mar 18, 2020 5:07:41 PM backend.Log logNewInfo
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:14:03 PM backend.Log logNewInfo
+INFO: Added Image to pathC:\Users\fredr\IdeaProjects\systemutvikling\resources\images with gps data for testing\IMG_3195.JPG
+mar 19, 2020 12:14:04 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:14:04 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:14:04 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+mar 19, 2020 12:14:05 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:42 PM backend.Log logNewInfo
+mar 19, 2020 12:14:07 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/fredr/IdeaProjects/systemutvikling/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+mar 19, 2020 12:14:07 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:14:07 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:14:07 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/fredr/IdeaProjects/systemutvikling/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+mar 19, 2020 12:14:08 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/fredr/IdeaProjects/systemutvikling/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+mar 19, 2020 12:14:08 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:14:08 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:14:08 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/fredr/IdeaProjects/systemutvikling/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+mar 19, 2020 12:14:13 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/fredr/IdeaProjects/systemutvikling/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+mar 19, 2020 12:14:13 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+mar 19, 2020 12:14:13 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+mar 19, 2020 12:14:13 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/fredr/IdeaProjects/systemutvikling/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+mar 19, 2020 12:14:15 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:42 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:43 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+mar 19, 2020 12:15:44 PM backend.Log logNewInfo
 INFO: DatabaseClient : Closing application
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+mar 19, 2020 12:15:44 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+mar 19, 2020 12:15:44 PM backend.Log logNewInfo
 INFO: Database : Closing database
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+mar 19, 2020 12:15:44 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+mar 19, 2020 12:15:44 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+mar 19, 2020 12:15:44 PM backend.Log logNewInfo
 INFO: Database : Deleting table
