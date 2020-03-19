@@ -113,7 +113,12 @@ public class Database {
 
         logger.logNewInfo("Database : " + "Adding Tags");
         StringBuilder oldtags = getTags(path);
+        String tagTest = oldtags.toString().toLowerCase();
         for (String string : tags) {
+            if (tagTest.contains(string.toLowerCase())){
+                System.out.println("The image already has the tag: " + string);
+                continue;
+            }
             oldtags.append(",").append(string);
         }
         statement = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
