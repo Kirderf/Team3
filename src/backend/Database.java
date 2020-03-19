@@ -309,7 +309,7 @@ public class Database {
     public boolean openConnection() throws SQLException {
         logger.logNewInfo("Database : " + "Opening connection to database..");
         if (!isConnection()) {
-            con = Datasource.getConnection();
+            con = DataSource.getConnection();
             return true;
         }
         return false;

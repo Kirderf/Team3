@@ -10,7 +10,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class Datasource {
+/**
+ * @author Fredrik Julsen
+ * This datasource is created to load settings for database and load .properties file for username and password.
+ */
+public class DataSource {
 
     private static HikariConfig config = new HikariConfig();
     private static HikariDataSource ds;
@@ -29,23 +33,28 @@ public class Datasource {
         ds = new HikariDataSource(config);
     }
 
+    /**
+     *
+     * @return Connection to database
+     * @throws SQLException if connection could not be made
+     */
     public static Connection getConnection() throws SQLException {
         return ds.getConnection();
     }
 
     private static void loadProperties() {
-        logger.logNewInfo("Databasesource : " + "Loading .properties file");
+        logger.logNewInfo("DatabaseSource : " + "Loading .properties file");
         try {
             prop = new Properties();
             String propFileName = ".properties";
-            InputStream inputStream = Datasource.class.getClassLoader().getResourceAsStream(propFileName);
+            InputStream inputStream = DataSource.class.getClassLoader().getResourceAsStream(propFileName);
             if (inputStream != null) {
                 prop.load(inputStream);
             } else {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
         } catch (IOException e) {
-            logger.logNewFatalError("Databasesource : " + e.getLocalizedMessage());
+            logger.logNewFatalError("DatabaseSource : " + e.getLocalizedMessage());
         }
     }
 }
