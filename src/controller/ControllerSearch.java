@@ -114,6 +114,7 @@ public class ControllerSearch implements Initializable {
      * list, which is then inserted into a table list that's presented to the user.
      */
     @FXML
+    @SuppressWarnings("Duplicates")
     protected void insertTags(){
         //  Use this when adding tags has been implemented
         //  ArrayList<String> tagList = ControllerMain.databaseClient.getData("Tags");

@@ -52,6 +52,7 @@ public class ControllerTagging implements Initializable {
      * list, which is then inserted into a table list that's presented to the user.
      */
     @FXML
+    @SuppressWarnings("Duplicates")
     protected void insertTags() throws SQLException {
         //TODO Get this to work with tags from the database
         taggingTable.getItems().clear();
