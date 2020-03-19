@@ -56,6 +56,8 @@ public class ControllerMain implements Initializable {
     public static Stage errorStage = new Stage();
     public static Stage addTagStage = new Stage();
     private Stage preferenceStage = new Stage();
+    private Stage albumNameStage = new Stage();
+
     public static ArrayList<String> selectedImages = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
     protected static Image imageBuffer;
@@ -485,7 +487,6 @@ public class ControllerMain implements Initializable {
 
     public void saveAlbumAction(ActionEvent actionEvent) throws IOException {
         voice.speak("Creating album");
-        Stage albumNameStage = new Stage();
         if (!albumNameStage.isShowing()) {
             try {
                 if(selectedImages.size()==0) {
