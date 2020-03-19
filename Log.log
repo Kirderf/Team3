@@ -1,120 +1,40 @@
-Mar 18, 2020 5:07:16 PM backend.Log logNewInfo
+Mar 18, 2020 7:22:52 PM backend.Log logNewInfo
 INFO: Database : Creating Database object
-Mar 18, 2020 5:07:16 PM backend.Log logNewInfo
+Mar 18, 2020 7:22:52 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:16 PM backend.Log logNewInfo
+Mar 18, 2020 7:22:52 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:16 PM backend.Log logNewInfo
+Mar 18, 2020 7:22:52 PM backend.Log logNewInfo
 INFO: Database : There is no connection
-Mar 18, 2020 5:07:16 PM backend.Log logNewInfo
+Mar 18, 2020 7:22:52 PM backend.Log logNewInfo
 INFO: Databasesource : Loading .properties file
-Mar 18, 2020 5:07:18 PM backend.Log logNewInfo
+Mar 18, 2020 7:22:54 PM backend.Log logNewInfo
 INFO: Database : Creating table
-Mar 18, 2020 5:07:18 PM backend.Log logNewInfo
+Mar 18, 2020 7:22:54 PM backend.Log logNewInfo
 INFO: Database : Checking if table is in the database
-Mar 18, 2020 5:07:18 PM backend.Log logNewInfo
-INFO: Database : fredrjul_3920358
-Mar 18, 2020 5:07:20 PM backend.Log logNewInfo
+Mar 18, 2020 7:22:54 PM backend.Log logNewInfo
+INFO: Database : fredrjul_9221769
+Mar 18, 2020 7:22:56 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:21 PM backend.Log logNewInfo
+Mar 18, 2020 7:23:09 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:22 PM backend.Log logNewInfo
+Mar 18, 2020 7:23:10 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:26 PM backend.Log logNewInfo
+Mar 18, 2020 7:26:14 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:27 PM backend.Log logNewInfo
+Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:28 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:29 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: DatabaseClient : Adding image
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: ImageImport : Getting metadata from file
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Getting Column
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde2.PNG
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: DatabaseClient : Adding image
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: ImageImport : Getting metadata from file
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:34 PM backend.Log logNewInfo
-INFO: Database : Getting Column
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde3.PNG
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:35 PM backend.Log logNewInfo
-INFO: Database : Getting Column
-Mar 18, 2020 5:07:36 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:38 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:38 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:38 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:39 PM backend.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde2.PNG
-Mar 18, 2020 5:07:39 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:39 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:39 PM backend.Log logNewInfo
-INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde2.PNG
-Mar 18, 2020 5:07:39 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:40 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:40 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 18, 2020 5:07:40 PM backend.Log logNewInfo
-INFO: Database : Getting Column
-Mar 18, 2020 5:07:41 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:42 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:42 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:43 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
 INFO: DatabaseClient : Closing application
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
 INFO: Database : Closing database
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Mar 18, 2020 5:07:45 PM backend.Log logNewInfo
+Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Mar 18, 2020 7:26:16 PM backend.Log logNewInfo
 INFO: Database : Deleting table
