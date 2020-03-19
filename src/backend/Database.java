@@ -25,8 +25,8 @@ public class Database {
     public Database() {
         logger.logNewInfo("Database : Creating Database object");
         try {
-            openConnection();
-            createTable();
+            logger.logNewInfo("OpenConnection is "+ openConnection());
+            logger.logNewInfo("Create table is "+ createTable());
             close();
         } catch (SQLException e) {
             logger.logNewFatalError("Database : " + e.getLocalizedMessage());

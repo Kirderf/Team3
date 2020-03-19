@@ -89,7 +89,7 @@ public class ImageImport {
                                     hasDateTime = true;
                                     metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
                                 }
-                                else if(!hasDateTime&&tag.getTagName().equalsIgnoreCase("File Modified Date")){
+                                else if(tag.getTagName().equalsIgnoreCase("File Modified Date")){
                                     //this converts from three letter month codes into numbers, e.g "feb" = 02
                                     DateTimeFormatter parser = DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH);
                                     String tempMonth = tag.getDescription().substring(tag.getDescription().indexOf(" ")+1,tag.getDescription().indexOf(" ")+4);
@@ -165,14 +165,6 @@ public class ImageImport {
                 throw new IllegalArgumentException("The file does not exist, or is not an image");
             }
             //thrown by the metadata-library we are using
-        } catch (ImageProcessingException e) {
-            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
-        } catch (IOException e) {
-            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
-        } catch (ParseException e) {
-            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
-        } catch(IllegalArgumentException e){
-            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         } catch(Exception e){
             logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         }

@@ -633,7 +633,6 @@ public class ControllerMain implements Initializable {
     //TODO take in image as parameter, and convert to buffered image inside the method
     //TODO check if any of the other methods on stackoverflow tint quicker
     private static void tint(BufferedImage image) {
-        //stolen from https://stackoverflow.com/a/36744345
         //if colourblind
         if(ControllerPreferences.isColourChecked()){
             for (int x = 0; x < image.getWidth(); x++) {
@@ -673,7 +672,7 @@ public class ControllerMain implements Initializable {
      * @param actionEvent auto-generated
      * @throws IOException
      */
-    public void prefrencesAction(ActionEvent actionEvent) throws IOException {
+    public void preferencesAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/Preferences.fxml"));
         preferenceStage.setScene(new Scene(root));
         preferenceStage.setTitle("Albums");
