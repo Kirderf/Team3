@@ -242,7 +242,6 @@ public class ControllerMain implements Initializable {
         voice.speak("Importing");
         if (!importStage.isShowing()) {
             importStage.close();
-            importStage.initStyle(StageStyle.UTILITY);
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
             importStage.setScene(new Scene(root));
             importStage.setTitle("Import");
@@ -267,6 +266,17 @@ public class ControllerMain implements Initializable {
         voice.speak("Sorting");
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
             ArrayList<String> sortedList = getDatabaseClient().sort("File_size", ascending);
+            Collections.sort(sortedList, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    if(ascending) {
+                        return (Double.valueOf(databaseClient.getMetaDataFromDatabase(o1)[2]).intValue() - Double.valueOf(databaseClient.getMetaDataFromDatabase(o2)[2]).intValue());
+                    }
+                    else{
+                        return (Double.valueOf(databaseClient.getMetaDataFromDatabase(o2)[2]).intValue() - Double.valueOf(databaseClient.getMetaDataFromDatabase(o1)[2]).intValue());
+                    }
+                }
+            });
             clearView();
             for (String s : sortedList) {
                 insertImage(s);
@@ -277,6 +287,17 @@ public class ControllerMain implements Initializable {
             //this is just a way to get an arraylist with the paths, theres no use for the sort function here
             ArrayList<String> sortedList = getDatabaseClient().sort("File_size", ascending);
             sortedList.sort(Comparator.comparing(o -> o.substring(o.lastIndexOf("/"))));
+            Collections.sort(sortedList, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    if(ascending) {
+                        return o1.toLowerCase().compareTo(o2.toLowerCase());
+                    }
+                    else{
+                        return o2.toLowerCase().compareTo(o1.toLowerCase());
+                    }
+                }
+            });
             clearView();
             for (String s : sortedList) {
                 insertImage(s);
@@ -768,7 +789,6 @@ public class ControllerMain implements Initializable {
      */
     public void preferencesAction(ActionEvent actionEvent) throws IOException {
         if(!preferenceStage.isShowing()){
-            preferenceStage.initModality(Modality.APPLICATION_MODAL);
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Preferences.fxml"));
             preferenceStage.setScene(new Scene(root));
             preferenceStage.setTitle("Preferences");

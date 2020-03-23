@@ -51,7 +51,6 @@ public class ControllerImport implements Initializable {
         scrollPane.setContent(pathVbox);
         pathVbox.setPadding(new Insets(5, 0, 0, 5));
         pathVbox.setSpacing(7);
-        (ControllerMain.importStage).initModality(Modality.APPLICATION_MODAL);
 
     }
     public static void setImportSucceed(boolean b){
