@@ -30,7 +30,6 @@ public class Start extends Application {
             primaryStage.setMinHeight(600);
             primaryStage.setScene(new Scene(root));
             logger.log(Level.INFO, "Showing app");
-            primaryStage.show();
             primaryStage.setOnCloseRequest((event -> {
                 logger.log(Level.INFO, "Closing application");
                 try {
@@ -41,6 +40,7 @@ public class Start extends Application {
                     e.printStackTrace();
                 }
             }));
+            primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }

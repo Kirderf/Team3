@@ -13,8 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
-public abstract class ImageExport {
+public class ImageExport {
     /**
      * prints out an pdf of all the images in the path array
      * @param name the location, including the name, of where you want to save it, in the format "C://Users/Ingebrigt/Pictures/helloworld.pdf"
@@ -23,7 +24,7 @@ public abstract class ImageExport {
      * @author Ingebrigt Hovind
      */
     //stolen from https://stackoverflow.com/questions/22358478/java-create-pdf-pages-from-images-using-pdfbox-library
-    private static final Log logger = new Log("Log.log");
+    private static final Log logger = new Log();
     public static boolean exportToPdf(String name, List<String> paths) throws IOException {
         logger.logNewInfo("ImageExport : " + "Exporting images to pdf");
         PDDocument document = new PDDocument();

@@ -43,22 +43,26 @@ import java.util.logging.Logger;
 public class ControllerMain implements Initializable {
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
 
-    static Text_To_Speech voice;
+    //Must be public static to get access from other places
+    public static HashMap<String, String> locations = new HashMap<>();
+    public static DatabaseClient databaseClient = new DatabaseClient();
+    public static Text_To_Speech voice;
+    public static String pathBuffer;
+    public static boolean ascending = true;
+    public static ArrayList<String> selectedImages = new ArrayList<>();
+    public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
+    public static Image imageBuffer;
 
-    private static HashMap<String, String> locations = new HashMap<>();
-    private static DatabaseClient databaseClient = new DatabaseClient();
-    //both are used in the main view and in big image view
-    static Stage importStage = new Stage();
-    static Stage addTagStage = new Stage();
-    private Stage albumNameStage = new Stage();
+    //Stages
+    public static Stage importStage = new Stage();
+    public static Stage addTagStage = new Stage();
+    public static Stage albumNameStage = new Stage();
+    public static Stage searchStage = new Stage();
+    public static Stage aboutStage = new Stage();
+    public static Stage worldStage = new Stage();
+    public static Stage preferenceStage = new Stage();
 
-    private static ArrayList<String> selectedImages = new ArrayList<>();
-    private static HashMap<String, ArrayList<String>> albums = new HashMap<>();
-    private static Image imageBuffer;
-
-
-    private static String pathBuffer;
-    private static boolean ascending = true;
+    //Nodes
     @FXML
     private GridPane pictureGrid;
     @FXML
@@ -87,8 +91,6 @@ public class ControllerMain implements Initializable {
         pathDisplay.setEditable(false);
         pictureGrid.setAlignment(Pos.CENTER);
         refreshImages();
-
-
     }
 
     /**
@@ -207,7 +209,6 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     private void searchAction() {
-        Stage searchStage = new Stage();
         logger.log(Level.INFO, "SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
@@ -363,16 +364,16 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     public void helpAction(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
         voice.speak("Help");
-        Stage aboutStage = new Stage();
         if(!aboutStage.isShowing()){
+            Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
             aboutStage.initModality(Modality.APPLICATION_MODAL);
+            aboutStage.setScene(new Scene(root));
+            aboutStage.setTitle("About");
+            aboutStage.setResizable(false);
+            aboutStage.showAndWait();
         }
-        aboutStage.setScene(new Scene(root));
-        aboutStage.setTitle("About");
-        aboutStage.setResizable(false);
-        aboutStage.showAndWait();
+
     }
 
     /**
@@ -390,7 +391,7 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * Refresh Start UI
+     * Refresh home UI. Clear, then gets images from database into the view.
      */
     protected void refreshImages() {
         try {
@@ -532,7 +533,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * for every 5th picture the column will reset, therefore this is used to give the column of the next imageview
-     * @return
+     * @return colomnCount the integer-value for the next coloumn
      */
     private int getNextColumn() {
         if (photoCount == 0) {
@@ -608,7 +609,6 @@ public class ControllerMain implements Initializable {
      * @throws SQLException
      */
     public void goToMap() throws IOException, SQLException {
-        Stage worldStage = new Stage();
         if(!worldStage.isShowing()){
             worldStage.initModality(Modality.APPLICATION_MODAL);
         }
@@ -629,8 +629,8 @@ public class ControllerMain implements Initializable {
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
         worldStage.showAndWait();
-        if (ControllerMap.getClickedImage() != null) {
-            showBigImage(ControllerMap.getClickedImage(), ControllerMap.getClickedImage().getId());
+        if (ControllerMap.clickedImage != null) {
+            showBigImage(ControllerMap.clickedImage, ControllerMap.clickedImage.getId());
         }
     }
 
@@ -766,15 +766,15 @@ public class ControllerMain implements Initializable {
      * @throws IOException
      */
     public void preferencesAction(ActionEvent actionEvent) throws IOException {
-        Stage preferenceStage = new Stage();
         if(!preferenceStage.isShowing()){
             preferenceStage.initModality(Modality.APPLICATION_MODAL);
+            Parent root = FXMLLoader.load(getClass().getResource("/Views/Preferences.fxml"));
+            preferenceStage.setScene(new Scene(root));
+            preferenceStage.setTitle("Preferences");
+            preferenceStage.setResizable(false);
+            preferenceStage.showAndWait();
         }
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/Preferences.fxml"));
-        preferenceStage.setScene(new Scene(root));
-        preferenceStage.setTitle("Albums");
-        preferenceStage.setResizable(false);
-        preferenceStage.showAndWait();
+
     }
 }
 

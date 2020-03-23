@@ -28,16 +28,10 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     private ImageView bigImage;
 
     @FXML
-    private Button addTagButton;
-
-    @FXML
     private GridPane bigImageGrid;
 
     @FXML
     private TextField textField;
-
-    @FXML
-    private Menu exportButton;
 
     @FXML
     private VBox imageVbox;
@@ -85,6 +79,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         }
     }
 
+    @Override
     @FXML
     /**
      * when import image is clicked
