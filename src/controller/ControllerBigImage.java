@@ -76,6 +76,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                 addTagStage.setScene(new Scene(root));
                 addTagStage.setTitle("Tagging");
                 addTagStage.setResizable(false);
+                addTagStage.setOnCloseRequest(event -> ControllerTagging.bufferTags.clear());
                 addTagStage.showAndWait();
             }catch (Exception exception){
                 exception.printStackTrace();

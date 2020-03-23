@@ -34,7 +34,7 @@ public class ControllerTagging implements Initializable {
     @FXML
     TableColumn<TagTableRow, CheckBox> select;
 
-    private static ArrayList<String> bufferTags = new ArrayList<>();
+    protected static ArrayList<String> bufferTags = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,18 +54,18 @@ public class ControllerTagging implements Initializable {
     @FXML
     @SuppressWarnings("Duplicates")
     protected void insertTags() throws SQLException {
-        //TODO Get this to work with tags from the database
         taggingTable.getItems().clear();
-        //  Use this when adding tags has been implemented
-        /*
-        ArrayList tagList = ControllerMain.databaseClient.getColumn("Tags");
-        for (Object s : tagList) {
-            System.out.println(s);
-        }         */
+
+        ArrayList tagList = getAllTags();
+        tagList.removeAll(Arrays.asList("", null));
+
+/*
         ArrayList<String> tagList = new ArrayList<>();
         tagList.add("Tag1");
         tagList.add("Tag2");
         tagList.add("Tag3");
+
+ */
 
         ArrayList<String> newTagList;
         Set<String> set = new LinkedHashSet<>(tagList);
@@ -98,6 +98,7 @@ public class ControllerTagging implements Initializable {
      */
     @FXML
     private void doneAction(ActionEvent ae) throws SQLException {
+        bufferTags.clear();
         ArrayList<String> tempTagList = new ArrayList<>();
         for(TagTableRow tb : taggingTable.getItems()){
             if(tb.getCheckBox().isSelected()){
@@ -107,14 +108,12 @@ public class ControllerTagging implements Initializable {
         String[] tagList = tempTagList.toArray(new String[tempTagList.size()]);
         ControllerMain.getDatabaseClient().addTag(ControllerMain.getPathBuffer(), tagList);
 
-        //TODO Uncomment when can get tags from database
-        //bufferTags.clear();
-
         ((Stage) taggingDone.getScene().getWindow()).close();
     }
 
     @FXML
     private void cancelAction(ActionEvent ae){
+        bufferTags.clear();
         ((Stage) taggingCancel.getScene().getWindow()).close();
     }
 
@@ -141,4 +140,15 @@ public class ControllerTagging implements Initializable {
 
         insertTags();
     }
+
+    protected ArrayList<String> getAllTags() throws SQLException {
+        ArrayList tagStrings = ControllerMain.databaseClient.getColumn("Tags");
+        ArrayList<String> tagList = new ArrayList<>();
+        for (Object s : tagStrings) {
+            tagList.addAll(Arrays.asList(s.toString().split(",")));
+        }
+
+        return tagList;
+    }
+
 }
