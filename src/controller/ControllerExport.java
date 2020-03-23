@@ -38,7 +38,6 @@ public class ControllerExport {
         chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(null);
         //gets the filename from the user and formats it correctly
-        System.out.println(ControllerMain.selectedImages.size());
         if(ImageExport.exportToPdf(selectedDirectory.getPath() +"/"+ inputText.getText() + ".pdf",ControllerMain.getSelectedImages())){
             exportSucceed = true;
         }

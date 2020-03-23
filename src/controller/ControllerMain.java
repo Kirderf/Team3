@@ -315,9 +315,8 @@ public class ControllerMain implements Initializable {
                 exportStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
                 if (ControllerExport.isExportSucceed()) {
-                   if(this.getClass() == ControllerMain.class){
-                       refreshImages();
-                   }
+                   refreshImages();
+
                     ControllerExport.setExportSucceed(false);
                 }
             } catch (Exception exception) {
@@ -326,6 +325,7 @@ public class ControllerMain implements Initializable {
         }
         clearSelectedImages();
         refreshImages();
+
     }
 
     /**
@@ -461,6 +461,8 @@ public class ControllerMain implements Initializable {
             //Ctrl click
             if (event.isControlDown()) {
                 imageView.setImage(image);
+                clearSelectedImages();
+                addToSelectedImages(path);
                 try {
                     showBigImage(imageView, path);
                 } catch (IOException e) {

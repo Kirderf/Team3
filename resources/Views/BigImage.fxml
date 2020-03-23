@@ -30,7 +30,7 @@
                 <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
                     <items>
                         <Menu fx:id="importButton" mnemonicParsing="false" onAction="#importAction" text="Import"/>
-                        <Menu fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" text="Export"/>
+                        <Menu fx:id="exportButton" mnemonicParsing="false" onAction="#bigImageExport" text="Export"/>
                         <Menu fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" text="Save to album"/>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Preferences..." />

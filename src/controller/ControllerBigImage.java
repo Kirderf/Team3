@@ -16,6 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -104,5 +106,26 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         bigImage.fitWidthProperty().bind(bigImageGrid.widthProperty());
         bigImage.fitHeightProperty().bind(imageVbox.heightProperty());
         textField.setText(getPathBuffer());
+    }
+
+    public void bigImageExport(ActionEvent actionEvent) {
+        voice.speak("Exporting");
+        Stage exportStage = new Stage();
+        if (!exportStage.isShowing()) {
+            exportStage.initModality(Modality.APPLICATION_MODAL);
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
+                exportStage.setScene(new Scene(root));
+                exportStage.setTitle("Export");
+                exportStage.setResizable(false);
+                exportStage.showAndWait();
+                //exportSucceed is a static variable in controllerExport
+                if (ControllerExport.isExportSucceed()) {
+                    ControllerExport.setExportSucceed(false);
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
     }
 }
