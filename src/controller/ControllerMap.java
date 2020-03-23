@@ -38,13 +38,19 @@ public class ControllerMap implements Initializable {
     //these start at 0, but longitude and latitude start at -180 and -90
     private final int HEIGHT = 340;
     private final int WIDTH = 616;
-    public static ImageView clickedImage;
+    private static ImageView clickedImage;
     public void initialize(URL location, ResourceBundle resources) {
         try {
             updateImage();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+    public static ImageView getClickedImage(){
+        return clickedImage;
+    }
+    public static void setClickedImage(ImageView imageView){
+        clickedImage = imageView;
     }
 
     //TODO check if scaling the image before adding it makes it look less pixelated
@@ -56,7 +62,7 @@ public class ControllerMap implements Initializable {
     public void updateImage() throws FileNotFoundException {
         //used to iterate through the images
         //TODO does this need to be a static hashmap? can it be a parameter in some way
-        Iterator hmIterator = ControllerMain.locations.entrySet().iterator();
+        Iterator hmIterator = ControllerMain.getLocations().entrySet().iterator();
         //double array with longitude first, then latitude
         Double[] longLat = new Double[2];
         //iterates through hashmap with pictures that have valid gps data
@@ -85,7 +91,7 @@ public class ControllerMap implements Initializable {
                 @Override
                 public void handle(MouseEvent e) {
                     Stage stage = (Stage) mapStackPane.getScene().getWindow();
-                    clickedImage = (ImageView) e.getSource();
+                    setClickedImage((ImageView) e.getSource());
                     stage.close();
 
                 }

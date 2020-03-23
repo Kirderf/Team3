@@ -17,7 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +26,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -43,31 +43,22 @@ import java.util.logging.Logger;
 public class ControllerMain implements Initializable {
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
 
-    public static Text_To_Speech voice;
-    public static HashMap<String, String> locations = new HashMap<>();
-    public static DatabaseClient databaseClient = new DatabaseClient();
-    public static Stage importStage = new Stage();
-    public static Stage searchStage = new Stage();
-    public static Stage exportStage = new Stage();
-    public static Stage worldStage = new Stage();
-    public static Stage albumStage = new Stage();
-    public static Stage aboutStage = new Stage();
-    public static Stage errorStage = new Stage();
-    public static Stage addTagStage = new Stage();
-    private Stage preferenceStage = new Stage();
+    static Text_To_Speech voice;
+
+    private static HashMap<String, String> locations = new HashMap<>();
+    private static DatabaseClient databaseClient = new DatabaseClient();
+    //both are used in the main view and in big image view
+    static Stage importStage = new Stage();
+    static Stage addTagStage = new Stage();
     private Stage albumNameStage = new Stage();
 
-    public static ArrayList<String> selectedImages = new ArrayList<>();
-    public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
-    protected static Image imageBuffer;
-    protected static String pathBuffer;
-    protected static boolean loadedFromAnotherLocation = false;
+    private static ArrayList<String> selectedImages = new ArrayList<>();
+    private static HashMap<String, ArrayList<String>> albums = new HashMap<>();
+    private static Image imageBuffer;
+
+
+    private static String pathBuffer;
     private static boolean ascending = true;
-    private final double initialGridHeight = 185;
-    public Menu fileButton;
-    private ArrayList<String> displayedImages = new ArrayList<>();
-    @FXML
-    public MenuItem about;
     @FXML
     private GridPane pictureGrid;
     @FXML
@@ -84,24 +75,90 @@ public class ControllerMain implements Initializable {
     /**
      * Run 1 time once the window opens
      *
-     * @param location
-     * @param resources
+     * @param location auto generated
+     * @param resources auto generated
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //when i have the modality anywhere else i get an illegalstateexception
-        errorStage.initModality(Modality.APPLICATION_MODAL);
-        preferenceStage.initModality(Modality.APPLICATION_MODAL);
         voice = new Text_To_Speech();
         logger.log(Level.INFO, "Initializing");
         //this is required, as disabling the textfield in the fxml file made the path way too light to see
         pathDisplay.setEditable(false);
         pictureGrid.setAlignment(Pos.CENTER);
-        if (loadedFromAnotherLocation) {
-            refreshImages();
-            loadedFromAnotherLocation = false;
-        }
+        refreshImages();
 
+
+    }
+
+    /**
+     * returns instance of databaseclient to be used when adding images to database
+     * @return DatabaseClient instance
+     */
+    public static DatabaseClient getDatabaseClient() {
+        return databaseClient;
+    }
+
+    public static String getPathBuffer() {
+        return pathBuffer;
+    }
+
+    public static void setPathBuffer(String pathBuffer) {
+        ControllerMain.pathBuffer = pathBuffer;
+    }
+
+    /**
+     * gets the albums currently saved
+     * @return hashmap with saved albums
+     */
+    public static Map getAlbums() {
+        return albums;
+    }
+
+    /**
+     * gets the current image buffer
+     * @return Image in image buffer
+     */
+    public static Image getImageBuffer() {
+        return imageBuffer;
+    }
+
+    /**
+     * sets the imageBuffer
+     * @param imageBuffer image you want to set it to
+     */
+    public static void setImageBuffer(Image imageBuffer) {
+        ControllerMain.imageBuffer = imageBuffer;
+    }
+
+    /**
+     * returns a hasmap with all the images that have valid g
+     * @return
+     */
+    public static HashMap<String, String> getLocations() {
+        return locations;
+    }
+
+    public static void setLocations(HashMap<String, String> locations) {
+        ControllerMain.locations = locations;
+    }
+
+    /**
+     * adds an album to the albums hashmap
+     * @param key the name of the album
+     * @param images arraylist containing the path to teh images
+     */
+    public static void addToAlbums(String key, ArrayList<String> images) {
+        ControllerMain.albums.put(key,images);
+    }
+
+    /**
+     * removes an album from the saved albums
+     * @param key the name of the album
+     * @return arraylist with the removed images
+     */
+    public static ArrayList removeAlbum(String key){
+        return albums.remove(key);
     }
 
     /**
@@ -132,8 +189,17 @@ public class ControllerMain implements Initializable {
     /**
      * clears the selected images
      */
-    public void clearSelectedImages(){
+    public static void clearSelectedImages(){
         selectedImages.clear();
+    }
+
+    /**
+     * removes a specific image from the selected images
+     * @param path the path to the image you want to remove
+     * @return boolean whether or not the removal was successful
+     */
+    public static boolean removeFromSelectedImages(String path){
+        return selectedImages.remove(path);
     }
 
     /**
@@ -141,9 +207,12 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     private void searchAction() {
+        Stage searchStage = new Stage();
         logger.log(Level.INFO, "SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
+            searchStage.initModality(Modality.APPLICATION_MODAL);
+            searchStage.initStyle(StageStyle.UTILITY);
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
                 searchStage.setScene(new Scene(root));
@@ -170,6 +239,8 @@ public class ControllerMain implements Initializable {
     protected void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
         if (!importStage.isShowing()) {
+            importStage.initModality(Modality.APPLICATION_MODAL);
+            importStage.initStyle(StageStyle.UTILITY);
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
             importStage.setScene(new Scene(root));
             importStage.setTitle("Import");
@@ -193,19 +264,16 @@ public class ControllerMain implements Initializable {
         //if size is selected
         voice.speak("Sorting");
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
-            ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
+            ArrayList<String> sortedList = getDatabaseClient().sort("File_size", ascending);
             clearView();
             for (String s : sortedList) {
                 insertImage(s);
             }
         }
-        //if location is selected
-        else if (sortDropDown.getValue().toString().equalsIgnoreCase("Location")) {
-            //TODO make this work
-            //I am thinking that we will sort based on the sum of latitude and longitude for the moment
-        } else if (sortDropDown.getValue().toString().equalsIgnoreCase("Filename")) {
+        //if filename is selected
+        else if (sortDropDown.getValue().toString().equalsIgnoreCase("Filename")) {
             //this is just a way to get an arraylist with the paths, theres no use for the sort function here
-            ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
+            ArrayList<String> sortedList = getDatabaseClient().sort("File_size", ascending);
             sortedList.sort(Comparator.comparing(o -> o.substring(o.lastIndexOf("/"))));
             clearView();
             for (String s : sortedList) {
@@ -215,10 +283,16 @@ public class ControllerMain implements Initializable {
         //if path or date is selected
         else {
             //ascending changes value every time this function is called
-            ArrayList<String> sortedList = databaseClient.sort(sortDropDown.getValue().toString(), ascending);
+            ArrayList<String> sortedList = getDatabaseClient().sort(sortDropDown.getValue().toString(), ascending);
             clearView();
             for (String s : sortedList) {
                 insertImage(s);
+            }
+            if(ascending){
+                ascending = false;
+            }
+            else {
+                ascending = true;
             }
         }
     }
@@ -229,7 +303,9 @@ public class ControllerMain implements Initializable {
     @FXML
     private void exportAction() {
         voice.speak("Exporting");
+        Stage exportStage = new Stage();
         if (!exportStage.isShowing()) {
+            exportStage.initModality(Modality.APPLICATION_MODAL);
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
                 exportStage.setScene(new Scene(root));
@@ -247,7 +323,7 @@ public class ControllerMain implements Initializable {
                 exception.printStackTrace();
             }
         }
-        selectedImages.clear();
+        clearSelectedImages();
     }
 
     /**
@@ -259,7 +335,7 @@ public class ControllerMain implements Initializable {
             voice.speak("Closing application");
             Thread.sleep(1500);
             logger.log(Level.WARNING, "Closing application");
-            databaseClient.closeApplication();
+            getDatabaseClient().closeApplication();
             Platform.exit();
             System.exit(0);
         } catch (SQLException | InterruptedException e) {
@@ -276,7 +352,7 @@ public class ControllerMain implements Initializable {
         voice.speak("Going to library");
         //when this uses selectedImages.clear it causes a bug with the albums, clearing them as well
         //selectedImages = new ArrayList<String>();
-        selectedImages.clear();
+        clearSelectedImages();
         refreshImages();
     }
 
@@ -289,6 +365,10 @@ public class ControllerMain implements Initializable {
     public void helpAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
         voice.speak("Help");
+        Stage aboutStage = new Stage();
+        if(!aboutStage.isShowing()){
+            aboutStage.initModality(Modality.APPLICATION_MODAL);
+        }
         aboutStage.setScene(new Scene(root));
         aboutStage.setTitle("About");
         aboutStage.setResizable(false);
@@ -314,7 +394,7 @@ public class ControllerMain implements Initializable {
      */
     protected void refreshImages() {
         try {
-            ArrayList paths = databaseClient.getColumn("Path");
+            ArrayList paths = getDatabaseClient().getColumn("Path");
             clearView();
             for (Object obj : paths) {
                 //the view is cleared, so there's no use checking if the image has been added as there are no added photos to start with
@@ -343,6 +423,7 @@ public class ControllerMain implements Initializable {
      * Add rows on the bottom of the gridpane
      */
     private void addEmptyRow() {
+        double initialGridHeight = 185;
         double gridHeight = initialGridHeight;
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(gridHeight);
@@ -386,7 +467,7 @@ public class ControllerMain implements Initializable {
                 //Single click
                 selectImage(imageView, image, path);
                 showMetadata(null);
-                if (selectedImages.size() != 1) {
+                if (getSelectedImages().size() != 1) {
                     pathDisplay.clear();
                     metadataVbox.getChildren().clear();
                 }
@@ -402,14 +483,14 @@ public class ControllerMain implements Initializable {
      * @param path the path to the photo
      */
     private void selectImage(ImageView imageView, Image image, String path) {
-        if (!selectedImages.contains(path)) {
-            selectedImages.add(path);
+        if (!getSelectedImages().contains(path)) {
+            addToSelectedImages(path);
             //buff is the tinted
             BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
             tint(buff);
             imageView.setImage(SwingFXUtils.toFXImage(buff, null));
         } else {
-            selectedImages.remove(path);
+            removeFromSelectedImages(path);
             imageView.setImage(image);
         }
     }
@@ -422,9 +503,9 @@ public class ControllerMain implements Initializable {
      */
     private void showBigImage(ImageView imageView, String path) throws IOException {
         voice.speak("Magnifying image");
-        selectedImages.clear();
-        pathBuffer = path;
-        imageBuffer = imageView.getImage();
+        clearSelectedImages();
+        setPathBuffer(path);
+        setImageBuffer(imageView.getImage());
         Scene scene = pictureGrid.getScene();
         scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
     }
@@ -480,12 +561,12 @@ public class ControllerMain implements Initializable {
         } else {
             return;
         }
-        if (path == null || selectedImages.size() > 1) {
+        if (path == null || getSelectedImages().size() > 1) {
             return;
         }
         int i = 0;
 
-        for (String s : databaseClient.getMetaDataFromDatabase(path)) {
+        for (String s : getDatabaseClient().getMetaDataFromDatabase(path)) {
             switch (i) {
                 case 0:
                     metadataVbox.getChildren().add(new Label("Path :" + s));
@@ -527,16 +608,20 @@ public class ControllerMain implements Initializable {
      * @throws SQLException
      */
     public void goToMap() throws IOException, SQLException {
+        Stage worldStage = new Stage();
+        if(!worldStage.isShowing()){
+            worldStage.initModality(Modality.APPLICATION_MODAL);
+        }
         voice.speak("Showing map");
-        ArrayList paths = databaseClient.getColumn("Path");
+        ArrayList paths = getDatabaseClient().getColumn("Path");
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
-        for (int i = 0; i < databaseClient.getColumn("GPS_Longitude").size(); i++) {
-            Double longitude = Double.parseDouble(databaseClient.getMetaDataFromDatabase((String)paths.get(i))[7]);
-            Double latitude = Double.parseDouble(databaseClient.getMetaDataFromDatabase((String)paths.get(i))[6]);
+        for (int i = 0; i < getDatabaseClient().getColumn("GPS_Longitude").size(); i++) {
+            Double longitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String)paths.get(i))[7]);
+            Double latitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String)paths.get(i))[6]);
             //if both are not equal to zero, maybe this should be changed to an or
             if (longitude != 0 && latitude != 0) {
-                locations.put((String) paths.get(i), "" + longitude + "," + latitude);
+                getLocations().put((String) paths.get(i), "" + longitude + "," + latitude);
             }
         }
         Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
@@ -544,8 +629,8 @@ public class ControllerMain implements Initializable {
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
         worldStage.showAndWait();
-        if (ControllerMap.clickedImage != null) {
-            showBigImage(ControllerMap.clickedImage, ControllerMap.clickedImage.getId());
+        if (ControllerMap.getClickedImage() != null) {
+            showBigImage(ControllerMap.getClickedImage(), ControllerMap.getClickedImage().getId());
         }
     }
 
@@ -558,7 +643,7 @@ public class ControllerMain implements Initializable {
         voice.speak("Creating album");
         if (!albumNameStage.isShowing()) {
             try {
-                if(selectedImages.size()==0) {
+                if(getSelectedImages().size()==0) {
                     throw new IllegalArgumentException("You need to select more than one image for your album");
                 }
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNamePicker.fxml"));
@@ -575,11 +660,11 @@ public class ControllerMain implements Initializable {
                         refreshImages();
                         albums.put(ControllerAlbumNamePicker.savedName, new ArrayList<>());
                         ArrayList<String> tempArray = new ArrayList<>();
-                        for (String s : selectedImages) {
+                        for (String s : getSelectedImages()) {
                             albums.get(ControllerAlbumNamePicker.savedName).add(s);
                             tempArray.add(s);
                         }
-                        selectedImages.clear();
+                        clearSelectedImages();
                         Collections.copy(albums.get(ControllerAlbumNamePicker.savedName), tempArray);
                         ControllerAlbumNamePicker.savedName = "";
                     }
@@ -587,6 +672,10 @@ public class ControllerMain implements Initializable {
             } catch(IllegalArgumentException e){
                 //TODO add logger
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
+                Stage errorStage = new Stage();
+                if(!errorStage.isShowing()){
+                    errorStage.initModality(Modality.APPLICATION_MODAL);
+                }
                 errorStage.setScene(new Scene(root));
                 errorStage.setTitle("Albums");
                 errorStage.setResizable(false);
@@ -598,7 +687,7 @@ public class ControllerMain implements Initializable {
                 exception.printStackTrace();
             }
         }
-        selectedImages.clear();
+        clearSelectedImages();
     }
 
     /**
@@ -608,15 +697,19 @@ public class ControllerMain implements Initializable {
      */
     public void viewAlbums(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
+        Stage albumStage = new Stage();
+        if(!albumStage.isShowing()){
+            albumStage.initModality(Modality.APPLICATION_MODAL);
+        }
         albumStage.setScene(new Scene(root));
         albumStage.setTitle("Albums");
         albumStage.setResizable(false);
         albumStage.showAndWait();
         if (ControllerViewAlbums.isAlbumSelected()) {
-            if(!selectedImages.isEmpty()) {
+            if(!getSelectedImages().isEmpty()) {
                 clearView();
                 ControllerViewAlbums.setAlbumSelected(false);
-                for (String s : selectedImages) {
+                for (String s : getSelectedImages()) {
                     insertImage(s);
                 }
             }
@@ -673,6 +766,10 @@ public class ControllerMain implements Initializable {
      * @throws IOException
      */
     public void preferencesAction(ActionEvent actionEvent) throws IOException {
+        Stage preferenceStage = new Stage();
+        if(!preferenceStage.isShowing()){
+            preferenceStage.initModality(Modality.APPLICATION_MODAL);
+        }
         Parent root = FXMLLoader.load(getClass().getResource("/Views/Preferences.fxml"));
         preferenceStage.setScene(new Scene(root));
         preferenceStage.setTitle("Albums");

@@ -127,7 +127,7 @@ public class ControllerImport implements Initializable {
     private void importAction(ActionEvent event) throws SQLException {
         if (bufferList != null) {
             for (File file : bufferList) {
-                ControllerMain.databaseClient.addImage(file);
+                ControllerMain.getDatabaseClient().addImage(file);
 
             }
             setImportSucceed(true);

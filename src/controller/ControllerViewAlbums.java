@@ -47,7 +47,7 @@ public class ControllerViewAlbums implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Iterator albumIterator = ControllerMain.albums.entrySet().iterator();
+        Iterator albumIterator = ControllerMain.getAlbums().entrySet().iterator();
         // Iterate through the hashmap
         // and add some bonus marks for every student
         while(albumIterator.hasNext()){
@@ -123,13 +123,12 @@ public class ControllerViewAlbums implements Initializable {
      * @param name name of the album that the user wants to view
      */
     private void showAlbum(String name){
-        if(!ControllerMain.albums.isEmpty()) {
-            if(ControllerMain.albums.get(name)!=null) {
-                //TODO change use accessor methods for albums instead
-                ControllerMain.setSelectedImages(ControllerMain.albums.get(name));
+        if(!ControllerMain.getAlbums().isEmpty()) {
+            if(ControllerMain.getAlbums().get(name)!=null) {
+                ControllerMain.setSelectedImages(ControllerMain.getAlbums().get(name));
             }
             else{
-                ControllerMain.selectedImages.clear();
+                ControllerMain.clearSelectedImages();
             }
         }
         albumSelected = true;
@@ -211,6 +210,6 @@ public class ControllerViewAlbums implements Initializable {
     public static void deleteAlbum(String name){
         //deletes the selected album from the arraylist
         //TODO use accessor methods instead
-        ControllerMain.albums.remove(name);
+        ControllerMain.removeAlbum(name);
     }
 }

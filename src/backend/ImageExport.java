@@ -9,6 +9,7 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public abstract class ImageExport {
      */
     //stolen from https://stackoverflow.com/questions/22358478/java-create-pdf-pages-from-images-using-pdfbox-library
     private static final Log logger = new Log("Log.log");
-    public static boolean exportToPdf(String name, List<String> paths){
+    public static boolean exportToPdf(String name, List<String> paths) throws IOException {
         logger.logNewInfo("ImageExport : " + "Exporting images to pdf");
         PDDocument document = new PDDocument();
         try{
@@ -48,10 +49,12 @@ public abstract class ImageExport {
             document.close();
             return true;
         }catch(IllegalArgumentException e){
+            document.close();
             e.printStackTrace();
             return false;
         }
         catch (Exception e){
+            document.close();
             logger.logNewFatalError("ImageExport : " + e.getLocalizedMessage());
             return false;
         }

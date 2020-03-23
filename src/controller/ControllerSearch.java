@@ -69,7 +69,7 @@ public class ControllerSearch implements Initializable {
         //clears static resultList
         searchResults.clear();
         if(metaCheck.isSelected()){
-            ArrayList<String> metaResult = ControllerMain.databaseClient.search(searchField.getText(),"Metadata");
+            ArrayList<String> metaResult = ControllerMain.getDatabaseClient().search(searchField.getText(),"Metadata");
             if (metaResult!=null) {
                 for(String s : metaResult){
                     if(!searchResults.contains(s)){
@@ -79,7 +79,7 @@ public class ControllerSearch implements Initializable {
             }
         }
         if(pathCheck.isSelected()){
-            ArrayList<String> pathResult = ControllerMain.databaseClient.search(searchField.getText(),"Path");
+            ArrayList<String> pathResult = ControllerMain.getDatabaseClient().search(searchField.getText(),"Path");
             if(pathResult!= null) {
                 for (String s : pathResult) {
                     if (!searchResults.contains(s)) {
@@ -91,7 +91,7 @@ public class ControllerSearch implements Initializable {
 
         if(filenameCheck.isSelected()){
             //finds the matching paths
-            ArrayList<String> filenameResult = ControllerMain.databaseClient.search(searchField.getText(),"Path");
+            ArrayList<String> filenameResult = ControllerMain.getDatabaseClient().search(searchField.getText(),"Path");
             if(filenameResult!= null) {
                 for (String s : filenameResult) {
                     //specifies that we only want the ones where the actual filename contains the search term
