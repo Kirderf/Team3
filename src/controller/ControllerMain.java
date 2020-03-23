@@ -325,6 +325,7 @@ public class ControllerMain implements Initializable {
             }
         }
         clearSelectedImages();
+        refreshImages();
     }
 
     /**
@@ -395,6 +396,7 @@ public class ControllerMain implements Initializable {
      */
     protected void refreshImages() {
         try {
+            clearSelectedImages();
             ArrayList paths = getDatabaseClient().getColumn("Path");
             clearView();
             for (Object obj : paths) {
@@ -652,7 +654,6 @@ public class ControllerMain implements Initializable {
                 albumNameStage.setResizable(false);
                 //disables back stage
                 albumNameStage.showAndWait();
-                //exportSucceed is a static variable in controllerExport
                 if (!ControllerAlbumNamePicker.savedName.trim().equals("")) {
                     if (albums.containsKey(ControllerAlbumNamePicker.savedName)) {
                         throw new IllegalArgumentException("That name already exists");
@@ -687,7 +688,7 @@ public class ControllerMain implements Initializable {
                 exception.printStackTrace();
             }
         }
-        clearSelectedImages();
+        refreshImages();
     }
 
     /**

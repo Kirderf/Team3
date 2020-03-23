@@ -122,13 +122,19 @@ class DatabaseClientTest {
         ArrayList<String> searchResult = new ArrayList<String>();
         searchResult.add(testPath2);
         searchResult.add(testPath3);
+        Collections.sort(searchResult, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
         assertEquals(databaseClient.search("airforce","Tags"),searchResult);
         //Path searches finds all three
         searchResult.add(testPath1);
         Collections.sort(searchResult, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                return -o1.compareTo(o2);
+                return o1.compareTo(o2);
             }
         });
         assertEquals(databaseClient.search("resources","Path"),searchResult);
@@ -150,14 +156,16 @@ class DatabaseClientTest {
         assertEquals(databaseClient.search("0.136791666666667","Metadata"),searchResult);
         //date
         searchResult.add(testPath3);
+        searchResult.add(testPath1);
         Collections.sort(searchResult, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
                 return o1.compareTo(o2);
             }
         });
-        assertEquals(databaseClient.search("20200316","Metadata"),searchResult);
-        searchResult.remove(0);
+        assertEquals(databaseClient.search("20200323","Metadata"),searchResult);
+        searchResult.clear();
+        searchResult.add(gpsPath);
         //image width
         assertEquals(databaseClient.search("3968","Metadata"),searchResult);
         //file size

@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Fredrik Julsen & Ingebrigt Hovind
@@ -167,6 +168,7 @@ public class DatabaseClient {
         try {
             imageDatabase.openConnection();
             ArrayList result = imageDatabase.search(searchFor, searchIn);
+            Collections.sort(result);
             imageDatabase.close();
             return result;
         } catch (Exception e) {

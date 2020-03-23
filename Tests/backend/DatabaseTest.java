@@ -9,7 +9,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
-    //we might not need to test database, as it is implicit in the databaseclient tests that these methods also wor
+    //we might not need to test database, as it is implicit in the databaseclient tests that these methods also work
     Database database;
 
     @BeforeEach
@@ -20,7 +20,7 @@ class DatabaseTest {
     void writeToDatabase() {
         try {
             database.openConnection();
-            //assertTrue(database.addImageToTable("path to file", "Tags", 1000, (long) 20200812, 2000, 2000, 11.02, 13.09));
+            assertTrue(database.addImageToTable("path to file", "Tags", 1000, (long) 20200812, 2000, 2000, 11.02, 13.09));
            // assertTrue(database.addImageToTable("AAfekfj.jpg","Tags", 999,(long) 2015112,100,2555,11,13));
             database.closeDatabase();
         } catch (Exception e) {
