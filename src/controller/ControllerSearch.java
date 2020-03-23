@@ -47,7 +47,11 @@ public class ControllerSearch implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        insertTags();
+        try {
+            insertTags();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -68,6 +72,23 @@ public class ControllerSearch implements Initializable {
     private void searchAction(ActionEvent event) throws SQLException {
         //clears static resultList
         searchResults.clear();
+
+        // Tags
+
+        ArrayList<String> tempTagList = getCheckedBoxes();
+        if (!tempTagList.isEmpty()){
+            for (String tag : tempTagList) {
+                ArrayList<String> tagResult = ControllerMain.getDatabaseClient().search(tag, "Tags");
+                if(tagResult!=null){
+                    for(String s :tagResult){
+                        if(!searchResults.contains(s)){
+                            searchResults.add(s);
+                        }
+                    }
+                }
+            }
+        }
+
         if(metaCheck.isSelected()){
             ArrayList<String> metaResult = ControllerMain.getDatabaseClient().search(searchField.getText(),"Metadata");
             if (metaResult!=null) {
@@ -115,13 +136,8 @@ public class ControllerSearch implements Initializable {
      */
     @FXML
     @SuppressWarnings("Duplicates")
-    protected void insertTags(){
-        //  Use this when adding tags has been implemented
-        //  ArrayList<String> tagList = ControllerMain.databaseClient.getData("Tags");
-        ArrayList<String> tagList = new ArrayList<>();
-        tagList.add("Tag1");
-        tagList.add("Tag2");
-        tagList.add("Tag3");
+    protected void insertTags() throws SQLException {
+        ArrayList<String> tagList = ControllerTagging.getAllTags();
 
         for (int i = 0; i < tagList.size(); i++) {
             String t = tagList.get(i);
@@ -133,5 +149,15 @@ public class ControllerSearch implements Initializable {
         tagTable.setItems(observeList);
         id.setCellValueFactory(new PropertyValueFactory<TagTableRow, Integer>("id"));
         select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
+    }
+
+    protected ArrayList<String> getCheckedBoxes(){
+        ArrayList<String> tempTagList = new ArrayList<>();
+        for(TagTableRow tb : tagTable.getItems()){
+            if(tb.getCheckBox().isSelected()){
+                tempTagList.add(tb.getCheckBox().getText());
+            }
+        }
+        return tempTagList;
     }
 }

@@ -61,7 +61,6 @@ public class ControllerTagging implements Initializable {
         taggingTable.getItems().clear();
 
         ArrayList tagList = getAllTags();
-        tagList.removeAll(Arrays.asList("", null));
 
         ArrayList<String> newTagList;
         Set<String> set = new LinkedHashSet<>(tagList);
@@ -95,12 +94,9 @@ public class ControllerTagging implements Initializable {
     @FXML
     private void doneAction(ActionEvent ae) throws SQLException {
         bufferTags.clear();
-        ArrayList<String> tempTagList = new ArrayList<>();
-        for(TagTableRow tb : taggingTable.getItems()){
-            if(tb.getCheckBox().isSelected()){
-                tempTagList.add(tb.getCheckBox().getText());
-            }
-        }
+
+        ArrayList<String> tempTagList = getCheckedBoxes();
+
         String[] tagList = tempTagList.toArray(new String[tempTagList.size()]);
         ControllerMain.getDatabaseClient().addTag(ControllerMain.getPathBuffer(), tagList);
 
@@ -144,15 +140,26 @@ public class ControllerTagging implements Initializable {
         insertTags();
     }
 
-    protected ArrayList<String> getAllTags() throws SQLException {
+    protected static ArrayList<String> getAllTags() throws SQLException {
         ArrayList tagStrings = ControllerMain.databaseClient.getColumn("Tags");
         LinkedHashSet<String> hashSet = new LinkedHashSet<>();
         for (Object s : tagStrings) {
             hashSet.addAll(Arrays.asList(s.toString().split(",")));
         }
         ArrayList<String> tagList = new ArrayList<>(hashSet);
+        tagList.removeAll(Arrays.asList("", null));
 
         return tagList;
+    }
+
+    protected ArrayList<String> getCheckedBoxes(){
+        ArrayList<String> tempTagList = new ArrayList<>();
+        for(TagTableRow tb : taggingTable.getItems()){
+            if(tb.getCheckBox().isSelected()){
+                tempTagList.add(tb.getCheckBox().getText());
+            }
+        }
+        return tempTagList;
     }
 
 }
