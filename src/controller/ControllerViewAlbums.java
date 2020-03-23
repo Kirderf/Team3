@@ -143,10 +143,19 @@ public class ControllerViewAlbums implements Initializable {
         albumSelected = true;
         ((Stage) albumTilePane.getScene().getWindow()).close();
     }
+
+    /**
+     * closes album view
+     */
     public void closeWindow(){
         ((Stage) albumTilePane.getScene().getWindow()).close();
     }
-    //this is the event handler that makes shows the deletion prompt
+
+    /**
+     * returns an Eventhandler which prompts the user to delete a specific pane
+      * @param pane the pane you want to prompt the user about deletion of
+     * @return Eventhandler which prompts the user if they want to delete the pane which wer the parameter
+     */
     public EventHandler deletePane(Pane pane){
         return ((EventHandler<MouseEvent>) event -> {
             try {

@@ -44,13 +44,31 @@ public class ControllerMain implements Initializable {
     private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
 
     //Must be public static to get access from other places
+    /**
+     * used to access images with valid image data
+     */
     public static HashMap<String, String> locations = new HashMap<>();
     public static DatabaseClient databaseClient = new DatabaseClient();
     public static Text_To_Speech voice;
+    /**
+     * keeps the path of the active image
+     */
     public static String pathBuffer;
+    /**
+     * used to switch between ascending and descending when sorting photos
+     */
     public static boolean ascending = true;
+    /**
+     * images which the user has currently selected
+     */
     public static ArrayList<String> selectedImages = new ArrayList<>();
+    /**
+     * albums which the user has saved
+     */
     public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
+    /**
+     * keeps the active image
+     */
     public static Image imageBuffer;
 
     //Stages
@@ -71,7 +89,9 @@ public class ControllerMain implements Initializable {
     private TextArea pathDisplay;
     @FXML
     private VBox metadataVbox;
-
+    /**
+     * used when finding where to add the next picture
+     */
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -213,8 +233,6 @@ public class ControllerMain implements Initializable {
         logger.log(Level.INFO, "SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
-            searchStage.initModality(Modality.APPLICATION_MODAL);
-            searchStage.initStyle(StageStyle.UTILITY);
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
                 searchStage.setScene(new Scene(root));
@@ -679,7 +697,6 @@ public class ControllerMain implements Initializable {
                     if (albums.containsKey(ControllerAlbumNamePicker.savedName)) {
                         throw new IllegalArgumentException("That name already exists");
                     } else {
-                        System.out.println("setter album");
                         albums.put(ControllerAlbumNamePicker.savedName, new ArrayList<>());
                         for (String s : getSelectedImages()) {
                             albums.get(ControllerAlbumNamePicker.savedName).add(s);

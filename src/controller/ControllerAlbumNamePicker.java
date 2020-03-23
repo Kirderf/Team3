@@ -12,7 +12,14 @@ import java.util.ResourceBundle;
 public class ControllerAlbumNamePicker implements Initializable {
     @FXML
     private TextField inputText;
+    /**
+     * The name that the user picked
+     */
     public static String savedName = "";
+
+    /**
+     * closes the current window
+     */
     public void closeWindow(){
         ((Stage) inputText.getScene().getWindow()).close();
     }
@@ -46,7 +53,7 @@ public class ControllerAlbumNamePicker implements Initializable {
      * If the save album button is clicked
      */
     public void saveAlbum(ActionEvent actionEvent) {
-        savedName = inputText.getText();
+        setSavedName(inputText.getText());
         closeWindow();
     }
 }
