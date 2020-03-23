@@ -10,7 +10,6 @@ import java.util.Random;
  * @author Fredrik Julsen
  */
 public class Database {
-    private static final Log logger = new Log("Log.log");
     private Random random = new Random();
     private int upperBound = 10000000;
     private String table = "fredrjul_" + random.nextInt(upperBound);
@@ -23,13 +22,13 @@ public class Database {
      * Constructor
      */
     public Database() {
-        logger.logNewInfo("Database : Creating Database object");
+        Log.logNewInfo("Database : Creating Database object");
         try {
-            logger.logNewInfo("OpenConnection is "+ openConnection());
-            logger.logNewInfo("Create table is "+ createTable());
+            Log.logNewInfo("OpenConnection is "+ openConnection());
+            Log.logNewInfo("Create table is "+ createTable());
             close();
         } catch (SQLException e) {
-            logger.logNewFatalError("Database : " + e.getLocalizedMessage());
+            Log.logNewFatalError("Database : " + e.getLocalizedMessage());
             System.exit(0);
         }
     }
@@ -38,7 +37,7 @@ public class Database {
      * This method is going to create a new database table and declare a variable to the rest of the class
      */
     private boolean regTable() throws SQLException {
-        logger.logNewInfo("Database : " + table);
+        Log.logNewInfo("Database : " + table);
         statement = con.prepareStatement(
                 "CREATE TABLE " + table + " (\n" +
                         "ImageID int AUTO_INCREMENT,\n" +
@@ -69,7 +68,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean addImageToTable(String path, String tags, int fileSize, Long date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) throws SQLException {
-        logger.logNewInfo("Added Image to path" + path);
+        Log.logNewInfo("Added Image to path" + path);
         String sql1 = "Insert into " + table + " Values(?,?,?,?,?,?,?,?,?)";
         statement = con.prepareStatement(sql1);
         statement.setNull(1, 0);
@@ -93,7 +92,7 @@ public class Database {
      * @return StringBuilder with all the tags
      */
     public StringBuilder getTags(String path) throws SQLException {
-        logger.logNewInfo("Database : " + "Getting Tags");
+        Log.logNewInfo("Database : " + "Getting Tags");
         if (!isPathInDatabase(path)) return null;
         String sql = "SELECT * FROM " + table + " WHERE " + table + ".ImageID = " + findImage(path);
         stmt = con.createStatement();
@@ -122,7 +121,7 @@ public class Database {
             if (s.contains(",")) throw new IllegalArgumentException("The tag contains a comma, this is not allowed");
         }
 
-        logger.logNewInfo("Database : " + "Adding Tags");
+        Log.logNewInfo("Database : " + "Adding Tags");
         StringBuilder oldtags = getTags(path);
         String tagTest = oldtags.toString().toLowerCase();
         for (String string : tags) {
@@ -151,7 +150,7 @@ public class Database {
         try (ResultSet rs = statement.executeQuery()) {
             return rs.next();
         } catch (Exception e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
+            Log.logNewFatalError(e.getLocalizedMessage());
         }
         return false;
     }
@@ -164,7 +163,7 @@ public class Database {
      * @throws SQLException
      */
     public ArrayList getColumn(String columnName) throws SQLException {
-        logger.logNewInfo("Database : " + "Getting Column");
+        Log.logNewInfo("Database : " + "Getting Column");
         try {
             String sql = "Select " + columnName + " from " + table;
             statement = con.prepareStatement(sql);
@@ -175,7 +174,7 @@ public class Database {
             }
             return arrayList;
         } catch (Exception e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
+            Log.logNewFatalError(e.getLocalizedMessage());
             return null;
         }
     }
@@ -188,7 +187,7 @@ public class Database {
      * @throws SQLException
      */
     public String[] getImageMetadata(String path) throws SQLException {
-        logger.logNewInfo("Database : " + "Getting ImageMetaData from " + path);
+        Log.logNewInfo("Database : " + "Getting ImageMetaData from " + path);
         String sql = "SELECT * FROM " + table + " WHERE " + table + ".Path" + " LIKE '%" + path.replaceAll("\\\\", "/") + "%' LIMIT 1";
         statement = con.prepareStatement(sql);
         try (ResultSet rs = statement.executeQuery()) {
@@ -217,7 +216,7 @@ public class Database {
      * @throws SQLException
      */
     private boolean isTableInDatabase() throws SQLException {
-        logger.logNewInfo("Database : " + "Checking if table is in the database");
+        Log.logNewInfo("Database : " + "Checking if table is in the database");
         statement = con.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'fredrjul_ImageApp' AND table_name = " + "\'" + table + "\'" +
                 "");
         return statement.executeQuery().next();
@@ -230,9 +229,9 @@ public class Database {
      * @throws SQLException Failed to check
      */
     public boolean isConnection() throws SQLException {
-        logger.logNewInfo("Database : " + "Checking database connection");
+        Log.logNewInfo("Database : " + "Checking database connection");
         if (con == null) {
-            logger.logNewInfo("Database : " + "There is no connection");
+            Log.logNewInfo("Database : " + "There is no connection");
             return false;
         }
         return !con.isClosed();
@@ -243,7 +242,7 @@ public class Database {
      * @throws SQLException
      */
     private boolean createTable() throws SQLException {
-        logger.logNewInfo("Database : " + "Creating table");
+        Log.logNewInfo("Database : " + "Creating table");
         while (isTableInDatabase()) {
             table = "fredrjul_" + random.nextInt(upperBound);
         }
@@ -258,7 +257,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean deleteTable() throws SQLException {
-        logger.logNewInfo("Database : " + "Deleting table");
+        Log.logNewInfo("Database : " + "Deleting table");
         String sql = "DROP TABLE " + table;
         statement = con.prepareStatement(sql);
         return statement.execute();
@@ -271,7 +270,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean deleteFromDatabase(String path) throws SQLException {
-        logger.logNewWarning("Database : " + "Deleting image from database from " + path);
+        Log.logNewWarning("Database : " + "Deleting image from database from " + path);
         String sql = "DELETE FROM " + table + " WHERE " + table + ".ImageID=" + findImage(path);
         statement = con.prepareStatement(sql);
         return !statement.execute();
@@ -284,7 +283,7 @@ public class Database {
      * @throws SQLException
      */
     public int findImage(String path) throws SQLException {
-        logger.logNewInfo("Database : " + "Finding image from " + path);
+        Log.logNewInfo("Database : " + "Finding image from " + path);
         String sql = "SELECT * FROM " + table + "\n" +
                 "WHERE " + table + ".Path" + " LIKE '%" + path + "%'";
         stmt = con.createStatement();
@@ -307,7 +306,7 @@ public class Database {
      * @throws SQLException
      */
     public boolean openConnection() throws SQLException {
-        logger.logNewInfo("Database : " + "Opening connection to database..");
+        Log.logNewInfo("Database : " + "Opening connection to database..");
         if (!isConnection()) {
             con = DataSource.getConnection();
             return true;
@@ -350,12 +349,12 @@ public class Database {
      * @throws SQLException
      */
     public boolean closeDatabase() throws SQLException {
-        logger.logNewInfo("Database : " + "Closing database");
+        Log.logNewInfo("Database : " + "Closing database");
         if (openConnection()) {
             try {
                 deleteTable();
             } catch (SQLException e) {
-                logger.logNewFatalError("Database : " + e.getLocalizedMessage());
+                Log.logNewFatalError("Database : " + e.getLocalizedMessage());
             }
         }
         return close();
@@ -404,7 +403,7 @@ public class Database {
                 }
             }
         } catch (SQLException e) {
-            logger.logNewFatalError("Database : " + e.getLocalizedMessage());
+            Log.logNewFatalError("Database : " + e.getLocalizedMessage());
         }
         return null;
     }
@@ -419,7 +418,7 @@ public class Database {
      * @author Ingebrigt Hovind
      */
     public boolean removeTag(String path, String[] tags) throws SQLException {
-        logger.logNewInfo("Database : " + "Removing tags from " + path);
+        Log.logNewInfo("Database : " + "Removing tags from " + path);
         if (!isPathInDatabase(path)) throw new IllegalArgumentException("The specified path is not in the databse");
         for (int i = 0; i < tags.length; i++) {
             if (tags[i] == null) throw new IllegalArgumentException("The string may not be null");
@@ -464,7 +463,7 @@ public class Database {
         validColumns.add("Metadata");
         if (!validColumns.contains(searchIn) || searchFor == null) return new ArrayList<>();
         try {
-            logger.logNewInfo("Database : " + "Searching for matching values");
+            Log.logNewInfo("Database : " + "Searching for matching values");
             //select paths where the search term is present in any column
             String sql = "SELECT * FROM " + table + " WHERE " + searchIn + " LIKE " + "'%" + searchFor + "%'";
             if (searchIn.equals("Metadata")) {
@@ -479,7 +478,7 @@ public class Database {
             }
             return searchResults;
         } catch (Exception e) {
-            logger.logNewFatalError("Database : " + e.getLocalizedMessage());
+            Log.logNewFatalError("Database : " + e.getLocalizedMessage());
         }
         return null;
     }

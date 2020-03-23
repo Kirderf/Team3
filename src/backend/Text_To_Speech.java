@@ -16,7 +16,6 @@ import java.util.logging.Level;
 public class Text_To_Speech {
     //Create a Synthesizer instance
     SynthesiserV2 synthesizer = new SynthesiserV2("AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw");
-    private static final Log logger = new Log("Log.log");
 
     /**
      * Calls the MaryTTS to say the given text
@@ -30,9 +29,9 @@ public class Text_To_Speech {
                 //Create a JLayer instance
                 AdvancedPlayer player = new AdvancedPlayer(synthesizer.getMP3Data(text));
                 player.play();
-                logger.logNewInfo("Text_To_Speech : " + "Successfully recieved synthesizer data");
+                Log.logNewInfo("Text_To_Speech : " + "Successfully recieved synthesizer data");
             } catch (IOException | JavaLayerException e) {
-                logger.logNewFatalError("Text_To_Speech : " + e.getLocalizedMessage());
+                Log.logNewFatalError("Text_To_Speech : " + e.getLocalizedMessage());
             }
         });
 
@@ -52,9 +51,9 @@ public class Text_To_Speech {
                 //Create a JLayer instance
                 AdvancedPlayer player = new AdvancedPlayer(synthesizer.getMP3Data(text));
                 player.play();
-                logger.logNewInfo("Text_To_Speech : " + "Successfully recieved synthesizer data");
+                Log.logNewInfo("Text_To_Speech : " + "Successfully recieved synthesizer data");
             } catch (IOException | JavaLayerException e) {
-                logger.logNewFatalError("Text_To_Speech : " + e.getLocalizedMessage());
+                Log.logNewFatalError("Text_To_Speech : " + e.getLocalizedMessage());
             }
         });
 

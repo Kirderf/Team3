@@ -1,5 +1,6 @@
 package controller;
 
+import backend.Log;
 import com.drew.metadata.heif.HeifBoxHandler;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -43,7 +44,7 @@ public class ControllerMap implements Initializable {
         try {
             updateImage();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.logNewFatalError(e.getLocalizedMessage());
         }
     }
     public static ImageView getClickedImage(){

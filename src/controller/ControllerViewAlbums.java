@@ -209,7 +209,6 @@ public class ControllerViewAlbums implements Initializable {
     //TODO change this to boolean
     public static void deleteAlbum(String name){
         //deletes the selected album from the arraylist
-        //TODO use accessor methods instead
         ControllerMain.removeAlbum(name);
     }
 }
