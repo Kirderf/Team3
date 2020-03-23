@@ -1,170 +1,780 @@
 package controller;
 
 import backend.DatabaseClient;
+import backend.Text_To_Speech;
+import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class ControllerMain implements Initializable {
-    @FXML
-    private Menu fileButton;
+    private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
 
-    @FXML
-    private Menu importButton;
+    //Must be public static to get access from other places
+    public static HashMap<String, String> locations = new HashMap<>();
+    public static DatabaseClient databaseClient = new DatabaseClient();
+    public static Text_To_Speech voice;
+    public static String pathBuffer;
+    public static boolean ascending = true;
+    public static ArrayList<String> selectedImages = new ArrayList<>();
+    public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
+    public static Image imageBuffer;
 
-    @FXML
-    private Menu openSearch;
+    //Stages
+    public static Stage importStage = new Stage();
+    public static Stage addTagStage = new Stage();
+    public static Stage albumNameStage = new Stage();
+    public static Stage searchStage = new Stage();
+    public static Stage aboutStage = new Stage();
+    public static Stage worldStage = new Stage();
+    public static Stage preferenceStage = new Stage();
 
-    @FXML
-    private MenuItem quitItem;
-
-    @FXML
-    private Menu returnToLibrary;
-
-    @FXML
-    private Menu helpButton;
-
-    @FXML
-    private ScrollPane metadataScroll;
-
-    @FXML
-    private ScrollPane tagsScroll;
-
+    //Nodes
     @FXML
     private GridPane pictureGrid;
-
     @FXML
     private ComboBox<?> sortDropDown;
-
     @FXML
     private TextArea pathDisplay;
-
     @FXML
-    private VBox gridVbox;
+    private VBox metadataVbox;
 
-    public static DatabaseClient databaseClient = new DatabaseClient();
-    private Stage importStage = new Stage();
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
 
-
+    /**
+     * Run 1 time once the window opens
+     *
+     * @param location auto generated
+     * @param resources auto generated
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pictureGrid.setGridLinesVisible(false);
+        //when i have the modality anywhere else i get an illegalstateexception
+        voice = new Text_To_Speech();
+        logger.log(Level.INFO, "Initializing");
+        //this is required, as disabling the textfield in the fxml file made the path way too light to see
+        pathDisplay.setEditable(false);
+        pictureGrid.setAlignment(Pos.CENTER);
+        refreshImages();
     }
 
-    //TODO Make a method that creates a new Grid Pane every time the old one is full
-    private int getNextRow(){
-        if(photoCount == 0){
+    /**
+     * returns instance of databaseclient to be used when adding images to database
+     * @return DatabaseClient instance
+     */
+    public static DatabaseClient getDatabaseClient() {
+        return databaseClient;
+    }
+
+    public static String getPathBuffer() {
+        return pathBuffer;
+    }
+
+    public static void setPathBuffer(String pathBuffer) {
+        ControllerMain.pathBuffer = pathBuffer;
+    }
+
+    /**
+     * gets the albums currently saved
+     * @return hashmap with saved albums
+     */
+    public static HashMap<String, ArrayList<String>> getAlbums() {
+        return albums;
+    }
+
+    /**
+     * gets the current image buffer
+     * @return Image in image buffer
+     */
+    public static Image getImageBuffer() {
+        return imageBuffer;
+    }
+
+    /**
+     * sets the imageBuffer
+     * @param imageBuffer image you want to set it to
+     */
+    public static void setImageBuffer(Image imageBuffer) {
+        ControllerMain.imageBuffer = imageBuffer;
+    }
+
+    /**
+     * returns a hashmap with all the images that have valid g
+     * @return
+     */
+    public static HashMap<String, String> getLocations() {
+        return locations;
+    }
+
+    public static void setLocations(HashMap<String, String> locations) {
+        ControllerMain.locations = locations;
+    }
+
+    /**
+     * adds an album to the albums hashmap
+     * @param key the name of the album
+     * @param images arraylist containing the path to teh images
+     */
+    public static void addToAlbums(String key, ArrayList<String> images) {
+        ControllerMain.albums.put(key,images);
+    }
+
+    /**
+     * removes an album from the saved albums
+     * @param key the name of the album
+     * @return arraylist with the removed images
+     */
+    public static ArrayList removeAlbum(String key){
+        return albums.remove(key);
+    }
+
+    /**
+     * gets all selected images
+     * @return returns all selected images
+     */
+    public static ArrayList<String> getSelectedImages(){
+        return selectedImages;
+    }
+
+    /**
+     * clears the selected images and sets it equal to the new arraylist
+     * @param s the new arraylist with image paths
+     */
+    public static void setSelectedImages(ArrayList<String> s){
+        selectedImages.clear();
+        selectedImages = s;
+    }
+
+    /**
+     * adds a path to the selectedimages
+     * @param s the path that you want to add to the image
+     */
+    public static void addToSelectedImages(String s){
+        selectedImages.add(s);
+    }
+
+    /**
+     * clears the selected images
+     */
+    public static void clearSelectedImages(){
+        selectedImages.clear();
+    }
+
+    /**
+     * removes a specific image from the selected images
+     * @param path the path to the image you want to remove
+     * @return boolean whether or not the removal was successful
+     */
+    public static boolean removeFromSelectedImages(String path){
+        return selectedImages.remove(path);
+    }
+
+    /**
+     * When the search button is clicked
+     */
+    @FXML
+    private void searchAction() {
+        logger.log(Level.INFO, "SearchAction");
+        voice.speak("Searching");
+        if (!searchStage.isShowing()) {
+            searchStage.initModality(Modality.APPLICATION_MODAL);
+            searchStage.initStyle(StageStyle.UTILITY);
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
+                searchStage.setScene(new Scene(root));
+                searchStage.setTitle("Search");
+                searchStage.setResizable(false);
+                searchStage.showAndWait();
+                if (ControllerSearch.searchSucceed) {
+                    clearView();
+                    for (String s : ControllerSearch.searchResults) {
+                        insertImage(s);
+                        ControllerSearch.searchSucceed = false;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Opens import window, once window closes, all pictures from database will get inserted into the UI
+     */
+    @FXML
+    protected void importAction(ActionEvent event) throws IOException {
+        voice.speak("Importing");
+        if (!importStage.isShowing()) {
+            importStage.initModality(Modality.APPLICATION_MODAL);
+            importStage.initStyle(StageStyle.UTILITY);
+            Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
+            importStage.setScene(new Scene(root));
+            importStage.setTitle("Import");
+            importStage.setResizable(false);
+            importStage.showAndWait();
+            if (ControllerImport.isImportSucceed()) {
+                if(ControllerPreferences.isTtsChecked()) voice.speak("Import succeeded");
+                logger.log(Level.INFO, "Refreshing");
+                refreshImages();
+                ControllerImport.setImportSucceed(false);
+            }
+
+        }
+    }
+
+    /**
+     * sort the pictures based on the selected value in the drop down
+     */
+    @FXML
+    private void sortAction() throws SQLException, FileNotFoundException {
+        //if size is selected
+        voice.speak("Sorting");
+        if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
+            ArrayList<String> sortedList = getDatabaseClient().sort("File_size", ascending);
+            clearView();
+            for (String s : sortedList) {
+                insertImage(s);
+            }
+        }
+        //if filename is selected
+        else if (sortDropDown.getValue().toString().equalsIgnoreCase("Filename")) {
+            //this is just a way to get an arraylist with the paths, theres no use for the sort function here
+            ArrayList<String> sortedList = getDatabaseClient().sort("File_size", ascending);
+            sortedList.sort(Comparator.comparing(o -> o.substring(o.lastIndexOf("/"))));
+            clearView();
+            for (String s : sortedList) {
+                insertImage(s);
+            }
+        }
+        //if path or date is selected
+        else {
+            //ascending changes value every time this function is called
+            ArrayList<String> sortedList = getDatabaseClient().sort(sortDropDown.getValue().toString(), ascending);
+            clearView();
+            for (String s : sortedList) {
+                insertImage(s);
+            }
+            if(ascending){
+                ascending = false;
+            }
+            else {
+                ascending = true;
+            }
+        }
+    }
+
+    /**
+     * when the export button is clicked
+     */
+    @FXML
+    private void exportAction() {
+        voice.speak("Exporting");
+        Stage exportStage = new Stage();
+        if (!exportStage.isShowing()) {
+            exportStage.initModality(Modality.APPLICATION_MODAL);
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
+                exportStage.setScene(new Scene(root));
+                exportStage.setTitle("Export");
+                exportStage.setResizable(false);
+                exportStage.showAndWait();
+                //exportSucceed is a static variable in controllerExport
+                if (ControllerExport.isExportSucceed()) {
+                   if(this.getClass() == ControllerMain.class){
+                       refreshImages();
+                   }
+                    ControllerExport.setExportSucceed(false);
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+        clearSelectedImages();
+    }
+
+    /**
+     * Closes application, and closes connections to database. Cannot close if other windows are open
+     */
+    @FXML
+    private void quitAction() {
+        try {
+            voice.speak("Closing application");
+            Thread.sleep(1500);
+            logger.log(Level.WARNING, "Closing application");
+            getDatabaseClient().closeApplication();
+            Platform.exit();
+            System.exit(0);
+        } catch (SQLException | InterruptedException e) {
+            e.printStackTrace();
+            logger.log(Level.WARNING, "Could not close application / delete table");
+        }
+    }
+
+    /**
+     * when go library is clicked, refreshes the images
+     */
+    @FXML
+    protected void goToLibrary() {
+        voice.speak("Going to library");
+        //when this uses selectedImages.clear it causes a bug with the albums, clearing them as well
+        //selectedImages = new ArrayList<String>();
+        clearSelectedImages();
+        refreshImages();
+    }
+
+    /**
+     * Shows the about stage
+     * @param actionEvent auto generated
+     * @throws IOException
+     */
+    @FXML
+    public void helpAction(ActionEvent actionEvent) throws IOException {
+        voice.speak("Help");
+        if(!aboutStage.isShowing()){
+            Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
+            aboutStage.initModality(Modality.APPLICATION_MODAL);
+            aboutStage.setScene(new Scene(root));
+            aboutStage.setTitle("About");
+            aboutStage.setResizable(false);
+            aboutStage.showAndWait();
+        }
+
+    }
+
+    /**
+     * Clears all rows on the gridView
+     */
+    private void clearView() {
+        Node node = pictureGrid.getChildren().get(0); // to retain gridlines
+        rowCount = 0;
+        columnCount = 0;
+        photoCount = 0;
+        if (pictureGrid != null) {
+            pictureGrid.getChildren().clear();
+            pictureGrid.getChildren().add(0, node);
+        }
+    }
+
+    /**
+     * Refresh home UI. Clear, then gets images from database into the view.
+     */
+    protected void refreshImages() {
+        try {
+            ArrayList paths = getDatabaseClient().getColumn("Path");
+            clearView();
+            for (Object obj : paths) {
+                //the view is cleared, so there's no use checking if the image has been added as there are no added photos to start with
+                if (obj != null ) {
+                    insertImage((String) obj);
+                }
+            }
+        } catch (FileNotFoundException | SQLException e) {
+            //TODO change this to logger
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+
+    /**
+     * Insert image into the gridpane
+     * @param path to image object
+     */
+    private void insertImage(String path) throws FileNotFoundException {
+        int row = getNextRow();
+        int coloumn = getNextColumn();
+        pictureGrid.add(importImage(path), coloumn, row);
+        photoCount++;
+    }
+
+    /**
+     * Add rows on the bottom of the gridpane
+     */
+    private void addEmptyRow() {
+        double initialGridHeight = 185;
+        double gridHeight = initialGridHeight;
+        RowConstraints con = new RowConstraints();
+        con.setPrefHeight(gridHeight);
+        pictureGrid.getRowConstraints().add(con);
+    }
+
+    /**
+     * Take a path, and create a ImageView that fits to a space in the grid
+     *
+     * @param path to image
+     */
+    private ImageView importImage(String path) throws FileNotFoundException {
+        Image image = new Image(new FileInputStream(path));
+        ImageView imageView = new ImageView(image);
+        imageView.fitHeightProperty().bind(pictureGrid.getRowConstraints().get(0).prefHeightProperty());
+        imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(5));
+        imageView.setOnMouseClicked(onImageClickedEvent(imageView, image, path));
+        return imageView;
+    }
+
+    /**
+     * EventHandler for mouseclicks on images
+     * in the event of an control click then big image is shown
+     * normal clicks tags the image and adds it to selected images
+     * @param imageView the image that you want to view or mark when clicked
+     * @param image the image that the imageview should display
+     * @param path the local path to the image on the user's machine
+     * @return eventhandler that marks the images as directed
+     */
+    private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path) {
+        return (EventHandler<MouseEvent>) event -> {
+            //Ctrl click
+            if (event.isControlDown()) {
+                imageView.setImage(image);
+                try {
+                    showBigImage(imageView, path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                //Single click
+                selectImage(imageView, image, path);
+                showMetadata(null);
+                if (getSelectedImages().size() != 1) {
+                    pathDisplay.clear();
+                    metadataVbox.getChildren().clear();
+                }
+            }
+
+        };
+    }
+
+    /**
+     * select the image and tints it, if it is already selected then the tint is removed
+     * @param imageView the imageview that you want to update with the new image
+     * @param image the image that you want to tint
+     * @param path the path to the photo
+     */
+    private void selectImage(ImageView imageView, Image image, String path) {
+        if (!getSelectedImages().contains(path)) {
+            addToSelectedImages(path);
+            //buff is the tinted
+            BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+            tint(buff);
+            imageView.setImage(SwingFXUtils.toFXImage(buff, null));
+        } else {
+            removeFromSelectedImages(path);
+            imageView.setImage(image);
+        }
+    }
+
+    /**
+     * shows a image in fullscreen mode
+     * @param imageView the image that is to be shown
+     * @param path the path to the image
+     * @throws IOException
+     */
+    private void showBigImage(ImageView imageView, String path) throws IOException {
+        voice.speak("Magnifying image");
+        clearSelectedImages();
+        setPathBuffer(path);
+        setImageBuffer(imageView.getImage());
+        Scene scene = pictureGrid.getScene();
+        scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
+    }
+
+    /**
+     * gets rowcount, is used to facilitate increasing the number of rows when adding pictures
+     * @return int with the number of rows
+     */
+    //for every 5th picture the row will increase in value
+    private int getNextRow() {
+        if (photoCount == 0) {
             return rowCount;
         }
-        if((photoCount)%5 == 0){
+        if ((photoCount) % 5 == 0) {
             rowCount++;
-            addEmptyRow(1);
+            if (pictureGrid.getRowConstraints().size() <= rowCount) {
+                addEmptyRow();
+            }
         }
         return rowCount;
     }
 
-    private int getNextColumn(){
-        if(photoCount == 0){
+    //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
+
+    /**
+     * for every 5th picture the column will reset, therefore this is used to give the column of the next imageview
+     * @return colomnCount the integer-value for the next coloumn
+     */
+    private int getNextColumn() {
+        if (photoCount == 0) {
             return columnCount++;
         }
-        if(photoCount%5 == 0){
+        if (photoCount % 5 == 0) {
             columnCount = 0;
             return columnCount++;
         }
         return columnCount++;
     }
 
-    @FXML
-    private void searchAction(ActionEvent event) {
-        //TODO When clicked expand gridpane by a row
+    /**
+     * displays the metadata of each image in the sidebar
+     * @param imagePath the path to the image from which you are getting the metadata
+     */
+    public void showMetadata(String imagePath) {
+        String path;
+        if (!metadataVbox.getChildren().isEmpty()) {
+            metadataVbox.getChildren().clear();
+        }
+        if (imagePath != null) {
+            path = imagePath;
+        } else if (!getSelectedImages().isEmpty()) {
+            path = getSelectedImages().get(0);
+        } else {
+            return;
+        }
+        if (path == null || getSelectedImages().size() > 1) {
+            return;
+        }
+        int i = 0;
+
+        for (String s : getDatabaseClient().getMetaDataFromDatabase(path)) {
+            switch (i) {
+                case 0:
+                    metadataVbox.getChildren().add(new Label("Path :" + s));
+                    if (!(this instanceof ControllerBigImage)) pathDisplay.setText("Path :" + s);
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    metadataVbox.getChildren().add(new Label("File size :" + s));
+                    break;
+                case 3:
+                    metadataVbox.getChildren().add(new Label("Date :" + s.substring(0, 4) + "/" + s.substring(4, 6) + "/" + s.substring(6)));
+                    break;
+                case 4:
+                    metadataVbox.getChildren().add(new Label("Height :" + s));
+                    break;
+                case 5:
+                    metadataVbox.getChildren().add(new Label("Width :" + s));
+                    break;
+                case 6:
+                    metadataVbox.getChildren().add(new Label("GPS Latitude :" + s));
+                    break;
+                case 7:
+                    metadataVbox.getChildren().add(new Label("GPS Longitude :" + s));
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + i);
+            }
+            i++;
+        }
 
     }
-    @FXML
-    private void importAction(ActionEvent event) throws IOException {
-        if(!importStage.isShowing()) {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
-                importStage.setScene(new Scene(root));
-                importStage.setTitle("Import");
-                importStage.setResizable(false);
-                importStage.show();
-            } catch (Exception exception) {
-                System.out.println(exception.getLocalizedMessage());
+
+    /**
+     * When the user clicks on goToMap under library
+     * Checks all the added photos for valid gps data, and places the ones with valid data on the map
+     *
+     * @throws IOException
+     * @throws SQLException
+     */
+    public void goToMap() throws IOException, SQLException {
+        if(!worldStage.isShowing()){
+            worldStage.initModality(Modality.APPLICATION_MODAL);
+        }
+        voice.speak("Showing map");
+        ArrayList paths = getDatabaseClient().getColumn("Path");
+        //do this by checking ration of long at latitiude according to image pixel placing
+        //add them to the worldmap view with event listener to check when they're clicked
+        for (int i = 0; i < getDatabaseClient().getColumn("GPS_Longitude").size(); i++) {
+            Double longitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String)paths.get(i))[7]);
+            Double latitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String)paths.get(i))[6]);
+            //if both are not equal to zero, maybe this should be changed to an or
+            if (longitude != 0 && latitude != 0) {
+                getLocations().put((String) paths.get(i), "" + longitude + "," + latitude);
             }
         }
-
-        // sample photos for testing purposes
-        String path = "/samplephoto.jpg";
-        insertImage(importImage(path));
-    }
-
-    @FXML
-    private void exportAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    private void quitAction(ActionEvent event) throws SQLException {
-        databaseClient.closeApplication();
-        Stage stage = (Stage) pathDisplay.getScene().getWindow();
-        stage.close();
-    }
-
-    /**
-     * Insert image into the gridpane
-     * @param imageView ImageView object
-     */
-    private void insertImage(ImageView imageView) {
-        pictureGrid.add(imageView, getNextColumn(), getNextRow());
-        photoCount++;
-    }
-
-    /**
-     * Add rows on the bottom of the gridpane
-     * @param numOfRows Number of rows added
-     */
-    private void addEmptyRow(int numOfRows) {
-        double gridHeight = 0;
-        for (int i = 0; i < numOfRows; i++) {
-            gridHeight = (pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size())).getValue();
-            RowConstraints con = new RowConstraints();
-            con.setPrefHeight(gridHeight);
-            gridVbox.setPrefHeight(gridVbox.getHeight()+con.getPrefHeight());
-            pictureGrid.getRowConstraints().add(con);
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
+        worldStage.setScene(new Scene(root));
+        worldStage.setTitle("Map");
+        worldStage.setResizable(false);
+        worldStage.showAndWait();
+        if (ControllerMap.getClickedImage() != null) {
+            showBigImage(ControllerMap.getClickedImage(), ControllerMap.getClickedImage().getId());
         }
     }
 
     /**
-     * Take a path, and create a ImageView that fits to a space in the grid
-     * @param path to image
+     * when save to album is clicked
+     * @param actionEvent auto-generated
+     * @throws IOException
      */
-    private ImageView importImage(String path){
-        ImageView imageView = new ImageView();
-        imageView.setImage(new Image(getClass().getResourceAsStream(path)));
-        imageView.fitHeightProperty().bind(pictureGrid.heightProperty().divide(pictureGrid.getRowConstraints().size()));
-        imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(pictureGrid.getColumnConstraints().size()));
-        imageView.setPreserveRatio(true);
-        return imageView;
+    public void saveAlbumAction(ActionEvent actionEvent) throws IOException {
+        voice.speak("Creating album");
+        if (!albumNameStage.isShowing()) {
+            try {
+                if(getSelectedImages().size()==0) {
+                    throw new IllegalArgumentException("You need to select more than one image for your album");
+                }
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNamePicker.fxml"));
+                albumNameStage.setScene(new Scene(root));
+                albumNameStage.setTitle("Save album");
+                albumNameStage.setResizable(false);
+                //disables back stage
+                albumNameStage.showAndWait();
+                //exportSucceed is a static variable in controllerExport
+                if (!ControllerAlbumNamePicker.savedName.trim().equals("")) {
+                    if (albums.containsKey(ControllerAlbumNamePicker.savedName)) {
+                        throw new IllegalArgumentException("That name already exists");
+                    } else {
+                        refreshImages();
+                        albums.put(ControllerAlbumNamePicker.savedName, new ArrayList<>());
+                        ArrayList<String> tempArray = new ArrayList<>();
+                        for (String s : getSelectedImages()) {
+                            albums.get(ControllerAlbumNamePicker.savedName).add(s);
+                            tempArray.add(s);
+                        }
+                        clearSelectedImages();
+                        Collections.copy(albums.get(ControllerAlbumNamePicker.savedName), tempArray);
+                        ControllerAlbumNamePicker.savedName = "";
+                    }
+                }
+            } catch(IllegalArgumentException e){
+                //TODO add logger
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
+                Stage errorStage = new Stage();
+                if(!errorStage.isShowing()){
+                    errorStage.initModality(Modality.APPLICATION_MODAL);
+                }
+                errorStage.setScene(new Scene(root));
+                errorStage.setTitle("Albums");
+                errorStage.setResizable(false);
+                errorStage.setAlwaysOnTop(true);
+                errorStage.showAndWait();
+                albumNameStage.setAlwaysOnTop(false);
+            } catch (Exception exception) {
+                //TODO change to logger
+                exception.printStackTrace();
+            }
+        }
+        clearSelectedImages();
     }
 
+    /**
+     * When view albums is clicked
+     * @param actionEvent auto-generated
+     * @throws IOException
+     */
+    public void viewAlbums(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
+        Stage albumStage = new Stage();
+        if(!albumStage.isShowing()){
+            albumStage.initModality(Modality.APPLICATION_MODAL);
+        }
+        albumStage.setScene(new Scene(root));
+        albumStage.setTitle("Albums");
+        albumStage.setResizable(false);
+        albumStage.showAndWait();
+        if (ControllerViewAlbums.isAlbumSelected()) {
+            if(!getSelectedImages().isEmpty()) {
+                clearView();
+                ControllerViewAlbums.setAlbumSelected(false);
+                for (String s : getSelectedImages()) {
+                    insertImage(s);
+                }
+            }
+            else{
+                refreshImages();
+            }
+        }
+    }
 
+    /**
+     * tints the selected images blue
+     * @param image the Bufferedimage that you want to tint
+     */
+    //TODO take in image as parameter, and convert to buffered image inside the method
+    //TODO check if any of the other methods on stackoverflow tint quicker
+    private static void tint(BufferedImage image) {
+        //if colourblind
+        if(ControllerPreferences.isColourChecked()){
+            for (int x = 0; x < image.getWidth(); x++) {
+                for (int y = 0; y < image.getHeight(); y++) {
+                    if((x<2*image.getWidth()/3&&x>image.getHeight()/3)||(y<2*image.getHeight()/3&&y>image.getHeight()/3)) {
+                        Color black = new Color(0, 0, 0);
+                        image.setRGB(x, y, black.getRGB());
+                    }
+                }
+            }
+        }
+        else {
+            for (int x = 0; x < image.getWidth(); x++) {
+                for (int y = 0; y < image.getHeight(); y++) {
+                    Color pixelColor = new Color(image.getRGB(x, y), true);
+                    int r = (pixelColor.getRed() + Color.blue.getRed()) / 2;
+                    int g = (pixelColor.getGreen() + Color.blue.getGreen()) / 2;
+                    int b = (pixelColor.getBlue() + Color.blue.getBlue()) / 2;
+                    int a = pixelColor.getAlpha();
+                    int rgba = (a << 24) | (r << 16) | (g << 8) | b;
+                    image.setRGB(x, y, rgba);
+                }
+            }
+        }
+    }
+
+    /**
+     * speaks when hovering over the menu
+     * @param event event that led to this being called, e.g hovering over or clicking on menu
+     */
+    public void TextToSpeakOnMenu(Event event) {
+        voice.speak(((Menu) event.getSource()).getText());
+    }
+
+    /**
+     * opens prefrences window
+     * @param actionEvent auto-generated
+     * @throws IOException
+     */
+    public void preferencesAction(ActionEvent actionEvent) throws IOException {
+        if(!preferenceStage.isShowing()){
+            preferenceStage.initModality(Modality.APPLICATION_MODAL);
+            Parent root = FXMLLoader.load(getClass().getResource("/Views/Preferences.fxml"));
+            preferenceStage.setScene(new Scene(root));
+            preferenceStage.setTitle("Preferences");
+            preferenceStage.setResizable(false);
+            preferenceStage.showAndWait();
+        }
+
+    }
 }
+

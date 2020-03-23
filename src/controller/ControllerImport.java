@@ -1,57 +1,86 @@
 package controller;
 
-import backend.DatabaseClient;
-import com.drew.imaging.ImageProcessingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class ControllerImport {
-
-    @FXML
-    private Button select;
-    @FXML
-    private Button startImport;
-    @FXML
-    private Button cancel;
-    @FXML
-    private TextField firstTextfield;
+public class ControllerImport implements Initializable {
+    private static boolean importSucceed = false;
+    /**
+     * File explorer
+     */
+    private final FileChooser fc = new FileChooser();
+    /**
+     * Container for textfields
+     */
     @FXML
     private VBox pathVbox;
+    /**
+     * Scrollable container which includes the vbox
+     */
     @FXML
     private ScrollPane scrollPane;
-
-    private int count = 0;
-    private final FileChooser fc = new FileChooser();
-    private List<File> list;
     /**
-     * Select path for import
-     * Currently able to create perfectly lined textfields
-     * //TODO insert to database and select path from computer files
-     *
-     * @param event
+     * List for containing file explorer results
      */
-    public void select(ActionEvent event) {
+    private ArrayList<File> bufferList = new ArrayList<>();
+
+    /**
+     * Set container content and alignment of elements
+     *
+     * @param location
+     * @param resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        scrollPane.setContent(pathVbox);
+        pathVbox.setPadding(new Insets(5, 0, 0, 5));
+        pathVbox.setSpacing(7);
+    }
+    public static void setImportSucceed(boolean b){
+        importSucceed = b;
+    }
+
+    public static boolean isImportSucceed(){
+        return importSucceed;
+    }
+    /**
+     * Opens file chooser, and gets path, then displays it to the user.
+     *
+     * @param event button clicked
+     */
+    @FXML
+    private void addImageFile(ActionEvent event) {
         fc.setTitle("Open Resource File");
-        list = fc.showOpenMultipleDialog(select.getScene().getWindow());
-        if (list != null) { //if list is not empty, post result in a list in UI
-            for (int i = 0; i < list.size(); i++) {
-                if (i == 0) {
-                    firstTextfield.setVisible(true);
-                    firstTextfield.setText(list.get(i).getAbsolutePath());
-                } else {
-                    generateTextField(list.get(i).getAbsolutePath());
-                }
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Pictures", "*.png", "*.jpg", "*.jpeg", "*.PNG", "*.JPG", "*.JPEG"));
+        /**
+         * List for containing temporary file explorer results
+         */
+        List<File> list = fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
+        if (list != null) {
+            list.forEach((x) -> {
+                if (!bufferList.contains(x)) bufferList.add(x);
+            });
+        }
+        if (bufferList != null) {
+            clearListView();
+            for (File file : bufferList
+            ) {
+                generateTextField(file.getAbsolutePath());
             }
         }
     }
@@ -59,30 +88,59 @@ public class ControllerImport {
     /**
      * Closes the window
      *
-     * @param event
+     * @param event button clicked
      */
-    public void cancel(ActionEvent event) {
-        Stage stage = (Stage) cancel.getScene().getWindow();
-        stage.close();
+    @FXML
+    private void cancel(ActionEvent event) {
+        ((Stage) scrollPane.getScene().getWindow()).close();
     }
 
-    //Creates a duplicate of a textfield and insert into scrollpane
-    private void generateTextField(String text) {
-        TextField dupe = new TextField(text);
-        dupe.setPrefHeight(firstTextfield.getHeight());
-        dupe.setPrefWidth(firstTextfield.getWidth());
-        dupe.setPadding(firstTextfield.getPadding());
-        dupe.setBackground(firstTextfield.getBackground());
-        dupe.setDisable(true);
-        pathVbox.getChildren().add(dupe);
-        scrollPane.setContent(pathVbox);
-    }
+    /**
+     * Clear the buffer list and view buffer
+     *
+     * @param event
+     */
     @FXML
-    public void importAction(ActionEvent event) throws ImageProcessingException, IOException {
-        for (File file:
-             list) {
-            ControllerMain.databaseClient.addImage(file);
+    private void clearAction(ActionEvent event) {
+        clearListView();
+        bufferList.clear();
+    }
+
+    /**
+     * Creates a duplicate of a textfield and insert into scrollpane
+     *
+     * @param text input for textfields
+     */
+    @FXML
+    private void generateTextField(String text) {
+        Text textElement = new Text(text);
+        textElement.setFont(Font.font("Montserrat"));
+        textElement.setDisable(true);
+        pathVbox.getChildren().addAll(textElement);
+    }
+
+    /**
+     * Once all paths has been added to the list, add it to the database and display it in the MainView
+     *
+     * @param event button clicked
+     */
+    @FXML
+    private void importAction(ActionEvent event) throws SQLException {
+        if (bufferList != null) {
+            for (File file : bufferList) {
+                ControllerMain.getDatabaseClient().addImage(file);
+
+            }
+            setImportSucceed(true);
         }
+        cancel(event);
+    }
+
+    /**
+     * Clears the view buffer
+     */
+    private void clearListView() {
+        pathVbox.getChildren().clear();
     }
 }
 

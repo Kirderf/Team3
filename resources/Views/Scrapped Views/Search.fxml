@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="201.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerSearch">
+   <children>
+      <AnchorPane layoutX="61.0" layoutY="15.0" prefHeight="183.0" prefWidth="149.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="15.0">
+         <children>
+            <TextField fx:id="searchField" alignment="TOP_CENTER" layoutX="1.0" promptText="Search term" AnchorPane.leftAnchor="0.0" />
+            <CheckBox fx:id="metaCheck" layoutX="1.0" layoutY="36.0" mnemonicParsing="false" text="Search by metadata" AnchorPane.leftAnchor="0.0">
+               <padding>
+                  <Insets bottom="5.0" left="1.0" />
+               </padding>
+            </CheckBox>
+            <CheckBox fx:id="tagCheck" layoutX="1.0" layoutY="86.0" mnemonicParsing="false" text="Search by tags" AnchorPane.leftAnchor="0.0">
+               <padding>
+                  <Insets bottom="5.0" left="1.0" top="5.0" />
+               </padding>
+            </CheckBox>
+            <CheckBox fx:id="pathCheck" layoutY="113.0" mnemonicParsing="false" text="Search by path" AnchorPane.leftAnchor="0.0">
+               <padding>
+                  <Insets bottom="5.0" left="2.0" top="5.0" />
+               </padding>
+            </CheckBox>
+            <CheckBox fx:id="filenameCheck" layoutX="1.0" layoutY="58.0" mnemonicParsing="false" text="Search by filename" AnchorPane.leftAnchor="0.0">
+               <padding>
+                  <Insets bottom="5.0" left="2.0" top="5.0" />
+               </padding>
+            </CheckBox>
+            <Button fx:id="searchButton" layoutX="34.0" layoutY="149.0" mnemonicParsing="false" onAction="#searchAction" text="Start Search" />
+         </children>
+         <padding>
+            <Insets top="25.0" />
+         </padding>
+      </AnchorPane>
+   </children>
+</AnchorPane>

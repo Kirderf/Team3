@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="albumView" maxHeight="400.0" maxWidth="640.0" minHeight="400" minWidth="640" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerViewAlbums">
+  <children>
+      <AnchorPane prefHeight="403.0" prefWidth="640.0">
+         <children>
+            <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Delete Album">
+                  <items>
+                    <MenuItem fx:id="albumDelete" mnemonicParsing="false" onAction="#deleteAction" text="Delete Album" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         <TilePane fx:id="albumTilePane" layoutY="27.0" maxHeight="375.0" maxWidth="640.0" prefHeight="367.0" prefWidth="640.0" />
+         </children>
+      </AnchorPane>
+  </children>
+</VBox>

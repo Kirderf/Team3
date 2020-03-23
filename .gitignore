@@ -1,8 +1,13 @@
 /out/*
 .idea/*
-target
+target/
 .vscode/*
 .settings/*
 .classpath
 .project
+/noPlugin
+/-
+/resources/.properties
+target
+*.class
 Log.log
