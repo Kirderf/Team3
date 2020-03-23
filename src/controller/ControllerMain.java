@@ -629,8 +629,8 @@ public class ControllerMain implements Initializable {
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
         worldStage.showAndWait();
-        if (ControllerMap.clickedImage != null) {
-            showBigImage(ControllerMap.clickedImage, ControllerMap.clickedImage.getId());
+        if (ControllerMap.getClickedImage() != null) {
+            showBigImage(ControllerMap.getClickedImage(), ControllerMap.getClickedImage().getId());
         }
     }
 
