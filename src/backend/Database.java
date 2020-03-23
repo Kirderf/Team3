@@ -1,5 +1,6 @@
 package backend;
 
+import javafx.scene.control.Alert;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -125,14 +126,24 @@ public class Database {
         logger.logNewInfo("Database : " + "Adding Tags");
         StringBuilder oldtags = getTags(path);
         String tagTest = oldtags.toString().toLowerCase();
+        ArrayList<String> presentTags = new ArrayList<>();
         for (String string : tags) {
             if (tagTest.contains(string.toLowerCase())){
-                System.out.println("The image already has the tag: " + string);
+                presentTags.add(string);
                 continue;
             }
             oldtags.append(",").append(string);
         }
         statement = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
+        if(!presentTags.isEmpty()) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("405: Tag already added");
+            a.setHeaderText(null);
+            a.setContentText("The image already has the tag(s): " + presentTags);
+            a.showAndWait();
+            logger.logNewInfo("Image already has the tag(s): " + presentTags);
+        }
+
         return !statement.execute();
     }
 
