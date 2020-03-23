@@ -23,6 +23,7 @@ import java.util.*;
  * @author Ingebrigt Hovind
  */
 public class ImageImport {
+    private static final Log logger = new Log("Log.log");
     //this is the names of the various kinds of metadata we are interested in in com.drew.metadata methods
     private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude","File Modified Date");
     private int noOfData = interestingMetadata.size() -1;
@@ -37,14 +38,14 @@ public class ImageImport {
      * @return true if the file has an extension that is in validImageExtensions
      * @author Ingebrigt Hovind
      */
-     private boolean isImage(File file){
+    private boolean isImage(File file){
         try {
             if(file.exists()){
                 return validImageExtensions.contains(getExtensionFromFile(file).toLowerCase());
             }
             return false;
         } catch (Exception e) {
-            Log.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
+            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
             return false;
         }
     }
@@ -68,7 +69,7 @@ public class ImageImport {
      * @author Ingebrigt Hovind
      */
     public String[] getMetaData(File file) {
-        Log.logNewInfo("ImageImport : " + "Getting metadata from file");
+        logger.logNewInfo("ImageImport : " + "Getting metadata from file");
         try {
             if (isImage(file)) {
                 //array with metadata
@@ -107,11 +108,11 @@ public class ImageImport {
                                     //formats the day correctly
                                     String day = "";
                                     //finds the first space
-                                    String testString = tag.getDescription().trim().substring(tag.getDescription().indexOf(" ")+1);
-                                    ////finds the second space
-                                    testString = testString.substring(testString.indexOf(" ")+1);
+                                    String testString = tag.getDescription().trim().substring(tag.getDescription().indexOf(' ')+1);
+                                    //finds the second space
+                                    testString = testString.substring(testString.indexOf(' ')+1);
                                     //selects the string between the second and third space
-                                    testString = testString.substring(0,testString.indexOf(" "));
+                                    testString = testString.substring(0,testString.indexOf(' '));
                                     day = testString;
                                     String formattedDate = tag.getDescription().substring(tag.getDescription().lastIndexOf(" ")) + month +day;
                                     formattedDate = formattedDate.trim();
@@ -165,7 +166,7 @@ public class ImageImport {
             }
             //thrown by the metadata-library we are using
         } catch(Exception e){
-            Log.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
+            logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         }
         //if the file this is run on is not a valid image
         return null;
@@ -179,6 +180,7 @@ public class ImageImport {
      * @author Ingebrigt Hovind
      */
     private String getExtensionFromFile(File file){
+        //public for tests only
         return file.getPath().substring(file.getPath().lastIndexOf("."));
     }
 

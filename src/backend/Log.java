@@ -8,11 +8,11 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public abstract class Log{
-    private static Logger logger;
-    private static FileHandler fh;
+public class Log{
+    public Logger logger;
+    FileHandler fh;
 
-    public static void saveLog(String file_name){
+    public Log(String file_name){
         boolean fileRemade = false;
         try{
             File f = new File(file_name);
@@ -35,17 +35,16 @@ public abstract class Log{
         }
     }
 
-    public static void logNewInfo(String message){
-        logger = new Logger("Log");
+    public void logNewInfo(String message){
         logger.log(Level.INFO,message);
     }
 
-    
-    public static void logNewWarning(String warning){
+
+    public void logNewWarning(String warning){
         logger.log(Level.WARNING,warning);
     }
 
-    public static void logNewFatalError(String fatalwarning){
+    public void logNewFatalError(String fatalwarning){
         logger.log(Level.SEVERE,fatalwarning);
     }
 }

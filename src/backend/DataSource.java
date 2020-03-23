@@ -19,6 +19,7 @@ public class DataSource {
     private static HikariConfig config = new HikariConfig();
     private static HikariDataSource ds;
     private static Properties prop;
+    private static final Log logger = new Log("Log.log");
 
 
     static {
@@ -42,7 +43,7 @@ public class DataSource {
     }
 
     private static void loadProperties() {
-        Log.logNewInfo("DatabaseSource : " + "Loading .properties file");
+        logger.logNewInfo("DatabaseSource : " + "Loading .properties file");
         try {
             prop = new Properties();
             String propFileName = ".properties";
@@ -53,7 +54,7 @@ public class DataSource {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
         } catch (IOException e) {
-            Log.logNewFatalError("DatabaseSource : " + e.getLocalizedMessage());
+            logger.logNewFatalError("DatabaseSource : " + e.getLocalizedMessage());
         }
     }
 }
