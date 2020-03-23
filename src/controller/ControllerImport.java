@@ -54,6 +54,7 @@ public class ControllerImport implements Initializable {
     public static void setImportSucceed(boolean b){
         importSucceed = b;
     }
+
     public static boolean isImportSucceed(){
         return importSucceed;
     }

@@ -8,8 +8,8 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public abstract class Log{
-    private static Logger logger;
+public class Log{
+    private static Logger logger = Logger.getAnonymousLogger();
     private static FileHandler fh;
 
     public static void saveLog(String file_name){
@@ -36,7 +36,6 @@ public abstract class Log{
     }
 
     public static void logNewInfo(String message){
-        logger = new Logger("Log");
         logger.log(Level.INFO,message);
     }
 

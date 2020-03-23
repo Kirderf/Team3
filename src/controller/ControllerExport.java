@@ -29,7 +29,7 @@ public class ControllerExport {
     /**
      * opens an directory chooser which allows th euser to choose the placement of their new pdf
      */
-    private void exportPDF() {
+    private void exportPDF() throws IOException {
         //chooses album location after selecting name
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Choose folder for album");
