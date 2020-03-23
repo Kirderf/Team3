@@ -666,7 +666,7 @@ public class ControllerMain implements Initializable {
         voice.speak("Creating album");
         if (!albumNameStage.isShowing()) {
             try {
-                if(getSelectedImages().size()==0) {
+                if(getSelectedImages().isEmpty()) {
                     throw new IllegalArgumentException("You need to select more than one image for your album");
                 }
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNamePicker.fxml"));
@@ -679,15 +679,12 @@ public class ControllerMain implements Initializable {
                     if (albums.containsKey(ControllerAlbumNamePicker.savedName)) {
                         throw new IllegalArgumentException("That name already exists");
                     } else {
-                        refreshImages();
+                        System.out.println("setter album");
                         albums.put(ControllerAlbumNamePicker.savedName, new ArrayList<>());
-                        ArrayList<String> tempArray = new ArrayList<>();
                         for (String s : getSelectedImages()) {
                             albums.get(ControllerAlbumNamePicker.savedName).add(s);
-                            tempArray.add(s);
                         }
-                        clearSelectedImages();
-                        Collections.copy(albums.get(ControllerAlbumNamePicker.savedName), tempArray);
+                        refreshImages();
                         ControllerAlbumNamePicker.savedName = "";
                     }
                 }
@@ -720,9 +717,6 @@ public class ControllerMain implements Initializable {
     public void viewAlbums(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();
-        if(!albumStage.isShowing()){
-            albumStage.initModality(Modality.APPLICATION_MODAL);
-        }
         albumStage.setScene(new Scene(root));
         albumStage.setTitle("Albums");
         albumStage.setResizable(false);
