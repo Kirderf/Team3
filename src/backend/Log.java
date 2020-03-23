@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class Log{
-    public Logger logger;
+    public Logger logger = Logger.getAnonymousLogger();
     FileHandler fh;
 
     public Log(String file_name){
@@ -44,7 +44,7 @@ public class Log{
         logger.log(Level.WARNING,warning);
     }
 
-    public void logNewFatalError(String fatalwarning){
-        logger.log(Level.SEVERE,fatalwarning);
+    public void logNewFatalError(String fatalWarning){
+        logger.log(Level.SEVERE,fatalWarning);
     }
 }

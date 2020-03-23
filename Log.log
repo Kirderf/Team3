@@ -1,40 +1,40 @@
-mar. 23, 2020 4:05:24 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:36 P.M. backend.Log logNewInfo
 INFO: Database : Creating Database object
-mar. 23, 2020 4:05:24 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:36 P.M. backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-mar. 23, 2020 4:05:24 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:36 P.M. backend.Log logNewInfo
 INFO: Database : Checking database connection
-mar. 23, 2020 4:05:24 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:36 P.M. backend.Log logNewInfo
 INFO: Database : There is no connection
-mar. 23, 2020 4:05:24 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:36 P.M. backend.Log logNewInfo
 INFO: DatabaseSource : Loading .properties file
-mar. 23, 2020 4:05:25 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:37 P.M. backend.Log logNewInfo
 INFO: OpenConnection is true
-mar. 23, 2020 4:05:25 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:37 P.M. backend.Log logNewInfo
 INFO: Database : Creating table
-mar. 23, 2020 4:05:25 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:37 P.M. backend.Log logNewInfo
 INFO: Database : Checking if table is in the database
-mar. 23, 2020 4:05:25 P.M. backend.Log logNewInfo
-INFO: Database : fredrjul_3354203
-mar. 23, 2020 4:05:25 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:37 P.M. backend.Log logNewInfo
+INFO: Database : fredrjul_3073144
+mar. 23, 2020 4:25:37 P.M. backend.Log logNewInfo
 INFO: Create table is true
-mar. 23, 2020 4:05:25 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:37 P.M. backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-mar. 23, 2020 4:05:25 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:37 P.M. backend.Log logNewInfo
 INFO: Database : Checking database connection
-mar. 23, 2020 4:05:25 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:37 P.M. backend.Log logNewInfo
 INFO: Database : Getting Column
-mar. 23, 2020 4:05:27 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:39 P.M. backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-mar. 23, 2020 4:05:28 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:41 P.M. backend.Log logNewInfo
 INFO: DatabaseClient : Closing application
-mar. 23, 2020 4:05:28 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:41 P.M. backend.Log logNewInfo
 INFO: Database : Checking database connection
-mar. 23, 2020 4:05:28 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:41 P.M. backend.Log logNewInfo
 INFO: Database : Closing database
-mar. 23, 2020 4:05:28 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:41 P.M. backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-mar. 23, 2020 4:05:28 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:41 P.M. backend.Log logNewInfo
 INFO: Database : Checking database connection
-mar. 23, 2020 4:05:28 P.M. backend.Log logNewInfo
+mar. 23, 2020 4:25:41 P.M. backend.Log logNewInfo
 INFO: Database : Deleting table

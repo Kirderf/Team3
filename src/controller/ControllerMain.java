@@ -46,7 +46,6 @@ public class ControllerMain implements Initializable {
     //Must be public static to get access from other places
     public static HashMap<String, String> locations = new HashMap<>();
     public static DatabaseClient databaseClient = new DatabaseClient();
-    public static Text_To_Speech voice;
     public static String pathBuffer;
     public static boolean ascending = true;
     public static ArrayList<String> selectedImages = new ArrayList<>();
@@ -54,13 +53,12 @@ public class ControllerMain implements Initializable {
     public static Image imageBuffer;
 
     //Stages
-    public static Stage importStage = new Stage();
-    public static Stage addTagStage = new Stage();
-    public static Stage albumNameStage = new Stage();
-    public static Stage searchStage = new Stage();
-    public static Stage aboutStage = new Stage();
-    public static Stage worldStage = new Stage();
-    public static Stage preferenceStage = new Stage();
+    private Stage importStage = new Stage();
+    private Stage albumNameStage = new Stage();
+    private Stage searchStage = new Stage();
+    private Stage aboutStage = new Stage();
+    private Stage worldStage = new Stage();
+    private Stage preferenceStage = new Stage();
 
     //Nodes
     @FXML
@@ -72,6 +70,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private VBox metadataVbox;
 
+    private Text_To_Speech voice;
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -237,7 +236,7 @@ public class ControllerMain implements Initializable {
      * Opens import window, once window closes, all pictures from database will get inserted into the UI
      */
     @FXML
-    protected void importAction(ActionEvent event) throws IOException {
+    private void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
         if (!importStage.isShowing()) {
             importStage.initModality(Modality.APPLICATION_MODAL);

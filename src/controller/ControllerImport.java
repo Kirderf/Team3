@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerImport implements Initializable {
+    /**
+     * Boolean for import status
+     */
     private static boolean importSucceed = false;
     /**
      * File explorer
