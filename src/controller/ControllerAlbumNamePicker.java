@@ -33,6 +33,7 @@ public class ControllerAlbumNamePicker implements Initializable {
     public void cancelExport(ActionEvent actionEvent) {
         closeWindow();
         savedName = "";
+
     }
 
     @Override

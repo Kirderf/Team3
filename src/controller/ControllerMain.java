@@ -133,7 +133,7 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * returns a hasmap with all the images that have valid g
+     * returns a hashmap with all the images that have valid g
      * @return
      */
     public static HashMap<String, String> getLocations() {
