@@ -105,7 +105,7 @@ public class ControllerTagging implements Initializable {
             }
         }
         String[] tagList = tempTagList.toArray(new String[tempTagList.size()]);
-        ControllerMain.getDatabaseClient().addTag(ControllerMain.getPathBuffer(), tagList);
+        ControllerMain.databaseClient.addTag(ControllerMain.pathBuffer, tagList);
 
         //TODO Uncomment when can get tags from database
         //bufferTags.clear();

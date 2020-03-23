@@ -50,12 +50,12 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBigImage(getImageBuffer());
-        if (getPathBuffer() != null) {
-            showMetadata(getPathBuffer());
+        setBigImage(imageBuffer);
+        if (pathBuffer != null) {
+            showMetadata(pathBuffer);
         }
         textField.setEditable(false);
-        ControllerMain.addToSelectedImages(getPathBuffer());
+        selectedImages.add(pathBuffer);
     }
 
     @FXML
@@ -64,6 +64,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     private void goToLibrary(ActionEvent event) throws IOException {
         voice.speak("Going to library");
+        loadedFromAnotherLocation = true;
         bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
     }
 
@@ -108,6 +109,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         bigImage.setImage(image);
         bigImage.fitWidthProperty().bind(bigImageGrid.widthProperty());
         bigImage.fitHeightProperty().bind(imageVbox.heightProperty());
-        textField.setText(getPathBuffer());
+        textField.setText(pathBuffer);
     }
 }

@@ -1,7 +1,6 @@
 package controller;
 
 import backend.DatabaseClient;
-import backend.Log;
 import backend.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -37,8 +36,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class ControllerMain implements Initializable {
+    private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
 
     static Text_To_Speech voice;
 
@@ -79,7 +82,7 @@ public class ControllerMain implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //when i have the modality anywhere else i get an illegalstateexception
         voice = new Text_To_Speech();
-        Log.logNewInfo("Initializing");
+        logger.log(Level.INFO, "Initializing");
         //this is required, as disabling the textfield in the fxml file made the path way too light to see
         pathDisplay.setEditable(false);
         pictureGrid.setAlignment(Pos.CENTER);
@@ -205,7 +208,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private void searchAction() {
         Stage searchStage = new Stage();
-        Log.logNewInfo("SearchAction");
+        logger.log(Level.INFO, "SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
             searchStage.initModality(Modality.APPLICATION_MODAL);
@@ -224,7 +227,7 @@ public class ControllerMain implements Initializable {
                     }
                 }
             } catch (Exception e) {
-                Log.logNewFatalError(e.getLocalizedMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -245,7 +248,7 @@ public class ControllerMain implements Initializable {
             importStage.showAndWait();
             if (ControllerImport.isImportSucceed()) {
                 if(ControllerPreferences.isTtsChecked()) voice.speak("Import succeeded");
-                Log.logNewInfo("Refreshing");
+                logger.log(Level.INFO, "Refreshing");
                 refreshImages();
                 ControllerImport.setImportSucceed(false);
             }
@@ -317,7 +320,7 @@ public class ControllerMain implements Initializable {
                     ControllerExport.setExportSucceed(false);
                 }
             } catch (Exception exception) {
-                Log.logNewFatalError(exception.getLocalizedMessage());
+                exception.printStackTrace();
             }
         }
         clearSelectedImages();
@@ -331,13 +334,13 @@ public class ControllerMain implements Initializable {
         try {
             voice.speak("Closing application");
             Thread.sleep(1500);
-            Log.logNewInfo("Closing application");
+            logger.log(Level.WARNING, "Closing application");
             getDatabaseClient().closeApplication();
             Platform.exit();
             System.exit(0);
         } catch (SQLException | InterruptedException e) {
-            Log.logNewWarning("Could not close application / delete table");
-            Log.saveLog("Log.log");
+            e.printStackTrace();
+            logger.log(Level.WARNING, "Could not close application / delete table");
         }
     }
 
@@ -400,7 +403,8 @@ public class ControllerMain implements Initializable {
                 }
             }
         } catch (FileNotFoundException | SQLException e) {
-            Log.logNewFatalError(e.getLocalizedMessage());
+            //TODO change this to logger
+            System.out.println(e.getLocalizedMessage());
         }
     }
 
@@ -457,7 +461,7 @@ public class ControllerMain implements Initializable {
                 try {
                     showBigImage(imageView, path);
                 } catch (IOException e) {
-                    Log.logNewFatalError(e.getLocalizedMessage());
+                    e.printStackTrace();
                 }
             } else {
                 //Single click
@@ -666,7 +670,7 @@ public class ControllerMain implements Initializable {
                     }
                 }
             } catch(IllegalArgumentException e){
-                Log.logNewFatalError(e.getLocalizedMessage());
+                //TODO add logger
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
                 Stage errorStage = new Stage();
                 if(!errorStage.isShowing()){
@@ -679,7 +683,8 @@ public class ControllerMain implements Initializable {
                 errorStage.showAndWait();
                 albumNameStage.setAlwaysOnTop(false);
             } catch (Exception exception) {
-                Log.logNewFatalError(exception.getLocalizedMessage());
+                //TODO change to logger
+                exception.printStackTrace();
             }
         }
         clearSelectedImages();

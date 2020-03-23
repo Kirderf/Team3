@@ -17,7 +17,7 @@ public class ControllerExport {
     @FXML
     javafx.scene.control.TextField inputText;
 
-    private static boolean exportSucceed;
+    public static boolean exportSucceed = false;
     public static boolean isExportSucceed(){
         return exportSucceed;
     }
@@ -29,8 +29,7 @@ public class ControllerExport {
     /**
      * opens an directory chooser which allows th euser to choose the placement of their new pdf
      */
-    private void exportPDF() throws IOException {
-        setExportSucceed(false);
+    private void exportPDF() {
         //chooses album location after selecting name
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Choose folder for album");
@@ -39,8 +38,8 @@ public class ControllerExport {
         chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(null);
         //gets the filename from the user and formats it correctly
-        if(ImageExport.exportToPdf(selectedDirectory.getPath() +"/"+ inputText.getText() + ".pdf",ControllerMain.getSelectedImages())){
-            setExportSucceed(true);
+        if(ImageExport.exportToPdf(selectedDirectory.getPath() +"/"+ inputText.getText() + ".pdf",ControllerMain.selectedImages)){
+            exportSucceed = true;
         }
         //closes window
         closeWindow();

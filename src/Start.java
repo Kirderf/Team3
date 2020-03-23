@@ -29,12 +29,16 @@ public class Start extends Application {
             primaryStage.setMinWidth(800);
             primaryStage.setMinHeight(600);
             primaryStage.setScene(new Scene(root));
+            ControllerMain.importStage.initModality(Modality.APPLICATION_MODAL);
+            ControllerMain.importStage.initStyle(StageStyle.UTILITY);
+            ControllerMain.searchStage.initModality(Modality.APPLICATION_MODAL);
+            ControllerMain.searchStage.initStyle(StageStyle.UTILITY);
             logger.log(Level.INFO, "Showing app");
             primaryStage.show();
             primaryStage.setOnCloseRequest((event -> {
                 logger.log(Level.INFO, "Closing application");
                 try {
-                    ControllerMain.getDatabaseClient().closeApplication();
+                    ControllerMain.databaseClient.closeApplication();
                     Platform.exit();
                     System.exit(0);
                 } catch (SQLException e) {

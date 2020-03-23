@@ -23,8 +23,9 @@ public abstract class ImageExport {
      * @author Ingebrigt Hovind
      */
     //stolen from https://stackoverflow.com/questions/22358478/java-create-pdf-pages-from-images-using-pdfbox-library
+    private static final Log logger = new Log("Log.log");
     public static boolean exportToPdf(String name, List<String> paths) throws IOException {
-        Log.logNewInfo("ImageExport : " + "Exporting images to pdf");
+        logger.logNewInfo("ImageExport : " + "Exporting images to pdf");
         PDDocument document = new PDDocument();
         try{
             if(paths.isEmpty()){
@@ -49,12 +50,12 @@ public abstract class ImageExport {
             return true;
         }catch(IllegalArgumentException e){
             document.close();
-            Log.logNewFatalError(e.getLocalizedMessage());
+            e.printStackTrace();
             return false;
         }
         catch (Exception e){
             document.close();
-            Log.logNewFatalError("ImageExport : " + e.getLocalizedMessage());
+            logger.logNewFatalError("ImageExport : " + e.getLocalizedMessage());
             return false;
         }
     }
