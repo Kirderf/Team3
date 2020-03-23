@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,7 +31,7 @@ class ImageExportTest {
         nullList.add(null);
     }
     @Test
-    void exportToPdf(){
+    void exportToPdf() throws IOException {
         String path = "resources/helloworld.pdf";
         String path2 = "resources/empty.pdf";
         String path3 = "resources/invalid.pdf";
