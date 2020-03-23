@@ -85,6 +85,7 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //when i have the modality anywhere else i get an illegalstateexception
+        worldStage.close();
         voice = new Text_To_Speech();
         logger.log(Level.INFO, "Initializing");
         //this is required, as disabling the textfield in the fxml file made the path way too light to see
@@ -240,7 +241,7 @@ public class ControllerMain implements Initializable {
     protected void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
         if (!importStage.isShowing()) {
-            importStage.initModality(Modality.APPLICATION_MODAL);
+            importStage.close();
             importStage.initStyle(StageStyle.UTILITY);
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
             importStage.setScene(new Scene(root));
@@ -511,7 +512,7 @@ public class ControllerMain implements Initializable {
         clearSelectedImages();
         setPathBuffer(path);
         setImageBuffer(imageView.getImage());
-        Scene scene = pictureGrid.getScene();
+        Scene scene = metadataVbox.getScene();
         scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
     }
 
@@ -613,9 +614,6 @@ public class ControllerMain implements Initializable {
      * @throws SQLException
      */
     public void goToMap() throws IOException, SQLException {
-        if(!worldStage.isShowing()){
-            worldStage.initModality(Modality.APPLICATION_MODAL);
-        }
         voice.speak("Showing map");
         ArrayList paths = getDatabaseClient().getColumn("Path");
         //do this by checking ration of long at latitiude according to image pixel placing

@@ -28,7 +28,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-//TODO add eventlisteners to each image so that they can be clicked on
 public class ControllerMap implements Initializable {
     @FXML
     private ImageView world;

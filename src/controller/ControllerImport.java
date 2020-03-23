@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -50,6 +51,8 @@ public class ControllerImport implements Initializable {
         scrollPane.setContent(pathVbox);
         pathVbox.setPadding(new Insets(5, 0, 0, 5));
         pathVbox.setSpacing(7);
+        (ControllerMain.importStage).initModality(Modality.APPLICATION_MODAL);
+
     }
     public static void setImportSucceed(boolean b){
         importSucceed = b;
