@@ -1,6 +1,7 @@
 package controller;
 
 
+import backend.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -16,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -23,7 +25,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerBigImage extends ControllerMain implements Initializable {
-
+    private Stage addTagStage = new Stage();
+    private Stage importStage = new Stage();
+    private Text_To_Speech voice = new Text_To_Speech();
     @FXML
     private ImageView bigImage;
 
@@ -72,6 +76,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                 addTagStage.setScene(new Scene(root));
                 addTagStage.setTitle("Tagging");
                 addTagStage.setResizable(false);
+                addTagStage.setOnCloseRequest(event -> ControllerTagging.bufferTags.clear());
                 addTagStage.showAndWait();
             }catch (Exception exception){
                 exception.printStackTrace();
@@ -79,7 +84,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         }
     }
 
-    @Override
+
     @FXML
     /**
      * when import image is clicked

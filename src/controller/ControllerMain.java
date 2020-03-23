@@ -46,7 +46,6 @@ public class ControllerMain implements Initializable {
     //Must be public static to get access from other places
     public static HashMap<String, String> locations = new HashMap<>();
     public static DatabaseClient databaseClient = new DatabaseClient();
-    public static Text_To_Speech voice;
     public static String pathBuffer;
     public static boolean ascending = true;
     public static ArrayList<String> selectedImages = new ArrayList<>();
@@ -54,13 +53,12 @@ public class ControllerMain implements Initializable {
     public static Image imageBuffer;
 
     //Stages
-    public static Stage importStage = new Stage();
-    public static Stage addTagStage = new Stage();
-    public static Stage albumNameStage = new Stage();
-    public static Stage searchStage = new Stage();
-    public static Stage aboutStage = new Stage();
-    public static Stage worldStage = new Stage();
-    public static Stage preferenceStage = new Stage();
+    private Stage importStage = new Stage();
+    private Stage albumNameStage = new Stage();
+    private Stage searchStage = new Stage();
+    private Stage aboutStage = new Stage();
+    private Stage worldStage = new Stage();
+    private Stage preferenceStage = new Stage();
 
     //Nodes
     @FXML
@@ -72,6 +70,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private VBox metadataVbox;
 
+    private Text_To_Speech voice;
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -212,8 +211,8 @@ public class ControllerMain implements Initializable {
         logger.log(Level.INFO, "SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
-            searchStage.initModality(Modality.APPLICATION_MODAL);
-            searchStage.initStyle(StageStyle.UTILITY);
+            if(!searchStage.getModality().equals(Modality.APPLICATION_MODAL)) searchStage.initModality(Modality.APPLICATION_MODAL);
+            if(!searchStage.getStyle().equals(StageStyle.UTILITY)) searchStage.initStyle(StageStyle.UTILITY);
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
                 searchStage.setScene(new Scene(root));
@@ -237,11 +236,11 @@ public class ControllerMain implements Initializable {
      * Opens import window, once window closes, all pictures from database will get inserted into the UI
      */
     @FXML
-    protected void importAction(ActionEvent event) throws IOException {
+    private void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
         if (!importStage.isShowing()) {
-            importStage.initModality(Modality.APPLICATION_MODAL);
-            importStage.initStyle(StageStyle.UTILITY);
+            if(importStage.getModality() != Modality.APPLICATION_MODAL) importStage.initModality(Modality.APPLICATION_MODAL);
+            if (!importStage.getStyle().equals(StageStyle.UTILITY)) importStage.initStyle(StageStyle.UTILITY);
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
             importStage.setScene(new Scene(root));
             importStage.setTitle("Import");
@@ -306,7 +305,7 @@ public class ControllerMain implements Initializable {
         voice.speak("Exporting");
         Stage exportStage = new Stage();
         if (!exportStage.isShowing()) {
-            exportStage.initModality(Modality.APPLICATION_MODAL);
+            if(exportStage.getModality() != Modality.APPLICATION_MODAL) exportStage.initModality(Modality.APPLICATION_MODAL);
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
                 exportStage.setScene(new Scene(root));
@@ -367,7 +366,7 @@ public class ControllerMain implements Initializable {
         voice.speak("Help");
         if(!aboutStage.isShowing()){
             Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
-            aboutStage.initModality(Modality.APPLICATION_MODAL);
+            if(aboutStage.getModality() != Modality.APPLICATION_MODAL) aboutStage.initModality(Modality.APPLICATION_MODAL);
             aboutStage.setScene(new Scene(root));
             aboutStage.setTitle("About");
             aboutStage.setResizable(false);
@@ -609,7 +608,7 @@ public class ControllerMain implements Initializable {
      * @throws SQLException
      */
     public void goToMap() throws IOException, SQLException {
-        if(!worldStage.isShowing()){
+        if(!worldStage.isShowing() && worldStage.getModality() != Modality.APPLICATION_MODAL){
             worldStage.initModality(Modality.APPLICATION_MODAL);
         }
         voice.speak("Showing map");
@@ -673,15 +672,15 @@ public class ControllerMain implements Initializable {
                 //TODO add logger
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
                 Stage errorStage = new Stage();
-                if(!errorStage.isShowing()){
-                    errorStage.initModality(Modality.APPLICATION_MODAL);
+                if(!errorStage.isShowing()) {
+                    if (errorStage.getModality() != Modality.APPLICATION_MODAL) errorStage.initModality(Modality.APPLICATION_MODAL);
+                    errorStage.setScene(new Scene(root));
+                    errorStage.setTitle("Albums");
+                    errorStage.setResizable(false);
+                    errorStage.setAlwaysOnTop(true);
+                    errorStage.showAndWait();
+                    albumNameStage.setAlwaysOnTop(false);
                 }
-                errorStage.setScene(new Scene(root));
-                errorStage.setTitle("Albums");
-                errorStage.setResizable(false);
-                errorStage.setAlwaysOnTop(true);
-                errorStage.showAndWait();
-                albumNameStage.setAlwaysOnTop(false);
             } catch (Exception exception) {
                 //TODO change to logger
                 exception.printStackTrace();
@@ -699,12 +698,12 @@ public class ControllerMain implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();
         if(!albumStage.isShowing()){
-            albumStage.initModality(Modality.APPLICATION_MODAL);
-        }
+            if(albumStage.getModality() != Modality.APPLICATION_MODAL) albumStage.initModality(Modality.APPLICATION_MODAL);
         albumStage.setScene(new Scene(root));
         albumStage.setTitle("Albums");
         albumStage.setResizable(false);
         albumStage.showAndWait();
+        }
         if (ControllerViewAlbums.isAlbumSelected()) {
             if(!getSelectedImages().isEmpty()) {
                 clearView();
@@ -767,7 +766,7 @@ public class ControllerMain implements Initializable {
      */
     public void preferencesAction(ActionEvent actionEvent) throws IOException {
         if(!preferenceStage.isShowing()){
-            preferenceStage.initModality(Modality.APPLICATION_MODAL);
+            if(preferenceStage.getModality() != Modality.APPLICATION_MODAL) preferenceStage.initModality(Modality.APPLICATION_MODAL);
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Preferences.fxml"));
             preferenceStage.setScene(new Scene(root));
             preferenceStage.setTitle("Preferences");

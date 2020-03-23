@@ -1,5 +1,6 @@
 package controller;
 
+import backend.Log;
 import backend.TagTableRow;
 import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
@@ -18,6 +19,7 @@ import java.lang.reflect.Array;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class ControllerTagging implements Initializable {
     @FXML
@@ -34,7 +36,9 @@ public class ControllerTagging implements Initializable {
     @FXML
     TableColumn<TagTableRow, CheckBox> select;
 
-    private static ArrayList<String> bufferTags = new ArrayList<>();
+    private Log logger = new Log("Log.log");
+
+    protected static ArrayList<String> bufferTags = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,18 +58,10 @@ public class ControllerTagging implements Initializable {
     @FXML
     @SuppressWarnings("Duplicates")
     protected void insertTags() throws SQLException {
-        //TODO Get this to work with tags from the database
         taggingTable.getItems().clear();
-        //  Use this when adding tags has been implemented
-        /*
-        ArrayList tagList = ControllerMain.databaseClient.getColumn("Tags");
-        for (Object s : tagList) {
-            System.out.println(s);
-        }         */
-        ArrayList<String> tagList = new ArrayList<>();
-        tagList.add("Tag1");
-        tagList.add("Tag2");
-        tagList.add("Tag3");
+
+        ArrayList tagList = getAllTags();
+        tagList.removeAll(Arrays.asList("", null));
 
         ArrayList<String> newTagList;
         Set<String> set = new LinkedHashSet<>(tagList);
@@ -98,6 +94,7 @@ public class ControllerTagging implements Initializable {
      */
     @FXML
     private void doneAction(ActionEvent ae) throws SQLException {
+        bufferTags.clear();
         ArrayList<String> tempTagList = new ArrayList<>();
         for(TagTableRow tb : taggingTable.getItems()){
             if(tb.getCheckBox().isSelected()){
@@ -107,14 +104,12 @@ public class ControllerTagging implements Initializable {
         String[] tagList = tempTagList.toArray(new String[tempTagList.size()]);
         ControllerMain.getDatabaseClient().addTag(ControllerMain.getPathBuffer(), tagList);
 
-        //TODO Uncomment when can get tags from database
-        //bufferTags.clear();
-
         ((Stage) taggingDone.getScene().getWindow()).close();
     }
 
     @FXML
     private void cancelAction(ActionEvent ae){
+        //bufferTags.clear();
         ((Stage) taggingCancel.getScene().getWindow()).close();
     }
 
@@ -133,12 +128,31 @@ public class ControllerTagging implements Initializable {
 
         Optional<String> input = d.showAndWait();
 
-        if(!input.get().equals("")) {
-           bufferTags.add(input.get());
-        }else{
-            System.out.println("Please enter a tag name!");
+        if(input.isPresent()) {
+            if(!input.get().equals("")) {
+                bufferTags.add(input.get());
+            }else{
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setTitle("404: Tag name not found");
+                a.setHeaderText(null);
+                a.setContentText("Please enter a tag name!");
+                a.showAndWait();
+                logger.logNewInfo("Please enter a tag name!");
+            }
         }
 
         insertTags();
     }
+
+    protected ArrayList<String> getAllTags() throws SQLException {
+        ArrayList tagStrings = ControllerMain.databaseClient.getColumn("Tags");
+        LinkedHashSet<String> hashSet = new LinkedHashSet<>();
+        for (Object s : tagStrings) {
+            hashSet.addAll(Arrays.asList(s.toString().split(",")));
+        }
+        ArrayList<String> tagList = new ArrayList<>(hashSet);
+
+        return tagList;
+    }
+
 }

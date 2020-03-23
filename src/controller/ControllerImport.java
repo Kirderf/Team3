@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerImport implements Initializable {
+    /**
+     * Boolean for import status
+     */
     private static boolean importSucceed = false;
     /**
      * File explorer
@@ -41,7 +44,6 @@ public class ControllerImport implements Initializable {
 
     /**
      * Set container content and alignment of elements
-     *
      * @param location
      * @param resources
      */
@@ -51,6 +53,8 @@ public class ControllerImport implements Initializable {
         pathVbox.setPadding(new Insets(5, 0, 0, 5));
         pathVbox.setSpacing(7);
     }
+
+
     public static void setImportSucceed(boolean b){
         importSucceed = b;
     }
@@ -58,9 +62,9 @@ public class ControllerImport implements Initializable {
     public static boolean isImportSucceed(){
         return importSucceed;
     }
+
     /**
      * Opens file chooser, and gets path, then displays it to the user.
-     *
      * @param event button clicked
      */
     @FXML
@@ -87,7 +91,6 @@ public class ControllerImport implements Initializable {
 
     /**
      * Closes the window
-     *
      * @param event button clicked
      */
     @FXML
@@ -97,7 +100,6 @@ public class ControllerImport implements Initializable {
 
     /**
      * Clear the buffer list and view buffer
-     *
      * @param event
      */
     @FXML
@@ -108,7 +110,6 @@ public class ControllerImport implements Initializable {
 
     /**
      * Creates a duplicate of a textfield and insert into scrollpane
-     *
      * @param text input for textfields
      */
     @FXML
