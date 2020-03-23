@@ -1,5 +1,6 @@
 package controller;
 
+import backend.Log;
 import backend.TagTableRow;
 import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
@@ -18,6 +19,7 @@ import java.lang.reflect.Array;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class ControllerTagging implements Initializable {
     @FXML
@@ -33,6 +35,8 @@ public class ControllerTagging implements Initializable {
     TableColumn<TagTableRow, Integer> id;
     @FXML
     TableColumn<TagTableRow, CheckBox> select;
+
+    private Log logger = new Log("Log.log");
 
     protected static ArrayList<String> bufferTags = new ArrayList<>();
 
@@ -58,14 +62,6 @@ public class ControllerTagging implements Initializable {
 
         ArrayList tagList = getAllTags();
         tagList.removeAll(Arrays.asList("", null));
-
-/*
-        ArrayList<String> tagList = new ArrayList<>();
-        tagList.add("Tag1");
-        tagList.add("Tag2");
-        tagList.add("Tag3");
-
- */
 
         ArrayList<String> newTagList;
         Set<String> set = new LinkedHashSet<>(tagList);
@@ -113,7 +109,7 @@ public class ControllerTagging implements Initializable {
 
     @FXML
     private void cancelAction(ActionEvent ae){
-        bufferTags.clear();
+        //bufferTags.clear();
         ((Stage) taggingCancel.getScene().getWindow()).close();
     }
 
@@ -132,10 +128,17 @@ public class ControllerTagging implements Initializable {
 
         Optional<String> input = d.showAndWait();
 
-        if(!input.get().equals("")) {
-           bufferTags.add(input.get());
-        }else{
-            System.out.println("Please enter a tag name!");
+        if(input.isPresent()) {
+            if(!input.get().equals("")) {
+                bufferTags.add(input.get());
+            }else{
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setTitle("404: Tag name not found");
+                a.setHeaderText(null);
+                a.setContentText("Please enter a tag name!");
+                a.showAndWait();
+                logger.logNewInfo("Please enter a tag name!");
+            }
         }
 
         insertTags();
@@ -143,10 +146,11 @@ public class ControllerTagging implements Initializable {
 
     protected ArrayList<String> getAllTags() throws SQLException {
         ArrayList tagStrings = ControllerMain.databaseClient.getColumn("Tags");
-        ArrayList<String> tagList = new ArrayList<>();
+        LinkedHashSet<String> hashSet = new LinkedHashSet<>();
         for (Object s : tagStrings) {
-            tagList.addAll(Arrays.asList(s.toString().split(",")));
+            hashSet.addAll(Arrays.asList(s.toString().split(",")));
         }
+        ArrayList<String> tagList = new ArrayList<>(hashSet);
 
         return tagList;
     }
