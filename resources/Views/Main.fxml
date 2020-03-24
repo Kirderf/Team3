@@ -27,6 +27,8 @@
             <menus>
                 <Menu fx:id="fileButton" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="File">
                     <items>
+                  <MenuItem fx:id="removeButton" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                         <Menu fx:id="importButton" mnemonicParsing="false" onAction="#importAction" onMenuValidation="#TextToSpeakOnMenu" text="Import" />
                         <Menu fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" onMenuValidation="#TextToSpeakOnMenu" text="Export" />
                         <Menu fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Save to album" />

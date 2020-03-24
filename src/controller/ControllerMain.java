@@ -14,7 +14,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.TextArea;
@@ -229,6 +229,36 @@ public class ControllerMain implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @FXML
+    private void removeAction(ActionEvent event) throws SQLException {
+        voice.speak("Removing images");
+        try {
+            if (getSelectedImages().size() == 0) {
+                throw new IllegalArgumentException("No images were chosen");
+            }
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Confirmation Dialog");
+            confirm.setHeaderText("Are you sure you want to remove " + getSelectedImages().size() + " images?");
+            confirm.setContentText("This action is not revertable!");
+            Optional<ButtonType> result = confirm.showAndWait();
+            if(result.get()==ButtonType.OK){
+                for (String path : getSelectedImages()) {
+                    databaseClient.removeImage(path);
+                    refreshImages();
+                }
+            }else{
+                refreshImages();
+            }
+
+        } catch (IllegalArgumentException e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("404: Image(s) not found");
+            error.setHeaderText(null);
+            error.setContentText("You need to select at least one image to remove");
+            error.showAndWait();
         }
     }
 

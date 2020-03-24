@@ -37,6 +37,22 @@ public class DatabaseClient {
         return arrayList;
     }
 
+    public boolean removeImage(String path) throws SQLException {
+        logger.logNewInfo("DatabaseClient : Removing image");
+        imageDatabase.openConnection();
+        try {
+            if (path==null || path==""){
+                throw new IllegalArgumentException("The path is either empty or null");
+            }
+            imageDatabase.deleteFromDatabase(path);
+            imageDatabase.closeDatabase();
+            return true;
+        }catch(IllegalArgumentException e){
+            imageDatabase.closeDatabase();
+            return false;
+        }
+    }
+
     /**
      * Adds a image to database
      *
