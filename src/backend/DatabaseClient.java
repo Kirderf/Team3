@@ -22,15 +22,6 @@ public class DatabaseClient {
         imageDatabase = new Team3ImageDAO(emf);
     }
 
-/*
-    public void closeApplication() throws SQLException {
-        logger.logNewInfo("DatabaseClient : Closing application");
-        if (imageDatabase.isConnection()) {
-            imageDatabase.openConnection();
-        }
-        imageDatabase.closeDatabase();
-    }
-*/
 
     /**
      * Gets all the data in a given column, e.g all the paths
@@ -40,10 +31,7 @@ public class DatabaseClient {
      * @throws SQLException could not find input from columnName
      */
     public ArrayList getColumn(String columnName) throws SQLException {
-        //imageDatabase.openConnection();
-        ArrayList arrayList = imageDatabase.getColumn(columnName);
-        //imageDatabase.close();
-        return arrayList;
+        return imageDatabase.getColumn(columnName);
     }
 
     /**
@@ -55,13 +43,11 @@ public class DatabaseClient {
     public boolean addImage(File image) throws SQLException {
         try {
             logger.logNewInfo("DatabaseClient : Adding image");
-            //imageDatabase.openConnection();
             String[] metadata = imageImport.getMetaData(image);
             if (metadata != null) {
                 if (getColumn("Path").contains(image.getPath().replaceAll("\\\\", "/"))) {
                     return false;
                 } else {
-              //      imageDatabase.openConnection();
                     imageDatabase.addImageToTable(
                             image.getPath(),
                             "",
@@ -71,13 +57,11 @@ public class DatabaseClient {
                             Integer.parseInt(metadata[3]),
                             Double.parseDouble(metadata[4]),
                             Double.parseDouble(metadata[5]));
-                    //imageDatabase.close();
                     return true;
                 }
             }
         } catch (SQLException e) {
             logger.logNewFatalError("DatabaseClient : " + e.getLocalizedMessage());
-            //imageDatabase.close();
             return false;
         }
         return false;
@@ -85,17 +69,8 @@ public class DatabaseClient {
 
     public String getTags(String path) {
         logger.logNewInfo("Getting tags from " + path);
+        return imageDatabase.getTags(path).toString().substring(1);
 
-      //  try {
-            //imageDatabase.openConnection();
-            //returns null if the image is not in the database
-            String result = imageDatabase.getTags(path).toString().substring(1);
-            //imageDatabase.close();
-            return result;
-        /*} catch (SQLException e) {
-            logger.logNewFatalError(e.getLocalizedMessage());
-            return null;
-        }*/
     }
 
     /**
@@ -107,17 +82,7 @@ public class DatabaseClient {
      */
     public String[] getMetaDataFromDatabase(String path) {
         logger.logNewInfo("DatabaseClient : Getting metadata from " + path);
-
-        String[] result = new String[0];
-        //try {
-       //     imageDatabase.openConnection();
-            //returns null if the image is not in the database
-            result = imageDatabase.getImageMetadata(path);
-            //imageDatabase.close();
-        /*} catch (SQLException e) {
-            logger.logNewFatalError("DatabaseClient : " + e.getLocalizedMessage());
-        }*/
-        return result;
+        return imageDatabase.getImageMetadata(path);
     }
 
     /**
@@ -130,11 +95,8 @@ public class DatabaseClient {
      */
     public boolean addTag(String path, String[] tag) throws SQLException {
         logger.logNewInfo("DatabaseClient : " + "Adding tag to " + path);
-        //imageDatabase.openConnection();
         try {
-            boolean result = imageDatabase.addTags(path, tag);
-          //  imageDatabase.close();
-            return result;
+            return imageDatabase.addTags(path, tag);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
             return false;
@@ -152,10 +114,7 @@ public class DatabaseClient {
     public boolean removeTag(String path, String[] tags) throws SQLException {
         logger.logNewInfo("DatabaseClient : " + "Removing tag from " + path);
         try {
-          //  imageDatabase.openConnection();
-            boolean result = imageDatabase.removeTag(path, tags);
-            //imageDatabase.close();
-            return result;
+            return imageDatabase.removeTag(path, tags);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
             return false;
@@ -174,9 +133,7 @@ public class DatabaseClient {
     public ArrayList<String> search(String searchFor, String searchIn) throws SQLException {
         logger.logNewInfo("DatabaseClient : " + "Searching for" + searchFor);
         try {
-        //    imageDatabase.openConnection();
             ArrayList result = imageDatabase.search(searchFor, searchIn);
-          //  imageDatabase.close();
             return result;
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
