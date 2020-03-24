@@ -11,3 +11,4 @@ target/
 target
 *.class
 *.log
+Log.log
