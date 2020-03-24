@@ -1,27 +1,35 @@
 package backend;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 //should we have a named query?
 //named this way to avoid confusion with existing Image classes
 @Entity
-public class Team3Image {
+public class Team3Image implements Serializable {
     @Id
     private String path;
     private int fileSize;
     private Date date;
     private int imageHeight;
     private int imageWidth;
-    private int latitude;
-    private int longitude;
+    private double latitude;
+    private double longitude;
+    private String tags;
 
-    public Team3Image(String path, int fileSize, java.util.Date date, int imageHeight, int imageWidth, int latitude, int longitude) {
+    public Team3Image(String path, int fileSize, java.util.Date date, int imageHeight, int imageWidth, double latitude, double longitude) {
         this.fileSize = fileSize;
         this.date = date;
         this.imageHeight = imageHeight;
         this.imageWidth = imageWidth;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.tags = "";
+    }
+
+    public Team3Image() {
     }
 
     public String getPath(){
@@ -62,22 +70,29 @@ public class Team3Image {
         this.imageWidth = imageWidth;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
+    public String getTags(){
+        return tags;
+    }
+
+    public void setTags(String tags){
+        this.tags = tags;
+    }
     @Override
     public String toString() {
         return "Image{" +
