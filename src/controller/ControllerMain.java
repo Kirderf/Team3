@@ -3,6 +3,8 @@ package controller;
 import backend.DatabaseClient;
 import backend.Text_To_Speech;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableDoubleValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -10,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -22,6 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -78,7 +82,7 @@ public class ControllerMain implements Initializable {
     /**
      * Run 1 time once the window opens
      *
-     * @param location auto generated
+     * @param location  auto generated
      * @param resources auto generated
      */
     @Override
@@ -133,7 +137,7 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * returns a hashmap with all the images that have valid g
+     * returns a hasmap with all the images that have valid g
      * @return
      */
     public static HashMap<String, String> getLocations() {
@@ -150,7 +154,7 @@ public class ControllerMain implements Initializable {
      * @param images arraylist containing the path to teh images
      */
     public static void addToAlbums(String key, ArrayList<String> images) {
-        ControllerMain.albums.put(key,images);
+        ControllerMain.albums.put(key, images);
     }
 
     /**
@@ -158,7 +162,7 @@ public class ControllerMain implements Initializable {
      * @param key the name of the album
      * @return arraylist with the removed images
      */
-    public static ArrayList removeAlbum(String key){
+    public static ArrayList removeAlbum(String key) {
         return albums.remove(key);
     }
 
@@ -166,7 +170,7 @@ public class ControllerMain implements Initializable {
      * gets all selected images
      * @return returns all selected images
      */
-    public static ArrayList<String> getSelectedImages(){
+    public static ArrayList<String> getSelectedImages() {
         return selectedImages;
     }
 
@@ -174,7 +178,7 @@ public class ControllerMain implements Initializable {
      * clears the selected images and sets it equal to the new arraylist
      * @param s the new arraylist with image paths
      */
-    public static void setSelectedImages(ArrayList<String> s){
+    public static void setSelectedImages(ArrayList<String> s) {
         selectedImages.clear();
         selectedImages = s;
     }
@@ -183,14 +187,14 @@ public class ControllerMain implements Initializable {
      * adds a path to the selectedimages
      * @param s the path that you want to add to the image
      */
-    public static void addToSelectedImages(String s){
+    public static void addToSelectedImages(String s) {
         selectedImages.add(s);
     }
 
     /**
      * clears the selected images
      */
-    public static void clearSelectedImages(){
+    public static void clearSelectedImages() {
         selectedImages.clear();
     }
 
@@ -199,7 +203,7 @@ public class ControllerMain implements Initializable {
      * @param path the path to the image you want to remove
      * @return boolean whether or not the removal was successful
      */
-    public static boolean removeFromSelectedImages(String path){
+    public static boolean removeFromSelectedImages(String path) {
         return selectedImages.remove(path);
     }
 
@@ -318,10 +322,9 @@ public class ControllerMain implements Initializable {
             for (String s : sortedList) {
                 insertImage(s);
             }
-            if(ascending){
+            if (ascending) {
                 ascending = false;
-            }
-            else {
+            } else {
                 ascending = true;
             }
         }
@@ -344,9 +347,9 @@ public class ControllerMain implements Initializable {
                 exportStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
                 if (ControllerExport.isExportSucceed()) {
-                   if(this.getClass() == ControllerMain.class){
-                       refreshImages();
-                   }
+                    if (this.getClass() == ControllerMain.class) {
+                        refreshImages();
+                    }
                     ControllerExport.setExportSucceed(false);
                 }
             } catch (Exception exception) {
@@ -388,15 +391,17 @@ public class ControllerMain implements Initializable {
 
     /**
      * Shows the about stage
+     *
      * @param actionEvent auto generated
      * @throws IOException
      */
     @FXML
     public void helpAction(ActionEvent actionEvent) throws IOException {
         voice.speak("Help");
-        if(!aboutStage.isShowing()){
+        if (!aboutStage.isShowing()) {
             Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
-            if(aboutStage.getModality() != Modality.APPLICATION_MODAL) aboutStage.initModality(Modality.APPLICATION_MODAL);
+            if (aboutStage.getModality() != Modality.APPLICATION_MODAL)
+                aboutStage.initModality(Modality.APPLICATION_MODAL);
             aboutStage.setScene(new Scene(root));
             aboutStage.setTitle("About");
             aboutStage.setResizable(false);
@@ -409,14 +414,10 @@ public class ControllerMain implements Initializable {
      * Clears all rows on the gridView
      */
     private void clearView() {
-        Node node = pictureGrid.getChildren().get(0); // to retain gridlines
         rowCount = 0;
         columnCount = 0;
         photoCount = 0;
-        if (pictureGrid != null) {
-            pictureGrid.getChildren().clear();
-            pictureGrid.getChildren().add(0, node);
-        }
+        pictureGrid.getChildren().clear();
     }
 
     /**
@@ -428,7 +429,7 @@ public class ControllerMain implements Initializable {
             clearView();
             for (Object obj : paths) {
                 //the view is cleared, so there's no use checking if the image has been added as there are no added photos to start with
-                if (obj != null ) {
+                if (obj != null) {
                     insertImage((String) obj);
                 }
             }
@@ -445,7 +446,12 @@ public class ControllerMain implements Initializable {
     private void insertImage(String path) throws FileNotFoundException {
         int row = getNextRow();
         int coloumn = getNextColumn();
-        pictureGrid.add(importImage(path), coloumn, row);
+        ImageView image = importImage(path);
+        Pane p = new Pane();
+        p.setStyle("-fx-border-color: black; -fx-background-color: white");
+        pictureGrid.add(p, coloumn, row);
+        pictureGrid.add(image, coloumn, row);
+        pictureGrid.setHalignment(image, HPos.CENTER);
         photoCount++;
     }
 
@@ -468,8 +474,15 @@ public class ControllerMain implements Initializable {
     private ImageView importImage(String path) throws FileNotFoundException {
         Image image = new Image(new FileInputStream(path));
         ImageView imageView = new ImageView(image);
-        imageView.fitHeightProperty().bind(pictureGrid.getRowConstraints().get(0).prefHeightProperty());
-        imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(5));
+        imageView.setPreserveRatio(true);
+        imageView.maxHeight(185);
+        //If image height is greater than width, only lock the height to the grid
+        if (image.getHeight() - image.getWidth() >= 0) {
+            imageView.fitHeightProperty().bind(pictureGrid.getRowConstraints().get(0).prefHeightProperty());
+        } else {
+            imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(5));
+            imageView.fitHeightProperty().bind(pictureGrid.getRowConstraints().get(0).prefHeightProperty());
+        }
         imageView.setOnMouseClicked(onImageClickedEvent(imageView, image, path));
         return imageView;
     }
@@ -478,9 +491,10 @@ public class ControllerMain implements Initializable {
      * EventHandler for mouseclicks on images
      * in the event of an control click then big image is shown
      * normal clicks tags the image and adds it to selected images
+     *
      * @param imageView the image that you want to view or mark when clicked
-     * @param image the image that the imageview should display
-     * @param path the local path to the image on the user's machine
+     * @param image     the image that the imageview should display
+     * @param path      the local path to the image on the user's machine
      * @return eventhandler that marks the images as directed
      */
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path) {
@@ -508,9 +522,10 @@ public class ControllerMain implements Initializable {
 
     /**
      * select the image and tints it, if it is already selected then the tint is removed
+     *
      * @param imageView the imageview that you want to update with the new image
-     * @param image the image that you want to tint
-     * @param path the path to the photo
+     * @param image     the image that you want to tint
+     * @param path      the path to the photo
      */
     private void selectImage(ImageView imageView, Image image, String path) {
         if (!getSelectedImages().contains(path)) {
@@ -527,8 +542,9 @@ public class ControllerMain implements Initializable {
 
     /**
      * shows a image in fullscreen mode
+     *
      * @param imageView the image that is to be shown
-     * @param path the path to the image
+     * @param path      the path to the image
      * @throws IOException
      */
     private void showBigImage(ImageView imageView, String path) throws IOException {
@@ -542,6 +558,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * gets rowcount, is used to facilitate increasing the number of rows when adding pictures
+     *
      * @return int with the number of rows
      */
     //for every 5th picture the row will increase in value
@@ -562,6 +579,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * for every 5th picture the column will reset, therefore this is used to give the column of the next imageview
+     *
      * @return colomnCount the integer-value for the next coloumn
      */
     private int getNextColumn() {
@@ -577,6 +595,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * displays the metadata of each image in the sidebar
+     *
      * @param imagePath the path to the image from which you are getting the metadata
      */
     public void showMetadata(String imagePath) {
@@ -638,7 +657,7 @@ public class ControllerMain implements Initializable {
      * @throws SQLException
      */
     public void goToMap() throws IOException, SQLException {
-        if(!worldStage.isShowing() && worldStage.getModality() != Modality.APPLICATION_MODAL){
+        if (!worldStage.isShowing() && worldStage.getModality() != Modality.APPLICATION_MODAL) {
             worldStage.initModality(Modality.APPLICATION_MODAL);
         }
         voice.speak("Showing map");
@@ -646,8 +665,8 @@ public class ControllerMain implements Initializable {
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
         for (int i = 0; i < getDatabaseClient().getColumn("GPS_Longitude").size(); i++) {
-            Double longitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String)paths.get(i))[7]);
-            Double latitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String)paths.get(i))[6]);
+            Double longitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String) paths.get(i))[7]);
+            Double latitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String) paths.get(i))[6]);
             //if both are not equal to zero, maybe this should be changed to an or
             if (longitude != 0 && latitude != 0) {
                 getLocations().put((String) paths.get(i), "" + longitude + "," + latitude);
@@ -672,7 +691,7 @@ public class ControllerMain implements Initializable {
         voice.speak("Creating album");
         if (!albumNameStage.isShowing()) {
             try {
-                if(getSelectedImages().size()==0) {
+                if (getSelectedImages().size() == 0) {
                     throw new IllegalArgumentException("You need to select more than one image for your album");
                 }
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNamePicker.fxml"));
@@ -698,12 +717,13 @@ public class ControllerMain implements Initializable {
                         ControllerAlbumNamePicker.savedName = "";
                     }
                 }
-            } catch(IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 //TODO add logger
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
                 Stage errorStage = new Stage();
-                if(!errorStage.isShowing()) {
-                    if (errorStage.getModality() != Modality.APPLICATION_MODAL) errorStage.initModality(Modality.APPLICATION_MODAL);
+                if (!errorStage.isShowing()) {
+                    if (errorStage.getModality() != Modality.APPLICATION_MODAL)
+                        errorStage.initModality(Modality.APPLICATION_MODAL);
                     errorStage.setScene(new Scene(root));
                     errorStage.setTitle("Albums");
                     errorStage.setResizable(false);
@@ -721,28 +741,29 @@ public class ControllerMain implements Initializable {
 
     /**
      * When view albums is clicked
+     *
      * @param actionEvent auto-generated
      * @throws IOException
      */
     public void viewAlbums(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();
-        if(!albumStage.isShowing()){
-            if(albumStage.getModality() != Modality.APPLICATION_MODAL) albumStage.initModality(Modality.APPLICATION_MODAL);
-        albumStage.setScene(new Scene(root));
-        albumStage.setTitle("Albums");
-        albumStage.setResizable(false);
-        albumStage.showAndWait();
+        if (!albumStage.isShowing()) {
+            if (albumStage.getModality() != Modality.APPLICATION_MODAL)
+                albumStage.initModality(Modality.APPLICATION_MODAL);
+            albumStage.setScene(new Scene(root));
+            albumStage.setTitle("Albums");
+            albumStage.setResizable(false);
+            albumStage.showAndWait();
         }
         if (ControllerViewAlbums.isAlbumSelected()) {
-            if(!getSelectedImages().isEmpty()) {
+            if (!getSelectedImages().isEmpty()) {
                 clearView();
                 ControllerViewAlbums.setAlbumSelected(false);
                 for (String s : getSelectedImages()) {
                     insertImage(s);
                 }
-            }
-            else{
+            } else {
                 refreshImages();
             }
         }
@@ -750,23 +771,23 @@ public class ControllerMain implements Initializable {
 
     /**
      * tints the selected images blue
+     *
      * @param image the Bufferedimage that you want to tint
      */
     //TODO take in image as parameter, and convert to buffered image inside the method
     //TODO check if any of the other methods on stackoverflow tint quicker
     private static void tint(BufferedImage image) {
         //if colourblind
-        if(ControllerPreferences.isColourChecked()){
+        if (ControllerPreferences.isColourChecked()) {
             for (int x = 0; x < image.getWidth(); x++) {
                 for (int y = 0; y < image.getHeight(); y++) {
-                    if((x<2*image.getWidth()/3&&x>image.getHeight()/3)||(y<2*image.getHeight()/3&&y>image.getHeight()/3)) {
+                    if ((x < 2 * image.getWidth() / 3 && x > image.getHeight() / 3) || (y < 2 * image.getHeight() / 3 && y > image.getHeight() / 3)) {
                         Color black = new Color(0, 0, 0);
                         image.setRGB(x, y, black.getRGB());
                     }
                 }
             }
-        }
-        else {
+        } else {
             for (int x = 0; x < image.getWidth(); x++) {
                 for (int y = 0; y < image.getHeight(); y++) {
                     Color pixelColor = new Color(image.getRGB(x, y), true);
@@ -783,6 +804,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * speaks when hovering over the menu
+     *
      * @param event event that led to this being called, e.g hovering over or clicking on menu
      */
     public void TextToSpeakOnMenu(Event event) {
@@ -791,12 +813,14 @@ public class ControllerMain implements Initializable {
 
     /**
      * opens prefrences window
+     *
      * @param actionEvent auto-generated
      * @throws IOException
      */
     public void preferencesAction(ActionEvent actionEvent) throws IOException {
-        if(!preferenceStage.isShowing()){
-            if(preferenceStage.getModality() != Modality.APPLICATION_MODAL) preferenceStage.initModality(Modality.APPLICATION_MODAL);
+        if (!preferenceStage.isShowing()) {
+            if (preferenceStage.getModality() != Modality.APPLICATION_MODAL)
+                preferenceStage.initModality(Modality.APPLICATION_MODAL);
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Preferences.fxml"));
             preferenceStage.setScene(new Scene(root));
             preferenceStage.setTitle("Preferences");

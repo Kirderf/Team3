@@ -26,8 +26,8 @@ public class Start extends Application {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Main.fxml"));
             primaryStage.setTitle("The Greatest Bestests Awesomest Photo Program That Ever Was!!11 AGAINST covid-19");
-            primaryStage.setMinWidth(800);
-            primaryStage.setMinHeight(600);
+            primaryStage.setMinWidth(1000);
+            primaryStage.setMinHeight(800);
             primaryStage.setScene(new Scene(root));
             logger.log(Level.INFO, "Showing app");
             primaryStage.setOnCloseRequest((event -> {
