@@ -1,12 +1,12 @@
 package backend;
-import javax.persistence.*;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Queue;
 
 
 public class Team3ImageDAO {
@@ -25,8 +25,8 @@ public class Team3ImageDAO {
         EntityManager em = getEM();
         try{
             //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
-            team3Image.setPath(team3Image.getPath().replaceAll("\\\\","/"));
-            em.getTransaction();
+            //team3Image.setPath(team3Image.getPath().replaceAll("\\\\","/"));
+            em.getTransaction().begin();
             em.persist(team3Image);//into persistence context
             em.getTransaction().commit();//store into database
         }finally {

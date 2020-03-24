@@ -20,6 +20,7 @@ public class Team3Image implements Serializable {
     private String tags;
 
     public Team3Image(String path, int fileSize, java.util.Date date, int imageHeight, int imageWidth, double latitude, double longitude) {
+        this.path = path;
         this.fileSize = fileSize;
         this.date = date;
         this.imageHeight = imageHeight;
