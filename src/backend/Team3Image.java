@@ -3,8 +3,9 @@ package backend;
 import java.util.Date;
 import javax.persistence.*;
 //should we have a named query?
+//named this way to avoid confusion with existing Image classes
 @Entity
-public class Image {
+public class Team3Image {
     @Id
     private String path;
     private int fileSize;
@@ -14,7 +15,7 @@ public class Image {
     private int latitude;
     private int longitude;
 
-    public Image(String path, int fileSize, java.util.Date date, int imageHeight, int imageWidth, int latitude, int longitude) {
+    public Team3Image(String path, int fileSize, java.util.Date date, int imageHeight, int imageWidth, int latitude, int longitude) {
         this.fileSize = fileSize;
         this.date = date;
         this.imageHeight = imageHeight;
@@ -94,9 +95,9 @@ public class Image {
         if(obj == this){
             return true;
         }
-        if(obj instanceof Image){
+        if(obj instanceof Team3Image){
             //if the path is equal then the Images are equal
-            return (((Image) obj).getPath().equalsIgnoreCase(this.getPath()));
+            return (((Team3Image) obj).getPath().equalsIgnoreCase(this.getPath()));
         }
         return false;
     }

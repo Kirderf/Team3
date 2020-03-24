@@ -2,8 +2,8 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.team3Image.Image?>
+<?import javafx.scene.team3Image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -13,9 +13,9 @@
       <TextArea editable="false" layoutX="14.0" layoutY="54.0" prefHeight="198.0" prefWidth="245.0" text="Product Version&#10;The Greatest Bestest Awesomest &#10;Photo Program That Ever Was!!11 &#10;AGAINST covid-19 1.0.0&#10;&#10;Build information&#10;Version 1.0.0&#10;Date: 2020-03-17&#10;Java Version: 1.8.0_241, Oracle Corporation&#10;&#10;Logging&#10;The default configuration stores logging output in&#10;a file named [time&amp;date].log&#10;&#10;Java&#10;1.8.0_241, Oracle Corporation&#10;&#10;Copyright (c) 2020-2020, Team 3.&#10;&#10;For more information, go to:&#10;https://gitlab.stud.iie.ntnu.no/team3-2020/systemutvikling/-/wikis/home" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="100.0" />
       <Label layoutX="30.0" layoutY="36.0" text="LOGO" />
       <ImageView fitHeight="62.0" fitWidth="78.0" layoutX="5.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="20.0">
-         <image>
+         <team3Image>
             <Image url="@../IMG_0963.JPG" />
-         </image>
+         </team3Image>
       </ImageView>
       <Label layoutX="81.0" layoutY="16.0" text="The Greatest Bestests Awesomest">
          <font>
