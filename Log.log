@@ -1,40 +1,68 @@
-Mar 24, 2020 10:40:41 AM backend.Log logNewInfo
-INFO: Database : Creating Database object
-Mar 24, 2020 10:40:41 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 24, 2020 10:40:41 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 24, 2020 10:40:41 AM backend.Log logNewInfo
-INFO: Database : There is no connection
-Mar 24, 2020 10:40:41 AM backend.Log logNewInfo
-INFO: DatabaseSource : Loading .properties file
-Mar 24, 2020 10:40:42 AM backend.Log logNewInfo
-INFO: OpenConnection is true
-Mar 24, 2020 10:40:42 AM backend.Log logNewInfo
-INFO: Database : Creating table
-Mar 24, 2020 10:40:42 AM backend.Log logNewInfo
-INFO: Database : Checking if table is in the database
-Mar 24, 2020 10:40:43 AM backend.Log logNewInfo
-INFO: Database : fredrjul_8761630
-Mar 24, 2020 10:40:43 AM backend.Log logNewInfo
-INFO: Create table is true
-Mar 24, 2020 10:40:43 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 24, 2020 10:40:43 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 24, 2020 10:40:43 AM backend.Log logNewInfo
-INFO: Database : Getting Column
-Mar 24, 2020 10:40:45 AM backend.Log logNewInfo
+Mar 24, 2020 10:33:41 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Mar 24, 2020 10:40:47 AM backend.Log logNewInfo
-INFO: DatabaseClient : Closing application
-Mar 24, 2020 10:40:47 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 24, 2020 10:40:47 AM backend.Log logNewInfo
-INFO: Database : Closing database
-Mar 24, 2020 10:40:47 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Mar 24, 2020 10:40:47 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Mar 24, 2020 10:40:47 AM backend.Log logNewInfo
-INFO: Database : Deleting table
+Mar 24, 2020 10:33:47 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 24, 2020 10:33:47 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 24, 2020 10:33:48 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 24, 2020 10:33:49 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 24, 2020 10:33:49 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 24, 2020 10:33:49 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Mar 24, 2020 10:33:49 PM backend.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Mar 24, 2020 10:33:55 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching forSearch
+Mar 24, 2020 10:33:58 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Search.jpg
+Mar 24, 2020 10:34:00 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Mar 24, 2020 10:34:10 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching foringebrigt
+Mar 24, 2020 10:34:13 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Mar 24, 2020 10:34:16 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Mar 24, 2020 10:34:17 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Mar 24, 2020 10:34:26 PM backend.Log logNewInfo
+INFO: DatabaseClient : Adding tag to C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Mar 24, 2020 10:34:31 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Mar 24, 2020 10:34:40 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching forSkog
+Mar 24, 2020 10:34:40 PM backend.Log logNewInfo
+INFO: DatabaseClient : Searching for82
+Mar 24, 2020 10:34:42 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Mar 24, 2020 10:34:43 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/profil.jpg
+Mar 24, 2020 10:34:44 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Search.jpg
+Mar 24, 2020 10:34:46 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde.PNG

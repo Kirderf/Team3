@@ -45,7 +45,17 @@ public class ControllerMain implements Initializable {
 
     //Must be public static to get access from other places
     public static HashMap<String, String> locations = new HashMap<>();
-    public static DatabaseClient databaseClient = new DatabaseClient();
+    public static DatabaseClient databaseClient;
+
+    static {
+        try {
+            databaseClient = new DatabaseClient();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static String pathBuffer;
     public static boolean ascending = true;
     public static ArrayList<String> selectedImages = new ArrayList<>();
@@ -273,7 +283,7 @@ public class ControllerMain implements Initializable {
         //if filename is selected
         else if (sortDropDown.getValue().toString().equalsIgnoreCase("Filename")) {
             //this is just a way to get an arraylist with the paths, theres no use for the sort function here
-            ArrayList<String> sortedList = getDatabaseClient().sort("File_size", ascending);
+            ArrayList<String> sortedList = databaseClient.sort("File_size", ascending);
             sortedList.sort(Comparator.comparing(o -> o.substring(o.lastIndexOf("/"))));
             clearView();
             for (String s : sortedList) {
@@ -335,10 +345,10 @@ public class ControllerMain implements Initializable {
             voice.speak("Closing application");
             Thread.sleep(1500);
             logger.log(Level.WARNING, "Closing application");
-            getDatabaseClient().closeApplication();
+           // getDatabaseClient().closeApplication();
             Platform.exit();
             System.exit(0);
-        } catch (SQLException | InterruptedException e) {
+        } catch (Exception  e) {
             e.printStackTrace();
             logger.log(Level.WARNING, "Could not close application / delete table");
         }
@@ -642,7 +652,7 @@ public class ControllerMain implements Initializable {
         voice.speak("Creating album");
         if (!albumNameStage.isShowing()) {
             try {
-                if(getSelectedImages().size()==0) {
+                if(getSelectedImages().isEmpty()) {
                     throw new IllegalArgumentException("You need to select more than one image for your album");
                 }
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNamePicker.fxml"));

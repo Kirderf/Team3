@@ -33,10 +33,10 @@ public class Start extends Application {
             primaryStage.setOnCloseRequest((event -> {
                 logger.log(Level.INFO, "Closing application");
                 try {
-                    ControllerMain.getDatabaseClient().closeApplication();
+                    // ControllerMain.getDatabaseClient().closeApplication();
                     Platform.exit();
                     System.exit(0);
-                } catch (SQLException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }));

@@ -68,6 +68,7 @@ public class ControllerMap implements Initializable {
         //iterates through hashmap with pictures that have valid gps data
         while(hmIterator.hasNext()){
             Map.Entry mapElement = (Map.Entry)hmIterator.next();
+            System.out.println(mapElement.getKey().getClass());
             String longLatString =(String)mapElement.getValue();
             //splits the string into its respective values
             longLat[0] = Double.parseDouble(longLatString.split(",")[0]);

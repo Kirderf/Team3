@@ -12,14 +12,14 @@ public class Team3Image implements Serializable {
     @Id
     private String path;
     private int fileSize;
-    private Date date;
+    private long date;
     private int imageHeight;
     private int imageWidth;
     private double latitude;
     private double longitude;
     private String tags;
 
-    public Team3Image(String path, int fileSize, java.util.Date date, int imageHeight, int imageWidth, double latitude, double longitude) {
+    public Team3Image(String path, int fileSize, long date, int imageHeight, int imageWidth, double latitude, double longitude) {
         this.path = path;
         this.fileSize = fileSize;
         this.date = date;
@@ -47,11 +47,11 @@ public class Team3Image implements Serializable {
         this.fileSize = fileSize;
     }
 
-    public java.util.Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(java.util.Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -89,6 +89,15 @@ public class Team3Image implements Serializable {
 
     public String getTags(){
         return tags;
+    }
+
+    public void addTag(String tag){
+        if(this.tags.length()!=0){
+            this.tags = "," + tag;
+        }
+        else{
+            this.tags += tag;
+        }
     }
 
     public void setTags(String tags){

@@ -56,6 +56,18 @@ public class Database {
         return !statement.execute();
     }
 
+    /**
+     * deletes a specified row from the database
+     * @param path image that you want to delete
+     * @return boolean if deletion was successful
+     * @throws SQLException
+     */
+    public boolean deleteFromDatabase(String path) throws SQLException {
+        logger.logNewWarning("Database : " + "Deleting image from database from " + path);
+        String sql = "DELETE FROM " + table + " WHERE " + table + ".ImageID=" + findImage(path);
+        statement = con.prepareStatement(sql);
+        return !statement.execute();
+    }
 
     /**
      * Adds the image path and the related data to a new row in the table
@@ -89,6 +101,12 @@ public class Database {
 
     }
 
+
+
+
+
+
+
     /**
      * Gets all the tags related to the image path given
      * @param path the path to the image you want to get the tags from
@@ -105,6 +123,11 @@ public class Database {
         }
         return new StringBuilder("");
     }
+
+
+
+
+
 
     /**
      * adds all all the tags to the specified picture
@@ -147,6 +170,11 @@ public class Database {
         return !statement.execute();
     }
 
+
+
+
+
+
     /**
      * checks whether path is in database
      *
@@ -166,6 +194,9 @@ public class Database {
         }
         return false;
     }
+
+
+
 
     /**
      * Reads the database table and finds the column with columnName. Then return a ArrayList with the elements.
@@ -190,6 +221,12 @@ public class Database {
             return null;
         }
     }
+
+
+
+
+
+
 
     /**
      * Get image metadata from path
@@ -234,6 +271,148 @@ public class Database {
         return statement.executeQuery().next();
     }
 
+
+
+
+
+    /**
+     * columnname is the column the table is to be sorted by, the method then returns an arraylist with the paths in ascending or descending order
+     *
+     * @param columnName name of the column that is to be sorted by
+     * @param ascending  boolean whether or smallest or the largest values are to be at the top
+     * @return arraylist with the all of the paths in the database in correct order
+     * @author Ingebrigt
+     */
+    public ArrayList<String> sortBy(String columnName, boolean ascending) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<String> validColumns = new ArrayList<>();
+        validColumns.add("Path");
+        validColumns.add("tags");
+        validColumns.add("File_size");
+        validColumns.add("Date");
+        validColumns.add("Heigth");
+        validColumns.add("Width");
+        validColumns.add("GPS_Latitude");
+        validColumns.add("GPS_Longitude");
+        if (!validColumns.contains(columnName)) {
+            throw new IllegalArgumentException("Invalid column name");
+        }
+        try {
+            if (isTableInDatabase()) {
+                if (ascending) {
+                    String sql = "SELECT " + " Path " + " from " + table + " ORDER BY " + columnName + " ASC";
+                    statement = con.prepareStatement(sql);
+                    resultSet = statement.executeQuery();
+                    while (resultSet.next()) {
+                        arrayList.add(resultSet.getString("Path"));
+                    }
+                    return arrayList;
+                } else {
+                    String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " + columnName + " DESC";
+                    statement = con.prepareStatement(sql);
+                    resultSet = statement.executeQuery();
+                    while (resultSet.next()) {
+                        arrayList.add(resultSet.getString("Path"));
+                    }
+                    return arrayList;
+                }
+            }
+        } catch (SQLException e) {
+            logger.logNewFatalError("Database : " + e.getLocalizedMessage());
+        }
+        return null;
+    }
+
+
+
+
+
+    /**
+     * removes all the tag in the given array
+     *
+     * @param path path of the file that you want to remove tags from
+     * @param tags a string array with the tags you want to remove, not case-sensetive
+     * @return boolean if removal was successful
+     * @throws SQLException
+     * @author Ingebrigt Hovind
+     */
+    public boolean removeTag(String path, String[] tags) throws SQLException {
+        logger.logNewInfo("Database : " + "Removing tags from " + path);
+        if (!isPathInDatabase(path)) throw new IllegalArgumentException("The specified path is not in the databse");
+        for (int i = 0; i < tags.length; i++) {
+            if (tags[i] == null) throw new IllegalArgumentException("The string may not be null");
+            if (tags[i].contains(","))
+                throw new IllegalArgumentException("The tag contains a comma, this is not allowed");
+            if (getTags(path).indexOf(tags[i]) < 0) {
+                tags[i] = "";
+            }
+
+        }
+        //gets all the tags for the specific path
+        StringBuilder oldtags = getTags(path);
+        boolean validTag = false;
+        //iterates through tags for the given image
+        for (String string : tags) {
+            if (!string.equals("")) {
+                validTag = true;
+                //TODO fix bug where substrings of tags are also removed, e.g if carpet is a tag and you attempt to remove a "car" tag, then you will be left with "pet"
+                int index = oldtags.toString().toLowerCase().indexOf(string.toLowerCase());
+                //the conditionals are here to ensure that a single comma is left between each word
+                //if the first word is selected, then no comma is removed
+                //if the last word is selected then the last comma is selected
+                //if a word between two others is selected then a single comma is removed
+                oldtags.replace((index == 0) ? index : index - 1, (index == 0) ? index + string.length() + 1 : index + string.length(), "");
+            }
+        }
+        statement = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
+        return !statement.execute() && validTag;
+    }
+
+
+
+
+
+
+
+    /**
+     * Searches for a specific term in database
+     * @param searchFor the term you want to search for
+     * @param searchIn the area you want to search in, either path or tags or metadata
+     * @return arraylist with results, is empty in the case of no result or invalid inputdata
+     */
+    public ArrayList<String> search(String searchFor, String searchIn) {
+        ArrayList<String> searchResults = new ArrayList<>();
+        ArrayList<String> validColumns = new ArrayList<>();
+        validColumns.add("Path");
+        validColumns.add("Tags");
+        validColumns.add("Metadata");
+        if (!validColumns.contains(searchIn) || searchFor == null) return new ArrayList<>();
+        try {
+            logger.logNewInfo("Database : " + "Searching for matching values");
+            //select paths where the search term is present in any column
+            String sql = "SELECT * FROM " + table + " WHERE " + searchIn + " LIKE " + "'%" + searchFor + "%'";
+            if (searchIn.equals("Metadata")) {
+                sql = "SELECT * FROM " + table + " WHERE File_size LIKE " + "'%" + searchFor + "%' or DATE LIKE " + "'%" + searchFor + "%' or Height LIKE " + "'%" + searchFor + "%' or Width LIKE " + "'%" + searchFor + "%' or GPS_Longitude LIKE '%" + searchFor + "%' or GPS_Latitude LIKE '%" + searchFor + "%'";
+            } else if (searchIn.equals("Tags")) {
+                sql = "SELECT * FROM " + table + " WHERE Tags LIKE " + "'%" + searchFor + "%'";
+            }
+            statement = con.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                searchResults.add((String) resultSet.getObject("Path"));
+            }
+            return searchResults;
+        } catch (Exception e) {
+            logger.logNewFatalError("Database : " + e.getLocalizedMessage());
+        }
+        return null;
+    }
+
+
+
+
+
+
     /**
      * Checks if there is an open connection
      *
@@ -273,19 +452,6 @@ public class Database {
         String sql = "DROP TABLE " + table;
         statement = con.prepareStatement(sql);
         return statement.execute();
-    }
-
-    /**
-     * deletes a specified row from the database
-     * @param path image that you want to delete
-     * @return boolean if deletion was successful
-     * @throws SQLException
-     */
-    public boolean deleteFromDatabase(String path) throws SQLException {
-        logger.logNewWarning("Database : " + "Deleting image from database from " + path);
-        String sql = "DELETE FROM " + table + " WHERE " + table + ".ImageID=" + findImage(path);
-        statement = con.prepareStatement(sql);
-        return !statement.execute();
     }
 
     /**
@@ -372,127 +538,6 @@ public class Database {
         return close();
     }
 
-    /**
-     * columnname is the column the table is to be sorted by, the method then returns an arraylist with the paths in ascending or descending order
-     *
-     * @param columnName name of the column that is to be sorted by
-     * @param ascending  boolean whether or smallest or the largest values are to be at the top
-     * @return arraylist with the all of the paths in the database in correct order
-     * @author Ingebrigt
-     */
-    public ArrayList<String> sortBy(String columnName, boolean ascending) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        ArrayList<String> validColumns = new ArrayList<>();
-        validColumns.add("Path");
-        validColumns.add("tags");
-        validColumns.add("File_size");
-        validColumns.add("Date");
-        validColumns.add("Heigth");
-        validColumns.add("Width");
-        validColumns.add("GPS_Latitude");
-        validColumns.add("GPS_Longitude");
-        if (!validColumns.contains(columnName)) {
-            throw new IllegalArgumentException("Invalid column name");
-        }
-        try {
-            if (isTableInDatabase()) {
-                if (ascending) {
-                    String sql = "SELECT " + " Path " + " from " + table + " ORDER BY " + columnName + " ASC";
-                    statement = con.prepareStatement(sql);
-                    resultSet = statement.executeQuery();
-                    while (resultSet.next()) {
-                        arrayList.add(resultSet.getString("Path"));
-                    }
-                    return arrayList;
-                } else {
-                    String sql = "SELECT " + "Path" + " from " + table + " ORDER BY " + columnName + " DESC";
-                    statement = con.prepareStatement(sql);
-                    resultSet = statement.executeQuery();
-                    while (resultSet.next()) {
-                        arrayList.add(resultSet.getString("Path"));
-                    }
-                    return arrayList;
-                }
-            }
-        } catch (SQLException e) {
-            logger.logNewFatalError("Database : " + e.getLocalizedMessage());
-        }
-        return null;
-    }
 
-    /**
-     * removes all the tag in the given array
-     *
-     * @param path path of the file that you want to remove tags from
-     * @param tags a string array with the tags you want to remove, not case-sensetive
-     * @return boolean if removal was successful
-     * @throws SQLException
-     * @author Ingebrigt Hovind
-     */
-    public boolean removeTag(String path, String[] tags) throws SQLException {
-        logger.logNewInfo("Database : " + "Removing tags from " + path);
-        if (!isPathInDatabase(path)) throw new IllegalArgumentException("The specified path is not in the databse");
-        for (int i = 0; i < tags.length; i++) {
-            if (tags[i] == null) throw new IllegalArgumentException("The string may not be null");
-            if (tags[i].contains(","))
-                throw new IllegalArgumentException("The tag contains a comma, this is not allowed");
-            if (getTags(path).indexOf(tags[i]) < 0) {
-                tags[i] = "";
-            }
-
-        }
-        //gets all the tags for the specific path
-        StringBuilder oldtags = getTags(path);
-        boolean validTag = false;
-        //iterates through tags for the given image
-        for (String string : tags) {
-            if (!string.equals("")) {
-                validTag = true;
-                //TODO fix bug where substrings of tags are also removed, e.g if carpet is a tag and you attempt to remove a "car" tag, then you will be left with "pet"
-                int index = oldtags.toString().toLowerCase().indexOf(string.toLowerCase());
-                //the conditionals are here to ensure that a single comma is left between each word
-                //if the first word is selected, then no comma is removed
-                //if the last word is selected then the last comma is selected
-                //if a word between two others is selected then a single comma is removed
-                oldtags.replace((index == 0) ? index : index - 1, (index == 0) ? index + string.length() + 1 : index + string.length(), "");
-            }
-        }
-        statement = con.prepareStatement("UPDATE fredrjul_ImageApp." + table + " SET fredrjul_ImageApp." + table + ".Tags = '" + oldtags + "' WHERE fredrjul_ImageApp." + table + ".ImageID = " + findImage(path));
-        return !statement.execute() && validTag;
-    }
-
-    /**
-     * Searches for a specific term in database
-     * @param searchFor the term you want to search for
-     * @param searchIn the area you want to search in, either path or tags or metadata
-     * @return arraylist with results, is empty in the case of no result or invalid inputdata
-     */
-    public ArrayList<String> search(String searchFor, String searchIn) {
-        ArrayList<String> searchResults = new ArrayList<>();
-        ArrayList<String> validColumns = new ArrayList<>();
-        validColumns.add("Path");
-        validColumns.add("Tags");
-        validColumns.add("Metadata");
-        if (!validColumns.contains(searchIn) || searchFor == null) return new ArrayList<>();
-        try {
-            logger.logNewInfo("Database : " + "Searching for matching values");
-            //select paths where the search term is present in any column
-            String sql = "SELECT * FROM " + table + " WHERE " + searchIn + " LIKE " + "'%" + searchFor + "%'";
-            if (searchIn.equals("Metadata")) {
-                sql = "SELECT * FROM " + table + " WHERE File_size LIKE " + "'%" + searchFor + "%' or DATE LIKE " + "'%" + searchFor + "%' or Height LIKE " + "'%" + searchFor + "%' or Width LIKE " + "'%" + searchFor + "%' or GPS_Longitude LIKE '%" + searchFor + "%' or GPS_Latitude LIKE '%" + searchFor + "%'";
-            } else if (searchIn.equals("Tags")) {
-                sql = "SELECT * FROM " + table + " WHERE Tags LIKE " + "'%" + searchFor + "%'";
-            }
-            statement = con.prepareStatement(sql);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                searchResults.add((String) resultSet.getObject("Path"));
-            }
-            return searchResults;
-        } catch (Exception e) {
-            logger.logNewFatalError("Database : " + e.getLocalizedMessage());
-        }
-        return null;
-    }
 
 }
