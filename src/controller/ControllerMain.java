@@ -233,8 +233,8 @@ public class ControllerMain implements Initializable {
                     clearView();
                     for (String s : ControllerSearch.searchResults) {
                         insertImage(s);
-                        ControllerSearch.searchSucceed = false;
                     }
+                    ControllerSearch.searchSucceed = false;
                 }
             } catch (Exception e) {
                 e.printStackTrace();

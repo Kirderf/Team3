@@ -133,8 +133,7 @@ public class DatabaseClient {
     public ArrayList<String> search(String searchFor, String searchIn) throws SQLException {
         logger.logNewInfo("DatabaseClient : " + "Searching for" + searchFor);
         try {
-            ArrayList result = imageDatabase.search(searchFor, searchIn);
-            return result;
+            return imageDatabase.search(searchFor, searchIn);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
             return null;
