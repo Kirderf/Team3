@@ -1,12 +1,13 @@
 package backend.database;
 
-import backend.ImageImport;
-import backend.Log;
+import backend.util.ImageImport;
+import backend.util.Log;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class DatabaseClient {
     private static EntityManagerFactory emf = null;
     private ImageImport imageImport = new ImageImport();
 
-    private DatabaseClient() throws IOException {
+    public DatabaseClient() {
         emf = Persistence.createEntityManagerFactory("LecturePU");
         imageDatabase = new Team3ImageDAO(emf);
     }
@@ -41,9 +42,8 @@ public class DatabaseClient {
      *
      * @param columnName eks: Path,ImageID,Tags,File_size,DATE,Height,Width.
      * @return An arraylist of data objects
-     * @throws SQLException could not find input from columnName
      */
-    public ArrayList getColumn(String columnName) throws SQLException {
+    public ArrayList<? extends Serializable> getColumn(String columnName) {
         return imageDatabase.getColumn(columnName);
     }
 
@@ -53,37 +53,31 @@ public class DatabaseClient {
      * @param image imagefile to add
      * @return if the image was added to database
      */
-    public boolean addImage(File image) throws SQLException {
-        try {
-            logger.logNewInfo("DatabaseClient : Adding image");
-            String[] metadata = imageImport.getMetaData(image);
-            if (metadata != null) {
-                if (getColumn("Path").contains(image.getPath().replaceAll("\\\\", "/"))) {
-                    return false;
-                } else {
-                    imageDatabase.addImageToTable(
-                            image.getPath(),
-                            "",
-                            Integer.parseInt(metadata[0]),
-                            Long.parseLong(metadata[1]),
-                            Integer.parseInt(metadata[2]),
-                            Integer.parseInt(metadata[3]),
-                            Double.parseDouble(metadata[4]),
-                            Double.parseDouble(metadata[5]));
-                    return true;
-                }
+    public boolean addImage(File image) {
+        logger.logNewInfo("DatabaseClient : Adding image");
+        String[] metadata = imageImport.getMetaData(image);
+        if (metadata != null) {
+            if (getColumn("Path").contains(image.getPath().replaceAll("\\\\", "/"))) {
+                return false;
+            } else {
+                imageDatabase.addImageToTable(
+                        image.getPath(),
+                        "",
+                        Integer.parseInt(metadata[0]),
+                        Long.parseLong(metadata[1]),
+                        Integer.parseInt(metadata[2]),
+                        Integer.parseInt(metadata[3]),
+                        Double.parseDouble(metadata[4]),
+                        Double.parseDouble(metadata[5]));
+                return true;
             }
-        } catch (SQLException e) {
-            logger.logNewFatalError("DatabaseClient : " + e.getLocalizedMessage());
-            return false;
         }
         return false;
     }
 
     public String getTags(String path) {
         logger.logNewInfo("Getting tags from " + path);
-        return imageDatabase.getTags(path).toString().substring(1);
-
+        return imageDatabase.getTags(path).substring(1);
     }
 
     /**
@@ -104,9 +98,8 @@ public class DatabaseClient {
      * @param path path til bilde
      * @param tag  String[] av tags
      * @return boolean
-     * @throws SQLException
      */
-    public boolean addTag(String path, String[] tag) throws SQLException {
+    public boolean addTag(String path, String[] tag) {
         logger.logNewInfo("DatabaseClient : " + "Adding tag to " + path);
         try {
             return imageDatabase.addTags(path, tag);
@@ -122,9 +115,8 @@ public class DatabaseClient {
      * @param path
      * @param tags
      * @return
-     * @throws SQLException
      */
-    public boolean removeTag(String path, String[] tags) throws SQLException {
+    public boolean removeTag(String path, String[] tags) {
         logger.logNewInfo("DatabaseClient : " + "Removing tag from " + path);
         try {
             return imageDatabase.removeTag(path, tags);
@@ -140,10 +132,9 @@ public class DatabaseClient {
      * @param searchFor keyword or phrase that you are searching for
      * @param searchIn  what column you are searching in, e.g path, or date
      * @return an arraylist with the paths that are found
-     * @throws SQLException
      * @author Ingebrigt Hovind
      */
-    public ArrayList<String> search(String searchFor, String searchIn) throws SQLException {
+    public ArrayList<String> search(String searchFor, String searchIn) {
         logger.logNewInfo("DatabaseClient : " + "Searching for" + searchFor);
         try {
             return imageDatabase.search(searchFor, searchIn);
@@ -159,9 +150,8 @@ public class DatabaseClient {
      * @param sortBy    column in database to sort by
      * @param ascending
      * @return sorted arraylist
-     * @throws SQLException
      */
-    public ArrayList<String> sort(String sortBy, boolean ascending) throws SQLException {
+    public ArrayList<String> sort(String sortBy, boolean ascending) {
         logger.logNewInfo("DatabaseClient : " + "Sorting by " + sortBy);
         try {
             return imageDatabase.sortBy(sortBy, ascending);

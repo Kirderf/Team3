@@ -1,6 +1,6 @@
 package backend.database;
 
-import backend.Log;
+import backend.util.Log;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 

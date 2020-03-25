@@ -1,17 +1,13 @@
 package controller;
 
 
-import backend.Text_To_Speech;
-import javafx.application.Platform;
+import backend.util.Text_To_Speech;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -57,17 +52,14 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     @FXML
-    /**
-     * when go to library is pressed
-     */
     private void goToLibrary(ActionEvent event) throws IOException {
         voice.speak("Going to library");
         bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
     }
 
     @FXML
-    /**
-     * add tag is clicked
+    /*
+      add tag is clicked
      */
     private void addTagAction(){
         if(!addTagStage.isShowing()){
@@ -86,8 +78,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
 
     @FXML
-    /**
-     * when import image is clicked
+    /*
+      when import image is clicked
      */
     protected void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
