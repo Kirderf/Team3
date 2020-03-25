@@ -169,6 +169,7 @@ public class Team3ImageDAO {
             case "tags":
                 //sorts by number of tags
                 images.sort(Comparator.comparing((Object t) -> ((Team3Image) t).getTags().split(",").length));
+                break;
             default:
                 throw new IllegalArgumentException("Invalid Column");
         }
@@ -246,8 +247,7 @@ public class Team3ImageDAO {
     }
     public String[] getImageMetadata(String path){
         Team3Image team3Image = findTeam3Image(path);
-        String[] metadata = new String[]{team3Image.getPath(),team3Image.getTags(),String.valueOf(team3Image.getFileSize()),String.valueOf(team3Image.getDate()),String.valueOf(team3Image.getImageHeight()),String.valueOf(team3Image.getImageWidth()),String.valueOf(team3Image.getLatitude()),String.valueOf(team3Image.getLongitude())};
-        return metadata;
+        return new String[]{team3Image.getPath(),team3Image.getTags(),String.valueOf(team3Image.getFileSize()),String.valueOf(team3Image.getDate()),String.valueOf(team3Image.getImageHeight()),String.valueOf(team3Image.getImageWidth()),String.valueOf(team3Image.getLatitude()),String.valueOf(team3Image.getLongitude())};
     }
     public void editTeam3Image(Team3Image team3Image) {
         EntityManager em = getEM();
