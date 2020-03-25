@@ -324,16 +324,13 @@ public class ControllerMain implements Initializable {
                 exportStage.showAndWait();
                 //exportSucceed is a static variable in controllerExport
                 if (ControllerExport.isExportSucceed()) {
-                   if(this.getClass() == ControllerMain.class){
-                       refreshImages();
-                   }
                     ControllerExport.setExportSucceed(false);
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
-        clearSelectedImages();
+        refreshImages();
     }
 
     /**
