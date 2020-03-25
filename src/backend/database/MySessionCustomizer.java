@@ -5,7 +5,7 @@ import org.eclipse.persistence.sessions.Session;
 
 public class MySessionCustomizer implements SessionCustomizer {
 
-    private String schema = "some_schema";
+    private String schema = "MY_CUSTOM_NAME";
     @Override
     public void customize(Session session) throws Exception {
         session.getLogin().setTableQualifier(schema);

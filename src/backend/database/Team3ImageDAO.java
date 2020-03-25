@@ -1,9 +1,8 @@
 package backend.database;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.SynchronizationType;
+import org.eclipse.persistence.sessions.Session;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,10 +11,11 @@ import java.util.stream.Collectors;
 public class Team3ImageDAO {
     //thread safe
     private EntityManagerFactory emf;
-
     public Team3ImageDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
+
+
 
     /**
      * create new images

@@ -1,7 +1,9 @@
 package backend.database;
 
+import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 
+import javax.naming.Name;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
