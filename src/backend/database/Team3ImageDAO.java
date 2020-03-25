@@ -3,6 +3,7 @@ package backend.database;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.persistence.SynchronizationType;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
