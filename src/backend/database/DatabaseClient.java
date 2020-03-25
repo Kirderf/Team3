@@ -1,11 +1,13 @@
-package backend;
+package backend.database;
+
+import backend.ImageImport;
+import backend.Log;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 /**
@@ -13,16 +15,27 @@ import java.util.ArrayList;
  */
 public class DatabaseClient {
     private static final Log logger = new Log("Log.log");
-    private Team3ImageDAO imageDatabase = null;
-    private EntityManagerFactory emf = null;
+    private static DatabaseClient instance;
+    private static Team3ImageDAO imageDatabase = null;
+    private static EntityManagerFactory emf = null;
     private ImageImport imageImport = new ImageImport();
 
-    public DatabaseClient() throws IOException {
+    private DatabaseClient() throws IOException {
         emf = Persistence.createEntityManagerFactory("LecturePU");
         imageDatabase = new Team3ImageDAO(emf);
     }
 
-
+    /**
+     * Singleton method for getting an instance of this class
+     * @return instance of DatabaseClient
+     * @throws IOException
+     */
+    public static DatabaseClient getInstance() throws IOException {
+        if(imageDatabase == null && emf == null) {
+            instance = new DatabaseClient();
+        }
+        return instance;
+    }
     /**
      * Gets all the data in a given column, e.g all the paths
      *

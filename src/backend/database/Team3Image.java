@@ -1,9 +1,6 @@
-package backend;
+package backend.database;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
 //should we have a named query?
 //named this way to avoid confusion with existing Image classes

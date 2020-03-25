@@ -1,4 +1,4 @@
-package backend;
+package backend.database;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

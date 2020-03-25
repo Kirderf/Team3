@@ -1,6 +1,6 @@
 package controller;
 
-import backend.DatabaseClient;
+import backend.database.DatabaseClient;
 import backend.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -49,7 +49,7 @@ public class ControllerMain implements Initializable {
 
     static {
         try {
-            databaseClient = new DatabaseClient();
+            databaseClient = DatabaseClient.getInstance();
         } catch (IOException e) {
             e.printStackTrace();
         }
