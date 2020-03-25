@@ -1,7 +1,7 @@
 package controller;
 
-import backend.DatabaseClient;
-import backend.Text_To_Speech;
+import backend.util.Text_To_Speech;
+import backend.database.DatabaseClient;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -33,6 +33,7 @@ import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -48,11 +49,7 @@ public class ControllerMain implements Initializable {
     public static DatabaseClient databaseClient;
 
     static {
-        try {
-            databaseClient = new DatabaseClient();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        databaseClient = new DatabaseClient();
     }
 
 
@@ -401,7 +398,7 @@ public class ControllerMain implements Initializable {
      */
     protected void refreshImages() {
         try {
-            ArrayList paths = getDatabaseClient().getColumn("Path");
+            ArrayList<? extends Serializable> paths = getDatabaseClient().getColumn("Path");
             clearView();
             for (Object obj : paths) {
                 //the view is cleared, so there's no use checking if the image has been added as there are no added photos to start with
@@ -409,7 +406,7 @@ public class ControllerMain implements Initializable {
                     insertImage((String) obj);
                 }
             }
-        } catch (FileNotFoundException | SQLException e) {
+        } catch (FileNotFoundException e) {
             //TODO change this to logger
             System.out.println(e.getLocalizedMessage());
         }
@@ -623,8 +620,8 @@ public class ControllerMain implements Initializable {
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
         for (int i = 0; i < getDatabaseClient().getColumn("GPS_Longitude").size(); i++) {
-            Double longitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String)paths.get(i))[7]);
-            Double latitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String)paths.get(i))[6]);
+            double longitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String)paths.get(i))[7]);
+            double latitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String)paths.get(i))[6]);
             //if both are not equal to zero, maybe this should be changed to an or
             if (longitude != 0 && latitude != 0) {
                 getLocations().put((String) paths.get(i), "" + longitude + "," + latitude);

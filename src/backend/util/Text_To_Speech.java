@@ -1,13 +1,12 @@
-package backend;
+package backend.util;
 
+import backend.util.Log;
 import com.darkprograms.speech.synthesiser.SynthesiserV2;
-import com.darkprograms.speech.translator.GoogleTranslate;
 import controller.ControllerPreferences;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
 /**
  * @author goxr3plus, Tommy Luu

@@ -1,9 +1,8 @@
-package backend;
+package backend.database;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
 //should we have a named query?
 //named this way to avoid confusion with existing Image classes
@@ -30,15 +29,14 @@ public class Team3Image implements Serializable {
         this.tags = "";
     }
 
-    public Team3Image() {
-    }
-
-    public String getPath(){
+    public String getPath() {
         return path;
     }
-    public void setPath(String path){
+
+    public void setPath(String path) {
         this.path = path;
     }
+
     public int getFileSize() {
         return fileSize;
     }
@@ -87,22 +85,22 @@ public class Team3Image implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getTags(){
+    public String getTags() {
         return tags;
     }
 
-    public void addTag(String tag){
-        if(this.tags.length()!=0){
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public void addTag(String tag) {
+        if (this.tags.length() != 0) {
             this.tags = "," + tag;
-        }
-        else{
+        } else {
             this.tags += tag;
         }
     }
 
-    public void setTags(String tags){
-        this.tags = tags;
-    }
     @Override
     public String toString() {
         return "Image{" +
@@ -117,10 +115,10 @@ public class Team3Image implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == this){
+        if (obj == this) {
             return true;
         }
-        if(obj instanceof Team3Image){
+        if (obj instanceof Team3Image) {
             //if the path is equal then the Images are equal
             return (((Team3Image) obj).getPath().equalsIgnoreCase(this.getPath()));
         }

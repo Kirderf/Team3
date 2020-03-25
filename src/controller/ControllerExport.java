@@ -1,14 +1,11 @@
 package controller;
 
-import backend.ImageExport;
+import backend.util.ImageExport;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 

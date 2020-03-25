@@ -1,6 +1,6 @@
 package controller;
 
-import backend.TagTableRow;
+import backend.util.TagTableRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
