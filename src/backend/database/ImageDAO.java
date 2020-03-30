@@ -1,31 +1,34 @@
 package backend.database;
 
+import org.eclipse.persistence.annotations.Multitenant;
+import org.eclipse.persistence.annotations.MultitenantType;
+import org.eclipse.persistence.annotations.TenantDiscriminatorColumn;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 //should we have a named query?
 //named this way to avoid confusion with existing Image classes
 @Entity
-@Table(
-        name = "TEAM3IMAGE",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "path")
-        }
-)
-public class Team3Image implements Serializable {
+@Multitenant(MultitenantType.TABLE_PER_TENANT)
+@TenantDiscriminatorColumn(name = "ID", contextProperty = "multi-tenant.id")
+public class ImageDAO implements Serializable {
+    private int ID;
     @Id
     private String path;
     private int fileSize;
-    private long date;
+    private int date;
     private int imageHeight;
     private int imageWidth;
     private double latitude;
     private double longitude;
     private String tags;
 
-    public Team3Image(String path, int fileSize, long date, int imageHeight, int imageWidth, double latitude, double longitude) {
+    public ImageDAO(int ID, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
+        this.ID = ID;
         this.path = path;
         this.fileSize = fileSize;
         this.date = date;
@@ -36,7 +39,7 @@ public class Team3Image implements Serializable {
         this.tags = "";
     }
 
-    public Team3Image() {
+    public ImageDAO() {
         ClassDescriptor.shouldUseFullChangeSetsForNewObjects = true;
     }
 
@@ -56,11 +59,11 @@ public class Team3Image implements Serializable {
         this.fileSize = fileSize;
     }
 
-    public long getDate() {
+    public int getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(int date) {
         this.date = date;
     }
 
@@ -129,9 +132,9 @@ public class Team3Image implements Serializable {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Team3Image) {
+        if (obj instanceof ImageDAO) {
             //if the path is equal then the Images are equal
-            return (((Team3Image) obj).getPath().equalsIgnoreCase(this.getPath()));
+            return (((ImageDAO) obj).getPath().equalsIgnoreCase(this.getPath()));
         }
         return false;
     }

@@ -2,14 +2,15 @@ package backend.database;
 
 import backend.util.ImageImport;
 import backend.util.Log;
+import org.eclipse.persistence.config.PersistenceUnitProperties;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Fredrik Julsen & Ingebrigt Hovind
@@ -17,22 +18,22 @@ import java.util.ArrayList;
 public class DatabaseClient {
     private static final Log logger = new Log("Log.log");
     private static DatabaseClient instance;
-    private static Team3ImageDAO imageDatabase = null;
+    private static ImageDAOManager imageDatabase = null;
     private static EntityManagerFactory emf = null;
     private ImageImport imageImport = new ImageImport();
-    private DAOManager daoManager = DAOManager.getInstance();
 
-    public DatabaseClient() throws Exception {
+
+    private DatabaseClient() {
         emf = Persistence.createEntityManagerFactory("LecturePU");
-        imageDatabase = new Team3ImageDAO(emf, daoManager.getCon());
+        imageDatabase = new ImageDAOManager(emf);
+
     }
 
     /**
      * Singleton method for getting an instance of this class
      * @return instance of DatabaseClient
-     * @throws IOException
      */
-    public static DatabaseClient getInstance() throws Exception {
+    public static DatabaseClient getInstance() {
         if(imageDatabase == null && emf == null) {
             instance = new DatabaseClient();
         }
@@ -65,7 +66,7 @@ public class DatabaseClient {
                         image.getPath(),
                         "",
                         Integer.parseInt(metadata[0]),
-                        Long.parseLong(metadata[1]),
+                        Integer.parseInt(metadata[1]),
                         Integer.parseInt(metadata[2]),
                         Integer.parseInt(metadata[3]),
                         Double.parseDouble(metadata[4]),

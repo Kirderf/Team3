@@ -50,7 +50,7 @@ public class ControllerMain implements Initializable {
 
     static {
         try {
-            databaseClient = new DatabaseClient();
+            databaseClient = DatabaseClient.getInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,7 +100,6 @@ public class ControllerMain implements Initializable {
         //this is required, as disabling the textfield in the fxml file made the path way too light to see
         pathDisplay.setEditable(false);
         pictureGrid.setAlignment(Pos.CENTER);
-        refreshImages();
     }
 
     /**

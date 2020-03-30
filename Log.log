@@ -1,16 +1,6 @@
-mar 30, 2020 5:30:46 PM backend.util.Log logNewInfo
-INFO: DatabaseSource : Loading .properties file
-mar 30, 2020 5:30:49 PM backend.util.Log logNewInfo
+mar 30, 2020 9:15:54 PM backend.util.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-mar 30, 2020 5:31:11 PM backend.util.Log logNewInfo
+mar 30, 2020 9:16:01 PM backend.util.Log logNewInfo
 INFO: DatabaseClient : Adding image
-mar 30, 2020 5:31:11 PM backend.util.Log logNewInfo
-INFO: ImageImport : Getting metadata from file
-mar 30, 2020 5:31:11 PM backend.util.Log logNewInfo
-INFO: DatabaseClient : Adding image
-mar 30, 2020 5:31:11 PM backend.util.Log logNewInfo
-INFO: ImageImport : Getting metadata from file
-mar 30, 2020 5:31:11 PM backend.util.Log logNewInfo
-INFO: DatabaseClient : Adding image
-mar 30, 2020 5:31:11 PM backend.util.Log logNewInfo
+mar 30, 2020 9:16:01 PM backend.util.Log logNewInfo
 INFO: ImageImport : Getting metadata from file

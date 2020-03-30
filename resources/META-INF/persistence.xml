@@ -5,7 +5,7 @@
 
     <persistence-unit name="LecturePU" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>backend.database.Team3Image</class>
+        <class>backend.database.ImageDAO</class>
         <properties>
             <!--username and password is temporarily here-->
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp" />
