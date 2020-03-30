@@ -49,7 +49,11 @@ public class ControllerMain implements Initializable {
     public static DatabaseClient databaseClient;
 
     static {
-        databaseClient = new DatabaseClient();
+        try {
+            databaseClient = new DatabaseClient();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -7,6 +7,7 @@ import javax.naming.Name;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.Random;
 import javax.persistence.*;
 //should we have a named query?
@@ -37,6 +38,7 @@ public class Team3Image implements Serializable {
     public Team3Image(){
         ClassDescriptor.shouldUseFullChangeSetsForNewObjects = true;
     }
+
     public String getPath() {
         return path;
     }

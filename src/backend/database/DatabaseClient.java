@@ -20,10 +20,11 @@ public class DatabaseClient {
     private static Team3ImageDAO imageDatabase = null;
     private static EntityManagerFactory emf = null;
     private ImageImport imageImport = new ImageImport();
+    private DAOManager daoManager = DAOManager.getInstance();
 
-    public DatabaseClient() {
+    public DatabaseClient() throws Exception {
         emf = Persistence.createEntityManagerFactory("LecturePU");
-        imageDatabase = new Team3ImageDAO(emf);
+        imageDatabase = new Team3ImageDAO(emf, daoManager.getCon());
     }
 
     /**
@@ -31,7 +32,7 @@ public class DatabaseClient {
      * @return instance of DatabaseClient
      * @throws IOException
      */
-    public static DatabaseClient getInstance() throws IOException {
+    public static DatabaseClient getInstance() throws Exception {
         if(imageDatabase == null && emf == null) {
             instance = new DatabaseClient();
         }
