@@ -1,18 +1,19 @@
 package backend.database;
 
-import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 
-import javax.naming.Name;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.io.Serializable;
-import java.sql.Connection;
-import java.util.Random;
 import javax.persistence.*;
+import java.io.Serializable;
+
 //should we have a named query?
 //named this way to avoid confusion with existing Image classes
 @Entity
+@Table(
+        name = "TEAM3IMAGE",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "path")
+        }
+)
 public class Team3Image implements Serializable {
     @Id
     private String path;
@@ -25,7 +26,6 @@ public class Team3Image implements Serializable {
     private String tags;
 
     public Team3Image(String path, int fileSize, long date, int imageHeight, int imageWidth, double latitude, double longitude) {
-        String.valueOf(new Random().nextInt(500));
         this.path = path;
         this.fileSize = fileSize;
         this.date = date;
@@ -35,7 +35,8 @@ public class Team3Image implements Serializable {
         this.longitude = longitude;
         this.tags = "";
     }
-    public Team3Image(){
+
+    public Team3Image() {
         ClassDescriptor.shouldUseFullChangeSetsForNewObjects = true;
     }
 
