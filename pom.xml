@@ -22,6 +22,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>com.teamdev</id>
+            <url>https://maven.teamdev.com/repository/products</url>
+        </repository>
     </repositories>
 
 
@@ -123,5 +127,6 @@
                 </configuration>
             </plugin>
         </plugins>
+
     </build>
 </project>
