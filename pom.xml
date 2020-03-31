@@ -31,6 +31,15 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.codebrig</groupId>
+            <artifactId>journey</artifactId>
+            <version>0.4.0-online</version>
+
+            <!-- or use the offline version (includes native CEF files for all platforms; ~300MB) -->
+            <!-- <version>0.4.0-offline</version> -->
+        </dependency>
+
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.26</version>

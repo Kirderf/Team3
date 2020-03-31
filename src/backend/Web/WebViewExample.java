@@ -1,11 +1,16 @@
 package backend.Web;
 
+import com.codebrig.journey.JourneyBrowserView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class WebViewExample extends Application {
 
@@ -14,19 +19,40 @@ public class WebViewExample extends Application {
     }
 
     public void start(Stage primaryStage) {
+        JourneyBrowserView browser = new JourneyBrowserView("https://google.com");
+        JFrame frame = new JFrame();
+        frame.getContentPane().add(browser, BorderLayout.CENTER);
+
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                browser.getCefApp().dispose();
+                frame.dispose();
+            }
+        });
+
+        frame.setTitle("Journey");
+        frame.setSize(1000, 600);
+        frame.show();
+    }
+
+        /*
         primaryStage.setTitle("JavaFX WebView Example");
 
         WebView webView = new WebView();
 
         WebEngine webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
-        webEngine.load("https://wego.here.com/?x=ep&map=40.4,-3.6833,10,normal");
-        //webEngine.load(getClass().getResource("/backend/Web/map.html").toString());
+        //webEngine.load("backend/Web/test/demo1.html");
+        webEngine.load(getClass().getResource("/backend/Web/test/demo1.html").toString());
         VBox vBox = new VBox(webView);
         Scene scene = new Scene(vBox, 960, 600);
 
         primaryStage.setScene(scene);
         primaryStage.show();
+        */
 
-    }
+
+
 }
