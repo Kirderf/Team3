@@ -17,8 +17,11 @@ public class WebViewExample extends Application {
         primaryStage.setTitle("JavaFX WebView Example");
 
         WebView webView = new WebView();
+
         WebEngine webEngine = webView.getEngine();
-        webEngine.load(getClass().getResource("/backend/Web/map.html").toString());
+        webEngine.setJavaScriptEnabled(true);
+        webEngine.load("https://wego.here.com/?x=ep&map=40.4,-3.6833,10,normal");
+        //webEngine.load(getClass().getResource("/backend/Web/map.html").toString());
         VBox vBox = new VBox(webView);
         Scene scene = new Scene(vBox, 960, 600);
 

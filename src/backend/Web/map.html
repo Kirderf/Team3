@@ -1,44 +1,45 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <title>Overlaying an Image Map Type</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <style>
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
-        #map {
-            height: 100%;
-        }
-        /* Optional: Makes the sample page fill the window. */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css?dp-version=1526040296" />
 </head>
 <body>
-<div id="map"></div>
+<div style="width: 640px; height: 480px" id="mapView"></div>
 <script>
-    function initMap() {
-        var myLatLng = {lat: -25.363, lng: 131.044};
+    var platform = new H.service.Platform({
+        'app_id': 'OAJid3LpkVr9zFbnJSh2',                                // Replace with your APP ID
+        'app_code': 'nrfM3o4uuu3bcbOgTjmvqFB9tRbG-oM23xtavu614E4'                             // Replace with your APP CODE
+    });
+    var defaultLayers = platform.createDefaultLayers();
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: myLatLng
-        });
+    function addMarkersToMap(map) {
+        var parisPngIcon = new H.map.Icon("C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/samplephoto.jpg", {size: {w: 80, h: 80}});
 
-        var marker = new google.maps.Marker({
-            position: myLatLng,
-            map: map,
-            title: 'Hello World!',
-            icon: 'https://upload.wikimedia.org/wikipedia/commons/e/e9/Felis_silvestris_silvestris_small_gradual_decrease_of_quality.png'
-        });
+        var parisMarker = new H.map.Marker({
+            lat: 48.8567,
+            lng: 2.3508
+        }, {icon: parisPngIcon});
+        map.addObject(parisMarker);
+
     }
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKVORXgdZVmSm3MBTRICm5t-zA4Ty9iE4&callback=initMap&libraries=drawing">
+
+    var map = new H.Map(
+        document.getElementById('mapView'),
+        defaultLayers.normal.map, {
+            center: {lat: 0.8121, lng: -0.9190},
+            zoom: 10,
+        });
+    window.onload = function () {
+        addMarkersToMap(map);
+    }
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+
 </script>
 </body>
 </html>

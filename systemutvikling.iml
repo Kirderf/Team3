@@ -44,5 +44,9 @@
     <orderEntry type="library" name="Maven: org.apache.pdfbox:pdfbox:2.0.19" level="project" />
     <orderEntry type="library" name="Maven: org.apache.pdfbox:fontbox:2.0.19" level="project" />
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.2" level="project" />
+    <orderEntry type="library" name="mapsjs-mapevents" level="application" />
+    <orderEntry type="library" name="mapsjs-service" level="application" />
+    <orderEntry type="library" name="mapsjs-core" level="application" />
+    <orderEntry type="library" name="mapsjs-ui" level="application" />
   </component>
 </module>
