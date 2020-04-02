@@ -678,16 +678,16 @@ public class ControllerMain implements Initializable {
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
         worldStage.showAndWait();
+
         for(Path p : ControllerMap.getSavedToDisk()){
             new File(p.toString()).delete();
         }
+        ControllerMap.emptySavedToDisk();
 
-        /*
-        if (ControllerMapScrapped.getClickedImage() != null) {
-            showBigImage(ControllerMapScrapped.getClickedImage(), ControllerMapScrapped.getClickedImage().getId());
+
+        if (ControllerMap.getClickedImage() != null) {
+            showBigImage(ControllerMap.getClickedImage(), ControllerMap.getClickedImage().getId());
         }
-
-         */
     }
 
     /**

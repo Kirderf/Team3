@@ -15,14 +15,8 @@
    limitations under the License.
 -->
 <?import com.sothawo.mapjfx.MapView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
-            prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controller.ControllerMap">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMap">
     <center>
         <MapView fx:id="mapView" BorderPane.alignment="CENTER"/>
     </center>

@@ -1,184 +1,284 @@
-Apr 02, 2020 6:03:57 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:46 PM backend.Log logNewInfo
 INFO: Database : Creating Database object
-Apr 02, 2020 6:03:57 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:46 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:03:57 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:46 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:03:57 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:46 PM backend.Log logNewInfo
 INFO: Database : There is no connection
-Apr 02, 2020 6:03:57 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:46 PM backend.Log logNewInfo
 INFO: DatabaseSource : Loading .properties file
-Apr 02, 2020 6:03:59 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:48 PM backend.Log logNewInfo
 INFO: OpenConnection is true
-Apr 02, 2020 6:03:59 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:48 PM backend.Log logNewInfo
 INFO: Database : Creating table
-Apr 02, 2020 6:03:59 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:48 PM backend.Log logNewInfo
 INFO: Database : Checking if table is in the database
-Apr 02, 2020 6:03:59 PM backend.Log logNewInfo
-INFO: Database : fredrjul_794672
-Apr 02, 2020 6:03:59 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:48 PM backend.Log logNewInfo
+INFO: Database : fredrjul_5366633
+Apr 02, 2020 8:05:48 PM backend.Log logNewInfo
 INFO: Create table is true
-Apr 02, 2020 6:03:59 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:49 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:03:59 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:49 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:03:59 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:49 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 02, 2020 6:04:01 PM backend.Log logNewInfo
+Apr 02, 2020 8:05:50 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Apr 02, 2020 6:04:19 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:05 PM backend.Log logNewInfo
 INFO: DatabaseClient : Adding image
-Apr 02, 2020 6:04:19 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:05 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:19 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:05 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:19 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: ImageImport : Getting metadata from file
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Added Image to pathC:\Users\ingebrigt Hovind\Documents\Uni 1\Systemutvikling\Kode\resources\images with gps data for testing\12382975864_09e6e069e7_o.jpg
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: DatabaseClient : Adding image
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: ImageImport : Getting metadata from file
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Added Image to pathC:\Users\ingebrigt Hovind\Documents\Uni 1\Systemutvikling\Kode\resources\images with gps data for testing\DSCN0010.jpg
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: DatabaseClient : Adding image
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: ImageImport : Getting metadata from file
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Added Image to pathC:\Users\ingebrigt Hovind\Documents\Uni 1\Systemutvikling\Kode\resources\images with gps data for testing\IMG_3195.JPG
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:20 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:06 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/DSCN0010.jpg
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/DSCN0010.jpg
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/DSCN0010.jpg
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/DSCN0010.jpg
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:23 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:08 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 02, 2020 6:04:51 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:13 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
+Apr 02, 2020 8:06:13 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:13 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:13 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
+Apr 02, 2020 8:06:17 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:17 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:17 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Apr 02, 2020 8:06:18 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:18 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/DSCN0010.jpg
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/DSCN0010.jpg
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/DSCN0010.jpg
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/DSCN0010.jpg
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:19 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Apr 02, 2020 8:06:23 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
+Apr 02, 2020 8:06:23 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 02, 2020 8:06:23 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 02, 2020 8:06:23 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Documents/Uni 1/Systemutvikling/Kode/resources/images with gps data for testing/IMG_3195.JPG
+Apr 02, 2020 8:06:26 PM backend.Log logNewInfo
 INFO: DatabaseClient : Closing application
-Apr 02, 2020 6:04:51 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:26 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:51 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:26 PM backend.Log logNewInfo
 INFO: Database : Closing database
-Apr 02, 2020 6:04:51 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:26 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 02, 2020 6:04:51 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:26 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 02, 2020 6:04:51 PM backend.Log logNewInfo
+Apr 02, 2020 8:06:26 PM backend.Log logNewInfo
 INFO: Database : Deleting table

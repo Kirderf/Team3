@@ -16,32 +16,21 @@
 package controller;
 
 import com.sothawo.mapjfx.*;
+import com.sothawo.mapjfx.event.MarkerEvent;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.util.*;
 
 
@@ -52,14 +41,12 @@ import java.util.*;
  */
 public class ControllerMap implements Initializable {
 
-    private ArrayList<Marker> markers = new ArrayList();
-
-
-    public static ArrayList<Path> savedToDisk = new ArrayList<>();
+    private HashMap<Marker,String> markers = new HashMap<>();
+    private static ArrayList<Path> savedToDisk = new ArrayList<>();
     private static final Coordinate coordKarlsruheHarbour = new Coordinate(49.015511, 8.323497);
-    private static final Coordinate coordKarlsruheSoccer = new Coordinate(49.020035, 8.412975);
     //ratio is preserved
     private final int thumbnailHeight = 75;
+    private static ImageView clickedImage;
 
     /** default zoom value. */
     private static final int ZOOM_DEFAULT = 14;
@@ -81,25 +68,52 @@ public class ControllerMap implements Initializable {
             String latLongString = (String)mapElement.getValue();
             latLong[0] = Double.parseDouble(latLongString.split(",")[0]);
             latLong[1] = Double.parseDouble(latLongString.split(",")[1]);
-            System.out.println("long: " + latLong[0]);
-            System.out.println("lat: " + latLong[1]);
             String url = (mapElement.getKey().toString().replaceAll("/","\\\\"));
             String output = resize(url, thumbnailHeight*2, thumbnailHeight);
             Path outputPath = Paths.get(output);
             savedToDisk.add(outputPath);
             File file = new File(outputPath.toString());
             URL outputUrl = file.toURL();
-            markers.add(new Marker(outputUrl, -20, -20).setPosition(new Coordinate(latLong[0],latLong[1])).setVisible(false));
+            markers.put((new Marker(outputUrl, -20, -20).setPosition(new Coordinate(latLong[0],latLong[1])).setVisible(false)),(String)mapElement.getKey());
         }
+
     }
     public static ArrayList<Path> getSavedToDisk() {
         return savedToDisk;
+    }
+    public static ImageView getClickedImage(){
+        return clickedImage;
+    }
+    public static void setClickedImage(ImageView i){
+        clickedImage = i;
     }
 
     public static void emptySavedToDisk() {
         savedToDisk = new ArrayList<Path>();
     }
 
+    public void addEventListeners(){
+        Iterator markerIterator = markers.entrySet().iterator();
+        while(markerIterator.hasNext()){
+            Map.Entry markerEntry = (Map.Entry)markerIterator.next();
+            mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
+                try {
+                    File file = new File(markers.get(event.getMarker()).replaceAll("/","\\\\"));
+                    Image imageForFile = new Image(file.toURI().toURL().toExternalForm());
+                    ImageView imageView = new ImageView(imageForFile);
+                    imageView.setId((String)markerEntry.getValue());
+                    clickedImage = imageView;
+                    closeStage();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+    }
+    private void closeStage(){
+        Stage stage = (Stage) mapView.getScene().getWindow();
+        stage.close();
+    }
 
     public static String resize(String inputImagePath, int scaledWidth, int scaledHeight)throws IOException {
         // reads input image
@@ -137,10 +151,14 @@ public class ControllerMap implements Initializable {
 
     }
     public void afterMapIsInitialized(){
-        for(Marker m : markers){
-            mapView.addMarker(m);
-            m.setVisible(true);
+        Iterator markerIterator = markers.entrySet().iterator();
+        while(markerIterator.hasNext()){
+
+            Map.Entry markerEntry = (Map.Entry) markerIterator.next();
+            mapView.addMarker((Marker)markerEntry.getKey());
+            ((Marker) markerEntry.getKey()).setVisible(true);
         }
+        addEventListeners();
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
