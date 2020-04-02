@@ -4,22 +4,19 @@ package controller;
 import backend.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -105,9 +102,10 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      * @param image the image that you want to show in fullscreen
      */
     private void setBigImage(Image image) {
-        bigImage.setImage(image);
+        bigImage.setPreserveRatio(true);
         bigImage.fitWidthProperty().bind(bigImageGrid.widthProperty());
         bigImage.fitHeightProperty().bind(imageVbox.heightProperty());
+        bigImage.setImage(image);
         textField.setText(getPathBuffer());
     }
 }

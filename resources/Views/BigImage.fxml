@@ -12,28 +12,28 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerBigImage">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerBigImage">
     <top>
         <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
             <menus>
                 <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
                     <items>
-                        <Menu fx:id="importButton" mnemonicParsing="false" onAction="#importAction" text="Import"/>
-                        <Menu fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" text="Export"/>
-                        <Menu fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" text="Save to album"/>
+                        <MenuItem fx:id="importButton" mnemonicParsing="false" onAction="#importAction" onMenuValidation="#TextToSpeakOnMenu" text="Import" />
+                        <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" onMenuValidation="#TextToSpeakOnMenu" text="Export" />
+                        <MenuItem fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Save to album" />
+                        <MenuItem fx:id="removeButton" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Preferences..." />
+                        <MenuItem mnemonicParsing="false" onAction="#preferencesAction" text="Preferences..." />
                         <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
                     </items>
                 </Menu>
@@ -113,7 +113,7 @@
          <children>
             <GridPane fx:id="bigImageGrid" gridLinesVisible="true" VBox.vgrow="ALWAYS">
               <columnConstraints>
-                <ColumnConstraints fillWidth="false" halignment="CENTER" minWidth="10.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />

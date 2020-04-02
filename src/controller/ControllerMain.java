@@ -17,7 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -816,7 +816,7 @@ public class ControllerMain implements Initializable {
      * @param event event that led to this being called, e.g hovering over or clicking on menu
      */
     public void TextToSpeakOnMenu(Event event) {
-        voice.speak(((Menu) event.getSource()).getText());
+        voice.speak(((MenuItem) event.getSource()).getText());
     }
 
     /**
