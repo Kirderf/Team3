@@ -73,23 +73,23 @@ public class ControllerMap implements Initializable {
         //TODO does this need to be a static hashmap? can it be a parameter in some way
         Iterator hmIterator = ControllerMain.getLocations().entrySet().iterator();
         //double array with longitude first, then latitude
-        Double[] longLat = new Double[2];
+        Double[] latLong = new Double[2];
         //iterates through hashmap with pictures that have valid gps data
         while(hmIterator.hasNext()) {
             Map.Entry mapElement = (Map.Entry)hmIterator.next();
 
-            String longLatString = (String)mapElement.getValue();
-            longLat[0] = Double.parseDouble(longLatString.split(",")[0]);
-            longLat[1] = Double.parseDouble(longLatString.split(",")[1]);
-            System.out.println(mapElement.getKey().toString());
-            System.out.println((mapElement.getKey().toString().replaceAll("/","\\\\")));
+            String latLongString = (String)mapElement.getValue();
+            latLong[0] = Double.parseDouble(latLongString.split(",")[0]);
+            latLong[1] = Double.parseDouble(latLongString.split(",")[1]);
+            System.out.println("long: " + latLong[0]);
+            System.out.println("lat: " + latLong[1]);
             String url = (mapElement.getKey().toString().replaceAll("/","\\\\"));
             String output = resize(url, thumbnailHeight*2, thumbnailHeight);
             Path outputPath = Paths.get(output);
             savedToDisk.add(outputPath);
             File file = new File(outputPath.toString());
             URL outputUrl = file.toURL();
-            markers.add(new Marker(outputUrl, -20, -20).setPosition(new Coordinate(longLat[0],longLat[1])).setVisible(false));
+            markers.add(new Marker(outputUrl, -20, -20).setPosition(new Coordinate(latLong[0],latLong[1])).setVisible(false));
         }
     }
     public static ArrayList<Path> getSavedToDisk() {
