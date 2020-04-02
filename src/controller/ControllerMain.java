@@ -2,9 +2,8 @@ package controller;
 
 import backend.DatabaseClient;
 import backend.Text_To_Speech;
+import controller.tempScrapped.ControllerMapScrapped;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableDoubleValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -14,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -34,10 +32,12 @@ import javafx.stage.StageStyle;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
@@ -672,14 +672,22 @@ public class ControllerMain implements Initializable {
                 getLocations().put((String) paths.get(i), "" + longitude + "," + latitude);
             }
         }
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
+
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/DemoApp.fxml"));
         worldStage.setScene(new Scene(root));
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
         worldStage.showAndWait();
-        if (ControllerMap.getClickedImage() != null) {
-            showBigImage(ControllerMap.getClickedImage(), ControllerMap.getClickedImage().getId());
+        for(Path p : ControllerMap.getSavedToDisk()){
+            new File(p.toString()).delete();
         }
+
+        /*
+        if (ControllerMapScrapped.getClickedImage() != null) {
+            showBigImage(ControllerMapScrapped.getClickedImage(), ControllerMapScrapped.getClickedImage().getId());
+        }
+
+         */
     }
 
     /**

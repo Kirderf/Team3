@@ -15,15 +15,11 @@
 */
 package backend.Web.main.java.com.sothawo.mapjfxdemo;
 
-import com.sothawo.mapjfx.Projection;
-import controller.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Demo application for the mapjfx component.
@@ -47,5 +43,11 @@ public class DemoApp extends Application {
         primaryStage.setTitle("sothawo mapjfx demo application");
         primaryStage.setScene(scene);
         primaryStage.show();
+        /*
+        for(Path p : Controller.getSavedToDisk()){
+            new File(p.toString()).delete();
+        }
+        Controller.emptySavedToDisk();
+         */
     }
 }
