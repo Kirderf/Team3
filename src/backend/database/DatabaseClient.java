@@ -71,6 +71,9 @@ public class DatabaseClient {
                         Integer.parseInt(metadata[3]),
                         Double.parseDouble(metadata[4]),
                         Double.parseDouble(metadata[5]));
+                if (!imageDatabase.isInitialized()){
+                    imageDatabase.setInitialized(true);
+                }
                 return true;
             }
         }

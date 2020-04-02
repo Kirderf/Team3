@@ -1,24 +1,18 @@
 package backend.database;
 
-import org.eclipse.persistence.annotations.Multitenant;
-import org.eclipse.persistence.annotations.MultitenantType;
-import org.eclipse.persistence.annotations.TenantDiscriminatorColumn;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 //should we have a named query?
 //named this way to avoid confusion with existing Image classes
 @Entity
-@Multitenant(MultitenantType.TABLE_PER_TENANT)
-@TenantDiscriminatorColumn(name = "ID", contextProperty = "multi-tenant.id")
 public class ImageDAO implements Serializable {
-    private int ID;
     @Id
     private String path;
+    private int ID;
     private int fileSize;
     private int date;
     private int imageHeight;
@@ -27,8 +21,8 @@ public class ImageDAO implements Serializable {
     private double longitude;
     private String tags;
 
-    public ImageDAO(int ID, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
-        this.ID = ID;
+    public ImageDAO(int id, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
+        this.ID = id;
         this.path = path;
         this.fileSize = fileSize;
         this.date = date;
@@ -41,6 +35,14 @@ public class ImageDAO implements Serializable {
 
     public ImageDAO() {
         ClassDescriptor.shouldUseFullChangeSetsForNewObjects = true;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getPath() {

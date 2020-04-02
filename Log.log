@@ -1,6 +1,14 @@
-mar 30, 2020 9:15:54 PM backend.util.Log logNewInfo
+apr 02, 2020 3:07:28 PM backend.util.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-mar 30, 2020 9:16:01 PM backend.util.Log logNewInfo
+apr 02, 2020 3:07:34 PM backend.util.Log logNewInfo
 INFO: DatabaseClient : Adding image
-mar 30, 2020 9:16:01 PM backend.util.Log logNewInfo
+apr 02, 2020 3:07:34 PM backend.util.Log logNewInfo
 INFO: ImageImport : Getting metadata from file
+apr 02, 2020 3:08:26 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+apr 02, 2020 3:08:26 PM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+apr 02, 2020 3:10:22 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/fredr/Pictures/2013-10-06_15.02.29.png
+apr 02, 2020 3:10:24 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/fredr/Pictures/assassins_creed_emblem_background_sign_21382_1920x1080.jpg

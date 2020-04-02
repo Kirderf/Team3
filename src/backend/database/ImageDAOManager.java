@@ -2,18 +2,27 @@ package backend.database;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 //use compostion, as the only Image objects we would want to manipulate would be the ones already in the database, therefore it should be done through this class
 public class ImageDAOManager {
     private boolean isInitialized = false;
+    private int instanceID = 5;
     //thread safe
     private EntityManagerFactory emf;
     public ImageDAOManager(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+
+    public void setInitialized(boolean initialized) {
+        isInitialized = initialized;
+    }
 
     /**
      * create new images
@@ -25,7 +34,7 @@ public class ImageDAOManager {
         try {
             //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
             path = path.replaceAll("\\\\", "/");
-            ImageDAO imageDAO = new ImageDAO(5,path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
+            ImageDAO imageDAO = new ImageDAO(instanceID,path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
             em.getTransaction().begin();
             em.persist(imageDAO);//into persistence context
             em.getTransaction().commit();//store into database
@@ -63,7 +72,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized){
-                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o");
+                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.ID=" +this.instanceID);
                 return q.getResultList();
             }
             //same result with SELECT p FROM Team3Image o
@@ -76,7 +85,7 @@ public class ImageDAOManager {
     public int getNumberOfTeam3Images() {
         EntityManager em = getEM();
         try {
-            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o");
+            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.ID=" +this.instanceID);
             Long num = (Long) q.getSingleResult();
             return num.intValue();
         } finally {
@@ -88,7 +97,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             //selects all images with latitude and longitude that's not 0.0
-            Query q = em.createQuery("SELECT OBJECT (o) FROM ImageDAO o WHERE NOT o.latitude = 0.0 AND NOT o.longitude = 0.0");
+            Query q = em.createQuery("SELECT OBJECT (o) FROM ImageDAO o WHERE NOT o.latitude = 0.0 AND NOT o.longitude = 0.0 AND o.ID="+this.instanceID);
             return q.getResultList();
         } finally {
             closeEM(em);
