@@ -42,7 +42,7 @@ import java.util.*;
 public class ControllerMap implements Initializable {
 
     private HashMap<Marker,String> markers = new HashMap<>();
-    private static ArrayList<Path> savedToDisk = new ArrayList<>();
+    private static ArrayList<String> savedToDisk = new ArrayList<>();
     private static final Coordinate coordKarlsruheHarbour = new Coordinate(49.015511, 8.323497);
     //ratio is preserved
     private final int thumbnailHeight = 75;
@@ -66,19 +66,24 @@ public class ControllerMap implements Initializable {
             Map.Entry mapElement = (Map.Entry)hmIterator.next();
 
             String latLongString = (String)mapElement.getValue();
+            //latitude
             latLong[0] = Double.parseDouble(latLongString.split(",")[0]);
+            //longitude
             latLong[1] = Double.parseDouble(latLongString.split(",")[1]);
+            //String with absolute path to image with valid gps data
             String url = (mapElement.getKey().toString().replaceAll("/","\\\\"));
-            String output = resize(url, thumbnailHeight*2, thumbnailHeight);
-            Path outputPath = Paths.get(output);
-            savedToDisk.add(outputPath);
-            File file = new File(outputPath.toString());
+            //resizes image to be used as a thumbnail on map
+            String output = resize(url, thumbnailHeight);
+            //arraylist which is later used to delete saved images
+            savedToDisk.add(output);
+            File file = new File(output);
             URL outputUrl = file.toURL();
+            //add marker and path to file to markers hashmap
             markers.put((new Marker(outputUrl, -20, -20).setPosition(new Coordinate(latLong[0],latLong[1])).setVisible(false)),(String)mapElement.getKey());
         }
 
     }
-    public static ArrayList<Path> getSavedToDisk() {
+    public static ArrayList<String> getSavedToDisk() {
         return savedToDisk;
     }
     public static ImageView getClickedImage(){
@@ -89,7 +94,7 @@ public class ControllerMap implements Initializable {
     }
 
     public static void emptySavedToDisk() {
-        savedToDisk = new ArrayList<Path>();
+        savedToDisk = new ArrayList<String>();
     }
 
     public void addEventListeners(){
@@ -98,7 +103,9 @@ public class ControllerMap implements Initializable {
             Map.Entry markerEntry = (Map.Entry)markerIterator.next();
             mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
                 try {
+                    //formats string to full size version of image clicked on
                     File file = new File(markers.get(event.getMarker()).replaceAll("/","\\\\"));
+                    //need to do it this way to get an image from an absolute path
                     Image imageForFile = new Image(file.toURI().toURL().toExternalForm());
                     ImageView imageView = new ImageView(imageForFile);
                     imageView.setId((String)markerEntry.getValue());
@@ -115,14 +122,17 @@ public class ControllerMap implements Initializable {
         stage.close();
     }
 
-    public static String resize(String inputImagePath, int scaledWidth, int scaledHeight)throws IOException {
+    public static String resize(String inputImagePath, int scaledHeight)throws IOException {
         // reads input image
-        Image image = new Image(new File(inputImagePath).toURI().toURL().toExternalForm(),scaledWidth,scaledHeight,true,false);
+        //requestedWidth is just a placeholder, simply needs to be bigger than height
+        Image image = new Image(new File(inputImagePath).toURI().toURL().toExternalForm(),scaledHeight*2,scaledHeight,true,false);
         BufferedImage bImage = SwingFXUtils.fromFXImage(image,null);
+        //formats string to have \\ instead of /
+        //the path to the image is temporary, so the name of the image is given by current time in milliseconds
         String outputImagePath = inputImagePath.substring(0,inputImagePath.replaceAll("\\\\","/").lastIndexOf("/")).replaceAll("\\\\","/") +"/"+ Calendar.getInstance().getTimeInMillis() + inputImagePath.substring(inputImagePath.lastIndexOf("."));
-        Path outputPath = Paths.get(outputImagePath);
-        ImageIO.write(bImage, "png", new File(outputPath.toString()));
-        return outputPath.toString();
+        //writes the thumbnail to the disk so that it can be read by marker creator
+        ImageIO.write(bImage, "png", new File(outputImagePath));
+        return outputImagePath;
     }
 
 
@@ -152,12 +162,14 @@ public class ControllerMap implements Initializable {
     }
     public void afterMapIsInitialized(){
         Iterator markerIterator = markers.entrySet().iterator();
+        //iterates through all the added markers
         while(markerIterator.hasNext()){
-
             Map.Entry markerEntry = (Map.Entry) markerIterator.next();
+            //adds the marker to the map
             mapView.addMarker((Marker)markerEntry.getKey());
             ((Marker) markerEntry.getKey()).setVisible(true);
         }
+        //adds event listeners to all markers
         addEventListeners();
     }
     @Override

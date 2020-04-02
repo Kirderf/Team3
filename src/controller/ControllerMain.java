@@ -251,6 +251,17 @@ public class ControllerMain implements Initializable {
             if(result.get()==ButtonType.OK){
                 for (String path : getSelectedImages()) {
                     databaseClient.removeImage(path);
+                    Iterator albumIterator = albums.entrySet().iterator();
+                    //iterates through albums
+                    while(albumIterator.hasNext()){
+                        Map.Entry albumEntry = (Map.Entry)albumIterator.next();
+                        //if the image is in the album then it is removed
+                        ((ArrayList<String>)albumEntry.getValue()).remove(path);
+                        //if the last image was just removed, then the album is deleted
+                        if(((ArrayList<String>)albumEntry.getValue()).isEmpty()){
+                            albums.remove(albumEntry.getKey());
+                        }
+                    }
                     refreshImages();
                 }
             }else{
@@ -679,8 +690,8 @@ public class ControllerMain implements Initializable {
         worldStage.setResizable(false);
         worldStage.showAndWait();
 
-        for(Path p : ControllerMap.getSavedToDisk()){
-            new File(p.toString()).delete();
+        for(String s : ControllerMap.getSavedToDisk()){
+            new File(s).delete();
         }
         ControllerMap.emptySavedToDisk();
 
