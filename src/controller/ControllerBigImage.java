@@ -9,21 +9,26 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.converter.NumberStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 public class ControllerBigImage extends ControllerMain implements Initializable {
     private Stage addTagStage = new Stage();
     private Stage importStage = new Stage();
+    private Stage addToAlbumStage = new Stage();
     private Text_To_Speech voice = new Text_To_Speech();
     @FXML
     private ImageView bigImage;
@@ -52,7 +57,32 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         textField.setEditable(false);
         addToSelectedImages(getPathBuffer());
     }
+    @FXML
+    public void addToAlbumAction(ActionEvent actionEvent) {
+        if(!getSelectedImages().isEmpty()) {
+            voice.speak("Adding to album");
+            if (!addToAlbumStage.isShowing()) {
+                if (!addToAlbumStage.getModality().equals(Modality.APPLICATION_MODAL))
+                    addToAlbumStage.initModality(Modality.APPLICATION_MODAL);
+                if (!addToAlbumStage.getStyle().equals(StageStyle.UTILITY)) addToAlbumStage.initStyle(StageStyle.UTILITY);
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/Views/SelectAlbums.fxml"));
+                    addToAlbumStage.setScene(new Scene(root));
+                    addToAlbumStage.setTitle("Search");
+                    addToAlbumStage.setResizable(false);
+                    addToAlbumStage.showAndWait();
+                    if (false) {
 
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else {
+            new Alert(Alert.AlertType.WARNING, "You need to select some images to add to the albums").showAndWait();
+        }
+    }
     @FXML
     /**
      * when go to library is pressed

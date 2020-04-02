@@ -2,7 +2,6 @@ package controller;
 
 import backend.DatabaseClient;
 import backend.Text_To_Speech;
-import controller.tempScrapped.ControllerMapScrapped;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -37,7 +36,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
@@ -63,6 +61,7 @@ public class ControllerMain implements Initializable {
     private Stage aboutStage = new Stage();
     private Stage worldStage = new Stage();
     private Stage preferenceStage = new Stage();
+    private Stage addToAlbumStage = new Stage();
 
     //Nodes
     @FXML
@@ -684,7 +683,7 @@ public class ControllerMain implements Initializable {
             }
         }
 
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/DemoApp.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
         worldStage.setScene(new Scene(root));
         worldStage.setTitle("Map");
         worldStage.setResizable(false);
@@ -847,6 +846,33 @@ public class ControllerMain implements Initializable {
             preferenceStage.showAndWait();
         }
 
+    }
+
+    public void addToAlbumAction(ActionEvent actionEvent) {
+        logger.log(Level.INFO, "adding to album");
+        if(!getSelectedImages().isEmpty()) {
+            voice.speak("Adding to album");
+            if (!addToAlbumStage.isShowing()) {
+                if (!addToAlbumStage.getModality().equals(Modality.APPLICATION_MODAL))
+                    addToAlbumStage.initModality(Modality.APPLICATION_MODAL);
+                if (!addToAlbumStage.getStyle().equals(StageStyle.UTILITY)) addToAlbumStage.initStyle(StageStyle.UTILITY);
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/Views/SelectAlbums.fxml"));
+                    addToAlbumStage.setScene(new Scene(root));
+                    addToAlbumStage.setTitle("Search");
+                    addToAlbumStage.setResizable(false);
+                    addToAlbumStage.showAndWait();
+                    if (false) {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else {
+            new Alert(Alert.AlertType.WARNING, "You need to select some images to add to the albums").showAndWait();
+        }
     }
 }
 
