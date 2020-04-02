@@ -3,8 +3,6 @@ package controller;
 import backend.DatabaseClient;
 import backend.Text_To_Speech;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableDoubleValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -14,12 +12,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -808,7 +805,7 @@ public class ControllerMain implements Initializable {
      * @param event event that led to this being called, e.g hovering over or clicking on menu
      */
     public void TextToSpeakOnMenu(Event event) {
-        voice.speak(((Menu) event.getSource()).getText());
+        voice.speak(((MenuItem) event.getSource()).getText());
     }
 
     /**

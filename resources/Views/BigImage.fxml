@@ -28,11 +28,12 @@
             <menus>
                 <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
                     <items>
-                        <Menu fx:id="importButton" mnemonicParsing="false" onAction="#importAction" text="Import" />
-                        <Menu fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" text="Export" />
-                        <Menu fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" text="Save to album" />
+                        <MenuItem fx:id="importButton" mnemonicParsing="false" onAction="#importAction" onMenuValidation="#TextToSpeakOnMenu" text="Import" />
+                        <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" onMenuValidation="#TextToSpeakOnMenu" text="Export" />
+                        <MenuItem fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Save to album" />
+                        <MenuItem fx:id="removeButton" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Preferences..." />
+                        <MenuItem mnemonicParsing="false" onAction="#preferencesAction" text="Preferences..." />
                         <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
                     </items>
                 </Menu>
