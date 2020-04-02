@@ -58,32 +58,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         addToSelectedImages(getPathBuffer());
     }
     @FXML
-    public void addToAlbumAction(ActionEvent actionEvent) {
-        if(!getSelectedImages().isEmpty()) {
-            voice.speak("Adding to album");
-            if (!addToAlbumStage.isShowing()) {
-                if (!addToAlbumStage.getModality().equals(Modality.APPLICATION_MODAL))
-                    addToAlbumStage.initModality(Modality.APPLICATION_MODAL);
-                if (!addToAlbumStage.getStyle().equals(StageStyle.UTILITY)) addToAlbumStage.initStyle(StageStyle.UTILITY);
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/Views/SelectAlbums.fxml"));
-                    addToAlbumStage.setScene(new Scene(root));
-                    addToAlbumStage.setTitle("Search");
-                    addToAlbumStage.setResizable(false);
-                    addToAlbumStage.showAndWait();
-                    if (false) {
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        else {
-            new Alert(Alert.AlertType.WARNING, "You need to select some images to add to the albums").showAndWait();
-        }
-    }
-    @FXML
     /**
      * when go to library is pressed
      */

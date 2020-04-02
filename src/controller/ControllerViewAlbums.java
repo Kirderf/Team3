@@ -10,6 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -160,9 +162,8 @@ public class ControllerViewAlbums implements Initializable {
 
     /**
      * when delete album is selected
-     * @param actionEvent
      */
-    public void deleteAction(ActionEvent actionEvent) {
+    public void deleteAction() {
         //iterates through all albums
         for(int i = 0; i<albumTilePane.getChildren().size();i++){
             //if it is a pane it is an album
@@ -184,16 +185,23 @@ public class ControllerViewAlbums implements Initializable {
      */
     private void deleteConfirmation(Pane pane) throws IOException {
         setAlbumToBeDeleted(pane.getChildren().get(0).getId());
-        Stage confirmStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/DeleteConfirmation.fxml"));
-        confirmStage.setScene(new Scene(root));
-        confirmStage.setTitle("Import");
-        confirmStage.setResizable(false);
-        confirmStage.showAndWait();
-        //if the stage is closed
-        if(ControllerConfirmDeleteAlbum.isStageClosed()){
-            //the normal events are added back
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm deletion");
+        alert.setHeaderText("Are you sure you want to delete this album?");
+        alert.setContentText(getAlbumToBeDeleted());
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            ControllerViewAlbums.deleteAlbum(getAlbumToBeDeleted());
+            ControllerViewAlbums.setAlbumToBeDeleted("");
             addBackEvents();
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "Album was not deleted").showAndWait();
+            ControllerViewAlbums.setAlbumToBeDeleted("");
+            addBackEvents();
+            ControllerMain.clearSelectedImages();
+            closeWindow();
         }
     }
 

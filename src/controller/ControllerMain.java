@@ -1,6 +1,7 @@
 package controller;
 
 import backend.DatabaseClient;
+import backend.ImageExport;
 import backend.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -25,6 +26,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -346,28 +348,67 @@ public class ControllerMain implements Initializable {
     @FXML
     private void exportAction() {
         voice.speak("Exporting");
-        Stage exportStage = new Stage();
-        if (!exportStage.isShowing()) {
-            if(exportStage.getModality() != Modality.APPLICATION_MODAL) exportStage.initModality(Modality.APPLICATION_MODAL);
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/Views/Export.fxml"));
-                exportStage.setScene(new Scene(root));
-                exportStage.setTitle("Export");
-                exportStage.setResizable(false);
-                exportStage.showAndWait();
-                //exportSucceed is a static variable in controllerExport
-                if (ControllerExport.isExportSucceed()) {
-                    if (this.getClass() == ControllerMain.class) {
-                        refreshImages();
+        if(!getSelectedImages().isEmpty()) {
+            Stage exportStage = new Stage();
+            if (!exportStage.isShowing()) {
+                try {
+                    TextInputDialog dialog = new TextInputDialog("");
+                    dialog.setTitle("Name picker");
+                    dialog.setHeaderText("Enter name for pdf:");
+                    dialog.setContentText("Please enter name for pdf:");
+                    Optional<String> result = dialog.showAndWait();
+                    if (result.isPresent()){
+                        exportPDF(result.get());
                     }
-                    ControllerExport.setExportSucceed(false);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
-            } catch (Exception exception) {
-                exception.printStackTrace();
+            }
+            refreshImages();
+        }
+        else{
+            new Alert(Alert.AlertType.WARNING, "You need to select some images to export").showAndWait();
+        }
+    }
+
+    private boolean exportPDF(String inputText) throws IOException {
+        File f = new File("/"+inputText + ".txt");
+        try {
+            if(inputText.trim().equals("")) throw new IOException("Invalid filename inputted");
+            //this throws error is filename is invalid
+            System.out.println(inputText);
+            f.getCanonicalPath();
+            //chooses album location after selecting name
+            DirectoryChooser chooser = new DirectoryChooser();
+            chooser.setTitle("Choose folder for album");
+            //the directory that the file chooser starts in
+            File defaultDirectory = new File("/");
+            chooser.setInitialDirectory(defaultDirectory);
+            File selectedDirectory = chooser.showDialog(null);
+            //gets the filename from the user and formats it correctly
+            if(ImageExport.exportToPdf(selectedDirectory.getPath() +"/"+ inputText + ".pdf",getSelectedImages())){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "To the directory" + selectedDirectory.getPath() +"\n" + "With the filename: " + inputText + ".pdf");
+                alert.initStyle(StageStyle.UTILITY);
+                alert.setTitle("Success");
+                alert.setHeaderText("Your album was exported successfully");
+                alert.showAndWait();
+                return true;
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Something went wrong when attempting to save your selected");
+                alert.initStyle(StageStyle.UTILITY);
+                alert.setTitle("Something went wrong");
+                alert.setHeaderText("Unfortunately we were unable to export your album");
+                alert.showAndWait();
+                return false;
             }
         }
-        clearSelectedImages();
+        catch (IOException e) {
+            new Alert(Alert.AlertType.WARNING, "You need to pick a valid filename for your album").showAndWait();
+        }
+        return false;
     }
+
 
     /**
      * Closes application, and closes connections to database. Cannot close if other windows are open
@@ -707,54 +748,45 @@ public class ControllerMain implements Initializable {
      */
     public void saveAlbumAction(ActionEvent actionEvent) throws IOException {
         voice.speak("Creating album");
-        if (!albumNameStage.isShowing()) {
-            try {
-                if (getSelectedImages().size() == 0) {
-                    throw new IllegalArgumentException("You need to select more than one image for your album");
-                }
-                Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNamePicker.fxml"));
-                albumNameStage.setScene(new Scene(root));
-                albumNameStage.setTitle("Save album");
-                albumNameStage.setResizable(false);
-                //disables back stage
-                albumNameStage.showAndWait();
-                //exportSucceed is a static variable in controllerExport
-                if (!ControllerAlbumNamePicker.savedName.trim().equals("")) {
-                    if (albums.containsKey(ControllerAlbumNamePicker.savedName)) {
-                        throw new IllegalArgumentException("That name already exists");
-                    } else {
-                        refreshImages();
-                        albums.put(ControllerAlbumNamePicker.savedName, new ArrayList<>());
-                        ArrayList<String> tempArray = new ArrayList<>();
-                        for (String s : getSelectedImages()) {
-                            albums.get(ControllerAlbumNamePicker.savedName).add(s);
-                            tempArray.add(s);
+        try {
+            if (!getSelectedImages().isEmpty()) {
+                TextInputDialog dialog = new TextInputDialog("");
+                dialog.setTitle("Name picker");
+                dialog.setHeaderText("Enter name for album:");
+                dialog.setContentText("Please enter name for album:");
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()) {
+                    if (!result.get().trim().equals("")) {
+                        if (albums.containsKey(result.get())) {
+                            new Alert(Alert.AlertType.WARNING, "That album name already exists").showAndWait();
+                            clearSelectedImages();
                         }
-                        clearSelectedImages();
-                        Collections.copy(albums.get(ControllerAlbumNamePicker.savedName), tempArray);
-                        ControllerAlbumNamePicker.savedName = "";
+                        else {
+                            refreshImages();
+                            albums.put(result.get(), new ArrayList<>());
+                            ArrayList<String> tempArray = new ArrayList<>();
+                            for (String s : getSelectedImages()) {
+                                albums.get(result.get()).add(s);
+                                tempArray.add(s);
+                            }
+                            clearSelectedImages();
+                            Collections.copy(albums.get(result.get()), tempArray);
+                        }
+                    }
+                    else {
+                        new Alert(Alert.AlertType.WARNING, "You cant save an album using a blank name").showAndWait();
+                        refreshImages();
                     }
                 }
-            } catch (IllegalArgumentException e) {
-                //TODO add logger
-                Parent root = FXMLLoader.load(getClass().getResource("/Views/AlbumNameError.fxml"));
-                Stage errorStage = new Stage();
-                if (!errorStage.isShowing()) {
-                    if (errorStage.getModality() != Modality.APPLICATION_MODAL)
-                        errorStage.initModality(Modality.APPLICATION_MODAL);
-                    errorStage.setScene(new Scene(root));
-                    errorStage.setTitle("Albums");
-                    errorStage.setResizable(false);
-                    errorStage.setAlwaysOnTop(true);
-                    errorStage.showAndWait();
-                    albumNameStage.setAlwaysOnTop(false);
-                }
-            } catch (Exception exception) {
-                //TODO change to logger
-                exception.printStackTrace();
             }
+            else {
+                new Alert(Alert.AlertType.WARNING, "You need to select some images to save to an album").showAndWait();
+            }
+            clearSelectedImages();
         }
-        clearSelectedImages();
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     /**
@@ -862,9 +894,6 @@ public class ControllerMain implements Initializable {
                     addToAlbumStage.setTitle("Search");
                     addToAlbumStage.setResizable(false);
                     addToAlbumStage.showAndWait();
-                    if (false) {
-
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ImageExport {
+public abstract class ImageExport {
     /**
      * prints out an pdf of all the images in the path array
      * @param name the location, including the name, of where you want to save it, in the format "C://Users/Ingebrigt/Pictures/helloworld.pdf"
