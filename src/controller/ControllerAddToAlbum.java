@@ -68,7 +68,7 @@ public class ControllerAddToAlbum implements Initializable {
         return tempAlbumList;
     }
 
-    public void confirmAddToAlbum(ActionEvent actionEvent) {
+    public void confirmAddToAlbum() {
         ArrayList<String> checkedBoxes = getCheckedBoxes();
         ArrayList<String> selectedImages = ControllerMain.getSelectedImages();
         int counter = 0;

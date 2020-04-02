@@ -360,6 +360,9 @@ public class ControllerMain implements Initializable {
                     if (result.isPresent()){
                         exportPDF(result.get());
                     }
+                    else{
+                        selectedImages.clear();
+                    }
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -778,6 +781,9 @@ public class ControllerMain implements Initializable {
                         refreshImages();
                     }
                 }
+                else {
+                    refreshImages();
+                }
             }
             else {
                 new Alert(Alert.AlertType.WARNING, "You need to select some images to save to an album").showAndWait();
@@ -902,6 +908,7 @@ public class ControllerMain implements Initializable {
         else {
             new Alert(Alert.AlertType.WARNING, "You need to select some images to add to the albums").showAndWait();
         }
+        refreshImages();
     }
 }
 
