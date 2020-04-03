@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,6 +49,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     private VBox imageVbox;
     @FXML
     private VBox tagVbox;
+    @FXML
+    private SplitPane bigImgDataSplitPane;
 
     /**
      * Run 1 time once the window opens
@@ -61,6 +64,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         showMetadata();
         showTags();
         textField.setEditable(false);
+        bigImgDataSplitPane.setDividerPositions(getSplitPanePos());
     }
     @FXML
     /**
@@ -68,21 +72,25 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     private void goToLibrary(ActionEvent event) throws IOException {
         voice.speak("Going to library");
+        setSplitPanePos(bigImgDataSplitPane.getDividerPositions()[0]);
         bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
+
     }
 
     @FXML
     /**
      * add tag is clicked
      */
-    private void addTagAction(){
+    private void addTagAction(ActionEvent event){
+        voice.speak("Tagging");
+        bigImgDataSplitPane.setDividerPositions(imgDataSplitPane.getDividerPositions()[0]);
         if(!addTagStage.isShowing()){
             try{
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Tagging.fxml"));
                 addTagStage.setScene(new Scene(root));
                 addTagStage.setTitle("Tagging");
                 addTagStage.setResizable(false);
-                addTagStage.setOnCloseRequest(event -> ControllerTagging.bufferTags.clear());
+                addTagStage.setOnCloseRequest(event1 -> ControllerTagging.bufferTags.clear());
                 addTagStage.showAndWait();
             }catch (Exception exception){
                 exception.printStackTrace();

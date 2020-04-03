@@ -19,7 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -54,10 +54,10 @@ public class ControllerMain implements Initializable {
     public static ArrayList<String> selectedImages = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
     public static Image imageBuffer;
+    public static double splitPanePos = 0.51;
 
     //Stages
     private Stage importStage = new Stage();
-
     private Stage searchStage = new Stage();
     private Stage aboutStage = new Stage();
     private Stage worldStage = new Stage();
@@ -70,13 +70,15 @@ public class ControllerMain implements Initializable {
     @FXML
     private ComboBox<?> sortDropDown;
     @FXML
-    private TextArea pathDisplay;
+    private TextField textField;
     @FXML
     private VBox metadataVbox;
     @FXML
     private VBox tagVbox;
+    @FXML
+    protected SplitPane imgDataSplitPane;
 
-    private Text_To_Speech voice;
+    protected Text_To_Speech voice;
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -92,14 +94,14 @@ public class ControllerMain implements Initializable {
         //when i have the modality anywhere else i get an illegalstateexception
         voice = new Text_To_Speech();
         logger.logNewInfo("Initializing ControllerMain");
-        //this is required, as disabling the textfield in the fxml file made the path way too light to see
-        pathDisplay.setEditable(false);
         pictureGrid.setAlignment(Pos.CENTER);
+        imgDataSplitPane.setDividerPositions(splitPanePos);
         refreshImages();
     }
 
     /**
      * returns instance of databaseclient to be used when adding images to database
+     *
      * @return DatabaseClient instance
      */
     public static DatabaseClient getDatabaseClient() {
@@ -114,8 +116,17 @@ public class ControllerMain implements Initializable {
         ControllerMain.pathBuffer = pathBuffer;
     }
 
+    public static void setSplitPanePos(double pos) {
+        splitPanePos = pos;
+    }
+
+    public static double getSplitPanePos() {
+        return splitPanePos;
+    }
+
     /**
      * gets the albums currently saved
+     *
      * @return hashmap with saved albums
      */
     public static HashMap<String, ArrayList<String>> getAlbums() {
@@ -124,6 +135,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * gets the current image buffer
+     *
      * @return Image in image buffer
      */
     public static Image getImageBuffer() {
@@ -132,6 +144,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * sets the imageBuffer
+     *
      * @param imageBuffer image you want to set it to
      */
     public static void setImageBuffer(Image imageBuffer) {
@@ -140,6 +153,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * returns a hasmap with all the images that have valid g
+     *
      * @return
      */
     public static HashMap<String, String> getLocations() {
@@ -152,7 +166,8 @@ public class ControllerMain implements Initializable {
 
     /**
      * adds an album to the albums hashmap
-     * @param key the name of the album
+     *
+     * @param key    the name of the album
      * @param images arraylist containing the path to teh images
      */
     public static void addToAlbums(String key, ArrayList<String> images) {
@@ -161,6 +176,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * removes an album from the saved albums
+     *
      * @param key the name of the album
      * @return arraylist with the removed images
      */
@@ -170,6 +186,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * gets all selected images
+     *
      * @return returns all selected images
      */
     public static ArrayList<String> getSelectedImages() {
@@ -178,6 +195,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * clears the selected images and sets it equal to the new arraylist
+     *
      * @param s the new arraylist with image paths
      */
     public static void setSelectedImages(ArrayList<String> s) {
@@ -187,6 +205,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * adds a path to the selectedimages
+     *
      * @param s the path that you want to add to the image
      */
     public static void addToSelectedImages(String s) {
@@ -202,6 +221,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * removes a specific image from the selected images
+     *
      * @param path the path to the image you want to remove
      * @return boolean whether or not the removal was successful
      */
@@ -217,8 +237,9 @@ public class ControllerMain implements Initializable {
         logger.logNewInfo("SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
-            if(!searchStage.getModality().equals(Modality.APPLICATION_MODAL)) searchStage.initModality(Modality.APPLICATION_MODAL);
-            if(!searchStage.getStyle().equals(StageStyle.UTILITY)) searchStage.initStyle(StageStyle.UTILITY);
+            if (!searchStage.getModality().equals(Modality.APPLICATION_MODAL))
+                searchStage.initModality(Modality.APPLICATION_MODAL);
+            if (!searchStage.getStyle().equals(StageStyle.UTILITY)) searchStage.initStyle(StageStyle.UTILITY);
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
                 searchStage.setScene(new Scene(root));
@@ -250,23 +271,23 @@ public class ControllerMain implements Initializable {
             confirm.setHeaderText("Are you sure you want to remove " + getSelectedImages().size() + " images?");
             confirm.setContentText("This action is not revertable!");
             Optional<ButtonType> result = confirm.showAndWait();
-            if(result.get()==ButtonType.OK){
+            if (result.get() == ButtonType.OK) {
                 for (String path : getSelectedImages()) {
                     databaseClient.removeImage(path);
                     Iterator albumIterator = albums.entrySet().iterator();
                     //iterates through albums
-                    while(albumIterator.hasNext()){
-                        Map.Entry albumEntry = (Map.Entry)albumIterator.next();
+                    while (albumIterator.hasNext()) {
+                        Map.Entry albumEntry = (Map.Entry) albumIterator.next();
                         //if the image is in the album then it is removed
-                        ((ArrayList<String>)albumEntry.getValue()).remove(path);
+                        ((ArrayList<String>) albumEntry.getValue()).remove(path);
                         //if the last image was just removed, then the album is deleted
-                        if(((ArrayList<String>)albumEntry.getValue()).isEmpty()){
+                        if (((ArrayList<String>) albumEntry.getValue()).isEmpty()) {
                             albums.remove(albumEntry.getKey());
                         }
                     }
                     refreshImages();
                 }
-            }else{
+            } else {
                 refreshImages();
             }
 
@@ -286,7 +307,8 @@ public class ControllerMain implements Initializable {
     private void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
         if (!importStage.isShowing()) {
-            if(importStage.getModality() != Modality.APPLICATION_MODAL) importStage.initModality(Modality.APPLICATION_MODAL);
+            if (importStage.getModality() != Modality.APPLICATION_MODAL)
+                importStage.initModality(Modality.APPLICATION_MODAL);
             if (!importStage.getStyle().equals(StageStyle.UTILITY)) importStage.initStyle(StageStyle.UTILITY);
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
             importStage.setScene(new Scene(root));
@@ -294,7 +316,7 @@ public class ControllerMain implements Initializable {
             importStage.setResizable(false);
             importStage.showAndWait();
             if (ControllerImport.isImportSucceed()) {
-                if(ControllerPreferences.isTtsChecked()) voice.speak("Import succeeded");
+                if (ControllerPreferences.isTtsChecked()) voice.speak("Import succeeded");
                 logger.logNewInfo("Refreshing images after import controllermain");
                 refreshImages();
                 ControllerImport.setImportSucceed(false);
@@ -349,7 +371,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private void exportAction() {
         voice.speak("Exporting");
-        if(!getSelectedImages().isEmpty()) {
+        if (!getSelectedImages().isEmpty()) {
             Stage exportStage = new Stage();
             if (!exportStage.isShowing()) {
                 try {
@@ -358,10 +380,9 @@ public class ControllerMain implements Initializable {
                     dialog.setHeaderText("Enter name for pdf:");
                     dialog.setContentText("Please enter name for pdf:");
                     Optional<String> result = dialog.showAndWait();
-                    if (result.isPresent()){
+                    if (result.isPresent()) {
                         exportPDF(result.get());
-                    }
-                    else{
+                    } else {
                         selectedImages.clear();
                     }
                 } catch (Exception exception) {
@@ -369,16 +390,15 @@ public class ControllerMain implements Initializable {
                 }
             }
             refreshImages();
-        }
-        else{
+        } else {
             new Alert(Alert.AlertType.WARNING, "You need to select some images to export").showAndWait();
         }
     }
 
     private boolean exportPDF(String inputText) throws IOException {
-        File f = new File("/"+inputText + ".txt");
+        File f = new File("/" + inputText + ".txt");
         try {
-            if(inputText.trim().equals("")) throw new IOException("Invalid filename inputted");
+            if (inputText.trim().equals("")) throw new IOException("Invalid filename inputted");
             //this throws error is filename is invalid
             f.getCanonicalPath();
             //chooses album location after selecting name
@@ -389,15 +409,14 @@ public class ControllerMain implements Initializable {
             chooser.setInitialDirectory(defaultDirectory);
             File selectedDirectory = chooser.showDialog(null);
             //gets the filename from the user and formats it correctly
-            if(ImageExport.exportToPdf(selectedDirectory.getPath() +"/"+ inputText + ".pdf",getSelectedImages())){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "To the directory" + selectedDirectory.getPath() +"\n" + "With the filename: " + inputText + ".pdf");
+            if (ImageExport.exportToPdf(selectedDirectory.getPath() + "/" + inputText + ".pdf", getSelectedImages())) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "To the directory" + selectedDirectory.getPath() + "\n" + "With the filename: " + inputText + ".pdf");
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Success");
                 alert.setHeaderText("Your album was exported successfully");
                 alert.showAndWait();
                 return true;
-            }
-            else{
+            } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Something went wrong when attempting to save your selected");
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Something went wrong");
@@ -405,8 +424,7 @@ public class ControllerMain implements Initializable {
                 alert.showAndWait();
                 return false;
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             new Alert(Alert.AlertType.WARNING, "You need to pick a valid filename for your album").showAndWait();
         }
         return false;
@@ -493,6 +511,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * Insert image into the gridpane
+     *
      * @param path to image object
      */
     private void insertImage(String path) throws FileNotFoundException {
@@ -601,6 +620,7 @@ public class ControllerMain implements Initializable {
         clearSelectedImages();
         addToSelectedImages(path);
         setPathBuffer(path);
+        setSplitPanePos(imgDataSplitPane.getDividerPositions()[0]);
         setImageBuffer(imageView.getImage());
         Scene scene = pictureGrid.getScene();
         scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
@@ -649,12 +669,12 @@ public class ControllerMain implements Initializable {
      * @param imagePath the path to the image from which you are getting the metadata
      */
     private void showMetadata(String imagePath) {
-        if(selectedImages.isEmpty()) return;
-        String path = getSelectedImages().get(getSelectedImages().size()-1);
+        if (selectedImages.isEmpty()) return;
+        String path = getSelectedImages().get(getSelectedImages().size() - 1);
         metadataVbox.getChildren().clear();
 
         String[] metadata = getDatabaseClient().getMetaDataFromDatabase(path);
-        pathDisplay.setText("Path :" + metadata[0]);
+        textField.setText("Path: " + metadata[0]);
         metadataVbox.getChildren().add(new Label("File size :" + metadata[2]));
         metadataVbox.getChildren().add(new Label("Date :" + metadata[3].substring(0, 4) + "/" + metadata[3].substring(4, 6) + "/" + metadata[3].substring(6)));
         metadataVbox.getChildren().add(new Label("Height :" + metadata[4]));
@@ -665,13 +685,13 @@ public class ControllerMain implements Initializable {
     }
 
 
-    private void showTags(String imagePath){
-        if(selectedImages.isEmpty()) return;
-        String path = getSelectedImages().get(getSelectedImages().size()-1);
+    private void showTags(String imagePath) {
+        if (selectedImages.isEmpty()) return;
+        String path = getSelectedImages().get(getSelectedImages().size() - 1);
         tagVbox.getChildren().clear();
         String[] tags = getDatabaseClient().getTags(path).split(",");
         tagVbox.getChildren().add(new Label("Tags:"));
-        for (int i = 0; i<tags.length;i++) {
+        for (int i = 0; i < tags.length; i++) {
             tagVbox.getChildren().add(new Label(tags[i]));
         }
     }
@@ -706,7 +726,7 @@ public class ControllerMain implements Initializable {
         worldStage.setResizable(false);
         worldStage.showAndWait();
 
-        for(String s : ControllerMap.getSavedToDisk()){
+        for (String s : ControllerMap.getSavedToDisk()) {
             new File(s).delete();
         }
         ControllerMap.emptySavedToDisk();
@@ -719,6 +739,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * when save to album is clicked
+     *
      * @param actionEvent auto-generated
      * @throws IOException
      */
@@ -736,8 +757,7 @@ public class ControllerMain implements Initializable {
                         if (albums.containsKey(result.get())) {
                             new Alert(Alert.AlertType.WARNING, "That album name already exists").showAndWait();
                             clearSelectedImages();
-                        }
-                        else {
+                        } else {
                             refreshImages();
                             albums.put(result.get(), new ArrayList<>());
                             ArrayList<String> tempArray = new ArrayList<>();
@@ -748,22 +768,18 @@ public class ControllerMain implements Initializable {
                             clearSelectedImages();
                             Collections.copy(albums.get(result.get()), tempArray);
                         }
-                    }
-                    else {
+                    } else {
                         new Alert(Alert.AlertType.WARNING, "You cant save an album using a blank name").showAndWait();
                         refreshImages();
                     }
-                }
-                else {
+                } else {
                     refreshImages();
                 }
-            }
-            else {
+            } else {
                 new Alert(Alert.AlertType.WARNING, "You need to select some images to save to an album").showAndWait();
             }
             clearSelectedImages();
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             logger.logNewFatalError("ControllerMain saveAlbumAction " + exception.getLocalizedMessage());
         }
     }
@@ -861,12 +877,13 @@ public class ControllerMain implements Initializable {
 
     public void addToAlbumAction(ActionEvent actionEvent) {
         logger.logNewInfo("adding to album");
-        if(!getSelectedImages().isEmpty()) {
+        if (!getSelectedImages().isEmpty()) {
             voice.speak("Adding to album");
             if (!addToAlbumStage.isShowing()) {
                 if (!addToAlbumStage.getModality().equals(Modality.APPLICATION_MODAL))
                     addToAlbumStage.initModality(Modality.APPLICATION_MODAL);
-                if (!addToAlbumStage.getStyle().equals(StageStyle.UTILITY)) addToAlbumStage.initStyle(StageStyle.UTILITY);
+                if (!addToAlbumStage.getStyle().equals(StageStyle.UTILITY))
+                    addToAlbumStage.initStyle(StageStyle.UTILITY);
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/Views/SelectAlbums.fxml"));
                     addToAlbumStage.setScene(new Scene(root));
@@ -877,8 +894,7 @@ public class ControllerMain implements Initializable {
                     logger.logNewFatalError("ControllerMain addToAlbumAction " + e.getLocalizedMessage());
                 }
             }
-        }
-        else {
+        } else {
             new Alert(Alert.AlertType.WARNING, "You need to select some images to add to the albums").showAndWait();
         }
         refreshImages();
