@@ -11,12 +11,13 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -29,7 +30,7 @@
                     <items>
                         <MenuItem fx:id="importButton" mnemonicParsing="false" onAction="#importAction" onMenuValidation="#TextToSpeakOnMenu" text="Import" />
                         <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" onMenuValidation="#TextToSpeakOnMenu" text="Export" />
-                        <MenuItem fx:id="addToAlbum" mnemonicParsing="false" onAction="#addToAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Add to album"/>
+                        <MenuItem fx:id="addToAlbum" mnemonicParsing="false" onAction="#addToAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Add to album" />
                         <MenuItem fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Save to album" />
                         <MenuItem fx:id="removeButton" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
                         <SeparatorMenuItem mnemonicParsing="false" />
@@ -60,7 +61,7 @@
         </MenuBar>
     </top>
     <left>
-        <SplitPane dividerPositions="0.5112612612612613" orientation="VERTICAL" prefHeight="446.0" prefWidth="184.0" BorderPane.alignment="CENTER">
+        <SplitPane fx:id="imgDataSplitPane" dividerPositions="0.5112612612612613" orientation="VERTICAL" prefHeight="446.0" prefWidth="184.0" BorderPane.alignment="CENTER">
             <items>
             <AnchorPane minHeight="200.0" prefHeight="272.0" prefWidth="157.0">
                <children>
@@ -82,7 +83,7 @@
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="223.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="25.0" >
+                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="223.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="25.0">
                            <VBox fx:id="tagVbox">
                            </VBox>
                         </ScrollPane>
@@ -92,9 +93,9 @@
         </SplitPane>
     </left>
     <bottom>
-        <HBox maxHeight="25.0" minHeight="30.0" prefHeight="25.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <HBox BorderPane.alignment="CENTER">
             <children>
-                <ComboBox fx:id="sortDropDown" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="184.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#sortAction" prefHeight="25.0" prefWidth="175.0" promptText="Sort by">
+                <ComboBox fx:id="sortDropDown" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="174.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#sortAction" prefHeight="25.0" prefWidth="174.0" promptText="Sort by">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:id="sortByFilename" fx:value="Filename" />
@@ -104,19 +105,30 @@
                             <String fx:id="sortByLocation" fx:value="Location" />
                         </FXCollections>
                     </items>
+               <HBox.margin>
+                  <Insets bottom="7.0" left="5.0" top="7.0" />
+               </HBox.margin>
                 </ComboBox>
-                <AnchorPane minWidth="150.0" HBox.hgrow="ALWAYS">
-                    <children>
-                        <TextArea fx:id="pathDisplay" disable="false" maxHeight="26.0" minHeight="25.0" prefHeight="30.0" prefWidth="561.3333333333334" promptText="Path..." AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="2.0" />
-                    </children>
-                </AnchorPane>
+            <Region>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="7.0" left="2.0" right="2.0" top="7.0" />
+               </padding>
+            </Region>
+            <TextField fx:id="textField" editable="false" promptText="Path..." HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="7.0" right="5.0" top="7.0" />
+               </HBox.margin>
+            </TextField>
             </children>
         </HBox>
     </bottom>
    <center>
       <VBox alignment="CENTER" minHeight="0.0" minWidth="0.0" BorderPane.alignment="CENTER">
          <children>
-              <ScrollPane fx:id="scrollPane" fitToWidth="true" VBox.vgrow="ALWAYS">
+              <ScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-pannable: false;" VBox.vgrow="ALWAYS">
                <content>
                   <VBox fx:id="gridVbox">
                      <children>

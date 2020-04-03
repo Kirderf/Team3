@@ -30,7 +30,7 @@
                     <items>
                         <MenuItem fx:id="importButton" mnemonicParsing="false" onAction="#importAction" onMenuValidation="#TextToSpeakOnMenu" text="Import" />
                         <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" onMenuValidation="#TextToSpeakOnMenu" text="Export" />
-                        <MenuItem fx:id="addToAlbum" mnemonicParsing="false" onAction="#addToAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Add to album"/>
+                        <MenuItem fx:id="addToAlbum" mnemonicParsing="false" onAction="#addToAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Add to album" />
                         <MenuItem fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Save to album" />
                         <MenuItem fx:id="removeButton" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
                         <SeparatorMenuItem mnemonicParsing="false" />
@@ -61,7 +61,7 @@
         </MenuBar>
     </top>
     <left>
-        <SplitPane dividerPositions="0.5112612612612613" orientation="VERTICAL" prefHeight="446.0" prefWidth="184.0" BorderPane.alignment="CENTER">
+        <SplitPane fx:id="bigImgDataSplitPane" dividerPositions="0.5112612612612613" orientation="VERTICAL" prefHeight="446.0" prefWidth="184.0" BorderPane.alignment="CENTER">
             <items>
                 <AnchorPane minHeight="200.0" prefHeight="272.0" prefWidth="157.0">
                     <children>
@@ -83,7 +83,7 @@
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="223.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="25.0" >
+                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="223.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="25.0">
                             <VBox fx:id="tagVbox">
                             </VBox>
                         </ScrollPane>
@@ -104,7 +104,7 @@
                   <Insets bottom="7.0" left="2.0" right="2.0" top="7.0" />
                </padding>
             </Region>
-            <TextField fx:id="textField" HBox.hgrow="ALWAYS">
+            <TextField fx:id="textField" editable="false" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets bottom="7.0" right="5.0" top="7.0" />
                </HBox.margin>
