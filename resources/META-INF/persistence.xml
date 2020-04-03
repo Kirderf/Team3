@@ -14,6 +14,9 @@
             <!-- EclipseLink should create the database schema automatically -->
             <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
+            <property name="eclipselink.connection-pool.default.initial" value="1" />
+            <property name="eclipselink.connection-pool.default.min" value="64"/>
+            <property name="eclipselink.connection-pool.default.max" value="64"/>
         </properties>
     </persistence-unit>
 </persistence>

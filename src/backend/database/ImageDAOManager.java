@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 //use compostion, as the only Image objects we would want to manipulate would be the ones already in the database, therefore it should be done through this class
 public class ImageDAOManager {
     private boolean isInitialized = false;
-    private int instanceID = 5;
+    private int instanceID = 10;
     //thread safe
     private EntityManagerFactory emf;
     public ImageDAOManager(EntityManagerFactory emf) {
@@ -118,13 +118,13 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         int counter = 0;
         try {
-            ImageDAO ImageDAO = em.find(ImageDAO.class, path);
+            ImageDAO imageDAO = em.find(ImageDAO.class, path);
             //convert to lowercase
-            List<String> tagList = Arrays.stream(ImageDAO.getTags().split(",")).map(String::toLowerCase).collect(Collectors.toList());
+            List<String> tagList = Arrays.stream(imageDAO.getTags().split(",")).map(String::toLowerCase).collect(Collectors.toList());
             for (String s : tags) {
                 if (!tagList.contains(s.toLowerCase())) {
                     //The first letter is a capital letter, rest is lower case
-                    ImageDAO.addTag(s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase());
+                    imageDAO.addTag(s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase());
                 } else {
                     counter++;
                     //TODO add something if the tag is already present
@@ -132,7 +132,7 @@ public class ImageDAOManager {
             }
             //This might not do anything, if em.find returns a shallow copy, then we do not need this
             em.getTransaction().begin();
-            ImageDAO t = em.merge(ImageDAO);
+            em.merge(imageDAO);
             em.getTransaction().commit();
             //returns true if any tag was added, false if not
             return counter != tags.length;
