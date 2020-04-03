@@ -83,7 +83,10 @@
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="223.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="25.0" />
+                        <ScrollPane fx:id="tagsScroll" hbarPolicy="NEVER" layoutX="6.0" layoutY="31.0" maxWidth="180.0" minHeight="50.0" prefHeight="223.0" prefWidth="170.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="25.0" >
+                            <VBox fx:id="tagVbox">
+                            </VBox>
+                        </ScrollPane>
                     </children>
                 </AnchorPane>
             </items>

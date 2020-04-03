@@ -74,6 +74,8 @@ public class ControllerMain implements Initializable {
     private TextArea pathDisplay;
     @FXML
     private VBox metadataVbox;
+    @FXML
+    private VBox tagVbox;
 
     private Text_To_Speech voice;
     private int photoCount = 0;
@@ -379,7 +381,6 @@ public class ControllerMain implements Initializable {
         try {
             if(inputText.trim().equals("")) throw new IOException("Invalid filename inputted");
             //this throws error is filename is invalid
-            System.out.println(inputText);
             f.getCanonicalPath();
             //chooses album location after selecting name
             DirectoryChooser chooser = new DirectoryChooser();
@@ -565,10 +566,7 @@ public class ControllerMain implements Initializable {
                 //Single click
                 selectImage(imageView, image, path);
                 showMetadata(null);
-                if (getSelectedImages().size() != 1) {
-                    pathDisplay.clear();
-                    metadataVbox.getChildren().clear();
-                }
+                showTags(null);
             }
 
         };
@@ -604,6 +602,7 @@ public class ControllerMain implements Initializable {
     private void showBigImage(ImageView imageView, String path) throws IOException {
         voice.speak("Magnifying image");
         clearSelectedImages();
+        addToSelectedImages(path);
         setPathBuffer(path);
         setImageBuffer(imageView.getImage());
         Scene scene = pictureGrid.getScene();
@@ -652,55 +651,32 @@ public class ControllerMain implements Initializable {
      *
      * @param imagePath the path to the image from which you are getting the metadata
      */
-    public void showMetadata(String imagePath) {
-        String path;
-        if (!metadataVbox.getChildren().isEmpty()) {
-            metadataVbox.getChildren().clear();
-        }
-        if (imagePath != null) {
-            path = imagePath;
-        } else if (!getSelectedImages().isEmpty()) {
-            path = getSelectedImages().get(0);
-        } else {
-            return;
-        }
-        if (path == null || getSelectedImages().size() > 1) {
-            return;
-        }
-        int i = 0;
+    private void showMetadata(String imagePath) {
+        if(selectedImages.isEmpty()) return;
+        String path = getSelectedImages().get(getSelectedImages().size()-1);
+        metadataVbox.getChildren().clear();
 
-        for (String s : getDatabaseClient().getMetaDataFromDatabase(path)) {
-            switch (i) {
-                case 0:
-                    metadataVbox.getChildren().add(new Label("Path :" + s));
-                    if (!(this instanceof ControllerBigImage)) pathDisplay.setText("Path :" + s);
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    metadataVbox.getChildren().add(new Label("File size :" + s));
-                    break;
-                case 3:
-                    metadataVbox.getChildren().add(new Label("Date :" + s.substring(0, 4) + "/" + s.substring(4, 6) + "/" + s.substring(6)));
-                    break;
-                case 4:
-                    metadataVbox.getChildren().add(new Label("Height :" + s));
-                    break;
-                case 5:
-                    metadataVbox.getChildren().add(new Label("Width :" + s));
-                    break;
-                case 6:
-                    metadataVbox.getChildren().add(new Label("GPS Latitude :" + s));
-                    break;
-                case 7:
-                    metadataVbox.getChildren().add(new Label("GPS Longitude :" + s));
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + i);
-            }
-            i++;
-        }
+        String[] metadata = getDatabaseClient().getMetaDataFromDatabase(path);
+        pathDisplay.setText("Path :" + metadata[0]);
+        metadataVbox.getChildren().add(new Label("File size :" + metadata[2]));
+        metadataVbox.getChildren().add(new Label("Date :" + metadata[3].substring(0, 4) + "/" + metadata[3].substring(4, 6) + "/" + metadata[3].substring(6)));
+        metadataVbox.getChildren().add(new Label("Height :" + metadata[4]));
+        metadataVbox.getChildren().add(new Label("Width :" + metadata[5]));
+        metadataVbox.getChildren().add(new Label("GPS Latitude :" + metadata[6]));
+        metadataVbox.getChildren().add(new Label("GPS Longitude :" + metadata[7]));
 
+    }
+
+
+    private void showTags(String imagePath){
+        if(selectedImages.isEmpty()) return;
+        String path = getSelectedImages().get(getSelectedImages().size()-1);
+        tagVbox.getChildren().clear();
+        String[] tags = getDatabaseClient().getTags(path).split(",");
+        tagVbox.getChildren().add(new Label("Tags:"));
+        for (int i = 0; i<tags.length;i++) {
+            tagVbox.getChildren().add(new Label(tags[i]));
+        }
     }
 
     /**

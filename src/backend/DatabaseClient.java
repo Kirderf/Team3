@@ -92,10 +92,11 @@ public class DatabaseClient {
 
     public String getTags(String path) {
         logger.logNewInfo("Getting tags from " + path);
-
+        //returns null if the image is not in the database
         try {
             imageDatabase.openConnection();
-            //returns null if the image is not in the database
+            if(imageDatabase.getTags(path).length() == 0) return "";
+            //removes the first comma
             String result = imageDatabase.getTags(path).toString().substring(1);
             imageDatabase.close();
             return result;

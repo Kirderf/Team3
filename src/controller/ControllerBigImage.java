@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,7 +33,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     private Text_To_Speech voice = new Text_To_Speech();
     @FXML
     private ImageView bigImage;
-
+    @FXML
+    private VBox metadataVbox;
     @FXML
     private GridPane bigImageGrid;
 
@@ -41,6 +43,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     @FXML
     private VBox imageVbox;
+    @FXML
+    private VBox tagVbox;
 
     /**
      * Run 1 time once the window opens
@@ -51,11 +55,9 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBigImage(getImageBuffer());
-        if (getPathBuffer() != null) {
-            showMetadata(getPathBuffer());
-        }
+        showMetadata();
+        showTags();
         textField.setEditable(false);
-        addToSelectedImages(getPathBuffer());
     }
     @FXML
     /**
@@ -110,6 +112,33 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         bigImage.fitWidthProperty().bind(bigImageGrid.widthProperty());
         bigImage.fitHeightProperty().bind(imageVbox.heightProperty());
         bigImage.setImage(image);
-        textField.setText(getPathBuffer());
+        textField.setText(getSelectedImages().get(getSelectedImages().size()-1));
     }
+
+    private void showMetadata() {
+        if(selectedImages.isEmpty()) return;
+        String path = getSelectedImages().get(getSelectedImages().size()-1);
+        metadataVbox.getChildren().clear();
+        String[] metadata = getDatabaseClient().getMetaDataFromDatabase(path);
+        textField.setText("Path :" + metadata[0]);
+        metadataVbox.getChildren().add(new Label("File size :" + metadata[2]));
+        metadataVbox.getChildren().add(new Label("Date :" + metadata[3].substring(0, 4) + "/" + metadata[3].substring(4, 6) + "/" + metadata[3].substring(6)));
+        metadataVbox.getChildren().add(new Label("Height :" + metadata[4]));
+        metadataVbox.getChildren().add(new Label("Width :" + metadata[5]));
+        metadataVbox.getChildren().add(new Label("GPS Latitude :" + metadata[6]));
+        metadataVbox.getChildren().add(new Label("GPS Longitude :" + metadata[7]));
+
+    }
+    private void showTags(){
+        if(selectedImages.isEmpty()) return;
+        String path = getSelectedImages().get(getSelectedImages().size()-1);
+        tagVbox.getChildren().clear();
+        String[] tags = getDatabaseClient().getTags(path).split(",");
+        tagVbox.getChildren().add(new Label("Tags:"));
+        for (int i = 0; i<tags.length;i++) {
+            tagVbox.getChildren().add(new Label(tags[i]));
+        }
+    }
+
+
 }
