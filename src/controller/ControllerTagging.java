@@ -43,7 +43,7 @@ public class ControllerTagging implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            logger.logNewInfo("Initializing controllerTagging" + "Location " +  location.toString() + "Resources " + resources.toString());
+            logger.logNewInfo("Initializing controllerTagging");
             insertTags();
         } catch (SQLException e) {
             logger.logNewFatalError(e.getLocalizedMessage());

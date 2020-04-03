@@ -85,6 +85,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                 addTagStage.setOnCloseRequest(event -> ControllerTagging.bufferTags.clear());
                 addTagStage.showAndWait();
             }catch (Exception exception){
+                exception.printStackTrace();
                 logger.logNewFatalError("ControllerBigImage addTagAction " + exception.getLocalizedMessage());
             }
         }
