@@ -2,6 +2,7 @@ package controller;
 
 import backend.DatabaseClient;
 import backend.ImageExport;
+import backend.Log;
 import backend.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -40,12 +41,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class ControllerMain implements Initializable {
-    private static final Logger logger = Logger.getLogger(ControllerMain.class.getName());
+    private static final Log logger = new Log();
 
     //Must be public static to get access from other places
     public static HashMap<String, String> locations = new HashMap<>();
@@ -58,7 +57,7 @@ public class ControllerMain implements Initializable {
 
     //Stages
     private Stage importStage = new Stage();
-    private Stage albumNameStage = new Stage();
+
     private Stage searchStage = new Stage();
     private Stage aboutStage = new Stage();
     private Stage worldStage = new Stage();
@@ -92,7 +91,7 @@ public class ControllerMain implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //when i have the modality anywhere else i get an illegalstateexception
         voice = new Text_To_Speech();
-        logger.log(Level.INFO, "Initializing");
+        logger.logNewInfo("Initializing ControllerMain");
         //this is required, as disabling the textfield in the fxml file made the path way too light to see
         pathDisplay.setEditable(false);
         pictureGrid.setAlignment(Pos.CENTER);
@@ -215,7 +214,7 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     private void searchAction() {
-        logger.log(Level.INFO, "SearchAction");
+        logger.logNewInfo("SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
             if(!searchStage.getModality().equals(Modality.APPLICATION_MODAL)) searchStage.initModality(Modality.APPLICATION_MODAL);
@@ -234,7 +233,7 @@ public class ControllerMain implements Initializable {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.logNewFatalError("ControllerMain searchAction " + e.getLocalizedMessage());
             }
         }
     }
@@ -296,7 +295,7 @@ public class ControllerMain implements Initializable {
             importStage.showAndWait();
             if (ControllerImport.isImportSucceed()) {
                 if(ControllerPreferences.isTtsChecked()) voice.speak("Import succeeded");
-                logger.log(Level.INFO, "Refreshing");
+                logger.logNewInfo("Refreshing images after import controllermain");
                 refreshImages();
                 ControllerImport.setImportSucceed(false);
             }
@@ -366,7 +365,7 @@ public class ControllerMain implements Initializable {
                         selectedImages.clear();
                     }
                 } catch (Exception exception) {
-                    exception.printStackTrace();
+                    logger.logNewFatalError("ControllerMain ExportAction " + exception.getLocalizedMessage());
                 }
             }
             refreshImages();
@@ -422,13 +421,12 @@ public class ControllerMain implements Initializable {
         try {
             voice.speak("Closing application");
             Thread.sleep(1500);
-            logger.log(Level.WARNING, "Closing application");
+            logger.logNewWarning("Closing application");
             getDatabaseClient().closeApplication();
             Platform.exit();
             System.exit(0);
         } catch (SQLException | InterruptedException e) {
-            e.printStackTrace();
-            logger.log(Level.WARNING, "Could not close application / delete table");
+            logger.logNewWarning("Could not close application / delete table" + e.getLocalizedMessage());
         }
     }
 
@@ -489,8 +487,7 @@ public class ControllerMain implements Initializable {
                 }
             }
         } catch (FileNotFoundException | SQLException e) {
-            //TODO change this to logger
-            System.out.println(e.getLocalizedMessage());
+            logger.logNewFatalError("ControllerMain refreshImages" + e.getLocalizedMessage());
         }
     }
 
@@ -560,7 +557,7 @@ public class ControllerMain implements Initializable {
                 try {
                     showBigImage(imageView, path);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.logNewFatalError("ControllerMain onImageClickedEvent " + e.getLocalizedMessage());
                 }
             } else {
                 //Single click
@@ -767,7 +764,7 @@ public class ControllerMain implements Initializable {
             clearSelectedImages();
         }
         catch (Exception exception) {
-            exception.printStackTrace();
+            logger.logNewFatalError("ControllerMain saveAlbumAction " + exception.getLocalizedMessage());
         }
     }
 
@@ -863,7 +860,7 @@ public class ControllerMain implements Initializable {
     }
 
     public void addToAlbumAction(ActionEvent actionEvent) {
-        logger.log(Level.INFO, "adding to album");
+        logger.logNewInfo("adding to album");
         if(!getSelectedImages().isEmpty()) {
             voice.speak("Adding to album");
             if (!addToAlbumStage.isShowing()) {
@@ -877,7 +874,7 @@ public class ControllerMain implements Initializable {
                     addToAlbumStage.setResizable(false);
                     addToAlbumStage.showAndWait();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.logNewFatalError("ControllerMain addToAlbumAction " + e.getLocalizedMessage());
                 }
             }
         }

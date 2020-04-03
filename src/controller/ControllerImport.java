@@ -1,5 +1,6 @@
 package controller;
 
+import backend.Log;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerImport implements Initializable {
+    private static final Log logger = new Log();
+
     /**
      * Boolean for import status
      */

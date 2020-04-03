@@ -15,6 +15,7 @@
 */
 package controller;
 
+import backend.Log;
 import com.sothawo.mapjfx.*;
 import com.sothawo.mapjfx.event.MarkerEvent;
 import javafx.embed.swing.SwingFXUtils;
@@ -40,7 +41,7 @@ import java.util.*;
  * @author P.J. Meisch (pj.meisch@sothawo.com).
  */
 public class ControllerMap implements Initializable {
-
+    private static final Log logger = new Log();
     private HashMap<Marker,String> markers = new HashMap<>();
     private static ArrayList<String> savedToDisk = new ArrayList<>();
     private static final Coordinate coordKarlsruheHarbour = new Coordinate(49.015511, 8.323497);
@@ -112,7 +113,7 @@ public class ControllerMap implements Initializable {
                     clickedImage = imageView;
                     closeStage();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.logNewFatalError("ControllerMap addEventListeners " + e.getLocalizedMessage());
                 }
             });
         }

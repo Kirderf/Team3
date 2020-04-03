@@ -23,7 +23,7 @@ import java.util.*;
  * @author Ingebrigt Hovind
  */
 public class ImageImport {
-    private static final Log logger = new Log("Log.log");
+    private static final Log logger = new Log();
     //this is the names of the various kinds of metadata we are interested in in com.drew.metadata methods
     private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude","File Modified Date");
     private int noOfData = interestingMetadata.size() -1;

@@ -19,9 +19,11 @@ import java.lang.reflect.Array;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ControllerTagging implements Initializable {
+    private static final Log logger = new Log();
     @FXML
     private Button newTagButton;
     @FXML
@@ -36,16 +38,15 @@ public class ControllerTagging implements Initializable {
     @FXML
     TableColumn<TagTableRow, CheckBox> select;
 
-    private Log logger = new Log("Log.log");
-
     protected static ArrayList<String> bufferTags = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            logger.logNewInfo("Initializing controllerTagging" + "Location " +  location.toString() + "Resources " + resources.toString());
             insertTags();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.logNewFatalError(e.getLocalizedMessage());
         }
     }
 
@@ -58,6 +59,7 @@ public class ControllerTagging implements Initializable {
     @FXML
     @SuppressWarnings("Duplicates")
     protected void insertTags() throws SQLException {
+        logger.logNewInfo("Inserting tags in ControllerTagging");
         taggingTable.getItems().clear();
 
         ArrayList tagList = getAllTags();
@@ -133,7 +135,7 @@ public class ControllerTagging implements Initializable {
                 a.setHeaderText(null);
                 a.setContentText("Please enter a tag name!");
                 a.showAndWait();
-                logger.logNewInfo("Please enter a tag name!");
+                logger.logNewWarning("no tag name was added!");
             }
         }
 

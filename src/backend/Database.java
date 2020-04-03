@@ -12,7 +12,7 @@ import java.util.Random;
  * @author Fredrik Julsen
  */
 public class Database {
-    private static final Log logger = new Log("Log.log");
+    private static final Log logger = new Log();
     private Random random = new Random();
     private int upperBound = 10000000;
     private String table = "fredrjul_" + random.nextInt(upperBound);

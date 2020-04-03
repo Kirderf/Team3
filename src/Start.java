@@ -1,3 +1,4 @@
+import backend.Log;
 import backend.Text_To_Speech;
 import controller.ControllerMain;
 import javafx.application.Application;
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
 
 
 public class Start extends Application {
-    private static final Logger logger = Logger.getLogger(Start.class.getName());
+    private static final Log logger = new Log();
     private static Text_To_Speech voice;
 
     /**
@@ -29,20 +30,20 @@ public class Start extends Application {
             primaryStage.setMinWidth(1000);
             primaryStage.setMinHeight(800);
             primaryStage.setScene(new Scene(root));
-            logger.log(Level.INFO, "Showing app");
+            logger.logNewInfo("Showing app");
             primaryStage.setOnCloseRequest((event -> {
-                logger.log(Level.INFO, "Closing application");
+                logger.logNewInfo("Closing application");
                 try {
                     ControllerMain.getDatabaseClient().closeApplication();
                     Platform.exit();
                     System.exit(0);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    logger.logNewFatalError("Start start() " + e.getLocalizedMessage());
                 }
             }));
             primaryStage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.logNewFatalError("Start start() " + e.getLocalizedMessage());
         }
     }
 

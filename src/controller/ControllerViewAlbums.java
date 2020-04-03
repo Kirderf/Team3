@@ -1,5 +1,6 @@
 package controller;
 
+import backend.Log;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -32,6 +33,8 @@ import java.util.*;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class ControllerViewAlbums implements Initializable {
+    private static final Log logger = new Log();
+
     @FXML
     private MenuItem albumDelete;
     @FXML
@@ -154,8 +157,7 @@ public class ControllerViewAlbums implements Initializable {
             try {
                 deleteConfirmation(pane);
             } catch (IOException e) {
-                //TODO change to logger
-                e.printStackTrace();
+                logger.logNewFatalError("ControllerViewAlbums deletePane " + e.getLocalizedMessage());
             }
         });
     }

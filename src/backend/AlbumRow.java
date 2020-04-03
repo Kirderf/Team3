@@ -2,12 +2,17 @@ package backend;
 
 import javafx.scene.control.CheckBox;
 
+import java.util.logging.Logger;
+
 public class AlbumRow {
+    private static final Log logger = new Log();
+
     int id;
     String tagName;
     CheckBox checkBox;
 
     public AlbumRow(int id, String tagName, CheckBox checkBox) {
+        logger.logNewInfo("new albumRow" + "id: " + id+ ", tagname: " + tagName + ", Checkbox: " + checkBox.toString());
         this.id = id;
         this.tagName = tagName;
         this.checkBox = checkBox;

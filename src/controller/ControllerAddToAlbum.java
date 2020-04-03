@@ -1,6 +1,7 @@
 package controller;
 
 import backend.AlbumRow;
+import backend.Log;
 import backend.TagTableRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,8 +20,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public class ControllerAddToAlbum implements Initializable {
+    private static final Log logger = new Log();
+
     @FXML
     private TableView<AlbumRow> albumTable;
     @FXML
@@ -34,12 +38,7 @@ public class ControllerAddToAlbum implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try{
-            insertAlbums();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        insertAlbums();
     }
 
     private Iterator getAlbumIterator(){

@@ -1,6 +1,7 @@
 package controller;
 
 
+import backend.Log;
 import backend.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -27,6 +28,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 
 public class ControllerBigImage extends ControllerMain implements Initializable {
+    private static final Log logger = new Log();
+
     private Stage addTagStage = new Stage();
     private Stage importStage = new Stage();
     private Stage addToAlbumStage = new Stage();
@@ -82,7 +85,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                 addTagStage.setOnCloseRequest(event -> ControllerTagging.bufferTags.clear());
                 addTagStage.showAndWait();
             }catch (Exception exception){
-                exception.printStackTrace();
+                logger.logNewFatalError("ControllerBigImage addTagAction " + exception.getLocalizedMessage());
             }
         }
     }

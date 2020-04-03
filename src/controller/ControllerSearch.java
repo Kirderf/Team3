@@ -1,5 +1,6 @@
 package controller;
 
+import backend.Log;
 import backend.TagTableRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +21,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerSearch implements Initializable {
+    private static final Log logger = new Log();
+
     private List<File> list;
     private final double prefHeight = 27;
     private final double prefWidth = 330;
@@ -50,7 +53,7 @@ public class ControllerSearch implements Initializable {
         try {
             insertTags();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.logNewFatalError("ControllerSearch initialize " + e.getLocalizedMessage());
         }
     }
 

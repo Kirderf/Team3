@@ -12,19 +12,16 @@ public class Log{
     public Logger logger = Logger.getAnonymousLogger();
     FileHandler fh;
 
-    public Log(String file_name){
-        boolean fileRemade = false;
+    public Log(){
+        String fileName = "Log.log";
+        //deletes the old log file every time
+        new File(fileName).delete();
         try{
-            File f = new File(file_name);
-            if(f.exists()){
-                f.delete();
-                fileRemade=true;
-            }
-            if(!f.exists()||fileRemade){
-                f.createNewFile();
-            }
+            File f = new File(fileName);
+            f.createNewFile();
+
             LogManager.getLogManager().reset();
-            fh=new FileHandler(file_name,true);
+            fh=new FileHandler(fileName,true);
             fh.setLevel(Level.FINE);
             logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
             logger.addHandler(fh);

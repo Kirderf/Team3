@@ -1,5 +1,6 @@
 package controller;
 
+import backend.Log;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerPreferences implements Initializable {
+    private static final Log logger = new Log();
 
     @FXML
     private CheckBox ttsCheck;

@@ -16,7 +16,7 @@ import java.util.logging.Level;
 public class Text_To_Speech {
     //Create a Synthesizer instance
     SynthesiserV2 synthesizer = new SynthesiserV2("AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw");
-    private static final Log logger = new Log("Log.log");
+    private static final Log logger = new Log();
 
     /**
      * Calls the MaryTTS to say the given text

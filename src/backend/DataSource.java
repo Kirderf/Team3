@@ -19,7 +19,7 @@ public class DataSource {
     private static HikariConfig config = new HikariConfig();
     private static HikariDataSource ds;
     private static Properties prop;
-    private static final Log logger = new Log("Log.log");
+    private static final Log logger = new Log();
 
 
     static {

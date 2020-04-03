@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Fredrik Julsen & Ingebrigt Hovind
  */
 public class DatabaseClient {
-    private static final Log logger = new Log("Log.log");
+    private static final Log logger = new Log();
     private Database imageDatabase = new Database();
     private ImageImport imageImport = new ImageImport();
 
@@ -48,6 +48,7 @@ public class DatabaseClient {
             imageDatabase.closeDatabase();
             return true;
         }catch(IllegalArgumentException e){
+            logger.logNewFatalError("IllegalArgumentException in removeImage in DatabaseClient " +e.getLocalizedMessage());
             imageDatabase.closeDatabase();
             return false;
         }
