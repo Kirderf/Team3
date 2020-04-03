@@ -184,6 +184,7 @@ public class DatabaseClient {
         try {
             imageDatabase.openConnection();
             ArrayList result = imageDatabase.search(searchFor, searchIn);
+            
             imageDatabase.close();
             return result;
         } catch (Exception e) {
