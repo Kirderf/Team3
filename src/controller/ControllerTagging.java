@@ -67,15 +67,7 @@ public class ControllerTagging implements Initializable {
         }
 
 
-        for (int i = 0; i < newTagList.size() ; i++) {
-            String t = newTagList.get(i);
-            CheckBox ch = new CheckBox(""+t);
-            observeList.add(new TagTableRow(i, "", ch));
-        }
-
-        taggingTable.setItems(observeList);
-        id.setCellValueFactory(new PropertyValueFactory<TagTableRow, Integer>("id"));
-        select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
+        ControllerSearch.notNamed(newTagList, observeList, taggingTable, id, select);
     }
 
     /**
@@ -134,7 +126,7 @@ public class ControllerTagging implements Initializable {
         insertTags();
     }
 
-    protected static ArrayList<String> getAllTags() throws SQLException {
+    protected static ArrayList<String> getAllTags() {
         ArrayList tagStrings = ControllerMain.databaseClient.getColumn("Tags");
         LinkedHashSet<String> hashSet = new LinkedHashSet<>();
         for (Object s : tagStrings) {

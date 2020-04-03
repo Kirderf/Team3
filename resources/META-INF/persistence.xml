@@ -3,7 +3,7 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence"
              version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
 
-    <persistence-unit name="LecturePU" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="DatabasePU" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>backend.database.ImageDAO</class>
         <properties>
@@ -14,6 +14,7 @@
             <!-- EclipseLink should create the database schema automatically -->
             <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
+            <!-- EclipseLink connectionpooling -->
             <property name="eclipselink.connection-pool.default.initial" value="1" />
             <property name="eclipselink.connection-pool.default.min" value="64"/>
             <property name="eclipselink.connection-pool.default.max" value="64"/>

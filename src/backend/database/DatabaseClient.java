@@ -2,7 +2,6 @@ package backend.database;
 
 import backend.util.ImageImport;
 import backend.util.Log;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -10,7 +9,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 
 /**
  * @author Fredrik Julsen & Ingebrigt Hovind
@@ -24,21 +23,23 @@ public class DatabaseClient {
 
 
     private DatabaseClient() {
-        emf = Persistence.createEntityManagerFactory("LecturePU");
+        emf = Persistence.createEntityManagerFactory("DatabasePU");
         imageDatabase = new ImageDAOManager(emf);
 
     }
 
     /**
      * Singleton method for getting an instance of this class
+     *
      * @return instance of DatabaseClient
      */
     public static DatabaseClient getInstance() {
-        if(imageDatabase == null && emf == null) {
+        if (imageDatabase == null && emf == null) {
             instance = new DatabaseClient();
         }
         return instance;
     }
+
     /**
      * Gets all the data in a given column, e.g all the paths
      *
@@ -64,14 +65,13 @@ public class DatabaseClient {
             } else {
                 imageDatabase.addImageToTable(
                         image.getPath(),
-                        "",
                         Integer.parseInt(metadata[0]),
                         Integer.parseInt(metadata[1]),
                         Integer.parseInt(metadata[2]),
                         Integer.parseInt(metadata[3]),
                         Double.parseDouble(metadata[4]),
                         Double.parseDouble(metadata[5]));
-                if (!imageDatabase.isInitialized()){
+                if (!imageDatabase.isInitialized()) {
                     imageDatabase.setInitialized(true);
                 }
                 return true;
@@ -105,7 +105,7 @@ public class DatabaseClient {
      * @return boolean
      */
     public boolean addTag(String path, String[] tag) {
-        logger.logNewInfo("DatabaseClient : " + "Adding tag to " + path);
+        logger.logNewInfo("DatabaseClient : Adding tag to " + path);
         try {
             return imageDatabase.addTags(path, tag);
         } catch (Exception e) {
@@ -122,7 +122,7 @@ public class DatabaseClient {
      * @return
      */
     public boolean removeTag(String path, String[] tags) {
-        logger.logNewInfo("DatabaseClient : " + "Removing tag from " + path);
+        logger.logNewInfo("DatabaseClient : Removing tag from " + path);
         try {
             return imageDatabase.removeTag(path, tags);
         } catch (Exception e) {
@@ -145,7 +145,7 @@ public class DatabaseClient {
             return imageDatabase.search(searchFor, searchIn);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
-            return null;
+            return (ArrayList) Collections.emptyList();
         }
     }
 

@@ -1,8 +1,9 @@
 package backend.database;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -10,8 +11,8 @@ import java.util.stream.Collectors;
 public class ImageDAOManager {
     private boolean isInitialized = false;
     private int instanceID = 10;
-    //thread safe
     private EntityManagerFactory emf;
+
     public ImageDAOManager(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -29,12 +30,12 @@ public class ImageDAOManager {
      * persist works as SQL INSERT
      * The image path needs to be unique
      */
-    public void addImageToTable(String path, String tags, int fileSize, int date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) {
+    public void addImageToTable(String path, int fileSize, int date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) {
         EntityManager em = getEM();
         try {
             //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
             path = path.replaceAll("\\\\", "/");
-            ImageDAO imageDAO = new ImageDAO(instanceID,path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
+            ImageDAO imageDAO = new ImageDAO(instanceID, path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
             em.getTransaction().begin();
             em.persist(imageDAO);//into persistence context
             em.getTransaction().commit();//store into database
@@ -71,12 +72,12 @@ public class ImageDAOManager {
     public List<?> getAllTeam3Images() {
         EntityManager em = getEM();
         try {
-            if (isInitialized){
-                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.ID=" +this.instanceID);
+            if (isInitialized) {
+                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.ID=" + this.instanceID);
                 return q.getResultList();
             }
             //same result with SELECT p FROM Team3Image o
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         } finally {
             closeEM(em);
         }
@@ -85,7 +86,7 @@ public class ImageDAOManager {
     public int getNumberOfTeam3Images() {
         EntityManager em = getEM();
         try {
-            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.ID=" +this.instanceID);
+            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.ID=" + this.instanceID);
             Long num = (Long) q.getSingleResult();
             return num.intValue();
         } finally {
@@ -97,7 +98,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             //selects all images with latitude and longitude that's not 0.0
-            Query q = em.createQuery("SELECT OBJECT (o) FROM ImageDAO o WHERE NOT o.latitude = 0.0 AND NOT o.longitude = 0.0 AND o.ID="+this.instanceID);
+            Query q = em.createQuery("SELECT OBJECT (o) FROM ImageDAO o WHERE NOT o.latitude = 0.0 AND NOT o.longitude = 0.0 AND o.ID=" + this.instanceID);
             return q.getResultList();
         } finally {
             closeEM(em);
@@ -107,8 +108,8 @@ public class ImageDAOManager {
     public String getTags(String path) {
         EntityManager em = getEM();
         try {
-            ImageDAO ImageDAO = em.find(ImageDAO.class, path);
-            return ImageDAO.getPath();
+            ImageDAO imageDAO = em.find(ImageDAO.class, path);
+            return imageDAO.getPath();
         } finally {
             closeEM(em);
         }
@@ -144,17 +145,17 @@ public class ImageDAOManager {
     public boolean removeTag(String path, String[] tags) {
         EntityManager em = getEM();
         try {
-            ImageDAO ImageDAO = em.find(ImageDAO.class, path);
+            ImageDAO imageDAO = em.find(ImageDAO.class, path);
             //convert to lowercase
-            List<String> tagList = Arrays.stream(ImageDAO.getTags().split(","))
+            List<String> tagList = Arrays.stream(imageDAO.getTags().split(","))
                     .map(String::toLowerCase)
                     .collect(Collectors.toList());
-            Arrays.stream(tags).map(tagList::remove);
+            Arrays.stream(tags).forEach(tagList::remove);
             //sets the list to the one with the removed tags
-            ImageDAO.setTags(String.join(",", tagList));
+            imageDAO.setTags(String.join(",", tagList));
             //This might not do anything, if em.find returns a shallow copy, then we do not need this
             em.getTransaction().begin();
-            em.merge(ImageDAO);
+            em.merge(imageDAO);
             em.getTransaction().commit();
             //returns true if any tag was removed, false if not
             return tagList.size() == tags.length;
@@ -290,15 +291,15 @@ public class ImageDAOManager {
     }
 
     public String[] getImageMetadata(String path) {
-        ImageDAO ImageDAO = findTeam3Image(path);
-        return new String[]{ImageDAO.getPath(), ImageDAO.getTags(),String.valueOf(ImageDAO.getFileSize()),String.valueOf(ImageDAO.getDate()),String.valueOf(ImageDAO.getImageHeight()),String.valueOf(ImageDAO.getImageWidth()),String.valueOf(ImageDAO.getLatitude()),String.valueOf(ImageDAO.getLongitude())};
+        ImageDAO imageDAO = findTeam3Image(path);
+        return new String[]{imageDAO.getPath(), imageDAO.getTags(), String.valueOf(imageDAO.getFileSize()), String.valueOf(imageDAO.getDate()), String.valueOf(imageDAO.getImageHeight()), String.valueOf(imageDAO.getImageWidth()), String.valueOf(imageDAO.getLatitude()), String.valueOf(imageDAO.getLongitude())};
     }
 
-    public void editTeam3Image(ImageDAO ImageDAO) {
+    public void editTeam3Image(ImageDAO imageDAO) {
         EntityManager em = getEM();
         try {
             em.getTransaction().begin();
-            ImageDAO t = em.merge(ImageDAO);
+            em.merge(imageDAO);
             em.getTransaction().commit();
         } finally {
             closeEM(em);
