@@ -17,6 +17,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
@@ -58,7 +59,7 @@ public class ControllerMain implements Initializable {
 
     //Stages
     private Stage importStage = new Stage();
-    private Stage searchStage = new Stage();
+    protected Stage searchStage = new Stage();
     private Stage aboutStage = new Stage();
     private Stage worldStage = new Stage();
     private Stage preferenceStage = new Stage();
@@ -78,7 +79,9 @@ public class ControllerMain implements Initializable {
     @FXML
     protected SplitPane imgDataSplitPane;
 
-    protected Text_To_Speech voice;
+    protected static Button stageButton;
+
+    protected Text_To_Speech voice = Text_To_Speech.getInstance();
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -92,7 +95,6 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //when i have the modality anywhere else i get an illegalstateexception
-        voice = new Text_To_Speech();
         logger.logNewInfo("Initializing ControllerMain");
         pictureGrid.setAlignment(Pos.CENTER);
         imgDataSplitPane.setDividerPositions(splitPanePos);
@@ -233,7 +235,7 @@ public class ControllerMain implements Initializable {
      * When the search button is clicked
      */
     @FXML
-    private void searchAction() {
+    protected void searchAction(ActionEvent event) {
         logger.logNewInfo("SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
@@ -260,7 +262,7 @@ public class ControllerMain implements Initializable {
     }
 
     @FXML
-    private void removeAction(ActionEvent event) throws SQLException {
+    protected void removeAction(ActionEvent event) throws SQLException, IOException {
         voice.speak("Removing images");
         try {
             if (getSelectedImages().size() == 0) {
@@ -484,7 +486,7 @@ public class ControllerMain implements Initializable {
     /**
      * Clears all rows on the gridView
      */
-    private void clearView() {
+    protected void clearView() {
         rowCount = 0;
         columnCount = 0;
         photoCount = 0;
@@ -498,13 +500,14 @@ public class ControllerMain implements Initializable {
         try {
             ArrayList paths = getDatabaseClient().getColumn("Path");
             clearView();
+            clearSelectedImages();
             for (Object obj : paths) {
                 //the view is cleared, so there's no use checking if the image has been added as there are no added photos to start with
                 if (obj != null) {
                     insertImage((String) obj);
                 }
             }
-        } catch (FileNotFoundException | SQLException e) {
+        } catch (Exception e) {
             logger.logNewFatalError("ControllerMain refreshImages" + e.getLocalizedMessage());
         }
     }
@@ -584,7 +587,6 @@ public class ControllerMain implements Initializable {
                 showMetadata(null);
                 showTags(null);
             }
-
         };
     }
 
@@ -669,12 +671,11 @@ public class ControllerMain implements Initializable {
      * @param imagePath the path to the image from which you are getting the metadata
      */
     private void showMetadata(String imagePath) {
-        if (selectedImages.isEmpty()) return;
-        String path = getSelectedImages().get(getSelectedImages().size() - 1);
+        if(selectedImages.isEmpty()) return;
+        String path = getSelectedImages().get(getSelectedImages().size()-1);
         metadataVbox.getChildren().clear();
-
         String[] metadata = getDatabaseClient().getMetaDataFromDatabase(path);
-        textField.setText("Path: " + metadata[0]);
+        textField.setText("Path :" + metadata[0]);
         metadataVbox.getChildren().add(new Label("File size :" + metadata[2]));
         metadataVbox.getChildren().add(new Label("Date :" + metadata[3].substring(0, 4) + "/" + metadata[3].substring(4, 6) + "/" + metadata[3].substring(6)));
         metadataVbox.getChildren().add(new Label("Height :" + metadata[4]));
@@ -696,6 +697,7 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    @FXML
     /**
      * When the user clicks on goToMap under library
      * Checks all the added photos for valid gps data, and places the ones with valid data on the map
@@ -703,7 +705,7 @@ public class ControllerMain implements Initializable {
      * @throws IOException
      * @throws SQLException
      */
-    public void goToMap() throws IOException, SQLException {
+    private void goToMap() throws IOException, SQLException {
         if (!worldStage.isShowing() && worldStage.getModality() != Modality.APPLICATION_MODAL) {
             worldStage.initModality(Modality.APPLICATION_MODAL);
         }
@@ -743,7 +745,8 @@ public class ControllerMain implements Initializable {
      * @param actionEvent auto-generated
      * @throws IOException
      */
-    public void saveAlbumAction(ActionEvent actionEvent) throws IOException {
+    @FXML
+    protected void saveAlbumAction(ActionEvent actionEvent) throws IOException {
         voice.speak("Creating album");
         try {
             if (!getSelectedImages().isEmpty()) {
@@ -767,6 +770,7 @@ public class ControllerMain implements Initializable {
                             }
                             clearSelectedImages();
                             Collections.copy(albums.get(result.get()), tempArray);
+                            new Alert(Alert.AlertType.INFORMATION, "Images were successfully added to the album [" + result.get()+"]").showAndWait();
                         }
                     } else {
                         new Alert(Alert.AlertType.WARNING, "You cant save an album using a blank name").showAndWait();
@@ -790,7 +794,8 @@ public class ControllerMain implements Initializable {
      * @param actionEvent auto-generated
      * @throws IOException
      */
-    public void viewAlbums(ActionEvent actionEvent) throws IOException {
+    @FXML
+    protected void viewAlbums(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();
         if (!albumStage.isShowing()) {
@@ -852,7 +857,8 @@ public class ControllerMain implements Initializable {
      *
      * @param event event that led to this being called, e.g hovering over or clicking on menu
      */
-    public void TextToSpeakOnMenu(Event event) {
+    @FXML
+    private void TextToSpeakOnMenu(Event event) {
         voice.speak(((MenuItem) event.getSource()).getText());
     }
 
@@ -880,8 +886,8 @@ public class ControllerMain implements Initializable {
         if (!getSelectedImages().isEmpty()) {
             voice.speak("Adding to album");
             if (!addToAlbumStage.isShowing()) {
-                if (!addToAlbumStage.getModality().equals(Modality.APPLICATION_MODAL))
-                    addToAlbumStage.initModality(Modality.APPLICATION_MODAL);
+                if (!addToAlbumStage.getModality().equals(Modality.WINDOW_MODAL))
+                    addToAlbumStage.initModality(Modality.WINDOW_MODAL);
                 if (!addToAlbumStage.getStyle().equals(StageStyle.UTILITY))
                     addToAlbumStage.initStyle(StageStyle.UTILITY);
                 try {

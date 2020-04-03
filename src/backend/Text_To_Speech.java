@@ -17,7 +17,19 @@ public class Text_To_Speech {
     //Create a Synthesizer instance
     SynthesiserV2 synthesizer = new SynthesiserV2("AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw");
     private static final Log logger = new Log();
+    private static boolean instanceExist = false;
+    private static Text_To_Speech instance;
 
+    private Text_To_Speech() {
+    }
+
+    public static Text_To_Speech getInstance() {
+        if(!instanceExist) {
+            instance = new Text_To_Speech();
+            instanceExist = true;
+            return instance;
+        } return instance;
+    }
     /**
      * Calls the MaryTTS to say the given text
      *

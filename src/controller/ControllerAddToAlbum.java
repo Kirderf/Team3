@@ -13,6 +13,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -33,8 +34,6 @@ public class ControllerAddToAlbum implements Initializable {
     private TableColumn<TagTableRow, Integer> id;
     ObservableList<AlbumRow> albumList = FXCollections.observableArrayList();
 
-    public void searchAction(ActionEvent actionEvent) {
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,6 +43,7 @@ public class ControllerAddToAlbum implements Initializable {
     private Iterator getAlbumIterator(){
         return ControllerMain.getAlbums().entrySet().iterator();
     }
+
     private void insertAlbums(){
         Iterator albumIterator = getAlbumIterator();
         int counter = 1;
@@ -67,24 +67,40 @@ public class ControllerAddToAlbum implements Initializable {
         return tempAlbumList;
     }
 
-    public void confirmAddToAlbum() {
+    @FXML
+    public void confirmAddToAlbum(ActionEvent event) {
+        Stage thisStage = ((Stage) albumTable.getScene().getWindow());
         ArrayList<String> checkedBoxes = getCheckedBoxes();
         ArrayList<String> selectedImages = ControllerMain.getSelectedImages();
         int counter = 0;
-        for(String s : checkedBoxes){
-            for(String se : selectedImages){
-                if(!ControllerMain.getAlbums().get(s).contains(se)){
-                    ControllerMain.getAlbums().get(s).add(se);
-                    counter++;
+        if(!checkedBoxes.isEmpty()) {
+            for (String s : checkedBoxes) {
+                for (String se : selectedImages) {
+                    if (!ControllerMain.getAlbums().get(s).contains(se)) {
+                        ControllerMain.getAlbums().get(s).add(se);
+                        counter++;
+                    }
                 }
             }
+            if(counter != 0){
+                Alert a = new Alert(Alert.AlertType.INFORMATION, "The images were added successfully to the album");
+                a.initModality(Modality.APPLICATION_MODAL);
+                a.initOwner(thisStage);
+                a.showAndWait();
+                thisStage.close();
+            }
+            else{
+                Alert b = new Alert(Alert.AlertType.WARNING, "All the selected images were already present in the selected albums");
+                b.initModality(Modality.APPLICATION_MODAL);
+                b.initOwner(thisStage);
+                b.showAndWait();
+            }
+        } else {
+            Alert c = new Alert(Alert.AlertType.WARNING, "No checkboxes selected");
+            c.initModality(Modality.APPLICATION_MODAL);
+            c.initOwner(thisStage);
+            c.showAndWait();
+            event.consume();
         }
-        if(counter != 0){
-            new Alert(Alert.AlertType.INFORMATION, "The images were added successfully to the album").showAndWait();
-        }
-        else{
-            new Alert(Alert.AlertType.INFORMATION, "All the selected images were already present in the selected albums").showAndWait();
-        }
-        ((Stage) albumTable.getScene().getWindow()).close();
     }
 }

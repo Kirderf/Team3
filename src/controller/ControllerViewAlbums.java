@@ -127,7 +127,7 @@ public class ControllerViewAlbums implements Initializable {
      * when an album is clicked on, this shows it in the main view
      * @param name name of the album that the user wants to view
      */
-    private void showAlbum(String name){
+    private void showAlbum(String name) {
         if(!ControllerMain.getAlbums().isEmpty()) {
             if(ControllerMain.getAlbums().get(name)!=null) {
                 Iterator albumIterator = ControllerMain.getAlbums().entrySet().iterator();
@@ -167,6 +167,7 @@ public class ControllerViewAlbums implements Initializable {
      */
     public void deleteAction() {
         //iterates through all albums
+        new Alert(Alert.AlertType.INFORMATION, "Select an album to delete").showAndWait();
         for(int i = 0; i<albumTilePane.getChildren().size();i++){
             //if it is a pane it is an album
             if(albumTilePane.getChildren().get(i) instanceof Pane){

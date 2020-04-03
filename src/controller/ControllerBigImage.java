@@ -4,6 +4,7 @@ package controller;
 import backend.Log;
 import backend.Text_To_Speech;
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,16 +26,17 @@ import javafx.util.converter.NumberStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
-
+//TODO make remove work, make viewAlbum work, make search work
 public class ControllerBigImage extends ControllerMain implements Initializable {
     private static final Log logger = new Log();
 
     private Stage addTagStage = new Stage();
     private Stage importStage = new Stage();
     private Stage addToAlbumStage = new Stage();
-    private Text_To_Speech voice = new Text_To_Speech();
+    private Text_To_Speech voice = Text_To_Speech.getInstance();
     @FXML
     private ImageView bigImage;
     @FXML
@@ -66,6 +68,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         textField.setEditable(false);
         bigImgDataSplitPane.setDividerPositions(getSplitPanePos());
     }
+
     @FXML
     /**
      * when go to library is pressed
@@ -77,13 +80,24 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     }
 
+
+    @Override
+    @FXML
+    protected void saveAlbumAction(ActionEvent event) throws IOException {
+        super.saveAlbumAction(event);
+        addToSelectedImages(pathBuffer);
+    }
+
+    @Override
+    protected void refreshImages() {
+    }
+
     @FXML
     /**
      * add tag is clicked
      */
     private void addTagAction(ActionEvent event){
         voice.speak("Tagging");
-        bigImgDataSplitPane.setDividerPositions(imgDataSplitPane.getDividerPositions()[0]);
         if(!addTagStage.isShowing()){
             try{
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Tagging.fxml"));
@@ -99,6 +113,22 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         }
     }
 
+
+    @Override
+    @FXML
+    protected void removeAction(ActionEvent event) throws SQLException, IOException {
+        super.removeAction(event);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    goToLibrary(event);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
     @FXML
     /**
