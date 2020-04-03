@@ -30,8 +30,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -44,13 +42,13 @@ public class ControllerMap implements Initializable {
     private static final Log logger = new Log();
     private HashMap<Marker,String> markers = new HashMap<>();
     private static ArrayList<String> savedToDisk = new ArrayList<>();
-    private static final Coordinate coordKarlsruheHarbour = new Coordinate(49.015511, 8.323497);
+    private static final Coordinate mapStartingLocation = new Coordinate(0.0, 0.0);
     //ratio is preserved
     private final int thumbnailHeight = 75;
     private static ImageView clickedImage;
 
     /** default zoom value. */
-    private static final int ZOOM_DEFAULT = 14;
+    private static final int ZOOM_DEFAULT = 2;
     @FXML
     public MapView mapView;
 
@@ -158,7 +156,7 @@ public class ControllerMap implements Initializable {
                 .build());
 
         mapView.setZoom(ZOOM_DEFAULT);
-        mapView.setCenter(coordKarlsruheHarbour);
+        mapView.setCenter(mapStartingLocation);
 
     }
     public void afterMapIsInitialized(){
