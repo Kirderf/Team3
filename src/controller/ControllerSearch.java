@@ -26,8 +26,8 @@ public class ControllerSearch implements Initializable {
     private List<File> list;
     private final double prefHeight = 27;
     private final double prefWidth = 330;
-    public static ArrayList<String> searchResults = new ArrayList<>();
-    public static boolean searchSucceed = false;
+    private static ArrayList<String> searchResults = new ArrayList<>();
+    private static boolean searchSucceed = false;
 
     @FXML
     CheckBox metaCheck;
@@ -56,6 +56,19 @@ public class ControllerSearch implements Initializable {
             logger.logNewFatalError("ControllerSearch initialize " + e.getLocalizedMessage());
         }
     }
+
+    public static ArrayList<String> getSearchResults() {
+        return searchResults;
+    }
+
+    public static boolean isSearchSucceed() {
+        return searchSucceed;
+    }
+
+    public static void setSearchSucceed(boolean searchSucceed) {
+        ControllerSearch.searchSucceed = searchSucceed;
+    }
+
 
     /**
      * if the close button is clicked

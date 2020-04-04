@@ -1,12 +1,40 @@
-Apr 04, 2020 12:50:21 PM backend.Log logNewInfo
-INFO: Database : Creating Database object
-Apr 04, 2020 12:50:21 PM backend.Log logNewInfo
+Apr 04, 2020 2:05:59 PM backend.Log logNewInfo
+INFO: new albumRowid: 1, tagname: , Checkbox: CheckBox@45fa210c[styleClass=check-box]'da'
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
+INFO: DatabaseClient : Removing image
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 04, 2020 12:50:21 PM backend.Log logNewInfo
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 04, 2020 12:50:21 PM backend.Log logNewInfo
-INFO: Database : There is no connection
-Apr 04, 2020 12:50:21 PM backend.Log logNewInfo
-INFO: DatabaseSource : Loading .properties file
-Apr 04, 2020 12:50:32 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
+Apr 04, 2020 2:06:07 PM backend.Log logNewWarning
+WARNING: Database : Deleting image from database from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/images with gps data for testing/DSCN0010.jpg
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
+INFO: Database : Finding image from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/images with gps data for testing/DSCN0010.jpg
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
+INFO: Database : Closing database
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
+INFO: Initializing ControllerMain
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
+INFO: Database : Getting Column
+Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
+INFO: Closing application
+Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
+INFO: DatabaseClient : Closing application
+Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
+INFO: Database : Closing database
+Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
+INFO: Database : Deleting table

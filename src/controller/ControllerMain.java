@@ -248,11 +248,11 @@ public class ControllerMain implements Initializable {
                 searchStage.setTitle("Search");
                 searchStage.setResizable(false);
                 searchStage.showAndWait();
-                if (ControllerSearch.searchSucceed) {
+                if (ControllerSearch.isSearchSucceed()) {
                     clearView();
-                    for (String s : ControllerSearch.searchResults) {
+                    for (String s : ControllerSearch.getSearchResults()) {
                         insertImage(s);
-                        ControllerSearch.searchSucceed = false;
+                        ControllerSearch.setSearchSucceed(false);
                     }
                 }
             } catch (Exception e) {
@@ -261,12 +261,19 @@ public class ControllerMain implements Initializable {
         }
     }
 
+    /**
+     * Remove images from view and database
+     * @param event
+     * @return true if something is deleted or false if nothing is deleted.
+     * @throws SQLException
+     * @throws IOException
+     */
     @FXML
-    protected void removeAction(ActionEvent event) throws SQLException, IOException {
+    protected boolean removeAction(ActionEvent event) throws SQLException, IOException {
         voice.speak("Removing images");
         try {
             if (getSelectedImages().size() == 0) {
-                throw new IllegalArgumentException("No images were chosen");
+                throw new IllegalArgumentException("None selected images");
             }
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
             confirm.setTitle("Confirmation Dialog");
@@ -274,9 +281,10 @@ public class ControllerMain implements Initializable {
             confirm.setContentText("This action is not revertable!");
             Optional<ButtonType> result = confirm.showAndWait();
             if (result.get() == ButtonType.OK) {
+                Iterator albumIterator;
                 for (String path : getSelectedImages()) {
                     databaseClient.removeImage(path);
-                    Iterator albumIterator = albums.entrySet().iterator();
+                    albumIterator = albums.entrySet().iterator();
                     //iterates through albums
                     while (albumIterator.hasNext()) {
                         Map.Entry albumEntry = (Map.Entry) albumIterator.next();
@@ -288,9 +296,11 @@ public class ControllerMain implements Initializable {
                         }
                     }
                     refreshImages();
+                    return true;
                 }
             } else {
                 refreshImages();
+                return false;
             }
 
         } catch (IllegalArgumentException e) {
@@ -300,13 +310,14 @@ public class ControllerMain implements Initializable {
             error.setContentText("You need to select at least one image to remove");
             error.showAndWait();
         }
+        return false;
     }
 
     /**
      * Opens import window, once window closes, all pictures from database will get inserted into the UI
      */
     @FXML
-    private void importAction(ActionEvent event) throws IOException {
+    protected void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
         if (!importStage.isShowing()) {
             if (importStage.getModality() != Modality.APPLICATION_MODAL)
@@ -385,7 +396,7 @@ public class ControllerMain implements Initializable {
                     if (result.isPresent()) {
                         exportPDF(result.get());
                     } else {
-                        selectedImages.clear();
+                        refreshImages();
                     }
                 } catch (Exception exception) {
                     logger.logNewFatalError("ControllerMain ExportAction " + exception.getLocalizedMessage());
@@ -670,7 +681,7 @@ public class ControllerMain implements Initializable {
      *
      * @param imagePath the path to the image from which you are getting the metadata
      */
-    private void showMetadata(String imagePath) {
+    protected void showMetadata(String imagePath) {
         if(selectedImages.isEmpty()) return;
         String path = getSelectedImages().get(getSelectedImages().size()-1);
         metadataVbox.getChildren().clear();
@@ -686,7 +697,7 @@ public class ControllerMain implements Initializable {
     }
 
 
-    private void showTags(String imagePath) {
+    protected void showTags(String imagePath) {
         if (selectedImages.isEmpty()) return;
         String path = getSelectedImages().get(getSelectedImages().size() - 1);
         tagVbox.getChildren().clear();
@@ -794,6 +805,7 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     protected void viewAlbums(ActionEvent actionEvent) throws IOException {
+        voice.speak("View albums");
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();
         if (!albumStage.isShowing()) {

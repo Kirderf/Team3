@@ -3,16 +3,12 @@ package controller;
 
 import backend.Log;
 import backend.Text_To_Speech;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -22,22 +18,18 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.converter.NumberStringConverter;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-//TODO make remove work, make search work
+
 public class ControllerBigImage extends ControllerMain implements Initializable {
     private static final Log logger = new Log();
-
     private Stage addTagStage = new Stage();
     private Stage importStage = new Stage();
-    private Stage addToAlbumStage = new Stage();
     private Text_To_Speech voice = Text_To_Speech.getInstance();
+
     @FXML
     private ImageView bigImage;
     @FXML
@@ -76,19 +68,30 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     private void goToLibrary(ActionEvent event) throws IOException {
         voice.speak("Going to library");
+        clearSelectedImages();
         setSplitPanePos(bigImgDataSplitPane.getDividerPositions()[0]);
         bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
-
     }
 
-
     @Override
+    /**
+     * Saves image to an album
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML
     protected void saveAlbumAction(ActionEvent event) throws IOException {
         super.saveAlbumAction(event);
         addToSelectedImages(pathBuffer);
     }
 
+    /**
+     * Reinsert a image into view
+     *
+     * @param imageView the image that is to be shown
+     * @param path      the path to the image
+     */
     @Override
     protected void showBigImage(ImageView imageView, String path) {
         clearSelectedImages();
@@ -99,6 +102,9 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     @Override
+    /**
+     * Cannot refresh in bigimage view
+     */
     protected void refreshImages() {
     }
 
@@ -111,6 +117,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     @FXML
     protected void viewAlbums(ActionEvent actionEvent) throws IOException {
+        voice.speak("View albums");
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();
         if (!albumStage.isShowing()) {
@@ -122,24 +129,32 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
             albumStage.showAndWait();
         }
 
-        goToLibrary(actionEvent);
+        if (ControllerViewAlbums.isAlbumSelected()) {
+            ControllerViewAlbums.setAlbumSelected(false);
+            if (!getSelectedImages().isEmpty()) {
+                setSplitPanePos(bigImgDataSplitPane.getDividerPositions()[0]);
+                bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
+            }
+        }
+
     }
 
     @FXML
     /**
      * add tag is clicked
      */
-    private void addTagAction(ActionEvent event){
+    private void addTagAction(ActionEvent event) {
         voice.speak("Tagging");
-        if(!addTagStage.isShowing()){
-            try{
+        if (!addTagStage.isShowing()) {
+            try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Tagging.fxml"));
                 addTagStage.setScene(new Scene(root));
                 addTagStage.setTitle("Tagging");
                 addTagStage.setResizable(false);
                 addTagStage.setOnCloseRequest(event1 -> ControllerTagging.bufferTags.clear());
                 addTagStage.showAndWait();
-            }catch (Exception exception){
+                showTags();
+            } catch (Exception exception) {
                 exception.printStackTrace();
                 logger.logNewFatalError("ControllerBigImage addTagAction " + exception.getLocalizedMessage());
             }
@@ -147,26 +162,61 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
 
-    @Override
+    /**
+     * Remove image that is being shown
+     * @param event
+     * @throws SQLException
+     * @throws IOException
+     * @return boolean true if something is deleted or false if nothing is deleted.
+     */
     @FXML
-    protected void removeAction(ActionEvent event) throws SQLException, IOException {
-        super.removeAction(event);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    goToLibrary(event);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    protected boolean removeAction(ActionEvent event) throws SQLException, IOException {
+        if(super.removeAction(event)) {
+            goToLibrary(event);
+            return true;
+        }
+        return false;
     }
 
+    @Override
+    /**
+     * When the search button is clicked
+     */
     @FXML
+    protected void searchAction(ActionEvent event) {
+        logger.logNewInfo("SearchAction");
+        voice.speak("Searching");
+        if (!searchStage.isShowing()) {
+            if (!searchStage.getModality().equals(Modality.APPLICATION_MODAL))
+                searchStage.initModality(Modality.APPLICATION_MODAL);
+            if (!searchStage.getStyle().equals(StageStyle.UTILITY)) searchStage.initStyle(StageStyle.UTILITY);
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
+                searchStage.setScene(new Scene(root));
+                searchStage.setTitle("Search");
+                searchStage.setResizable(false);
+                searchStage.showAndWait();
+
+                if (ControllerSearch.isSearchSucceed()) {
+                    ControllerSearch.setSearchSucceed(false);
+                    clearSelectedImages();
+                    for (String s : ControllerSearch.getSearchResults()) {
+                        addToSelectedImages(s);
+                    }
+                    setSplitPanePos(bigImgDataSplitPane.getDividerPositions()[0]);
+                    bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
+                }
+            } catch (Exception e) {
+                logger.logNewFatalError("ControllerBigImage searchAction " + e.getLocalizedMessage());
+            }
+        }
+    }
+
+    @Override
     /**
      * when import image is clicked
      */
+    @FXML
     protected void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
         if (!importStage.isShowing()) {
@@ -180,6 +230,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     /**
      * opens a image to fullscreen view
+     *
      * @param image the image that you want to show in fullscreen
      */
     private void setBigImage(Image image) {
@@ -187,33 +238,15 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         bigImage.fitWidthProperty().bind(bigImageGrid.widthProperty());
         bigImage.fitHeightProperty().bind(imageVbox.heightProperty());
         bigImage.setImage(image);
-        textField.setText(getSelectedImages().get(getSelectedImages().size()-1));
+        textField.setText(getSelectedImages().get(getSelectedImages().size() - 1));
     }
 
     private void showMetadata() {
-        if(selectedImages.isEmpty()) return;
-        String path = getSelectedImages().get(getSelectedImages().size()-1);
-        metadataVbox.getChildren().clear();
-        String[] metadata = getDatabaseClient().getMetaDataFromDatabase(path);
-        textField.setText("Path :" + metadata[0]);
-        metadataVbox.getChildren().add(new Label("File size :" + metadata[2]));
-        metadataVbox.getChildren().add(new Label("Date :" + metadata[3].substring(0, 4) + "/" + metadata[3].substring(4, 6) + "/" + metadata[3].substring(6)));
-        metadataVbox.getChildren().add(new Label("Height :" + metadata[4]));
-        metadataVbox.getChildren().add(new Label("Width :" + metadata[5]));
-        metadataVbox.getChildren().add(new Label("GPS Latitude :" + metadata[6]));
-        metadataVbox.getChildren().add(new Label("GPS Longitude :" + metadata[7]));
-
-    }
-    private void showTags(){
-        if(selectedImages.isEmpty()) return;
-        String path = getSelectedImages().get(getSelectedImages().size()-1);
-        tagVbox.getChildren().clear();
-        String[] tags = getDatabaseClient().getTags(path).split(",");
-        tagVbox.getChildren().add(new Label("Tags:"));
-        for (int i = 0; i<tags.length;i++) {
-            tagVbox.getChildren().add(new Label(tags[i]));
-        }
+        super.showMetadata(pathBuffer);
     }
 
+    private void showTags() {
+        super.showTags(pathBuffer);
+    }
 
 }
