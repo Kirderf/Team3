@@ -310,9 +310,9 @@ public class ControllerMain implements Initializable {
                             albums.remove(albumEntry.getKey());
                         }
                     }
-                    refreshImages();
-                    return true;
                 }
+                refreshImages();
+                return true;
             } else {
                 refreshImages();
                 return false;
