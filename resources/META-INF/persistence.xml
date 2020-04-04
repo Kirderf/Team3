@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence"
+             version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+
+    <persistence-unit name="DatabasePU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>backend.database.ImageDAO</class>
+        <properties>
+            <!--username and password is temporarily here-->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp" />
+            <property name="javax.persistence.jdbc.user" value="fredrjul_Image" />
+            <property name="javax.persistence.jdbc.password" value="Password123" />
+            <!-- EclipseLink should create the database schema automatically -->
+            <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+            <property name="eclipselink.ddl-generation.output-mode" value="database" />
+            <!-- EclipseLink connectionpooling -->
+            <property name="eclipselink.connection-pool.default.initial" value="1" />
+            <property name="eclipselink.connection-pool.default.min" value="64"/>
+            <property name="eclipselink.connection-pool.default.max" value="64"/>
+        </properties>
+    </persistence-unit>
+</persistence>

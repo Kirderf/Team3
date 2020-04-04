@@ -1,5 +1,7 @@
 package controller;
 
+import backend.util.Text_To_Speech;
+import backend.database.DatabaseClient;
 import backend.DatabaseClient;
 import backend.ImageExport;
 import backend.Log;
@@ -39,6 +41,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -49,7 +52,17 @@ public class ControllerMain implements Initializable {
 
     //Must be public static to get access from other places
     public static HashMap<String, String> locations = new HashMap<>();
-    public static DatabaseClient databaseClient = new DatabaseClient();
+    public static DatabaseClient databaseClient;
+
+    static {
+        try {
+            databaseClient = DatabaseClient.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static String pathBuffer;
     public static boolean ascending = true;
     public static ArrayList<String> selectedImages = new ArrayList<>();
@@ -154,8 +167,7 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * returns a hasmap with all the images that have valid g
-     *
+     * returns a hashmap with all the images that have valid g
      * @return
      */
     public static HashMap<String, String> getLocations() {
@@ -168,12 +180,11 @@ public class ControllerMain implements Initializable {
 
     /**
      * adds an album to the albums hashmap
-     *
-     * @param key    the name of the album
+     * @param key the name of the album
      * @param images arraylist containing the path to teh images
      */
     public static void addToAlbums(String key, ArrayList<String> images) {
-        ControllerMain.albums.put(key, images);
+        ControllerMain.albums.put(key,images);
     }
 
     /**
@@ -210,24 +221,23 @@ public class ControllerMain implements Initializable {
      *
      * @param s the path that you want to add to the image
      */
-    public static void addToSelectedImages(String s) {
+    public static void addToSelectedImages(String s){
         selectedImages.add(s);
     }
 
     /**
      * clears the selected images
      */
-    public static void clearSelectedImages() {
+    public static void clearSelectedImages(){
         selectedImages.clear();
     }
 
     /**
      * removes a specific image from the selected images
-     *
      * @param path the path to the image you want to remove
      * @return boolean whether or not the removal was successful
      */
-    public static boolean removeFromSelectedImages(String path) {
+    public static boolean removeFromSelectedImages(String path){
         return selectedImages.remove(path);
     }
 
@@ -484,8 +494,7 @@ public class ControllerMain implements Initializable {
         voice.speak("Help");
         if (!aboutStage.isShowing()) {
             Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
-            if (aboutStage.getModality() != Modality.APPLICATION_MODAL)
-                aboutStage.initModality(Modality.APPLICATION_MODAL);
+            if(aboutStage.getModality() != Modality.APPLICATION_MODAL) aboutStage.initModality(Modality.APPLICATION_MODAL);
             aboutStage.setScene(new Scene(root));
             aboutStage.setTitle("About");
             aboutStage.setResizable(false);
@@ -578,8 +587,8 @@ public class ControllerMain implements Initializable {
      * normal clicks tags the image and adds it to selected images
      *
      * @param imageView the image that you want to view or mark when clicked
-     * @param image     the image that the imageview should display
-     * @param path      the local path to the image on the user's machine
+     * @param image the image that the imageview should display
+     * @param path the local path to the image on the user's machine
      * @return eventhandler that marks the images as directed
      */
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path) {
@@ -598,6 +607,7 @@ public class ControllerMain implements Initializable {
                 showMetadata(null);
                 showTags(null);
             }
+
         };
     }
 
@@ -605,8 +615,8 @@ public class ControllerMain implements Initializable {
      * select the image and tints it, if it is already selected then the tint is removed
      *
      * @param imageView the imageview that you want to update with the new image
-     * @param image     the image that you want to tint
-     * @param path      the path to the photo
+     * @param image the image that you want to tint
+     * @param path the path to the photo
      */
     private void selectImage(ImageView imageView, Image image, String path) {
         if (!getSelectedImages().contains(path)) {
@@ -706,6 +716,7 @@ public class ControllerMain implements Initializable {
         for (int i = 0; i < tags.length; i++) {
             tagVbox.getChildren().add(new Label(tags[i]));
         }
+
     }
 
     @FXML
@@ -866,7 +877,6 @@ public class ControllerMain implements Initializable {
             }
         } else {
             for (int x = 0; x < image.getWidth(); x++) {
-                
                 for (int y = 0; y < image.getHeight(); y++) {
                     Color pixelColor = new Color(image.getRGB(x, y), true);
                     int r = (pixelColor.getRed() + Color.blue.getRed()) / 2;

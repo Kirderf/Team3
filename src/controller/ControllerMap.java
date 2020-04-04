@@ -60,7 +60,7 @@ public class ControllerMap implements Initializable {
         //TODO does this need to be a static hashmap? can it be a parameter in some way
         Iterator hmIterator = ControllerMain.getLocations().entrySet().iterator();
         //double array with longitude first, then latitude
-        Double[] latLong = new Double[2];
+        Double[] longLat = new Double[2];
         //iterates through hashmap with pictures that have valid gps data
         while(hmIterator.hasNext()) {
             Map.Entry mapElement = (Map.Entry)hmIterator.next();

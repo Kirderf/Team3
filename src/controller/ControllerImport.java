@@ -85,8 +85,7 @@ public class ControllerImport implements Initializable {
         }
         if (bufferList != null) {
             clearListView();
-            for (File file : bufferList
-            ) {
+            for (File file : bufferList) {
                 generateTextField(file.getAbsolutePath());
             }
         }
@@ -133,7 +132,6 @@ public class ControllerImport implements Initializable {
         if (bufferList != null) {
             for (File file : bufferList) {
                 ControllerMain.getDatabaseClient().addImage(file);
-
             }
             setImportSucceed(true);
         }

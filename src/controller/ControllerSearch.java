@@ -2,12 +2,15 @@ package controller;
 
 import backend.Log;
 import backend.TagTableRow;
+import backend.util.TagTableRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -47,6 +50,21 @@ public class ControllerSearch implements Initializable {
     TableColumn<TagTableRow, CheckBox> select;
     @FXML
     TableView<TagTableRow> tagTable;
+    ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
+    private List<File> list;
+
+    static void notNamed(ArrayList<String> tagList, ObservableList<TagTableRow> observeList, TableView<TagTableRow> tagTable, TableColumn<TagTableRow, Integer> id, TableColumn<TagTableRow, CheckBox> select) {
+        for (int i = 0; i < tagList.size(); i++) {
+            String t = tagList.get(i);
+            CheckBox ch = new CheckBox("" + t);
+            observeList.add(new TagTableRow(i, "", ch));
+        }
+
+
+        tagTable.setItems(observeList);
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -82,22 +100,21 @@ public class ControllerSearch implements Initializable {
     /**
      * if the search button is clicked
      * @param event the eventlistener on the button that called this method
-     * @throws SQLException
      */
     @FXML
-    private void searchAction(ActionEvent event) throws SQLException {
+    private void searchAction(ActionEvent event) {
         //clears static resultList
         searchResults.clear();
 
         // Tags
 
         ArrayList<String> tempTagList = getCheckedBoxes();
-        if (!tempTagList.isEmpty()){
+        if (!tempTagList.isEmpty()) {
             for (String tag : tempTagList) {
                 ArrayList<String> tagResult = ControllerMain.getDatabaseClient().search(tag, "Tags");
-                if(tagResult!=null){
-                    for(String s :tagResult){
-                        if(!searchResults.contains(s)){
+                if (tagResult != null) {
+                    for (String s : tagResult) {
+                        if (!searchResults.contains(s)) {
                             searchResults.add(s);
                         }
                     }
@@ -105,19 +122,19 @@ public class ControllerSearch implements Initializable {
             }
         }
 
-        if(metaCheck.isSelected()){
-            ArrayList<String> metaResult = ControllerMain.getDatabaseClient().search(searchField.getText(),"Metadata");
-            if (metaResult!=null) {
-                for(String s : metaResult){
-                    if(!searchResults.contains(s)){
+        if (metaCheck.isSelected()) {
+            ArrayList<String> metaResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Metadata");
+            if (metaResult != null) {
+                for (String s : metaResult) {
+                    if (!searchResults.contains(s)) {
                         searchResults.add(s);
                     }
                 }
             }
         }
-        if(pathCheck.isSelected()){
-            ArrayList<String> pathResult = ControllerMain.getDatabaseClient().search(searchField.getText(),"Path");
-            if(pathResult!= null) {
+        if (pathCheck.isSelected()) {
+            ArrayList<String> pathResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Path");
+            if (pathResult != null) {
                 for (String s : pathResult) {
                     if (!searchResults.contains(s)) {
                         searchResults.add(s);

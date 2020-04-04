@@ -1,6 +1,7 @@
 import backend.Log;
 import backend.Text_To_Speech;
 import controller.ControllerMain;
+import backend.util.Text_To_Speech;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +11,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +34,7 @@ public class Start extends Application {
             primaryStage.setOnCloseRequest((event -> {
                 logger.logNewInfo("Closing application");
                 try {
-                    ControllerMain.getDatabaseClient().closeApplication();
+                    // ControllerMain.getDatabaseClient().closeApplication();
                     Platform.exit();
                     System.exit(0);
                 } catch (SQLException e) {
@@ -46,6 +46,7 @@ public class Start extends Application {
             logger.logNewFatalError("Start start() " + e.getLocalizedMessage());
         }
     }
+
 
     public static void main(String[] args) {
         voice = Text_To_Speech.getInstance();
