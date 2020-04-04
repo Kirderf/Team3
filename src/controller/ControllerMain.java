@@ -283,7 +283,12 @@ public class ControllerMain implements Initializable {
         voice.speak("Removing images");
         try {
             if (getSelectedImages().size() == 0) {
-                throw new IllegalArgumentException("None selected images");
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("404: Image(s) not found");
+                error.setHeaderText(null);
+                error.setContentText("You need to select at least one image to remove");
+                error.showAndWait();
+                return false;
             }
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
             confirm.setTitle("Confirmation Dialog");
@@ -314,11 +319,7 @@ public class ControllerMain implements Initializable {
             }
 
         } catch (IllegalArgumentException e) {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("404: Image(s) not found");
-            error.setHeaderText(null);
-            error.setContentText("You need to select at least one image to remove");
-            error.showAndWait();
+            logger.logNewFatalError("ControllerMain removeImage " + e.getLocalizedMessage());
         }
         return false;
     }

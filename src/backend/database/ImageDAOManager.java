@@ -62,6 +62,9 @@ public class ImageDAOManager {
         try {
             ImageDAO t = findTeam3Image(path);
             em.getTransaction().begin();
+            if (!em.contains(t)) {
+                t = em.merge(t);
+            }
             em.remove(t);
             em.getTransaction().commit();
         } finally {
