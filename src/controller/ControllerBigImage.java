@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.converter.NumberStringConverter;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -80,12 +81,60 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     }
 
+    @FXML
+    @Override
+    /**
+     * When view albums is clicked
+     *
+     * @param actionEvent auto-generated
+     * @throws IOException
+     */
+    protected void viewAlbums(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
+        Stage albumStage = new Stage();
+        if (!albumStage.isShowing()) {
+            if (albumStage.getModality() != Modality.APPLICATION_MODAL)
+                albumStage.initModality(Modality.APPLICATION_MODAL);
+            albumStage.setScene(new Scene(root));
+            albumStage.setTitle("Albums");
+            albumStage.setResizable(false);
+            albumStage.showAndWait();
+        }
+        if (ControllerViewAlbums.isAlbumSelected()) {
+            goToLibrary(actionEvent);
+            Platform.runLater(() -> {
+                if (!getSelectedImages().isEmpty()) {
+                    clearView();
+                    ControllerViewAlbums.setAlbumSelected(false);
+                    for (String s : getSelectedImages()) {
+                        try {
+                            insertImage(s);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    refreshImages();
+                }
+            });
+
+        }
+    }
 
     @Override
     @FXML
     protected void saveAlbumAction(ActionEvent event) throws IOException {
         super.saveAlbumAction(event);
         addToSelectedImages(pathBuffer);
+    }
+
+    @Override
+    protected void showBigImage(ImageView imageView, String path) {
+        clearSelectedImages();
+        addToSelectedImages(path);
+        showMetadata();
+        showTags();
+        setBigImage(imageView.getImage());
     }
 
     @Override

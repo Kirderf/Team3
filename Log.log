@@ -1,212 +1,26 @@
-Apr 04, 2020 11:33:16 AM backend.Log logNewInfo
-INFO: Database : Creating Database object
-Apr 04, 2020 11:33:16 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:16 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:17 AM backend.Log logNewInfo
-INFO: Database : There is no connection
-Apr 04, 2020 11:33:17 AM backend.Log logNewInfo
-INFO: DatabaseSource : Loading .properties file
-Apr 04, 2020 11:33:18 AM backend.Log logNewInfo
-INFO: OpenConnection is true
-Apr 04, 2020 11:33:18 AM backend.Log logNewInfo
-INFO: Database : Creating table
-Apr 04, 2020 11:33:18 AM backend.Log logNewInfo
-INFO: Database : Checking if table is in the database
-Apr 04, 2020 11:33:19 AM backend.Log logNewInfo
-INFO: Database : fredrjul_8862294
-Apr 04, 2020 11:33:19 AM backend.Log logNewInfo
-INFO: Create table is true
-Apr 04, 2020 11:33:19 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:11 PM backend.Log logNewInfo
 INFO: Initializing ControllerMain
-Apr 04, 2020 11:33:19 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:11 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:19 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:11 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 04, 2020 11:33:19 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:11 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 04, 2020 11:33:19 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:11 PM backend.Log logNewInfo
 INFO: Showing app
-Apr 04, 2020 11:33:20 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:13 PM backend.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: DatabaseClient : Adding image
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: ImageImport : Getting metadata from file
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Getting Column
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\Skjermbilde56.PNG
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: DatabaseClient : Adding image
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: ImageImport : Getting metadata from file
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Getting Column
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:26 AM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\tryu (2).JPG
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: DatabaseClient : Adding image
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: ImageImport : Getting metadata from file
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Database : Getting Column
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Added Image to pathC:\Users\ingebrigt Hovind\Pictures\tryu.JPG
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Refreshing images after import controllermain
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:27 AM backend.Log logNewInfo
-INFO: Database : Getting Column
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Getting Column
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Getting Column
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde56.PNG
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde56.PNG
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde56.PNG
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde56.PNG
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Getting Column
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Getting Column
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:28 AM backend.Log logNewInfo
-INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
-Apr 04, 2020 11:33:29 AM backend.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
-Apr 04, 2020 11:33:29 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:29 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:29 AM backend.Log logNewInfo
-INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
-Apr 04, 2020 11:33:29 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:29 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:29 AM backend.Log logNewInfo
-INFO: Database : Getting Column
-Apr 04, 2020 11:33:37 AM backend.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
-Apr 04, 2020 11:33:37 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:37 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:37 AM backend.Log logNewInfo
-INFO: Database : Getting ImageMetaData from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
-Apr 04, 2020 11:33:37 AM backend.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
-Apr 04, 2020 11:33:37 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:37 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:37 AM backend.Log logNewInfo
-INFO: Database : Getting Tags
-Apr 04, 2020 11:33:37 AM backend.Log logNewInfo
-INFO: Database : Finding image from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
-Apr 04, 2020 11:33:39 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
 INFO: Closing application
-Apr 04, 2020 11:33:39 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
 INFO: DatabaseClient : Closing application
-Apr 04, 2020 11:33:39 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 04, 2020 11:33:39 AM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:39 AM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 11:33:39 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
 INFO: Database : Closing database
-Apr 04, 2020 11:33:39 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 04, 2020 11:33:39 AM backend.Log logNewInfo
+Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
+Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
+INFO: Database : Deleting table

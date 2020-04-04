@@ -517,7 +517,7 @@ public class ControllerMain implements Initializable {
      *
      * @param path to image object
      */
-    private void insertImage(String path) throws FileNotFoundException {
+    protected void insertImage(String path) throws FileNotFoundException {
         int row = getNextRow();
         int coloumn = getNextColumn();
         ImageView image = importImage(path);
@@ -617,7 +617,7 @@ public class ControllerMain implements Initializable {
      * @param path      the path to the image
      * @throws IOException
      */
-    private void showBigImage(ImageView imageView, String path) throws IOException {
+    protected void showBigImage(ImageView imageView, String path) throws IOException {
         voice.speak("Magnifying image");
         clearSelectedImages();
         addToSelectedImages(path);
