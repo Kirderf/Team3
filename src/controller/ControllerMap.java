@@ -24,6 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -70,7 +71,7 @@ public class ControllerMap implements Initializable {
             //longitude
             latLong[1] = Double.parseDouble(latLongString.split(",")[1]);
             //String with absolute path to image with valid gps data
-            String url = (mapElement.getKey().toString().replaceAll("/",File.separator + File.separator));
+            String url = FilenameUtils.normalize(mapElement.getKey().toString());
             //resizes image to be used as a thumbnail on map
             String output = resize(url, thumbnailHeight);
             //arraylist which is later used to delete saved images
@@ -103,7 +104,7 @@ public class ControllerMap implements Initializable {
             mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
                 try {
                     //formats string to full size version of image clicked on
-                    File file = new File(markers.get(event.getMarker()).replaceAll("/",File.separator + File.separator));
+                    File file = new File(FilenameUtils.normalize(markers.get(event.getMarker())));
                     //need to do it this way to get an image from an absolute path
                     Image imageForFile = new Image(file.toURI().toURL().toExternalForm());
                     ImageView imageView = new ImageView(imageForFile);
@@ -128,7 +129,8 @@ public class ControllerMap implements Initializable {
         BufferedImage bImage = SwingFXUtils.fromFXImage(image,null);
         //formats string to have \\ instead of /
         //the path to the image is temporary, so the name of the image is given by current time in milliseconds
-        String outputImagePath = inputImagePath.substring(0,inputImagePath.replaceAll(File.separator + File.separator,"/").lastIndexOf("/")).replaceAll(File.separator + File.separator,"/") +"/"+ Calendar.getInstance().getTimeInMillis() + inputImagePath.substring(inputImagePath.lastIndexOf("."));
+        File file = new File(inputImagePath);
+        String outputImagePath = file.getAbsolutePath().substring(0,file.getAbsolutePath().lastIndexOf(File.separator)+1) + System.currentTimeMillis() +FilenameUtils.EXTENSION_SEPARATOR_STR+ FilenameUtils.getExtension(file.getAbsolutePath());
         //writes the thumbnail to the disk so that it can be read by marker creator
         ImageIO.write(bImage, "png", new File(outputImagePath));
         return outputImagePath;
