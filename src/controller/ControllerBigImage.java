@@ -30,7 +30,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
-//TODO make remove work, make viewAlbum work, make search work
+//TODO make remove work, make search work
 public class ControllerBigImage extends ControllerMain implements Initializable {
     private static final Log logger = new Log();
 
@@ -81,45 +81,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     }
 
-    @FXML
-    @Override
-    /**
-     * When view albums is clicked
-     *
-     * @param actionEvent auto-generated
-     * @throws IOException
-     */
-    protected void viewAlbums(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
-        Stage albumStage = new Stage();
-        if (!albumStage.isShowing()) {
-            if (albumStage.getModality() != Modality.APPLICATION_MODAL)
-                albumStage.initModality(Modality.APPLICATION_MODAL);
-            albumStage.setScene(new Scene(root));
-            albumStage.setTitle("Albums");
-            albumStage.setResizable(false);
-            albumStage.showAndWait();
-        }
-        if (ControllerViewAlbums.isAlbumSelected()) {
-            goToLibrary(actionEvent);
-            Platform.runLater(() -> {
-                if (!getSelectedImages().isEmpty()) {
-                    clearView();
-                    ControllerViewAlbums.setAlbumSelected(false);
-                    for (String s : getSelectedImages()) {
-                        try {
-                            insertImage(s);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } else {
-                    refreshImages();
-                }
-            });
-
-        }
-    }
 
     @Override
     @FXML
@@ -139,6 +100,29 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     @Override
     protected void refreshImages() {
+    }
+
+    @Override
+    /**
+     * When view albums is clicked
+     *
+     * @param actionEvent auto-generated
+     * @throws IOException
+     */
+    @FXML
+    protected void viewAlbums(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
+        Stage albumStage = new Stage();
+        if (!albumStage.isShowing()) {
+            if (albumStage.getModality() != Modality.APPLICATION_MODAL)
+                albumStage.initModality(Modality.APPLICATION_MODAL);
+            albumStage.setScene(new Scene(root));
+            albumStage.setTitle("Albums");
+            albumStage.setResizable(false);
+            albumStage.showAndWait();
+        }
+
+        goToLibrary(actionEvent);
     }
 
     @FXML

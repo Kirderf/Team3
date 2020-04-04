@@ -98,7 +98,7 @@ public class ControllerMain implements Initializable {
         logger.logNewInfo("Initializing ControllerMain");
         pictureGrid.setAlignment(Pos.CENTER);
         imgDataSplitPane.setDividerPositions(splitPanePos);
-        refreshImages();
+        if(!loadFromSelectedImages()) refreshImages();
     }
 
     /**
@@ -808,15 +808,32 @@ public class ControllerMain implements Initializable {
         }
         if (ControllerViewAlbums.isAlbumSelected()) {
             if (!getSelectedImages().isEmpty()) {
-                clearView();
                 ControllerViewAlbums.setAlbumSelected(false);
-                for (String s : getSelectedImages()) {
-                    insertImage(s);
-                }
+                loadFromSelectedImages();
             } else {
+                ControllerViewAlbums.setAlbumSelected(false);
                 refreshImages();
             }
         }
+    }
+
+    /**
+     * Loads images from selected paths
+     * @return true if images are selected, else false
+     */
+    protected boolean loadFromSelectedImages() {
+        if(!getSelectedImages().isEmpty()) {
+            clearView();
+            getSelectedImages().forEach(path-> {
+                try {
+                    insertImage(path);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+            clearSelectedImages();
+            return true;
+        } else return false;
     }
 
     /**

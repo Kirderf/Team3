@@ -1,26 +1,58 @@
-Apr 04, 2020 12:14:11 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:31 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/sloth.png
+Apr 04, 2020 12:55:31 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 04, 2020 12:55:31 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 04, 2020 12:55:31 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/sloth.png
+Apr 04, 2020 12:55:31 PM backend.Log logNewInfo
+INFO: Getting tags from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/sloth.png
+Apr 04, 2020 12:55:31 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 04, 2020 12:55:31 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 04, 2020 12:55:31 PM backend.Log logNewInfo
+INFO: Database : Getting Tags
+Apr 04, 2020 12:55:31 PM backend.Log logNewInfo
+INFO: Database : Finding image from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/sloth.png
+Apr 04, 2020 12:55:33 PM backend.Log logNewInfo
 INFO: Initializing ControllerMain
-Apr 04, 2020 12:14:11 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:36 PM backend.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/samplephoto.jpg
+Apr 04, 2020 12:55:36 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 04, 2020 12:14:11 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:36 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 04, 2020 12:14:11 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:36 PM backend.Log logNewInfo
+INFO: Database : Getting ImageMetaData from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/samplephoto.jpg
+Apr 04, 2020 12:55:36 PM backend.Log logNewInfo
+INFO: Getting tags from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/samplephoto.jpg
+Apr 04, 2020 12:55:36 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 04, 2020 12:55:36 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 04, 2020 12:55:36 PM backend.Log logNewInfo
+INFO: Database : Getting Tags
+Apr 04, 2020 12:55:36 PM backend.Log logNewInfo
+INFO: Database : Finding image from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/samplephoto.jpg
+Apr 04, 2020 12:55:39 PM backend.Log logNewInfo
+INFO: Database : Opening connection to database..
+Apr 04, 2020 12:55:39 PM backend.Log logNewInfo
+INFO: Database : Checking database connection
+Apr 04, 2020 12:55:39 PM backend.Log logNewInfo
 INFO: Database : Getting Column
-Apr 04, 2020 12:14:11 PM backend.Log logNewInfo
-INFO: Showing app
-Apr 04, 2020 12:14:13 PM backend.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:40 PM backend.Log logNewInfo
 INFO: Closing application
-Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:40 PM backend.Log logNewInfo
 INFO: DatabaseClient : Closing application
-Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:40 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:40 PM backend.Log logNewInfo
 INFO: Database : Closing database
-Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:40 PM backend.Log logNewInfo
 INFO: Database : Opening connection to database..
-Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:40 PM backend.Log logNewInfo
 INFO: Database : Checking database connection
-Apr 04, 2020 12:14:17 PM backend.Log logNewInfo
+Apr 04, 2020 12:55:40 PM backend.Log logNewInfo
 INFO: Database : Deleting table
