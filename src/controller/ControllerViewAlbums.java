@@ -1,6 +1,6 @@
 package controller;
 
-import backend.Log;
+import backend.util.Log;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;

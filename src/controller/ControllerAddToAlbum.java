@@ -1,8 +1,8 @@
 package controller;
 
 import backend.AlbumRow;
-import backend.Log;
-import backend.TagTableRow;
+import backend.util.Log;
+import backend.util.TagTableRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

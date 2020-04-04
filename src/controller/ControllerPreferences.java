@@ -1,6 +1,6 @@
 package controller;
 
-import backend.Log;
+import backend.util.Log;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

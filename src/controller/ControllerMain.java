@@ -2,10 +2,10 @@ package controller;
 
 import backend.util.Text_To_Speech;
 import backend.database.DatabaseClient;
-import backend.DatabaseClient;
-import backend.ImageExport;
-import backend.Log;
-import backend.Text_To_Speech;
+import backend.database.DatabaseClient;
+import backend.util.ImageExport;
+import backend.util.Log;
+import backend.util.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -463,10 +463,9 @@ public class ControllerMain implements Initializable {
             voice.speak("Closing application");
             Thread.sleep(1500);
             logger.logNewWarning("Closing application");
-            getDatabaseClient().closeApplication();
             Platform.exit();
             System.exit(0);
-        } catch (SQLException | InterruptedException e) {
+        } catch (InterruptedException e) {
             logger.logNewWarning("Could not close application / delete table" + e.getLocalizedMessage());
         }
     }

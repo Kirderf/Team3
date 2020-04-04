@@ -1,40 +1,108 @@
-Apr 04, 2020 2:05:59 PM backend.Log logNewInfo
-INFO: new albumRowid: 1, tagname: , Checkbox: CheckBox@45fa210c[styleClass=check-box]'da'
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
-INFO: DatabaseClient : Removing image
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 2:06:07 PM backend.Log logNewWarning
-WARNING: Database : Deleting image from database from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/images with gps data for testing/DSCN0010.jpg
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
-INFO: Database : Finding image from /Users/tommyluu/Documents/IntellJ prosjekter/systemutvikling/resources/images with gps data for testing/DSCN0010.jpg
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
-INFO: Database : Closing database
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
+Apr 04, 2020 10:26:43 PM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 2:06:07 PM backend.Log logNewInfo
-INFO: Database : Getting Column
-Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
+Apr 04, 2020 10:26:46 PM backend.util.Log logNewInfo
+INFO: Showing app
+Apr 04, 2020 10:26:47 PM backend.util.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+Apr 04, 2020 10:26:54 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Apr 04, 2020 10:26:54 PM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Apr 04, 2020 10:26:54 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Apr 04, 2020 10:26:54 PM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Apr 04, 2020 10:26:54 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Apr 04, 2020 10:26:54 PM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Apr 04, 2020 10:26:55 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Apr 04, 2020 10:26:55 PM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Apr 04, 2020 10:26:55 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Apr 04, 2020 10:26:55 PM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Apr 04, 2020 10:26:55 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Apr 04, 2020 10:26:55 PM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Apr 04, 2020 10:26:55 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Apr 04, 2020 10:26:55 PM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Apr 04, 2020 10:26:56 PM backend.util.Log logNewInfo
+INFO: Refreshing images after import controllermain
+Apr 04, 2020 10:26:57 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Apr 04, 2020 10:26:57 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Apr 04, 2020 10:26:57 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde.PNG
+Apr 04, 2020 10:26:57 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde.PNG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde.PNG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde.PNG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde2.PNG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde2.PNG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde3.PNG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde3.PNG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde4.PNG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde4.PNG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
+Apr 04, 2020 10:27:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
+Apr 04, 2020 10:27:07 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Apr 04, 2020 10:27:07 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Apr 04, 2020 10:27:09 PM backend.util.Log logNewInfo
+INFO: Initializing ControllerMain
+Apr 04, 2020 10:27:10 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Apr 04, 2020 10:27:10 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/signatur.png
+Apr 04, 2020 10:27:10 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde.PNG
+Apr 04, 2020 10:27:10 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde.PNG
+Apr 04, 2020 10:27:11 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde2.PNG
+Apr 04, 2020 10:27:11 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde2.PNG
+Apr 04, 2020 10:27:12 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde3.PNG
+Apr 04, 2020 10:27:12 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde3.PNG
+Apr 04, 2020 10:27:13 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde4.PNG
+Apr 04, 2020 10:27:13 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde4.PNG
+Apr 04, 2020 10:27:14 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
+Apr 04, 2020 10:27:14 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
+Apr 04, 2020 10:27:14 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Apr 04, 2020 10:27:14 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Apr 04, 2020 10:27:15 PM backend.util.Log logNewInfo
 INFO: Closing application
-Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
-INFO: DatabaseClient : Closing application
-Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
-INFO: Database : Closing database
-Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
-INFO: Database : Opening connection to database..
-Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
-INFO: Database : Checking database connection
-Apr 04, 2020 2:06:10 PM backend.Log logNewInfo
-INFO: Database : Deleting table

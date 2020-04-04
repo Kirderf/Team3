@@ -1,7 +1,7 @@
 package controller;
 
-import backend.Log;
-import backend.TagTableRow;
+import backend.util.Log;
+import backend.util.TagTableRow;
 import backend.util.TagTableRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,7 +51,6 @@ public class ControllerSearch implements Initializable {
     @FXML
     TableView<TagTableRow> tagTable;
     ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
-    private List<File> list;
 
     static void notNamed(ArrayList<String> tagList, ObservableList<TagTableRow> observeList, TableView<TagTableRow> tagTable, TableColumn<TagTableRow, Integer> id, TableColumn<TagTableRow, CheckBox> select) {
         for (int i = 0; i < tagList.size(); i++) {
@@ -161,7 +160,6 @@ public class ControllerSearch implements Initializable {
         cancel(event);
     }
 
-    ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
 
     /**
      * Finds all available tags, assigns their labels and checkboxes and adds them to an observable

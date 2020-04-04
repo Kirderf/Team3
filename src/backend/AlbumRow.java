@@ -1,5 +1,6 @@
 package backend;
 
+import backend.util.Log;
 import javafx.scene.control.CheckBox;
 
 import java.util.logging.Logger;
