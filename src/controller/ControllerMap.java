@@ -55,7 +55,7 @@ public class ControllerMap implements Initializable {
 
     /** the MapView containing the map */
 
-    public ControllerMap() throws IOException {
+    public ControllerMap() throws IOException, InterruptedException {
         //used to iterate through the images
         //TODO does this need to be a static hashmap? can it be a parameter in some way
         Iterator hmIterator = ControllerMain.getLocations().entrySet().iterator();
@@ -98,31 +98,28 @@ public class ControllerMap implements Initializable {
     }
 
     public void addEventListeners(){
-        Iterator markerIterator = markers.entrySet().iterator();
-        while(markerIterator.hasNext()){
-            Map.Entry markerEntry = (Map.Entry)markerIterator.next();
-            mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
-                try {
-                    //formats string to full size version of image clicked on
-                    File file = new File(FilenameUtils.normalize(markers.get(event.getMarker())));
-                    //need to do it this way to get an image from an absolute path
-                    Image imageForFile = new Image(file.toURI().toURL().toExternalForm());
-                    ImageView imageView = new ImageView(imageForFile);
-                    imageView.setId((String)markerEntry.getValue());
-                    clickedImage = imageView;
-                    closeStage();
-                } catch (Exception e) {
-                    logger.logNewFatalError("ControllerMap addEventListeners " + e.getLocalizedMessage());
-                }
-            });
-        }
+        mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
+            try {
+                event.consume();
+                //formats string to full size version of image clicked on
+                File file = new File(FilenameUtils.normalize(markers.get(event.getMarker())));
+                //need to do it this way to get an image from an absolute path
+                Image imageForFile = new Image(file.toURI().toURL().toExternalForm());
+                ImageView imageView = new ImageView(imageForFile);
+                imageView.setId(markers.get(event.getMarker()));
+                clickedImage = imageView;
+                closeStage();
+            } catch (Exception e) {
+                logger.logNewFatalError("ControllerMap addEventListeners " + e.getLocalizedMessage());
+            }
+        });
     }
     private void closeStage(){
         Stage stage = (Stage) mapView.getScene().getWindow();
         stage.close();
     }
 
-    public static String resize(String inputImagePath, int scaledHeight)throws IOException {
+    public static String resize(String inputImagePath, int scaledHeight) throws IOException, InterruptedException {
         // reads input image
         //requestedWidth is just a placeholder, simply needs to be bigger than height
         Image image = new Image(new File(inputImagePath).toURI().toURL().toExternalForm(),scaledHeight*2,scaledHeight,true,false);
@@ -130,6 +127,8 @@ public class ControllerMap implements Initializable {
         //formats string to have \\ instead of /
         //the path to the image is temporary, so the name of the image is given by current time in milliseconds
         File file = new File(inputImagePath);
+        //making sure the filename is different
+        Thread.sleep(1);
         String outputImagePath = file.getAbsolutePath().substring(0,file.getAbsolutePath().lastIndexOf(File.separator)+1) + System.currentTimeMillis() +FilenameUtils.EXTENSION_SEPARATOR_STR+ FilenameUtils.getExtension(file.getAbsolutePath());
         //writes the thumbnail to the disk so that it can be read by marker creator
         ImageIO.write(bImage, "png", new File(outputImagePath));
