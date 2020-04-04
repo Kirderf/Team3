@@ -1,164 +1,198 @@
-Apr 04, 2020 11:45:52 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:57:25 PM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-Apr 04, 2020 11:45:55 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:57:29 PM backend.util.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Apr 04, 2020 11:45:55 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:57:29 PM backend.util.Log logNewInfo
 INFO: Showing app
-Apr 04, 2020 11:46:24 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:57:40 PM backend.util.Log logNewInfo
 INFO: DatabaseClient : Adding image
-Apr 04, 2020 11:46:24 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:57:40 PM backend.util.Log logNewInfo
 INFO: ImageImport : Getting metadata from file
-Apr 04, 2020 11:46:24 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:57:41 PM backend.util.Log logNewInfo
 INFO: Refreshing images after import controllermain
-Apr 04, 2020 11:46:28 PM backend.util.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
-Apr 04, 2020 11:46:28 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
-Apr 04, 2020 11:46:29 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:57:45 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:57:45 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:57:57 PM backend.util.Log logNewInfo
 INFO: Initializing controllerTagging
-Apr 04, 2020 11:46:29 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:57:57 PM backend.util.Log logNewInfo
 INFO: Inserting tags in ControllerTagging
-Apr 04, 2020 11:46:29 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
-Apr 04, 2020 11:46:29 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@29224f3d[styleClass=check-box]'Tag5'
-Apr 04, 2020 11:46:29 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@2a54783d[styleClass=check-box]'Tag3'
-Apr 04, 2020 11:46:29 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@3a8fb563[styleClass=check-box]'Tag1'
-Apr 04, 2020 11:46:32 PM backend.util.Log logNewInfo
-INFO: DatabaseClient : Adding tag to C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
-Apr 04, 2020 11:46:32 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
-Apr 04, 2020 11:46:34 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:57:57 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:57:57 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@126fc835[styleClass=check-box]'tag5'
+Apr 04, 2020 11:57:57 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@29740f88[styleClass=check-box]'Tag3'
+Apr 04, 2020 11:57:57 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@f7fb09b[styleClass=check-box]'Tag1'
+Apr 04, 2020 11:57:57 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@41bb4dc[styleClass=check-box]'Tag77'
+Apr 04, 2020 11:57:57 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 4, tag name: , checkbox: CheckBox@68d9fa0a[styleClass=check-box]'Tag78'
+Apr 04, 2020 11:57:59 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding tag to C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:57:59 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Removing tag from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:57:59 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:58:01 PM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-Apr 04, 2020 11:46:35 PM backend.util.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
-Apr 04, 2020 11:46:35 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
-Apr 04, 2020 11:46:36 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:58:03 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:58:04 PM backend.util.Log logNewInfo
 INFO: Initializing controllerTagging
-Apr 04, 2020 11:46:36 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:04 PM backend.util.Log logNewInfo
 INFO: Inserting tags in ControllerTagging
-Apr 04, 2020 11:46:36 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
-Apr 04, 2020 11:46:36 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@423f4bcf[styleClass=check-box]'Tag5'
-Apr 04, 2020 11:46:36 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@3afc7973[styleClass=check-box]'Tag3'
-Apr 04, 2020 11:46:36 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@6d1d77fa[styleClass=check-box]'Tag1'
-Apr 04, 2020 11:46:37 PM backend.util.Log logNewInfo
-INFO: DatabaseClient : Adding tag to C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
-Apr 04, 2020 11:46:37 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
-Apr 04, 2020 11:46:38 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:04 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:58:04 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@c9b40f[styleClass=check-box]'Tag3'
+Apr 04, 2020 11:58:04 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@6c57771c[styleClass=check-box]'Tag1'
+Apr 04, 2020 11:58:04 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@7d1f283f[styleClass=check-box]'Tag77'
+Apr 04, 2020 11:58:04 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@2cc7caf[styleClass=check-box]'Tag78'
+Apr 04, 2020 11:58:10 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:58:11 PM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-Apr 04, 2020 11:46:40 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:13 PM backend.util.Log logNewInfo
+INFO: SearchAction
+Apr 04, 2020 11:58:14 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@6d5f82f2[styleClass=check-box]'Tag3'
+Apr 04, 2020 11:58:14 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@17d56412[styleClass=check-box]'Tag1'
+Apr 04, 2020 11:58:14 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@2d6409f0[styleClass=check-box]'Tag77'
+Apr 04, 2020 11:58:14 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@579a2963[styleClass=check-box]'Tag78'
+Apr 04, 2020 11:58:16 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag3
+Apr 04, 2020 11:58:16 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag1
+Apr 04, 2020 11:58:16 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag77
+Apr 04, 2020 11:58:16 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag78
+Apr 04, 2020 11:58:18 PM backend.util.Log logNewInfo
 INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:46:40 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:18 PM backend.util.Log logNewInfo
 INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:46:41 PM backend.util.Log logNewInfo
-INFO: Initializing controllerTagging
-Apr 04, 2020 11:46:41 PM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 04, 2020 11:46:41 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:46:41 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@450bf1f9[styleClass=check-box]'Tag5'
-Apr 04, 2020 11:46:41 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@7f35a6f8[styleClass=check-box]'Tag3'
-Apr 04, 2020 11:46:41 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@3ad20ee[styleClass=check-box]'Tag1'
-Apr 04, 2020 11:46:47 PM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 04, 2020 11:46:47 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:46:47 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@72840c90[styleClass=check-box]'Tag5'
-Apr 04, 2020 11:46:47 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@11487369[styleClass=check-box]'Tag3'
-Apr 04, 2020 11:46:47 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@7d179028[styleClass=check-box]'Tag1'
-Apr 04, 2020 11:46:50 PM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 04, 2020 11:46:50 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:46:50 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@7bc530bb[styleClass=check-box]'Tag5'
-Apr 04, 2020 11:46:50 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@5205b69c[styleClass=check-box]'Tag3'
-Apr 04, 2020 11:46:50 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@7cc2cffe[styleClass=check-box]'Tag1'
-Apr 04, 2020 11:46:52 PM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 04, 2020 11:46:52 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:46:52 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@6690da5e[styleClass=check-box]'Tag5'
-Apr 04, 2020 11:46:52 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@7ee3e874[styleClass=check-box]'Tag3'
-Apr 04, 2020 11:46:52 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@731a97fc[styleClass=check-box]'Tag1'
-Apr 04, 2020 11:46:52 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@248571c6[styleClass=check-box]'tag3'
-Apr 04, 2020 11:47:00 PM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 04, 2020 11:47:00 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:47:00 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@66a2b1e7[styleClass=check-box]'Tag5'
-Apr 04, 2020 11:47:00 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@2b9af382[styleClass=check-box]'Tag3'
-Apr 04, 2020 11:47:00 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@2369afba[styleClass=check-box]'Tag1'
-Apr 04, 2020 11:47:00 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@571db6f5[styleClass=check-box]'tag3'
-Apr 04, 2020 11:47:00 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 4, tag name: , checkbox: CheckBox@24431878[styleClass=check-box]'tag77'
-Apr 04, 2020 11:47:03 PM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 04, 2020 11:47:04 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:47:04 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@7e5c1b44[styleClass=check-box]'Tag5'
-Apr 04, 2020 11:47:04 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@447c1374[styleClass=check-box]'Tag3'
-Apr 04, 2020 11:47:04 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@78f4b2b2[styleClass=check-box]'Tag1'
-Apr 04, 2020 11:47:04 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@67810fe6[styleClass=check-box]'tag3'
-Apr 04, 2020 11:47:04 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 4, tag name: , checkbox: CheckBox@7919be69[styleClass=check-box]'tag77'
-Apr 04, 2020 11:47:04 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 5, tag name: , checkbox: CheckBox@5ddae58d[styleClass=check-box]'tag78'
-Apr 04, 2020 11:47:07 PM backend.util.Log logNewInfo
-INFO: DatabaseClient : Adding tag to C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:47:07 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:47:09 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:21 PM backend.util.Log logNewInfo
+INFO: SearchAction
+Apr 04, 2020 11:58:22 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@5678cd31[styleClass=check-box]'Tag3'
+Apr 04, 2020 11:58:22 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@139482f0[styleClass=check-box]'Tag1'
+Apr 04, 2020 11:58:22 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@59cdf90c[styleClass=check-box]'Tag77'
+Apr 04, 2020 11:58:22 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@691c05b7[styleClass=check-box]'Tag78'
+Apr 04, 2020 11:58:24 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag3
+Apr 04, 2020 11:58:24 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag1
+Apr 04, 2020 11:58:25 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag77
+Apr 04, 2020 11:58:25 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag78
+Apr 04, 2020 11:58:25 PM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-Apr 04, 2020 11:47:11 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:26 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Export.jpg
+Apr 04, 2020 11:58:26 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/Export.jpg
+Apr 04, 2020 11:58:27 PM backend.util.Log logNewInfo
 INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:47:11 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:27 PM backend.util.Log logNewInfo
 INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:47:12 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:28 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
+Apr 04, 2020 11:58:28 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
+Apr 04, 2020 11:58:29 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
+Apr 04, 2020 11:58:29 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
+Apr 04, 2020 11:58:29 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
+Apr 04, 2020 11:58:29 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
+Apr 04, 2020 11:58:30 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Export.jpg
+Apr 04, 2020 11:58:30 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/Export.jpg
+Apr 04, 2020 11:58:31 PM backend.util.Log logNewInfo
 INFO: Initializing controllerTagging
-Apr 04, 2020 11:47:12 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:31 PM backend.util.Log logNewInfo
 INFO: Inserting tags in ControllerTagging
-Apr 04, 2020 11:47:12 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:31 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/Export.jpg
+Apr 04, 2020 11:58:31 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@5469fd82[styleClass=check-box]'Tag3'
+Apr 04, 2020 11:58:31 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@7cfdcefc[styleClass=check-box]'Tag1'
+Apr 04, 2020 11:58:31 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@1fb6e377[styleClass=check-box]'Tag77'
+Apr 04, 2020 11:58:31 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@54c065f1[styleClass=check-box]'Tag78'
+Apr 04, 2020 11:58:33 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding tag to C:/Users/ingebrigt Hovind/Pictures/Export.jpg
+Apr 04, 2020 11:58:33 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Removing tag from C:/Users/ingebrigt Hovind/Pictures/Export.jpg
+Apr 04, 2020 11:58:33 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/Export.jpg
+Apr 04, 2020 11:58:35 PM backend.util.Log logNewInfo
+INFO: SearchAction
+Apr 04, 2020 11:58:36 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@16eecaab[styleClass=check-box]'Tag3'
+Apr 04, 2020 11:58:36 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@230a44b2[styleClass=check-box]'Tag1'
+Apr 04, 2020 11:58:36 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@64510bc8[styleClass=check-box]'tag3'
+Apr 04, 2020 11:58:36 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@3ae2682a[styleClass=check-box]'Tag77'
+Apr 04, 2020 11:58:36 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 4, tag name: , checkbox: CheckBox@5a39464f[styleClass=check-box]'Tag78'
+Apr 04, 2020 11:58:42 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag3
+Apr 04, 2020 11:58:42 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag1
+Apr 04, 2020 11:58:42 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching fortag3
+Apr 04, 2020 11:58:42 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag77
+Apr 04, 2020 11:58:42 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Searching forTag78
+Apr 04, 2020 11:58:43 PM backend.util.Log logNewInfo
+INFO: Initializing ControllerMain
+Apr 04, 2020 11:58:44 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
+Apr 04, 2020 11:58:44 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
+Apr 04, 2020 11:58:50 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
+Apr 04, 2020 11:58:50 PM backend.util.Log logNewInfo
 INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:47:12 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@1ed33cda[styleClass=check-box]'Tag5'
-Apr 04, 2020 11:47:12 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@36455f83[styleClass=check-box]'Tag3'
-Apr 04, 2020 11:47:12 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@20ad639f[styleClass=check-box]'Tag1'
-Apr 04, 2020 11:47:12 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@16474105[styleClass=check-box]'Tag77'
-Apr 04, 2020 11:47:12 PM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 4, tag name: , checkbox: CheckBox@11f59afb[styleClass=check-box]'Tag78'
-Apr 04, 2020 11:47:47 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:53 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
+Apr 04, 2020 11:58:53 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/DHTO4349.JPG
+Apr 04, 2020 11:58:55 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
+Apr 04, 2020 11:58:55 PM backend.util.Log logNewInfo
 INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/fun/4PVQM.jpg
-Apr 04, 2020 11:47:49 PM backend.util.Log logNewInfo
+Apr 04, 2020 11:58:59 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/1000-derby-duck-lr1-300x300.jpg
+Apr 04, 2020 11:58:59 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/1000-derby-duck-lr1-300x300.jpg
+Apr 04, 2020 11:58:59 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:58:59 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2017-11/IMG_2438.PNG
+Apr 04, 2020 11:59:04 PM backend.util.Log logNewInfo
 INFO: Closing application

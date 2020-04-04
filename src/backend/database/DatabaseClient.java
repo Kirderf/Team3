@@ -108,7 +108,6 @@ public class DatabaseClient {
     public boolean addTag(String path, String[] tag) {
         logger.logNewInfo("DatabaseClient : Adding tag to " + path);
         try {
-            System.out.println("Databaseclient " + Arrays.toString(tag));
             return imageDatabase.addTags(path, tag);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());

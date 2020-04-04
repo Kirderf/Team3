@@ -97,10 +97,11 @@ public class ControllerTagging implements Initializable {
         bufferTags.clear();
 
         ArrayList<String> tempTagList = getCheckedBoxes();
-
+        ArrayList<String> tempUnchecked = getUncheckedBoxes();
         String[] tagList = tempTagList.toArray(new String[tempTagList.size()]);
+        String[] uncheckedTags = tempUnchecked.toArray(new String[tempUnchecked.size()]);
         ControllerMain.getDatabaseClient().addTag(ControllerMain.getPathBuffer(), tagList);
-
+        ControllerMain.getDatabaseClient().removeTag(ControllerMain.getPathBuffer(),uncheckedTags);
         ((Stage) taggingDone.getScene().getWindow()).close();
     }
 
@@ -156,6 +157,15 @@ public class ControllerTagging implements Initializable {
         ArrayList<String> tempTagList = new ArrayList<>();
         for(TagTableRow tb : taggingTable.getItems()){
             if(tb.getCheckBox().isSelected()){
+                tempTagList.add(tb.getCheckBox().getText());
+            }
+        }
+        return tempTagList;
+    }
+    private ArrayList<String> getUncheckedBoxes(){
+        ArrayList<String> tempTagList = new ArrayList<>();
+        for(TagTableRow tb : taggingTable.getItems()){
+            if(!tb.getCheckBox().isSelected()){
                 tempTagList.add(tb.getCheckBox().getText());
             }
         }
