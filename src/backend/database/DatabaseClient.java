@@ -113,8 +113,9 @@ public class DatabaseClient {
             return false;
         }
     }
-    public boolean removeImage(String path) throws SQLException {
-        return false;
+    public boolean removeImage(String path) {
+        imageDatabase.deleteTeam3Image(path);
+        return true;
     }
 
 
