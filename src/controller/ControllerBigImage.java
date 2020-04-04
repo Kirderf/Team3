@@ -110,7 +110,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                         try {
                             insertImage(s);
                         } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                            logger.logNewFatalError("ControllerBigImage viewAlbums " + e.getLocalizedMessage());
                         }
                     }
                 } else {

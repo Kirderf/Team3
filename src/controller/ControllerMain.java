@@ -732,8 +732,6 @@ public class ControllerMain implements Initializable {
             new File(s).delete();
         }
         ControllerMap.emptySavedToDisk();
-
-
         if (ControllerMap.getClickedImage() != null) {
             showBigImage(ControllerMap.getClickedImage(), ControllerMap.getClickedImage().getId());
         }
