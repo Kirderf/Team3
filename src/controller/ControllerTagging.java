@@ -37,6 +37,7 @@ public class ControllerTagging implements Initializable {
     @FXML
     TableColumn<TagTableRow, CheckBox> select;
 
+
     protected static ArrayList<String> bufferTags = new ArrayList<>();
 
     @Override
@@ -94,12 +95,27 @@ public class ControllerTagging implements Initializable {
      */
     @FXML
     private void doneAction(ActionEvent ae) throws SQLException {
-        bufferTags.clear();
-
-        ArrayList<String> tempTagList = getCheckedBoxes();
         ArrayList<String> tempUnchecked = getUncheckedBoxes();
-        String[] tagList = tempTagList.toArray(new String[tempTagList.size()]);
         String[] uncheckedTags = tempUnchecked.toArray(new String[tempUnchecked.size()]);
+        //used in contains later
+        bufferTags.forEach(String::toLowerCase);
+        //prompts the user that tags will not be saved
+        for(int i = 0;i<tempUnchecked.size(); i++) {
+            if (bufferTags.contains(tempUnchecked.get(i).toLowerCase())) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Please be advised that tags that are not applied to an image will not be saved");
+                Optional<ButtonType> option = alert.showAndWait();
+                if (option.get() != ButtonType.OK) {
+                    //if they are not ok with saving their tags
+                    return;
+                }
+                else{
+                    i = tempUnchecked.size();
+                }
+            }
+        }
+        bufferTags.clear();
+        ArrayList<String> tempTagList = getCheckedBoxes();
+        String[] tagList = tempTagList.toArray(new String[tempTagList.size()]);
         ControllerMain.getDatabaseClient().addTag(ControllerMain.getPathBuffer(), tagList);
         ControllerMain.getDatabaseClient().removeTag(ControllerMain.getPathBuffer(),uncheckedTags);
         ((Stage) taggingDone.getScene().getWindow()).close();
@@ -160,6 +176,7 @@ public class ControllerTagging implements Initializable {
                 tempTagList.add(tb.getCheckBox().getText());
             }
         }
+
         return tempTagList;
     }
     private ArrayList<String> getUncheckedBoxes(){
