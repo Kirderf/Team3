@@ -47,8 +47,8 @@ public class DatabaseClient {
      * @param columnName eks: Path,ImageID,Tags,File_size,DATE,Height,Width.
      * @return An arraylist of data objects
      */
-    public ArrayList<? extends Serializable> getColumn(String columnName) {
-        return imageDatabase.getColumn(columnName);
+    public ArrayList<String> getColumn(String columnName) {
+        return (ArrayList<String>) imageDatabase.getColumn(columnName);
     }
 
     /**

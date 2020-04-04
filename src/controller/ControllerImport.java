@@ -5,12 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.net.URL;
@@ -72,15 +74,33 @@ public class ControllerImport implements Initializable {
      */
     @FXML
     private void addImageFile(ActionEvent event) {
+
         fc.setTitle("Open Resource File");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Pictures", "*.png", "*.jpg", "*.jpeg", "*.PNG", "*.JPG", "*.JPEG"));
         /**
          * List for containing temporary file explorer results
          */
-        List<File> list = fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
+        List<File> list =  fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
+        ArrayList<String> paths = ControllerMain.getDatabaseClient().getColumn("Path");
+        ArrayList<File> presentFiles = new ArrayList<>();
+        if (list != null) {
+            paths.forEach((x) -> {
+                if (list.contains(new File(FilenameUtils.normalize(x)))){
+                    presentFiles.add(new File(x));
+                }
+            });
+        }
+        //if some images have already been added the user is prompted
+        if(!presentFiles.isEmpty()) {
+            String alertString = "The image(s)\n";
+            for(File f : presentFiles){
+                alertString += f.getPath() + "\n";
+            }
+            new Alert(Alert.AlertType.INFORMATION, alertString + "have already been added").showAndWait();
+        }
         if (list != null) {
             list.forEach((x) -> {
-                if (!bufferList.contains(x)) bufferList.add(x);
+                if (!bufferList.contains(x)&&!presentFiles.contains(x)) bufferList.add(x);
             });
         }
         if (bufferList != null) {

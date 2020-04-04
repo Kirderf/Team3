@@ -543,6 +543,7 @@ public class ControllerMain implements Initializable {
         int row = getNextRow();
         int coloumn = getNextColumn();
         ImageView image = importImage(path);
+        //if the image has already been added
         Pane p = new Pane();
         p.setStyle("-fx-border-color: black; -fx-background-color: white");
         pictureGrid.add(p, coloumn, row);

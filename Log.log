@@ -1,92 +1,14 @@
-Apr 05, 2020 12:41:14 AM backend.util.Log logNewInfo
+Apr 05, 2020 1:22:42 AM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-Apr 05, 2020 12:41:17 AM backend.util.Log logNewInfo
+Apr 05, 2020 1:22:44 AM backend.util.Log logNewInfo
 INFO: Showing app
-Apr 05, 2020 12:41:18 AM backend.util.Log logNewInfo
+Apr 05, 2020 1:22:45 AM backend.util.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Apr 05, 2020 12:41:24 AM backend.util.Log logNewInfo
+Apr 05, 2020 1:22:54 AM backend.util.Log logNewInfo
 INFO: DatabaseClient : Adding image
-Apr 05, 2020 12:41:24 AM backend.util.Log logNewInfo
+Apr 05, 2020 1:22:54 AM backend.util.Log logNewInfo
 INFO: ImageImport : Getting metadata from file
-Apr 05, 2020 12:41:24 AM backend.util.Log logNewInfo
+Apr 05, 2020 1:22:54 AM backend.util.Log logNewInfo
 INFO: Refreshing images after import controllermain
-Apr 05, 2020 12:41:25 AM backend.util.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:25 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:26 AM backend.util.Log logNewInfo
-INFO: Initializing controllerTagging
-Apr 05, 2020 12:41:26 AM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 05, 2020 12:41:26 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:29 AM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 05, 2020 12:41:29 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:29 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@2827e326[styleClass=check-box]'tag1'
-Apr 05, 2020 12:41:32 AM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 05, 2020 12:41:32 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:32 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@532f07bd[styleClass=check-box]'tag1'
-Apr 05, 2020 12:41:33 AM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 05, 2020 12:41:33 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:33 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@66af1c84[styleClass=check-box]'tag1'
-Apr 05, 2020 12:41:33 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@300a1c27[styleClass=check-box]'tag2'
-Apr 05, 2020 12:41:36 AM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 05, 2020 12:41:36 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:36 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@76f2f433[styleClass=check-box]'tag1'
-Apr 05, 2020 12:41:36 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@65f72636[styleClass=check-box]'tag2'
-Apr 05, 2020 12:41:36 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@68e52b89[styleClass=check-box]'tag4'
-Apr 05, 2020 12:41:42 AM backend.util.Log logNewInfo
-INFO: DatabaseClient : Adding tag to C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:42 AM backend.util.Log logNewInfo
-INFO: DatabaseClient : Removing tag from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:43 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:46 AM backend.util.Log logNewInfo
-INFO: Initializing controllerTagging
-Apr 05, 2020 12:41:46 AM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 05, 2020 12:41:46 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:46 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@3ad46ffc[styleClass=check-box]'tag1'
-Apr 05, 2020 12:41:51 AM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 05, 2020 12:41:51 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:51 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@80db2f8[styleClass=check-box]'tag1'
-Apr 05, 2020 12:41:51 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@47f44fd3[styleClass=check-box]'tag2'
-Apr 05, 2020 12:41:53 AM backend.util.Log logNewInfo
-INFO: Inserting tags in ControllerTagging
-Apr 05, 2020 12:41:53 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:53 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@36e84d46[styleClass=check-box]'tag1'
-Apr 05, 2020 12:41:53 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@7c677b4d[styleClass=check-box]'tag2'
-Apr 05, 2020 12:41:53 AM backend.util.Log logNewInfo
-INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@73fbcd33[styleClass=check-box]'tag3'
-Apr 05, 2020 12:41:58 AM backend.util.Log logNewInfo
-INFO: DatabaseClient : Adding tag to C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:59 AM backend.util.Log logNewInfo
-INFO: DatabaseClient : Removing tag from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:41:59 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 05, 2020 12:42:01 AM backend.util.Log logNewInfo
+Apr 05, 2020 1:23:06 AM backend.util.Log logNewInfo
 INFO: Closing application
