@@ -759,16 +759,15 @@ public class ControllerMain implements Initializable {
                             new Alert(Alert.AlertType.WARNING, "That album name already exists").showAndWait();
                             clearSelectedImages();
                         } else {
-                            refreshImages();
                             albums.put(result.get(), new ArrayList<>());
                             ArrayList<String> tempArray = new ArrayList<>();
                             for (String s : getSelectedImages()) {
                                 albums.get(result.get()).add(s);
                                 tempArray.add(s);
                             }
-                            clearSelectedImages();
                             Collections.copy(albums.get(result.get()), tempArray);
                             new Alert(Alert.AlertType.INFORMATION, "Images were successfully added to the album [" + result.get()+"]").showAndWait();
+                            refreshImages();
                         }
                     } else {
                         new Alert(Alert.AlertType.WARNING, "You cant save an album using a blank name").showAndWait();
@@ -784,6 +783,7 @@ public class ControllerMain implements Initializable {
         } catch (Exception exception) {
             logger.logNewFatalError("ControllerMain saveAlbumAction " + exception.getLocalizedMessage());
         }
+        refreshImages();
     }
 
     /**
@@ -837,6 +837,7 @@ public class ControllerMain implements Initializable {
             }
         } else {
             for (int x = 0; x < image.getWidth(); x++) {
+                
                 for (int y = 0; y < image.getHeight(); y++) {
                     Color pixelColor = new Color(image.getRGB(x, y), true);
                     int r = (pixelColor.getRed() + Color.blue.getRed()) / 2;
