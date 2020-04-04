@@ -301,15 +301,17 @@ public class ControllerMain implements Initializable {
                     databaseClient.removeImage(path);
                     albumIterator = albums.entrySet().iterator();
                     //iterates through albums
-                    while (albumIterator.hasNext()) {
+                    ArrayList<String> emptyAlbums = new ArrayList<>();
+                    while(albumIterator.hasNext()){
                         Map.Entry albumEntry = (Map.Entry) albumIterator.next();
                         //if the image is in the album then it is removed
                         ((ArrayList<String>) albumEntry.getValue()).remove(path);
                         //if the last image was just removed, then the album is deleted
                         if (((ArrayList<String>) albumEntry.getValue()).isEmpty()) {
-                            albums.remove(albumEntry.getKey());
+                            emptyAlbums.add((String)albumEntry.getKey());
                         }
                     }
+                    emptyAlbums.forEach(s->albums.remove(s));
                 }
                 refreshImages();
                 return true;
