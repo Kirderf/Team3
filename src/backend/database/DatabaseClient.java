@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -82,7 +83,7 @@ public class DatabaseClient {
 
     public String getTags(String path) {
         logger.logNewInfo("Getting tags from " + path);
-        return imageDatabase.getTags(path).substring(1);
+        return imageDatabase.getTags(path);
     }
 
     /**
@@ -107,6 +108,7 @@ public class DatabaseClient {
     public boolean addTag(String path, String[] tag) {
         logger.logNewInfo("DatabaseClient : Adding tag to " + path);
         try {
+            System.out.println("Databaseclient " + Arrays.toString(tag));
             return imageDatabase.addTags(path, tag);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());

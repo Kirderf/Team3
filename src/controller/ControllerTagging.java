@@ -72,11 +72,11 @@ public class ControllerTagging implements Initializable {
             set.addAll(bufferTags);
             newTagList = new ArrayList<>(set);
         }
-
-
+        String[] alreadySelected = ControllerMain.getDatabaseClient().getTags(ControllerMain.getPathBuffer()).split(",");
         for (int i = 0; i < newTagList.size() ; i++) {
             String t = newTagList.get(i);
             CheckBox ch = new CheckBox(""+t);
+            if(Arrays.asList(alreadySelected).contains(t)) ch.setSelected(true);
             observeList.add(new TagTableRow(i, "", ch));
         }
 
@@ -149,7 +149,6 @@ public class ControllerTagging implements Initializable {
         }
         ArrayList<String> tagList = new ArrayList<>(hashSet);
         tagList.removeAll(Arrays.asList("", null));
-
         return tagList;
     }
 

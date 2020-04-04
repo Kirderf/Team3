@@ -111,7 +111,7 @@ public class ImageDAO implements Serializable {
 
     public void addTag(String tag) {
         if (this.tags.length() != 0) {
-            this.tags = "," + tag;
+            this.tags += "," + tag;
         } else {
             this.tags += tag;
         }

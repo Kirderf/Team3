@@ -32,7 +32,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     private Stage addTagStage = new Stage();
     private Stage importStage = new Stage();
     private Text_To_Speech voice = Text_To_Speech.getInstance();
-
+    private static String imagePath;
     @FXML
     private ImageView bigImage;
     @FXML
@@ -58,13 +58,19 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setImagePath(getPathBuffer());
         setBigImage(getImageBuffer());
         showMetadata();
         showTags();
         textField.setEditable(false);
         bigImgDataSplitPane.setDividerPositions(getSplitPanePos());
     }
-
+    public static String getImagePath(){
+        return imagePath;
+    }
+    public static void setImagePath(String s){
+        imagePath = s;
+    }
     @FXML
     /**
      * when go to library is pressed

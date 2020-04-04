@@ -112,7 +112,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             ImageDAO imageDAO = em.find(ImageDAO.class, path);
-            return imageDAO.getPath();
+            return imageDAO.getTags();
         } finally {
             closeEM(em);
         }
@@ -137,6 +137,7 @@ public class ImageDAOManager {
             //This might not do anything, if em.find returns a shallow copy, then we do not need this
             em.getTransaction().begin();
             em.merge(imageDAO);
+            System.out.println(getTags(imageDAO.getPath()));
             em.getTransaction().commit();
             //returns true if any tag was added, false if not
             return counter != tags.length;
@@ -272,7 +273,7 @@ public class ImageDAOManager {
                 case "path":
                     return (ArrayList<String>) imageList.stream().map(ImageDAO::getPath).collect(Collectors.toList());
                 case "tags":
-                    return (ArrayList<String>) imageList.stream().map(ImageDAO::getTags).collect(Collectors.toList());
+                    return (ArrayList<String>) imageList.stream().map(ImageDAO::getTags).filter(s->!s.equals("")).collect(Collectors.toList());
                 case "file_size":
                     return (ArrayList<Integer>) imageList.stream().map(ImageDAO::getFileSize).collect(Collectors.toList());
                 case "date":

@@ -282,7 +282,7 @@ public class ControllerMain implements Initializable {
     protected boolean removeAction(ActionEvent event) throws SQLException, IOException {
         voice.speak("Removing images");
         try {
-            if (getSelectedImages().size() == 0) {
+            if (getSelectedImages().isEmpty()) {
                 Alert error = new Alert(Alert.AlertType.ERROR);
                 error.setTitle("404: Image(s) not found");
                 error.setHeaderText(null);
