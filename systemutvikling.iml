@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
-    <facet type="javaeeApplication" name="javaEEApplication">
+    <facet type="jpa" name="JPA">
       <configuration>
-        <descriptors>
-          <deploymentDescriptor name="application.xml" url="file://$MODULE_DIR$/META-INF/application.xml" />
-        </descriptors>
+        <setting name="validation-enabled" value="true" />
+        <datasource-mapping>
+          <factory-entry name="DatabasePU" />
+        </datasource-mapping>
+        <naming-strategy-map />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>
   </component>

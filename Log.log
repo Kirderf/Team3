@@ -1,14 +1,60 @@
-Apr 05, 2020 1:22:42 AM backend.util.Log logNewInfo
+Apr 05, 2020 12:49:41 PM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-Apr 05, 2020 1:22:44 AM backend.util.Log logNewInfo
+Apr 05, 2020 12:49:41 PM backend.util.Log logNewInfo
 INFO: Showing app
-Apr 05, 2020 1:22:45 AM backend.util.Log logNewInfo
+Apr 05, 2020 12:49:42 PM backend.util.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Apr 05, 2020 1:22:54 AM backend.util.Log logNewInfo
-INFO: DatabaseClient : Adding image
-Apr 05, 2020 1:22:54 AM backend.util.Log logNewInfo
-INFO: ImageImport : Getting metadata from file
-Apr 05, 2020 1:22:54 AM backend.util.Log logNewInfo
-INFO: Refreshing images after import controllermain
-Apr 05, 2020 1:23:06 AM backend.util.Log logNewInfo
+Apr 05, 2020 12:49:57 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/flower.jpeg
+Apr 05, 2020 12:49:57 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/tommy/IdeaProjects/systemutvikling/resources/flower.jpeg
+Apr 05, 2020 12:49:59 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/images with gps data for testing/DSCN0010.jpg
+Apr 05, 2020 12:49:59 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/tommy/IdeaProjects/systemutvikling/resources/images with gps data for testing/DSCN0010.jpg
+Apr 05, 2020 12:50:00 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+Apr 05, 2020 12:50:00 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/tommy/IdeaProjects/systemutvikling/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/albumSquare.png
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/albumSquare.png
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/flower.jpeg
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/flower.jpeg
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/images with gps data for testing/12382975864_09e6e069e7_o.jpg
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/images with gps data for testing/DSCN0010.jpg
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/images with gps data for testing/DSCN0010.jpg
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/images with gps data for testing/IMG_3195.JPG
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/images with gps data for testing/IMG_3195.JPG
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/IMG_0963.JPG
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/IMG_0963.JPG
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/samplephoto.jpg
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/samplephoto.jpg
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/sloth.png
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/sloth.png
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/sloth1.png
+Apr 05, 2020 12:50:03 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/sloth1.png
+Apr 05, 2020 12:50:04 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/worldmap.png
+Apr 05, 2020 12:50:04 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/tommy/IdeaProjects/systemutvikling/resources/worldmap.png
+Apr 05, 2020 12:50:20 PM backend.util.Log logNewInfo
 INFO: Closing application

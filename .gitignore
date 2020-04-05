@@ -11,4 +11,5 @@ target/
 target
 *.class
 Log.log
+Log.log.1
 .properties

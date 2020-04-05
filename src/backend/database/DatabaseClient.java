@@ -26,7 +26,7 @@ public class DatabaseClient {
     private DatabaseClient() {
         emf = Persistence.createEntityManagerFactory("DatabasePU");
         imageDatabase = new ImageDAOManager(emf);
-
+        imageDatabase.isAccountPresent();
     }
 
     /**
