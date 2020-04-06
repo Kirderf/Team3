@@ -10,8 +10,9 @@ import java.util.stream.Collectors;
 //use compostion, as the only Image objects we would want to manipulate would be the ones already in the database, therefore it should be done through this class
 public class ImageDAOManager {
     private boolean isInitialized = false;
-    private int instanceID = 13;
+    private int instanceID = 5456;
     private EntityManagerFactory emf;
+    private static int imageID = 0;
 
     public ImageDAOManager(EntityManagerFactory emf) {
         this.emf = emf;
@@ -35,7 +36,8 @@ public class ImageDAOManager {
         try {
             //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
             path = path.replaceAll("\\\\", "/");
-            ImageDAO imageDAO = new ImageDAO(instanceID, path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
+            ImageDAO imageDAO = new ImageDAO(imageID, instanceID, path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
+            imageID++;
             em.getTransaction().begin();
             em.persist(imageDAO);//into persistence context
             em.getTransaction().commit();//store into database
@@ -51,7 +53,9 @@ public class ImageDAOManager {
     public ImageDAO findTeam3Image(String path) {
         EntityManager em = getEM();
         try {
-            return em.find(ImageDAO.class, path);
+            List<ImageDAO> images = (List<ImageDAO>) getAllTeam3Images();
+            List<ImageDAO> imageDAOList = images.stream().filter(s->s.getPath().equalsIgnoreCase(path)&&s.getID()== this.instanceID).collect(Collectors.toList());
+            return imageDAOList.get(0);
         } finally {
             closeEM(em);
         }
@@ -115,8 +119,7 @@ public class ImageDAOManager {
     public String getTags(String path) {
         EntityManager em = getEM();
         try {
-            ImageDAO imageDAO = em.find(ImageDAO.class, path);
-            return imageDAO.getTags();
+            return findTeam3Image(path).getTags();
         } finally {
             closeEM(em);
         }
@@ -126,7 +129,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         int counter = 0;
         try {
-            ImageDAO imageDAO = em.find(ImageDAO.class, path);
+            ImageDAO imageDAO = findTeam3Image(path);
             //convert to lowercase
             List<String> tagList = Arrays.stream(imageDAO.getTags().split(",")).map(String::toLowerCase).collect(Collectors.toList());
             for (String s : tags) {
@@ -152,7 +155,7 @@ public class ImageDAOManager {
     public boolean removeTag(String path, String[] tags) {
         EntityManager em = getEM();
         try {
-            ImageDAO imageDAO = em.find(ImageDAO.class, path);
+            ImageDAO imageDAO = findTeam3Image(path);
             //convert to lowercase
             List<String> tagList = Arrays.stream(imageDAO.getTags().split(","))
                     .map(String::toLowerCase)

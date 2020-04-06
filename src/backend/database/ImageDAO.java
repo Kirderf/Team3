@@ -2,15 +2,17 @@ package backend.database;
 
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 //should we have a named query?
 //named this way to avoid confusion with existing Image classes
 @Entity
 public class ImageDAO implements Serializable {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long imageID;
     private String path;
     private int ID;
     private int fileSize;
@@ -21,7 +23,8 @@ public class ImageDAO implements Serializable {
     private double longitude;
     private String tags;
 
-    public ImageDAO(int id, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
+    public ImageDAO(int imageID, int id, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
+        //this.imageID = imageID;
         this.ID = id;
         this.path = path;
         this.fileSize = fileSize;
