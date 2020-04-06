@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 
 public class ControllerAddToAlbum implements Initializable {
     private static final Log logger = new Log();
@@ -40,10 +39,17 @@ public class ControllerAddToAlbum implements Initializable {
         insertAlbums();
     }
 
+    /**
+     * gets an iterator that iterates over the albums in controllerMain
+     * @return Iterator on ControllerMain albums
+     */
     private Iterator getAlbumIterator(){
         return ControllerMain.getAlbums().entrySet().iterator();
     }
 
+    /**
+     * inserts the album into the list of checkboxes
+     */
     private void insertAlbums(){
         Iterator albumIterator = getAlbumIterator();
         int counter = 1;
@@ -57,6 +63,11 @@ public class ControllerAddToAlbum implements Initializable {
         id.setCellValueFactory(new PropertyValueFactory<TagTableRow,Integer>("ID"));
         select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
     }
+
+    /**
+     * gets all of the albums that are currently checked
+     * @return Arraylist with the names of the albums that the images were added
+     */
     private ArrayList<String> getCheckedBoxes(){
         ArrayList<String> tempAlbumList = new ArrayList<>();
         for(AlbumRow ar : albumTable.getItems()){
@@ -67,6 +78,10 @@ public class ControllerAddToAlbum implements Initializable {
         return tempAlbumList;
     }
 
+    /**
+     * when confirm is clicked
+     * @param event confirm button clicked
+     */
     @FXML
     public void confirmAddToAlbum(ActionEvent event) {
         Stage thisStage = ((Stage) albumTable.getScene().getWindow());
@@ -74,15 +89,18 @@ public class ControllerAddToAlbum implements Initializable {
         ArrayList<String> selectedImages = ControllerMain.getSelectedImages();
         int counter = 0;
         if(!checkedBoxes.isEmpty()) {
+            //iterates through albums
             for (String s : checkedBoxes) {
                 for (String se : selectedImages) {
                     if (!ControllerMain.getAlbums().get(s).contains(se)) {
                         ControllerMain.getAlbums().get(s).add(se);
+                        //counts the number of images that are added to albums
                         counter++;
                     }
                 }
             }
             if(counter != 0){
+                logger.logNewInfo("Images added successfully to album");
                 Alert a = new Alert(Alert.AlertType.INFORMATION, "The images were added successfully to the album");
                 a.initModality(Modality.APPLICATION_MODAL);
                 a.initOwner(thisStage);
@@ -90,12 +108,14 @@ public class ControllerAddToAlbum implements Initializable {
                 thisStage.close();
             }
             else{
+                logger.logNewInfo("All the selected images were already in the selected album");
                 Alert b = new Alert(Alert.AlertType.WARNING, "All the selected images were already present in the selected albums");
                 b.initModality(Modality.APPLICATION_MODAL);
                 b.initOwner(thisStage);
                 b.showAndWait();
             }
         } else {
+            logger.logNewInfo("no checkboxes selected");
             Alert c = new Alert(Alert.AlertType.WARNING, "No checkboxes selected");
             c.initModality(Modality.APPLICATION_MODAL);
             c.initOwner(thisStage);

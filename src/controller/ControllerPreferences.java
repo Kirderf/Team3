@@ -27,6 +27,7 @@ public class ControllerPreferences implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //shown as selected if they have been selected earlier
         colourCheck.setSelected(colourChecked);
         ttsCheck.setSelected(ttsChecked);
     }

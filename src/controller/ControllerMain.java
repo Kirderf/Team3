@@ -746,7 +746,6 @@ public class ControllerMain implements Initializable {
                 getLocations().put((String) paths.get(i), "" + latitude + "," + longitude);
             }
         }
-
         Parent root = FXMLLoader.load(getClass().getResource("/Views/WorldMap.fxml"));
         worldStage.setScene(new Scene(root));
         worldStage.setTitle("Map");
