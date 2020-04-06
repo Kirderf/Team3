@@ -4,6 +4,9 @@ import org.eclipse.persistence.descriptors.ClassDescriptor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 //should we have a named query?
 //named this way to avoid confusion with existing Image classes
@@ -22,9 +25,10 @@ public class ImageDAO implements Serializable {
     private double latitude;
     private double longitude;
     private String tags;
+    @ManyToMany(targetEntity = AlbumDAO.class)
+    private List inAlbums;
 
-    public ImageDAO(int imageID, int id, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
-        //this.imageID = imageID;
+    public ImageDAO(int id, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
         this.ID = id;
         this.path = path;
         this.fileSize = fileSize;
@@ -120,6 +124,14 @@ public class ImageDAO implements Serializable {
         }
     }
 
+    public List getInAlbums() {
+        return inAlbums;
+    }
+
+    public void setInAlbums(List inAlbums) {
+        this.inAlbums = inAlbums;
+    }
+
     @Override
     public String toString() {
         return "Image{" +
@@ -139,7 +151,7 @@ public class ImageDAO implements Serializable {
         }
         if (obj instanceof ImageDAO) {
             //if the path is equal then the Images are equal
-            return (((ImageDAO) obj).getPath().equalsIgnoreCase(this.getPath()));
+            return (((ImageDAO) obj).getPath().equalsIgnoreCase(this.getPath())&&this.getID() == ((ImageDAO) obj).getID());
         }
         return false;
     }

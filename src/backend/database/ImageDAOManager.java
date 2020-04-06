@@ -12,7 +12,6 @@ public class ImageDAOManager {
     private boolean isInitialized = false;
     private int instanceID = 5456;
     private EntityManagerFactory emf;
-    private static int imageID = 0;
 
     public ImageDAOManager(EntityManagerFactory emf) {
         this.emf = emf;
@@ -36,11 +35,115 @@ public class ImageDAOManager {
         try {
             //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
             path = path.replaceAll("\\\\", "/");
-            ImageDAO imageDAO = new ImageDAO(imageID, instanceID, path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
-            imageID++;
             em.getTransaction().begin();
-            em.persist(imageDAO);//into persistence context
+            ImageDAO imageDAO = new ImageDAO(instanceID, path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
+            em.persist(imageDAO);
             em.getTransaction().commit();//store into database
+        } finally {
+            closeEM(em);
+        }
+    }
+
+    void addAlbum(String name, List paths){
+        EntityManager em = getEM();
+        try {
+            for(Object a : getAllAlbums()){
+                if(((AlbumDAO) a).getAlbumName().equalsIgnoreCase(name)){
+                    //throw exception here because it should not be possible to enter a name that already exists due to previous checks
+                    throw new IllegalArgumentException("That album already exists");
+                }
+            }
+            em.getTransaction().begin();
+            ArrayList<ImageDAO> images = (ArrayList<ImageDAO>) paths.stream().map(s->findImageDAO((String) s)).collect(Collectors.toList());
+            AlbumDAO albumtest = new AlbumDAO(name, images, instanceID);
+            em.persist(albumtest);
+            em.getTransaction().commit();
+        }
+        finally {
+            closeEM(em);
+        }
+    }
+    private AlbumDAO findAlbumDAO(String name){
+        EntityManager em = getEM();
+        try{
+            List<AlbumDAO> albums = (List<AlbumDAO>) getAllAlbums();
+            return albums.stream().filter(s->s.getAlbumName().equalsIgnoreCase(name)&&s.getUserID()== this.instanceID).collect(Collectors.toList()).get(0);
+        }
+        finally {
+            closeEM(em);
+        }
+    }
+    List getAllAlbums(){
+        EntityManager em = getEM();
+        try {
+            if (isInitialized) {
+                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userID=" + this.instanceID);
+                return q.getResultList();
+            }
+            return Collections.emptyList();
+        } finally {
+            closeEM(em);
+        }
+
+    }
+    void removeAlbum(String name){
+        EntityManager em = getEM();
+        try{
+            AlbumDAO a = findAlbumDAO(name);
+            em.getTransaction().begin();
+            if (!em.contains(a)) {
+                a = em.merge(a);
+            }
+            em.remove(a);
+            em.getTransaction().commit();
+        }
+        finally {
+            closeEM(em);
+        }
+    }
+    boolean addPathToAlbum(String name, ArrayList<String> paths){
+        EntityManager em = getEM();
+        int counter = 0;
+        try {
+            AlbumDAO albumDAO = findAlbumDAO(name);
+            for (String s : paths) {
+                if (!albumDAO.getImages().contains(s)) {
+                    albumDAO.addImage(findImageDAO(s));
+                } else {
+                    //counts number of paths already present
+                    counter++;
+                }
+            }
+            //This might not do anything, if em.find returns a shallow copy, then we do not need this
+            em.getTransaction().begin();
+            em.merge(albumDAO);
+            em.getTransaction().commit();
+            //returns true if any tag was added, false if not
+            return counter != paths.size();
+        } finally {
+            closeEM(em);
+        }
+    }
+    boolean removePathFromAlbum(String name, String[] paths){
+        EntityManager em = getEM();
+        int counter = 0;
+        try {
+            AlbumDAO albumDAO = findAlbumDAO(name);
+            for (String s : paths) {
+                if (albumDAO.getImages().contains(s.toLowerCase())) {
+                    //The first letter is a capital letter, rest is lower case
+                    albumDAO.removeImage(findImageDAO(s));
+                } else {
+                    //counts number of tags already present
+                    counter++;
+                }
+            }
+            //This might not do anything, if em.find returns a shallow copy, then we do not need this
+            em.getTransaction().begin();
+            em.merge(albumDAO);
+            em.getTransaction().commit();
+            //returns true if any tag was added, false if not
+            return counter != paths.length;
         } finally {
             closeEM(em);
         }
@@ -53,7 +156,7 @@ public class ImageDAOManager {
     public ImageDAO findImageDAO(String path) {
         EntityManager em = getEM();
         try {
-            List<ImageDAO> images = (List<ImageDAO>) findImageDAO();
+            List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
             List<ImageDAO> imageDAOList = images.stream().filter(s->s.getPath().equalsIgnoreCase(path)&&s.getID()== this.instanceID).collect(Collectors.toList());
             return imageDAOList.get(0);
         } finally {
@@ -76,7 +179,7 @@ public class ImageDAOManager {
         }
     }
 
-    public List<?> findImageDAO() {
+    public List<?> getAllImageDAO() {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
@@ -166,7 +269,7 @@ public class ImageDAOManager {
     }
 
     public ArrayList<String> sortBy(String columnName, boolean ascending) {
-        List<ImageDAO> images = (List<ImageDAO>) findImageDAO();
+        List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
         columnName = columnName.toLowerCase();
         switch (columnName) {
             //checks what column you are looking for, creates a new arraylist containing only that using lambda
@@ -209,7 +312,7 @@ public class ImageDAOManager {
         validColumns.add("tags");
         validColumns.add("metadata");
         if (!validColumns.contains(searchIn.toLowerCase()) || searchFor == null) return new ArrayList<>();
-        List<ImageDAO> images = (List<ImageDAO>) findImageDAO();
+        List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
         ArrayList<String> pathResults = new ArrayList<>();
 
         if (searchIn.equalsIgnoreCase("path")) {
@@ -264,7 +367,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             columnName = columnName.toLowerCase();
-            List<ImageDAO> imageList = (List<ImageDAO>) findImageDAO();
+            List<ImageDAO> imageList = (List<ImageDAO>) getAllImageDAO();
             switch (columnName) {
                 //checks what column you are looking for, creates a new arraylist
                 case "path":
@@ -295,7 +398,6 @@ public class ImageDAOManager {
         ImageDAO imageDAO = findImageDAO(path);
         return new String[]{imageDAO.getPath(), imageDAO.getTags(), String.valueOf(imageDAO.getFileSize()), String.valueOf(imageDAO.getDate()), String.valueOf(imageDAO.getImageHeight()), String.valueOf(imageDAO.getImageWidth()), String.valueOf(imageDAO.getLatitude()), String.valueOf(imageDAO.getLongitude())};
     }
-
 
     private EntityManager getEM() {
         return emf.createEntityManager();

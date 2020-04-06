@@ -2,10 +2,8 @@ package controller;
 
 import backend.util.Text_To_Speech;
 import backend.database.DatabaseClient;
-import backend.database.DatabaseClient;
 import backend.util.ImageExport;
 import backend.util.Log;
-import backend.util.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -34,6 +32,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.commons.io.FilenameUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -41,7 +40,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -66,7 +64,6 @@ public class ControllerMain implements Initializable {
     public static String pathBuffer;
     public static boolean ascending = true;
     public static ArrayList<String> selectedImages = new ArrayList<>();
-    public static HashMap<String, ArrayList<String>> albums = new HashMap<>();
     public static Image imageBuffer;
     public static double splitPanePos = 0.51;
 
@@ -107,7 +104,6 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //when i have the modality anywhere else i get an illegalstateexception
         logger.logNewInfo("Initializing ControllerMain");
         pictureGrid.setAlignment(Pos.CENTER);
         imgDataSplitPane.setDividerPositions(splitPanePos);
@@ -144,8 +140,8 @@ public class ControllerMain implements Initializable {
      *
      * @return hashmap with saved albums
      */
-    public static HashMap<String, ArrayList<String>> getAlbums() {
-        return albums;
+    static HashMap<String, ArrayList<String>> getAlbums() {
+        return (HashMap<String, ArrayList<String>>) databaseClient.getAllAlbums();
     }
 
     /**
@@ -156,6 +152,8 @@ public class ControllerMain implements Initializable {
     public static Image getImageBuffer() {
         return imageBuffer;
     }
+
+
 
     /**
      * sets the imageBuffer
@@ -183,8 +181,17 @@ public class ControllerMain implements Initializable {
      * @param key the name of the album
      * @param images arraylist containing the path to teh images
      */
-    public static void addToAlbums(String key, ArrayList<String> images) {
-        ControllerMain.albums.put(key,images);
+    private static void newAlbum(String key, ArrayList<String> images) {
+        databaseClient.addAlbum(key,images);
+    }
+
+    /**
+     * adds the following paths to an existing album
+     * @param name the name of the existing album
+     * @param images Arraylist with the path to the images you want to add
+     */
+    static void addPathsToAlbum(String name, ArrayList<String> images){
+        databaseClient.addPathToAlbum(name,images);
     }
 
     /**
@@ -193,8 +200,8 @@ public class ControllerMain implements Initializable {
      * @param key the name of the album
      * @return arraylist with the removed images
      */
-    public static ArrayList removeAlbum(String key) {
-        return albums.remove(key);
+    static void removeAlbum(String key) {
+        databaseClient.removeAlbum(key);
     }
 
     /**
@@ -299,7 +306,7 @@ public class ControllerMain implements Initializable {
                 Iterator albumIterator;
                 for (String path : getSelectedImages()) {
                     databaseClient.removeImage(path);
-                    albumIterator = albums.entrySet().iterator();
+                    albumIterator = getAlbums().entrySet().iterator();
                     //iterates through albums
                     ArrayList<String> emptyAlbums = new ArrayList<>();
                     while(albumIterator.hasNext()){
@@ -311,7 +318,7 @@ public class ControllerMain implements Initializable {
                             emptyAlbums.add((String)albumEntry.getKey());
                         }
                     }
-                    emptyAlbums.forEach(s->albums.remove(s));
+                    emptyAlbums.forEach(ControllerMain::removeAlbum);
                 }
                 refreshImages();
                 return true;
@@ -426,7 +433,8 @@ public class ControllerMain implements Initializable {
         try {
             if (inputText.trim().equals("")) throw new IOException("Invalid filename inputted");
             //this throws error is filename is invalid
-            f.getCanonicalPath();
+            f.getCanonicalPath(); //this throws an error if the filename is invalid
+
             //chooses album location after selecting name
             DirectoryChooser chooser = new DirectoryChooser();
             chooser.setTitle("Choose folder for album");
@@ -435,7 +443,7 @@ public class ControllerMain implements Initializable {
             chooser.setInitialDirectory(defaultDirectory);
             File selectedDirectory = chooser.showDialog(null);
             //gets the filename from the user and formats it correctly
-            if (ImageExport.exportToPdf(selectedDirectory.getPath() + "/" + inputText + ".pdf", getSelectedImages())) {
+            if (ImageExport.exportToPdf(selectedDirectory.getPath() + "/" + inputText + FilenameUtils.EXTENSION_SEPARATOR + "pdf", getSelectedImages())) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "To the directory" + selectedDirectory.getPath() + "\n" + "With the filename: " + inputText + ".pdf");
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Success");
@@ -479,8 +487,6 @@ public class ControllerMain implements Initializable {
     @FXML
     protected void goToLibrary() {
         voice.speak("Going to library");
-        //when this uses selectedImages.clear it causes a bug with the albums, clearing them as well
-        //selectedImages = new ArrayList<String>();
         clearSelectedImages();
         refreshImages();
     }
@@ -777,19 +783,15 @@ public class ControllerMain implements Initializable {
                 dialog.setHeaderText("Enter name for album:");
                 dialog.setContentText("Please enter name for album:");
                 Optional<String> result = dialog.showAndWait();
+
                 if (result.isPresent()) {
                     if (!result.get().trim().equals("")) {
-                        if (albums.containsKey(result.get())) {
+                        if (getAlbums().containsKey(result.get())) {
                             new Alert(Alert.AlertType.WARNING, "That album name already exists").showAndWait();
                             clearSelectedImages();
                         } else {
-                            albums.put(result.get(), new ArrayList<>());
-                            ArrayList<String> tempArray = new ArrayList<>();
-                            for (String s : getSelectedImages()) {
-                                albums.get(result.get()).add(s);
-                                tempArray.add(s);
-                            }
-                            Collections.copy(albums.get(result.get()), tempArray);
+                            ArrayList<String> tempArray = new ArrayList<>(getSelectedImages());
+                            newAlbum(result.get(),tempArray);
                             new Alert(Alert.AlertType.INFORMATION, "Images were successfully added to the album [" + result.get()+"]").showAndWait();
                             refreshImages();
                         }
@@ -818,6 +820,7 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     protected void viewAlbums(ActionEvent actionEvent) throws IOException {
+        clearSelectedImages();
         voice.speak("View albums");
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();
@@ -921,7 +924,7 @@ public class ControllerMain implements Initializable {
 
     }
 
-    public void addToAlbumAction(ActionEvent actionEvent) {
+    public void addToAlbumAction() {
         logger.logNewInfo("adding to album");
         if (!getSelectedImages().isEmpty()) {
             voice.speak("Adding to album");

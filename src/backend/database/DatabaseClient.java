@@ -8,9 +8,8 @@ import javax.persistence.Persistence;
 import java.io.File;
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Fredrik Julsen & Ingebrigt Hovind
@@ -114,6 +113,7 @@ public class DatabaseClient {
             return false;
         }
     }
+
     public boolean removeImage(String path) {
         imageDatabase.removeImageDAO(path);
         return true;
@@ -170,5 +170,30 @@ public class DatabaseClient {
             logger.logNewFatalError(e.getLocalizedMessage());
             return null;
         }
+    }
+
+
+    public void addAlbum(String name, List<String> paths){
+        imageDatabase.addAlbum(name, paths);
+    }
+    public void removeAlbum(String name){
+        imageDatabase.removeAlbum(name);
+    }
+    public boolean removeFromAlbum(String name, String[] paths){
+        return imageDatabase.removePathFromAlbum(name,paths);
+    }
+    public boolean addPathToAlbum(String name, ArrayList<String> paths){
+        return imageDatabase.addPathToAlbum(name,paths);
+    }
+    public Map getAllAlbums(){
+        return (Map) imageDatabase.getAllAlbums().stream()
+                //collects the stream into the hashmap, calling the key becoming each objects album name
+                .collect(Collectors.toMap(AlbumDAO::getAlbumName,
+                        //gets the images belonging belonging to the album
+                        s->s.getImages().stream()
+                                //calls getpath on each of these
+                                .map(a->((ImageDAO)a).getPath())
+                                //collects the results into a list which is the value in the hashmap
+                                .collect(Collectors.toList())));
     }
 }

@@ -17,10 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ControllerAddToAlbum implements Initializable {
     private static final Log logger = new Log();
@@ -32,7 +29,6 @@ public class ControllerAddToAlbum implements Initializable {
     @FXML
     private TableColumn<TagTableRow, Integer> id;
     ObservableList<AlbumRow> albumList = FXCollections.observableArrayList();
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -89,15 +85,18 @@ public class ControllerAddToAlbum implements Initializable {
         ArrayList<String> selectedImages = ControllerMain.getSelectedImages();
         int counter = 0;
         if(!checkedBoxes.isEmpty()) {
+
             //iterates through albums
             for (String s : checkedBoxes) {
+                ArrayList<String> newImages = new ArrayList<>();
                 for (String se : selectedImages) {
                     if (!ControllerMain.getAlbums().get(s).contains(se)) {
-                        ControllerMain.getAlbums().get(s).add(se);
+                        newImages.add(se);
                         //counts the number of images that are added to albums
                         counter++;
                     }
                 }
+                ControllerMain.addPathsToAlbum(s,newImages);
             }
             if(counter != 0){
                 logger.logNewInfo("Images added successfully to album");

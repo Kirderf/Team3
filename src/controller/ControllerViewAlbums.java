@@ -128,17 +128,11 @@ public class ControllerViewAlbums implements Initializable {
      * @param name name of the album that the user wants to view
      */
     private void showAlbum(String name) {
+        ControllerMain.clearSelectedImages();
         if(!ControllerMain.getAlbums().isEmpty()) {
             if(ControllerMain.getAlbums().get(name)!=null) {
-                Iterator albumIterator = ControllerMain.getAlbums().entrySet().iterator();
-                // Iterate through the hashmap
-                // and add some bonus marks for every student
-                while(albumIterator.hasNext()) {
-                    Map.Entry mapElement = (Map.Entry) albumIterator.next();
-                    ControllerMain.clearSelectedImages();
-                    for(String s : (ArrayList<String>)mapElement.getValue()){
-                        ControllerMain.addToSelectedImages(s);
-                    }
+                for(String s : ControllerMain.getAlbums().get(name)){
+                    ControllerMain.addToSelectedImages(s);
                 }
             }
             else{

@@ -1,5 +1,6 @@
 package backend.util;
 
+import javafx.scene.control.Alert;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -28,7 +29,7 @@ public abstract class ImageExport {
         PDDocument document = new PDDocument();
         try{
             if(paths.isEmpty()){
-                throw new IllegalArgumentException("You are attempting to export an empty list");
+                new Alert(Alert.AlertType.WARNING, "You need to select some images to export").showAndWait();
             }
             for(String s : paths){
                 InputStream in = new FileInputStream(s);

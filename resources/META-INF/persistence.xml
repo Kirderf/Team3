@@ -6,13 +6,14 @@
     <persistence-unit name="DatabasePU" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>backend.database.ImageDAO</class>
+        <class>backend.database.AlbumDAO</class>
         <properties>
             <!--username and password is temporarily here-->
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysql.stud.ntnu.no:3306/fredrjul_ImageApp" />
             <property name="javax.persistence.jdbc.user" value="fredrjul_Image" />
             <property name="javax.persistence.jdbc.password" value="Password123" />
             <!-- EclipseLink should create the database schema automatically -->
-            <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+            <property name="eclipselink.ddl-generation" value="create-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
             <!-- EclipseLink connectionpooling -->
             <property name="eclipselink.connection-pool.default.initial" value="1" />
