@@ -115,7 +115,7 @@ public class DatabaseClient {
         }
     }
     public boolean removeImage(String path) {
-        imageDatabase.deleteTeam3Image(path);
+        imageDatabase.removeImageDAO(path);
         return true;
     }
 

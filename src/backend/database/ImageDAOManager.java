@@ -50,10 +50,10 @@ public class ImageDAOManager {
      * @param path the path of the image you want to find
      * @return returns null if the image is not found, Team3Image object if it is found
      */
-    public ImageDAO findTeam3Image(String path) {
+    public ImageDAO findImageDAO(String path) {
         EntityManager em = getEM();
         try {
-            List<ImageDAO> images = (List<ImageDAO>) getAllTeam3Images();
+            List<ImageDAO> images = (List<ImageDAO>) findImageDAO();
             List<ImageDAO> imageDAOList = images.stream().filter(s->s.getPath().equalsIgnoreCase(path)&&s.getID()== this.instanceID).collect(Collectors.toList());
             return imageDAOList.get(0);
         } finally {
@@ -61,10 +61,10 @@ public class ImageDAOManager {
         }
     }
 
-    public void deleteTeam3Image(String path) {
+    public void removeImageDAO(String path) {
         EntityManager em = getEM();
         try {
-            ImageDAO t = findTeam3Image(path);
+            ImageDAO t = findImageDAO(path);
             em.getTransaction().begin();
             if (!em.contains(t)) {
                 t = em.merge(t);
@@ -76,14 +76,13 @@ public class ImageDAOManager {
         }
     }
 
-    public List<?> getAllTeam3Images() {
+    public List<?> findImageDAO() {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
                 Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.ID=" + this.instanceID);
                 return q.getResultList();
             }
-            //same result with SELECT p FROM Team3Image o
             return Collections.emptyList();
         } finally {
             closeEM(em);
@@ -91,10 +90,10 @@ public class ImageDAOManager {
     }
 
     public void isAccountPresent() {
-        if(getNumberOfTeam3Images() > 0) setInitialized(true);
+        if(getNumberOfImageDAO() > 0) setInitialized(true);
     }
 
-    public int getNumberOfTeam3Images() {
+    public int getNumberOfImageDAO() {
         EntityManager em = getEM();
         try {
             Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.ID=" + this.instanceID);
@@ -105,21 +104,10 @@ public class ImageDAOManager {
         }
     }
 
-    public List<?> getTeam3ImageWithGPSData() {
-        EntityManager em = getEM();
-        try {
-            //selects all images with latitude and longitude that's not 0.0
-            Query q = em.createQuery("SELECT OBJECT (o) FROM ImageDAO o WHERE NOT o.latitude = 0.0 AND NOT o.longitude = 0.0 AND o.ID=" + this.instanceID);
-            return q.getResultList();
-        } finally {
-            closeEM(em);
-        }
-    }
-
     public String getTags(String path) {
         EntityManager em = getEM();
         try {
-            return findTeam3Image(path).getTags();
+            return findImageDAO(path).getTags();
         } finally {
             closeEM(em);
         }
@@ -129,7 +117,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         int counter = 0;
         try {
-            ImageDAO imageDAO = findTeam3Image(path);
+            ImageDAO imageDAO = findImageDAO(path);
             //convert to lowercase
             List<String> tagList = Arrays.stream(imageDAO.getTags().split(",")).map(String::toLowerCase).collect(Collectors.toList());
             for (String s : tags) {
@@ -137,8 +125,8 @@ public class ImageDAOManager {
                     //The first letter is a capital letter, rest is lower case
                     imageDAO.addTag(s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase());
                 } else {
+                    //counts number of tags already present
                     counter++;
-                    //TODO add something if the tag is already present
                 }
             }
             //This might not do anything, if em.find returns a shallow copy, then we do not need this
@@ -155,7 +143,7 @@ public class ImageDAOManager {
     public boolean removeTag(String path, String[] tags) {
         EntityManager em = getEM();
         try {
-            ImageDAO imageDAO = findTeam3Image(path);
+            ImageDAO imageDAO = findImageDAO(path);
             //convert to lowercase
             List<String> tagList = Arrays.stream(imageDAO.getTags().split(","))
                     .map(String::toLowerCase)
@@ -178,7 +166,7 @@ public class ImageDAOManager {
     }
 
     public ArrayList<String> sortBy(String columnName, boolean ascending) {
-        List<ImageDAO> images = (List<ImageDAO>) getAllTeam3Images();
+        List<ImageDAO> images = (List<ImageDAO>) findImageDAO();
         columnName = columnName.toLowerCase();
         switch (columnName) {
             //checks what column you are looking for, creates a new arraylist containing only that using lambda
@@ -221,7 +209,7 @@ public class ImageDAOManager {
         validColumns.add("tags");
         validColumns.add("metadata");
         if (!validColumns.contains(searchIn.toLowerCase()) || searchFor == null) return new ArrayList<>();
-        List<ImageDAO> images = (List<ImageDAO>) getAllTeam3Images();
+        List<ImageDAO> images = (List<ImageDAO>) findImageDAO();
         ArrayList<String> pathResults = new ArrayList<>();
 
         if (searchIn.equalsIgnoreCase("path")) {
@@ -269,14 +257,14 @@ public class ImageDAOManager {
     }
 
     public boolean isPathInDatabase(String path) {
-        return (findTeam3Image(path) == null);
+        return (findImageDAO(path) == null);
     }
 
     public ArrayList<? extends Serializable> getColumn(String columnName) {
         EntityManager em = getEM();
         try {
             columnName = columnName.toLowerCase();
-            List<ImageDAO> imageList = (List<ImageDAO>) getAllTeam3Images();
+            List<ImageDAO> imageList = (List<ImageDAO>) findImageDAO();
             switch (columnName) {
                 //checks what column you are looking for, creates a new arraylist
                 case "path":
@@ -304,20 +292,10 @@ public class ImageDAOManager {
     }
 
     public String[] getImageMetadata(String path) {
-        ImageDAO imageDAO = findTeam3Image(path);
+        ImageDAO imageDAO = findImageDAO(path);
         return new String[]{imageDAO.getPath(), imageDAO.getTags(), String.valueOf(imageDAO.getFileSize()), String.valueOf(imageDAO.getDate()), String.valueOf(imageDAO.getImageHeight()), String.valueOf(imageDAO.getImageWidth()), String.valueOf(imageDAO.getLatitude()), String.valueOf(imageDAO.getLongitude())};
     }
 
-    public void editTeam3Image(ImageDAO imageDAO) {
-        EntityManager em = getEM();
-        try {
-            em.getTransaction().begin();
-            em.merge(imageDAO);
-            em.getTransaction().commit();
-        } finally {
-            closeEM(em);
-        }
-    }
 
     private EntityManager getEM() {
         return emf.createEntityManager();

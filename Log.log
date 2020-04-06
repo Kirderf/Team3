@@ -1,26 +1,46 @@
-Apr 06, 2020 12:27:50 PM backend.util.Log logNewInfo
+Apr 06, 2020 12:30:15 PM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-Apr 06, 2020 12:27:50 PM backend.util.Log logNewInfo
+Apr 06, 2020 12:30:15 PM backend.util.Log logNewInfo
 INFO: Showing app
-Apr 06, 2020 12:27:50 PM backend.util.Log logNewInfo
+Apr 06, 2020 12:30:15 PM backend.util.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Apr 06, 2020 12:27:56 PM backend.util.Log logNewInfo
+Apr 06, 2020 12:30:21 PM backend.util.Log logNewInfo
 INFO: DatabaseClient : Adding image
-Apr 06, 2020 12:27:56 PM backend.util.Log logNewInfo
+Apr 06, 2020 12:30:21 PM backend.util.Log logNewInfo
 INFO: ImageImport : Getting metadata from file
-Apr 06, 2020 12:27:57 PM backend.util.Log logNewInfo
+Apr 06, 2020 12:30:21 PM backend.util.Log logNewInfo
 INFO: Refreshing images after import controllermain
-Apr 06, 2020 12:28:05 PM backend.util.Log logNewInfo
+Apr 06, 2020 12:30:22 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2913.PNG
+Apr 06, 2020 12:30:22 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2913.PNG
+Apr 06, 2020 12:30:31 PM backend.util.Log logNewInfo
 INFO: DatabaseClient : Adding image
-Apr 06, 2020 12:28:05 PM backend.util.Log logNewInfo
+Apr 06, 2020 12:30:31 PM backend.util.Log logNewInfo
 INFO: ImageImport : Getting metadata from file
-Apr 06, 2020 12:28:05 PM backend.util.Log logNewInfo
+Apr 06, 2020 12:30:31 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+Apr 06, 2020 12:30:31 PM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+Apr 06, 2020 12:30:31 PM backend.util.Log logNewInfo
 INFO: Refreshing images after import controllermain
-Apr 06, 2020 12:28:06 PM backend.util.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/reaction/i cri evritiem.jpg
-Apr 06, 2020 12:28:07 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/reaction/i cri evritiem.jpg
-Apr 06, 2020 12:28:08 PM backend.util.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
-Apr 06, 2020 12:28:08 PM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2912.PNG
+Apr 06, 2020 12:30:32 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2913.PNG
+Apr 06, 2020 12:30:32 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/2018-12/IMG_2913.PNG
+Apr 06, 2020 12:30:33 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Apr 06, 2020 12:30:33 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Apr 06, 2020 12:30:33 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
+Apr 06, 2020 12:30:33 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu.JPG
+Apr 06, 2020 12:30:39 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Apr 06, 2020 12:30:39 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/tryu (2).JPG
+Apr 06, 2020 12:32:39 PM backend.util.Log logNewInfo
+INFO: Initializing ControllerMain
+Apr 06, 2020 12:32:40 PM backend.util.Log logNewInfo
+INFO: Closing application
