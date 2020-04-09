@@ -3,18 +3,24 @@ package backend.database;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 //use compostion, as the only Image objects we would want to manipulate would be the ones already in the database, therefore it should be done through this class
 public class ImageDAOManager {
     private boolean isInitialized = false;
-    private int instanceID = 1111;
+    private int instanceID;
     private EntityManagerFactory emf;
 
     public ImageDAOManager(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+
+    public void setInstanceID(int instanceID) {
+        this.instanceID = instanceID;
     }
 
     public boolean isInitialized() {
@@ -43,7 +49,19 @@ public class ImageDAOManager {
             closeEM(em);
         }
     }
-
+    ArrayList<Integer> getAllUserID(){
+        EntityManager em = getEM();
+        try {
+            if (isInitialized) {
+                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o");
+                return (ArrayList<Integer>) q.getResultList().stream().map(s->((ImageDAO)s).getUserID()).collect(Collectors.toList());
+            }
+            ;
+            return new ArrayList<Integer>();
+        } finally {
+            closeEM(em);
+        }
+    }
     void addAlbum(String name, List paths){
         EntityManager em = getEM();
         try {

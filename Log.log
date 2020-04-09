@@ -1,8 +1,10 @@
-apr 09, 2020 5:55:29 PM backend.util.Log logNewInfo
+apr 09, 2020 8:21:44 PM backend.util.Log logNewInfo
+INFO: generating new tenantID
+apr 09, 2020 8:21:44 PM backend.util.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-apr 09, 2020 5:55:31 PM backend.util.Log logNewInfo
+apr 09, 2020 8:21:44 PM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-apr 09, 2020 5:55:31 PM backend.util.Log logNewInfo
+apr 09, 2020 8:21:44 PM backend.util.Log logNewInfo
 INFO: Showing app
-apr 09, 2020 5:55:33 PM backend.util.Log logNewInfo
+apr 09, 2020 8:21:48 PM backend.util.Log logNewInfo
 INFO: Closing application

@@ -123,6 +123,9 @@ public class ImageDAO implements Serializable {
             this.tags += tag;
         }
     }
+    public int getUserID(){
+        return ID;
+    }
 
     public List getInAlbums() {
         return inAlbums;

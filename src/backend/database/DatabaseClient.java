@@ -2,6 +2,8 @@ package backend.database;
 
 import backend.util.ImageImport;
 import backend.util.Log;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.activation.DataSource;
 import javax.persistence.EntityManagerFactory;
@@ -23,17 +25,19 @@ public class DatabaseClient {
     private static ImageDAOManager imageDatabase = null;
     private static EntityManagerFactory emf = null;
     private ImageImport imageImport = new ImageImport();
+    private static Properties properties;
 
-    private DatabaseClient() {
-        Map properties = new HashMap();
-        Properties prop = loadProperties();
-        properties.put("javax.persistence.jdbc.user",prop.getProperty("USERNAME"));
-        properties.put("javax.persistence.jdbc.password", prop.getProperty("PASSWORD"));
-        emf = javax.persistence.Persistence.createEntityManagerFactory("DatabasePU", properties);
+    private DatabaseClient() throws IOException {
+        Map newProperties = new HashMap();
+        this.properties = loadProperties();
+        newProperties.put("javax.persistence.jdbc.user",properties.getProperty("USERNAME"));
+        newProperties.put("javax.persistence.jdbc.password", properties.getProperty("PASSWORD"));
+        emf = javax.persistence.Persistence.createEntityManagerFactory("DatabasePU", newProperties);
         imageDatabase = new ImageDAOManager(emf);
         imageDatabase.isAccountPresent();
+        imageDatabase.setInstanceID(getTenantID());
     }
-
+    
     private Properties loadProperties() {
         Properties prop = new Properties();
         try  {
@@ -41,11 +45,51 @@ public class DatabaseClient {
             // load a properties file
             prop.load(input);
             // get the property value and print it out
+            assert input != null;
+            input.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         return prop;
     }
+
+    private static int getTenantID() throws IOException {
+        String test1 = (new File("").getAbsolutePath());
+        String pathToProperties = (FilenameUtils.normalize(test1 + "\\resources\\.properties"));
+
+        // load a properties file
+        // get the property value and print it out
+        if (properties.getProperty("TENANT_ID") == null) {
+            logger.logNewInfo("generating new tenantID");
+            Properties table = new Properties();
+            Random rand = new Random();
+            int randInt = rand.nextInt(10000);
+            while (imageDatabase.getAllUserID().contains(randInt)) {
+                randInt = rand.nextInt(10000);
+            }
+            Enumeration<String> enums = (Enumeration<String>) properties.propertyNames();
+            while (enums.hasMoreElements()) {
+                String key = enums.nextElement();
+                String value = properties.getProperty(key);
+                table.setProperty(key, value);
+            }
+            table.setProperty("TENANT_ID", String.valueOf(rand.nextInt(10000)));
+            System.out.println(table.getProperty("TENANT_ID"));
+            FileOutputStream fr = new FileOutputStream(pathToProperties);
+            table.store(fr,"tenant-id generated automatically");
+            fr.close();
+            return Integer.parseInt(table.getProperty("TENANT_ID"));
+        } else if (!imageDatabase.getAllUserID().contains(Integer.parseInt(properties.getProperty("TENANT_ID")))) {
+            System.out.println("ja");
+            return Integer.parseInt(properties.getProperty("TENANT_ID"));
+        }
+        else{
+            //if the tenant id is in the database
+            //check if an error is thrown when getting the images?
+        }
+        return -1;
+    }
+
 
 
 
@@ -54,7 +98,7 @@ public class DatabaseClient {
      *
      * @return instance of DatabaseClient
      */
-    public static DatabaseClient getInstance() {
+    public static DatabaseClient getInstance() throws IOException {
         if (imageDatabase == null && emf == null) {
             instance = new DatabaseClient();
         }
