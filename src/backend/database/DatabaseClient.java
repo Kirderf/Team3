@@ -29,22 +29,29 @@ public class DatabaseClient {
 
     private DatabaseClient() throws IOException {
         Map newProperties = new HashMap();
+        //loads the local .properties file
         this.properties = loadProperties();
+        //loads username and password to local map
         newProperties.put("javax.persistence.jdbc.user",properties.getProperty("USERNAME"));
         newProperties.put("javax.persistence.jdbc.password", properties.getProperty("PASSWORD"));
+        //loads persistenceunit with local map containing username and password
         emf = javax.persistence.Persistence.createEntityManagerFactory("DatabasePU", newProperties);
         imageDatabase = new ImageDAOManager(emf);
         imageDatabase.isAccountPresent();
+        //sets the tenant id
         imageDatabase.setInstanceID(getTenantID());
     }
-    
+
+    /**
+     * loads the .properties file that is saved in resources folder
+     * @return a Properties object corresponding with the .properties file
+     */
     private Properties loadProperties() {
         Properties prop = new Properties();
-        try  {
+            try  {
             InputStream input = getClass().getClassLoader().getResourceAsStream(".properties");
             // load a properties file
             prop.load(input);
-            // get the property value and print it out
             assert input != null;
             input.close();
         } catch (IOException ex) {
@@ -53,7 +60,13 @@ public class DatabaseClient {
         return prop;
     }
 
+    /**
+     * gets the tenant id if it is saved in the database, generates a new one if not
+     * @return the int value of this new tenant id
+     * @throws IOException reads from the tenant file
+     */
     private static int getTenantID() throws IOException {
+        //i struggled to find the .properties file using normal methods, so this is the implementation that i got working
         String test1 = (new File("").getAbsolutePath());
         String pathToProperties = (FilenameUtils.normalize(test1 + "\\resources\\.properties"));
 
@@ -62,32 +75,40 @@ public class DatabaseClient {
         if (properties.getProperty("TENANT_ID") == null) {
             logger.logNewInfo("generating new tenantID");
             Properties table = new Properties();
+            //generates a random int to be used for tenant id
             Random rand = new Random();
+            //TODO should this be different? find something that doesn't tie us to only 10000 tenants
             int randInt = rand.nextInt(10000);
+            //if the tenant id exists, then a new one is generated
             while (imageDatabase.getAllUserID().contains(randInt)) {
                 randInt = rand.nextInt(10000);
             }
+            //iterates through .properties file in order to save the values that are there already
             Enumeration<String> enums = (Enumeration<String>) properties.propertyNames();
             while (enums.hasMoreElements()) {
                 String key = enums.nextElement();
                 String value = properties.getProperty(key);
+                //adds the already existing keys and values to the new table that is being saved
                 table.setProperty(key, value);
             }
+            //adds tenant id value
             table.setProperty("TENANT_ID", String.valueOf(rand.nextInt(10000)));
-            System.out.println(table.getProperty("TENANT_ID"));
+            //writes to .properties, overwriting the old file
             FileOutputStream fr = new FileOutputStream(pathToProperties);
+            //uses the outputstream to write
             table.store(fr,"tenant-id generated automatically");
             fr.close();
+            //returns the new tenant id, get nullpointer if properties is used instead of table here
             return Integer.parseInt(table.getProperty("TENANT_ID"));
         } else if (!imageDatabase.getAllUserID().contains(Integer.parseInt(properties.getProperty("TENANT_ID")))) {
-            System.out.println("ja");
+            //returns the existing table
             return Integer.parseInt(properties.getProperty("TENANT_ID"));
         }
         else{
-            //if the tenant id is in the database
-            //check if an error is thrown when getting the images?
+            //if the key matches one that is already in the table
+            //should maybe check if the images belonging to that tenant id can be loaded on this maching
+            return Integer.parseInt(properties.getProperty("TENANT_ID"));
         }
-        return -1;
     }
 
 
