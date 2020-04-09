@@ -37,9 +37,9 @@ public class DatabaseClient {
         //loads persistenceunit with local map containing username and password
         emf = javax.persistence.Persistence.createEntityManagerFactory("DatabasePU", newProperties);
         imageDatabase = new ImageDAOManager(emf);
-        imageDatabase.isAccountPresent();
         //sets the tenant id
         imageDatabase.setInstanceID(getTenantID());
+        imageDatabase.isAccountPresent();
     }
 
     /**
