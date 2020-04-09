@@ -604,17 +604,18 @@ public class ControllerMain implements Initializable {
         return (EventHandler<MouseEvent>) event -> {
             //Ctrl click
             if (event.isControlDown()) {
+                //Single click
+                selectImage(imageView, image, path);
+                showMetadata(null);
+                showTags(null);
+            } else {
                 imageView.setImage(image);
                 try {
                     showBigImage(imageView, path);
                 } catch (IOException e) {
                     logger.logNewFatalError("ControllerMain onImageClickedEvent " + e.getLocalizedMessage());
                 }
-            } else {
-                //Single click
-                selectImage(imageView, image, path);
-                showMetadata(null);
-                showTags(null);
+
             }
 
         };
