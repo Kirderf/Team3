@@ -722,11 +722,9 @@ public class ControllerMain implements Initializable {
         String path = getSelectedImages().get(getSelectedImages().size() - 1);
         tagVbox.getChildren().clear();
         String[] tags = getDatabaseClient().getTags(path).split(",");
-        tagVbox.getChildren().add(new Label("Tags:"));
         for (int i = 0; i < tags.length; i++) {
             tagVbox.getChildren().add(new Label(tags[i]));
         }
-
     }
 
     @FXML
