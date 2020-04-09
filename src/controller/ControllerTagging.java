@@ -6,20 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ControllerTagging implements Initializable {
     private static final Log logger = new Log();
@@ -38,7 +32,8 @@ public class ControllerTagging implements Initializable {
     TableColumn<TagTableRow, CheckBox> select;
 
 
-    protected static ArrayList<String> bufferTags = new ArrayList<>();
+    static ArrayList<String> bufferTags = new ArrayList<>();
+    ArrayList<String> newTagNames = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -74,9 +69,11 @@ public class ControllerTagging implements Initializable {
             newTagList = new ArrayList<>(set);
         }
         String[] alreadySelected = ControllerMain.getDatabaseClient().getTags(ControllerMain.getPathBuffer()).split(",");
-        for (int i = 0; i < newTagList.size() ; i++) {
+        for (int i = 0; i < newTagList.size(); i++) {
             String t = newTagList.get(i);
             CheckBox ch = new CheckBox(""+t);
+            //automatically selects the new tags
+            if(newTagNames.contains(t)) ch.setSelected(true);
             if(Arrays.asList(alreadySelected).contains(t)) ch.setSelected(true);
             observeList.add(new TagTableRow(i, "", ch));
         }
@@ -134,6 +131,9 @@ public class ControllerTagging implements Initializable {
      */
     @FXML
     private void newTagAction(ActionEvent ae) throws SQLException {
+        //if any of the tags added this session have been unchecked, they are removed from the arraylist
+        //the tagsAddedThisSession arraylist decides whether or not the tags are checked when inserting
+        getUncheckedBoxes().forEach(newTagNames::remove);
         TextInputDialog d = new TextInputDialog();
         d.setTitle("New tag");
         d.setContentText("Tag:");
@@ -144,6 +144,7 @@ public class ControllerTagging implements Initializable {
 
         if(input.isPresent()) {
             if(!input.get().equals("")) {
+                newTagNames.add(input.get());
                 bufferTags.add(input.get());
             }else{
                 Alert a = new Alert(Alert.AlertType.ERROR);
@@ -176,7 +177,6 @@ public class ControllerTagging implements Initializable {
                 tempTagList.add(tb.getCheckBox().getText());
             }
         }
-
         return tempTagList;
     }
     private ArrayList<String> getUncheckedBoxes(){
@@ -188,5 +188,4 @@ public class ControllerTagging implements Initializable {
         }
         return tempTagList;
     }
-
 }

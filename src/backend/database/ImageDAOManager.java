@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 //use compostion, as the only Image objects we would want to manipulate would be the ones already in the database, therefore it should be done through this class
 public class ImageDAOManager {
     private boolean isInitialized = false;
-    private int instanceID = 5456;
+    private int instanceID = 1111;
     private EntityManagerFactory emf;
 
     public ImageDAOManager(EntityManagerFactory emf) {

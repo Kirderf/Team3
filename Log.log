@@ -1,22 +1,64 @@
-Apr 07, 2020 1:03:55 AM backend.util.Log logNewInfo
-INFO: Initializing ControllerMain
-Apr 07, 2020 1:03:56 AM backend.util.Log logNewInfo
-INFO: Showing app
-Apr 07, 2020 1:03:56 AM backend.util.Log logNewInfo
+apr 09, 2020 4:47:44 PM backend.util.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-Apr 07, 2020 1:05:07 AM backend.util.Log logNewInfo
-INFO: DatabaseClient : Getting metadata from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde56.PNG
-Apr 07, 2020 1:05:07 AM backend.util.Log logNewInfo
-INFO: Getting tags from C:/Users/ingebrigt Hovind/Pictures/Skjermbilde56.PNG
-Apr 07, 2020 1:05:09 AM backend.util.Log logNewInfo
-INFO: adding to album
-Apr 07, 2020 1:05:09 AM backend.util.Log logNewInfo
-INFO: new albumRowid: 1, tagname: , Checkbox: CheckBox@46a05bcc[styleClass=check-box]'skog'
-Apr 07, 2020 1:05:09 AM backend.util.Log logNewInfo
-INFO: new albumRowid: 2, tagname: , Checkbox: CheckBox@3c96ce9b[styleClass=check-box]'abba'
-Apr 07, 2020 1:05:11 AM backend.util.Log logNewInfo
-INFO: All the selected images were already in the selected album
-Apr 07, 2020 1:05:15 AM backend.util.Log logNewInfo
-INFO: Images added successfully to album
-Apr 07, 2020 1:05:23 AM backend.util.Log logNewInfo
+apr 09, 2020 4:47:45 PM backend.util.Log logNewInfo
+INFO: Initializing ControllerMain
+apr 09, 2020 4:47:46 PM backend.util.Log logNewInfo
+INFO: Showing app
+apr 09, 2020 4:47:49 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 09, 2020 4:47:50 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 09, 2020 4:47:51 PM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 09, 2020 4:47:51 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 09, 2020 4:47:53 PM backend.util.Log logNewInfo
+INFO: Initializing controllerTagging
+apr 09, 2020 4:47:53 PM backend.util.Log logNewInfo
+INFO: Inserting tags in ControllerTagging
+apr 09, 2020 4:47:53 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 09, 2020 4:47:54 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@520aed17[styleClass=check-box]'test'
+apr 09, 2020 4:47:54 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@7160f19d[styleClass=check-box]'jonas'
+apr 09, 2020 4:47:57 PM backend.util.Log logNewInfo
+INFO: Inserting tags in ControllerTagging
+apr 09, 2020 4:47:57 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 09, 2020 4:47:57 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@52fd0e08[styleClass=check-box]'test'
+apr 09, 2020 4:47:57 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@78e3267[styleClass=check-box]'jonas'
+apr 09, 2020 4:47:57 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@361c8104[styleClass=check-box]'faen'
+apr 09, 2020 4:48:00 PM backend.util.Log logNewInfo
+INFO: Inserting tags in ControllerTagging
+apr 09, 2020 4:48:00 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 09, 2020 4:48:00 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@459530a2[styleClass=check-box]'test'
+apr 09, 2020 4:48:00 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@4618d05[styleClass=check-box]'jonas'
+apr 09, 2020 4:48:00 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@45271e1a[styleClass=check-box]'faen'
+apr 09, 2020 4:48:00 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@5c00bcd2[styleClass=check-box]'jpnas'
+apr 09, 2020 4:48:04 PM backend.util.Log logNewInfo
+INFO: Inserting tags in ControllerTagging
+apr 09, 2020 4:48:04 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 09, 2020 4:48:04 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 0, tag name: , checkbox: CheckBox@9daf8e2[styleClass=check-box]'test'
+apr 09, 2020 4:48:04 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 1, tag name: , checkbox: CheckBox@3c4ca310[styleClass=check-box]'jonas'
+apr 09, 2020 4:48:04 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 2, tag name: , checkbox: CheckBox@75db289d[styleClass=check-box]'faen'
+apr 09, 2020 4:48:04 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 3, tag name: , checkbox: CheckBox@ce53e8f[styleClass=check-box]'jpnas'
+apr 09, 2020 4:48:04 PM backend.util.Log logNewInfo
+INFO: new TagTableRow id: 4, tag name: , checkbox: CheckBox@52a6ca19[styleClass=check-box]'test3'
+apr 09, 2020 4:48:09 PM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 09, 2020 4:48:10 PM backend.util.Log logNewInfo
 INFO: Closing application
