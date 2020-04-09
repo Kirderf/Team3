@@ -265,10 +265,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             ImageDAO imageDAO = findImageDAO(path);
-            //convert to lowercase
-            List<String> tagList = Arrays.stream(imageDAO.getTags().split(","))
-                    .map(String::toLowerCase)
-                    .collect(Collectors.toList());
+            List<String> tagList = Arrays.stream(imageDAO.getTags().split(",")).collect(Collectors.toList());
             Arrays.stream(tags).forEach(tagList::remove);
             //sets the list to the one with the removed tags
             if (!em.contains(imageDAO)) {
