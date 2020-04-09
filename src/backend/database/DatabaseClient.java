@@ -3,10 +3,13 @@ package backend.database;
 import backend.util.ImageImport;
 import backend.util.Log;
 
+import javax.activation.DataSource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.io.File;
-import java.io.Serializable;
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.crypto.Data;
+import java.io.*;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,12 +24,30 @@ public class DatabaseClient {
     private static EntityManagerFactory emf = null;
     private ImageImport imageImport = new ImageImport();
 
-
     private DatabaseClient() {
-        emf = Persistence.createEntityManagerFactory("DatabasePU");
+        Map properties = new HashMap();
+        Properties prop = loadProperties();
+        properties.put("javax.persistence.jdbc.user",prop.getProperty("USERNAME"));
+        properties.put("javax.persistence.jdbc.password", prop.getProperty("PASSWORD"));
+        emf = javax.persistence.Persistence.createEntityManagerFactory("DatabasePU", properties);
         imageDatabase = new ImageDAOManager(emf);
         imageDatabase.isAccountPresent();
     }
+
+    private Properties loadProperties() {
+        Properties prop = new Properties();
+        try  {
+            InputStream input = getClass().getClassLoader().getResourceAsStream(".properties");
+            // load a properties file
+            prop.load(input);
+            // get the property value and print it out
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return prop;
+    }
+
+
 
     /**
      * Singleton method for getting an instance of this class

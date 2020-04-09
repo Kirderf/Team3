@@ -2,6 +2,7 @@ import backend.util.Log;
 import backend.util.Text_To_Speech;
 import controller.ControllerMain;
 import backend.util.Text_To_Speech;
+import jakarta.persistence.Persistence;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
