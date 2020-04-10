@@ -3,8 +3,6 @@
 target/
 target
 Logs/
-Logs/*
-Logs/.
 .vscode/*
 .settings/*
 .classpath
