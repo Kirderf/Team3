@@ -10,6 +10,5 @@ target/
 /resources/.properties
 target
 *.class
-Log.log
-Log.log.1
+Logs/*
 .properties

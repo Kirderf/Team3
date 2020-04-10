@@ -1,8 +1,0 @@
-Apr 10, 2020 5:47:52 PM backend.util.Log logNewInfo
-INFO: Initializing ControllerMain
-Apr 10, 2020 5:47:52 PM backend.util.Log logNewInfo
-INFO: Showing app
-Apr 10, 2020 5:47:53 PM backend.util.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-Apr 10, 2020 5:47:53 PM backend.util.Log logNewInfo
-INFO: Closing application
