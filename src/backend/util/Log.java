@@ -14,8 +14,18 @@ import java.util.logging.SimpleFormatter;
 public class Log{
     public static Logger logger = Logger.getAnonymousLogger();
     FileHandler fh;
+    /**
+     * used to store log filenames so that the program can select the latest
+     */
     private static ArrayList<String> logs = new ArrayList<>();
+    /**
+     * the log that is currently being written to
+     */
     private static String currentLog = pickLog();
+
+    /**
+     * Constructs a new logger
+     */
     public Log(){
         //the oldest of the three log files
         new File(currentLog).delete();
@@ -34,7 +44,12 @@ public class Log{
             e.printStackTrace();
         }
     }
-    public static String pickLog(){
+
+    /**
+     * picks the oldest log
+     * @return the filename of the oldest log
+     */
+    private static String pickLog(){
         //three valid logs
         logs.add("Log1.log");
         logs.add("Log2.log");
@@ -51,15 +66,26 @@ public class Log{
         return currentLog;
     }
 
+    /**
+     * writes new info to the current log file
+     * @param message the info you want to save in the log
+     */
     public void logNewInfo(String message){
         logger.log(Level.INFO,message);
     }
 
-
+    /**
+     * logs new warning to the log file
+     * @param warning the warning you want to save
+     */
     public void logNewWarning(String warning){
         logger.log(Level.WARNING,warning);
     }
 
+    /**
+     * logs a new fatal error to the log file
+     * @param fatalWarning the fatal warning you want to save, should include the exception that was likely thrown to achieve a fatal error
+     */
     public void logNewFatalError(String fatalWarning){
         logger.log(Level.SEVERE,fatalWarning);
     }
