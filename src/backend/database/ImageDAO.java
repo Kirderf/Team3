@@ -25,8 +25,6 @@ public class ImageDAO implements Serializable {
     private double latitude;
     private double longitude;
     private String tags;
-    @ManyToMany(targetEntity = AlbumDAO.class)
-    private List inAlbums;
 
     public ImageDAO(int id, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
         this.ID = id;
@@ -125,14 +123,6 @@ public class ImageDAO implements Serializable {
     }
     public int getUserID(){
         return ID;
-    }
-
-    public List getInAlbums() {
-        return inAlbums;
-    }
-
-    public void setInAlbums(List inAlbums) {
-        this.inAlbums = inAlbums;
     }
 
     @Override

@@ -27,7 +27,6 @@ public class DatabaseClient {
     private static DatabaseClient instance;
     private static ImageDAOManager imageDatabase = null;
     private static EntityManagerFactory emf = null;
-    private ImageImport imageImport = new ImageImport();
     private static Properties properties;
 
     /**
@@ -156,7 +155,7 @@ public class DatabaseClient {
      */
     public boolean addImage(File image) {
         logger.logNewInfo("DatabaseClient : Adding image");
-        String[] metadata = imageImport.getMetaData(image);
+        String[] metadata = ImageImport.getMetaData(image);
         if (metadata != null) {
             if (getColumn("Path").contains(image.getPath().replaceAll("\\\\", "/"))) {
                 return false;

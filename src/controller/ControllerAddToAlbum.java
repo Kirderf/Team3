@@ -84,6 +84,7 @@ public class ControllerAddToAlbum implements Initializable {
         ArrayList<String> checkedBoxes = getCheckedBoxes();
         ArrayList<String> selectedImages = ControllerMain.getSelectedImages();
         int counter = 0;
+        int albumCounter = 0;
         if(!checkedBoxes.isEmpty()) {
 
             //iterates through albums
@@ -96,9 +97,13 @@ public class ControllerAddToAlbum implements Initializable {
                         counter++;
                     }
                 }
+                if(counter == 0){
+                    albumCounter++;
+                }
+                counter = 0;
                 ControllerMain.addPathsToAlbum(s,newImages);
             }
-            if(counter != 0){
+            if(albumCounter < checkedBoxes.size()){
                 logger.logNewInfo("Images added successfully to album");
                 Alert a = new Alert(Alert.AlertType.INFORMATION, "The images were added successfully to the album");
                 a.initModality(Modality.APPLICATION_MODAL);
