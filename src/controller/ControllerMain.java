@@ -631,10 +631,7 @@ public class ControllerMain implements Initializable {
     private void selectImage(ImageView imageView, Image image, String path) {
         if (!getSelectedImages().contains(path)) {
             addToSelectedImages(path);
-            //buff is the tinted
-            BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
-            tint(buff);
-            imageView.setImage(SwingFXUtils.toFXImage(buff, null));
+            imageView.setImage(SwingFXUtils.toFXImage(tint(image), null));
         } else {
             removeFromSelectedImages(path);
             imageView.setImage(image);
@@ -864,19 +861,25 @@ public class ControllerMain implements Initializable {
     /**
      * tints the selected images blue
      *
-     * @param image the Bufferedimage that you want to tint
+     * @param imageInput the image that you want to tint
      */
     //TODO take in image as parameter, and convert to buffered image inside the method
     //TODO check if any of the other methods on stackoverflow tint quicker
-    private static void tint(BufferedImage image) {
+    private static BufferedImage tint(Image imageInput) {
+        BufferedImage image = SwingFXUtils.fromFXImage(imageInput,null);
         //if colourblind
         if (ControllerPreferences.isColourChecked()) {
             for (int x = 0; x < image.getWidth(); x++) {
                 for (int y = 0; y < image.getHeight(); y++) {
-                    if ((x < image.getWidth() / 3 || x > image.getHeight() / 3) || (y < image.getHeight() / 3 || y > image.getHeight() / 3)) {
-                        Color black = new Color(0, 0, 0);
-                        image.setRGB(x, y, black.getRGB());
-                    }
+                    Color pixelColor = new Color(image.getRGB(x, y), true);
+                    int r = (pixelColor.getRed() + Color.black.getRed()) / 2;
+                    int g = (pixelColor.getGreen() + Color.black.getGreen()) / 2;
+                    int b = (pixelColor.getBlue() + Color.black.getBlue()) / 2;
+                    int a = pixelColor.getAlpha();
+                    int rgba = (a << 24) | (r << 16) | (g << 8) | b;
+                    System.out.println(rgba);
+                    image.setRGB(x, y, rgba);
+
                 }
             }
         } else {
@@ -892,6 +895,7 @@ public class ControllerMain implements Initializable {
                 }
             }
         }
+        return image;
     }
 
     /**

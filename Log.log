@@ -1,20 +1,56 @@
-apr 09, 2020 8:36:16 PM backend.util.Log logNewInfo
+apr 10, 2020 10:27:57 AM backend.util.Log logNewInfo
 INFO: Text_To_Speech : Successfully recieved synthesizer data
-apr 09, 2020 8:36:17 PM backend.util.Log logNewInfo
-INFO: generating new tenantID
-apr 09, 2020 8:36:17 PM backend.util.Log logNewInfo
+apr 10, 2020 10:27:58 AM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-apr 09, 2020 8:36:17 PM backend.util.Log logNewInfo
+apr 10, 2020 10:27:58 AM backend.util.Log logNewInfo
 INFO: Showing app
-apr 09, 2020 8:36:28 PM backend.util.Log logNewInfo
-INFO: DatabaseClient : Adding image
-apr 09, 2020 8:36:28 PM backend.util.Log logNewInfo
-INFO: ImageImport : Getting metadata from file
-apr 09, 2020 8:36:30 PM backend.util.Log logNewInfo
-INFO: Refreshing images after import controllermain
-apr 09, 2020 8:36:31 PM backend.util.Log logNewInfo
+apr 10, 2020 10:28:01 AM backend.util.Log logNewInfo
 INFO: DatabaseClient : Getting metadata from C:/Users/Ingebrigt/Pictures/iddis.jpg
-apr 09, 2020 8:36:31 PM backend.util.Log logNewInfo
+apr 10, 2020 10:28:01 AM backend.util.Log logNewInfo
 INFO: Getting tags from C:/Users/Ingebrigt/Pictures/iddis.jpg
-apr 09, 2020 8:36:34 PM backend.util.Log logNewInfo
+apr 10, 2020 10:28:15 AM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+apr 10, 2020 10:28:15 AM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+apr 10, 2020 10:28:15 AM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+apr 10, 2020 10:28:15 AM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+apr 10, 2020 10:28:16 AM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+apr 10, 2020 10:28:16 AM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+apr 10, 2020 10:28:16 AM backend.util.Log logNewFatalError
+SEVERE: ImageImport : Unparseable date: "cep"
+apr 10, 2020 10:28:16 AM backend.util.Log logNewInfo
+INFO: Refreshing images after import controllermain
+apr 10, 2020 10:28:29 AM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+apr 10, 2020 10:28:29 AM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+apr 10, 2020 10:28:29 AM backend.util.Log logNewFatalError
+SEVERE: ImageImport : Unparseable date: "cep"
+apr 10, 2020 10:28:29 AM backend.util.Log logNewInfo
+INFO: DatabaseClient : Adding image
+apr 10, 2020 10:28:29 AM backend.util.Log logNewInfo
+INFO: ImageImport : Getting metadata from file
+apr 10, 2020 10:28:29 AM backend.util.Log logNewInfo
+INFO: Refreshing images after import controllermain
+apr 10, 2020 10:28:35 AM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 10, 2020 10:28:35 AM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/iddis.jpg
+apr 10, 2020 10:28:36 AM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/Ingebrigt/Pictures/kvittering.png
+apr 10, 2020 10:28:36 AM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/kvittering.png
+apr 10, 2020 10:28:36 AM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/Ingebrigt/Pictures/lengede.PNG
+apr 10, 2020 10:28:36 AM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/lengede.PNG
+apr 10, 2020 10:28:37 AM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/Ingebrigt/Pictures/ong.jpg
+apr 10, 2020 10:28:37 AM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/ong.jpg
+apr 10, 2020 10:28:38 AM backend.util.Log logNewInfo
 INFO: Closing application
