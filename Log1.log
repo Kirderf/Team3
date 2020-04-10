@@ -12,3 +12,5 @@ apr 10, 2020 11:51:15 AM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
 apr 10, 2020 11:51:15 AM backend.util.Log logNewInfo
 INFO: Showing app
+apr 10, 2020 12:16:13 PM backend.util.Log logNewInfo
+INFO: Closing application
