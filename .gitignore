@@ -1,6 +1,8 @@
 /out/*
 .idea/*
 target/
+target
+Logs/
 .vscode/*
 .settings/*
 .classpath
@@ -8,7 +10,5 @@ target/
 /noPlugin
 /-
 /resources/.properties
-target
 *.class
-Logs/*
 .properties
