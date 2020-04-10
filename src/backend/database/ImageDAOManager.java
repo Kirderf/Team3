@@ -8,34 +8,65 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Image dao manager.
+ */
 //use compostion, as the only Image objects we would want to manipulate would be the ones already in the database, therefore it should be done through this class
 public class ImageDAOManager {
     private boolean isInitialized = false;
     private int instanceID;
     private EntityManagerFactory emf;
 
-    public ImageDAOManager(EntityManagerFactory emf) {
+    /**
+     * Instantiates a new Image dao manager.
+     *
+     * @param emf the emf
+     */
+    ImageDAOManager(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-    public void setInstanceID(int instanceID) {
+    /**
+     * Sets instance id.
+     *
+     * @param instanceID the instance id
+     */
+    void setInstanceID(int instanceID) {
         this.instanceID = instanceID;
     }
 
-    public boolean isInitialized() {
+    /**
+     * Is initialized boolean.
+     *
+     * @return the boolean
+     */
+    boolean isInitialized() {
         return isInitialized;
     }
 
-    public void setInitialized(boolean initialized) {
+    /**
+     * Sets initialized.
+     *
+     * @param initialized the initialized
+     */
+    void setInitialized(boolean initialized) {
         isInitialized = initialized;
     }
 
     /**
      * create new images
      * persist works as SQL INSERT
-     * The image path needs to be unique
+     * The image path needs to be unique for this user
+     *
+     * @param path         the path
+     * @param fileSize     the file size
+     * @param date         the date
+     * @param imageHeight  the image height
+     * @param imageWidth   the image width
+     * @param gpsLatitude  the gps latitude
+     * @param gpsLongitude the gps longitude
      */
-    public void addImageToTable(String path, int fileSize, int date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) {
+    void addImageToTable(String path, int fileSize, int date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) {
         EntityManager em = getEM();
         try {
             //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
@@ -48,6 +79,11 @@ public class ImageDAOManager {
             closeEM(em);
         }
     }
+
+    /**
+     * Get all user id in array list.
+     * @return the array list
+     */
     ArrayList<Integer> getAllUserID(){
         EntityManager em = getEM();
         try {
@@ -61,6 +97,13 @@ public class ImageDAOManager {
             closeEM(em);
         }
     }
+
+    /**
+     * Add album.
+     *
+     * @param name  the name of the album
+     * @param paths the paths to images in lbum
+     */
     void addAlbum(String name, List paths){
         EntityManager em = getEM();
         try {
@@ -80,6 +123,12 @@ public class ImageDAOManager {
             closeEM(em);
         }
     }
+
+    /**
+     * finds album
+     * @param name name of album you want to find
+     * @return corresponding album object
+     */
     private AlbumDAO findAlbumDAO(String name){
         EntityManager em = getEM();
         try{
@@ -90,6 +139,11 @@ public class ImageDAOManager {
             closeEM(em);
         }
     }
+
+    /**
+     * Gets list of albums.
+     * @return the list
+     */
     List getAllAlbums(){
         EntityManager em = getEM();
         try {
@@ -103,6 +157,12 @@ public class ImageDAOManager {
         }
 
     }
+
+    /**
+     * Remove album.
+     *
+     * @param name the name
+     */
     void removeAlbum(String name){
         EntityManager em = getEM();
         try{
@@ -118,6 +178,14 @@ public class ImageDAOManager {
             closeEM(em);
         }
     }
+
+    /**
+     * Add path to album boolean.
+     *
+     * @param name  the name
+     * @param paths the paths
+     * @return if successful
+     */
     boolean addPathToAlbum(String name, ArrayList<String> paths){
         EntityManager em = getEM();
         int counter = 0;
@@ -141,6 +209,14 @@ public class ImageDAOManager {
             closeEM(em);
         }
     }
+
+    /**
+     * Remove path from album .
+     *
+     * @param name  the name
+     * @param paths the paths
+     * @return true if removal was successful
+     */
     boolean removePathFromAlbum(String name, String[] paths){
         EntityManager em = getEM();
         int counter = 0;
@@ -167,10 +243,12 @@ public class ImageDAOManager {
     }
 
     /**
+     * Find image dao by path
+     *
      * @param path the path of the image you want to find
      * @return returns null if the image is not found, Team3Image object if it is found
      */
-    public ImageDAO findImageDAO(String path) {
+    private ImageDAO findImageDAO(String path) {
         EntityManager em = getEM();
         try {
             List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
@@ -181,7 +259,12 @@ public class ImageDAOManager {
         }
     }
 
-    public void removeImageDAO(String path) {
+    /**
+     * Remove image dao.
+     *
+     * @param path the path
+     */
+    void removeImageDAO(String path) {
         EntityManager em = getEM();
         try {
             ImageDAO t = findImageDAO(path);
@@ -196,7 +279,12 @@ public class ImageDAOManager {
         }
     }
 
-    public List<?> getAllImageDAO() {
+    /**
+     * Gets all image dao.
+     *
+     * @return the all image dao
+     */
+    private List<?> getAllImageDAO() {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
@@ -209,11 +297,19 @@ public class ImageDAOManager {
         }
     }
 
-    public void isAccountPresent() {
+    /**
+     * sets initialized based on whether or not the any account is present.
+     */
+    void isAccountPresent() {
         if(getNumberOfImageDAO() > 0) setInitialized(true);
     }
 
-    public int getNumberOfImageDAO() {
+    /**
+     * Gets number of image dao.
+     *
+     * @return the number of image dao
+     */
+    private int getNumberOfImageDAO() {
         EntityManager em = getEM();
         try {
             Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.ID=" + this.instanceID);
@@ -224,7 +320,13 @@ public class ImageDAOManager {
         }
     }
 
-    public String getTags(String path) {
+    /**
+     * Gets tags.
+     *
+     * @param path the path
+     * @return the tags
+     */
+    String getTags(String path) {
         EntityManager em = getEM();
         try {
             return findImageDAO(path).getTags();
@@ -233,7 +335,14 @@ public class ImageDAOManager {
         }
     }
 
-    public boolean addTags(String path, String[] tags) {
+    /**
+     * Add tags boolean.
+     *
+     * @param path the path
+     * @param tags the tags
+     * @return the boolean
+     */
+    boolean addTags(String path, String[] tags) {
         EntityManager em = getEM();
         int counter = 0;
         try {
@@ -260,7 +369,14 @@ public class ImageDAOManager {
         }
     }
 
-    public boolean removeTag(String path, String[] tags) {
+    /**
+     * Remove tag boolean.
+     *
+     * @param path the path
+     * @param tags the tags
+     * @return the boolean
+     */
+    boolean removeTag(String path, String[] tags) {
         EntityManager em = getEM();
         try {
             ImageDAO imageDAO = findImageDAO(path);
@@ -282,7 +398,14 @@ public class ImageDAOManager {
         }
     }
 
-    public ArrayList<String> sortBy(String columnName, boolean ascending) {
+    /**
+     * Sort by array list.
+     *
+     * @param columnName the column name
+     * @param ascending  the ascending
+     * @return the array list
+     */
+    ArrayList<String> sortBy(String columnName, boolean ascending) {
         List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
         columnName = columnName.toLowerCase();
         switch (columnName) {
@@ -320,6 +443,13 @@ public class ImageDAOManager {
 
     }
 
+    /**
+     * Search array list.
+     *
+     * @param searchFor the search for
+     * @param searchIn  the search in
+     * @return the array list with results of path
+     */
     public ArrayList<String> search(String searchFor, String searchIn) {
         ArrayList<String> validColumns = new ArrayList<>();
         validColumns.add("path");
@@ -373,11 +503,23 @@ public class ImageDAOManager {
         return pathResults;
     }
 
+    /**
+     * Is path in database boolean.
+     *
+     * @param path the path
+     * @return the boolean
+     */
     public boolean isPathInDatabase(String path) {
         return (findImageDAO(path) == null);
     }
 
-    public ArrayList<? extends Serializable> getColumn(String columnName) {
+    /**
+     * Gets column.
+     *
+     * @param columnName the column name
+     * @return the column
+     */
+    ArrayList<? extends Serializable> getColumn(String columnName) {
         EntityManager em = getEM();
         try {
             columnName = columnName.toLowerCase();
@@ -408,10 +550,17 @@ public class ImageDAOManager {
         }
     }
 
+    /**
+     * Get image metadata string [ ].
+     *
+     * @param path the path
+     * @return the string [ ]
+     */
     public String[] getImageMetadata(String path) {
         ImageDAO imageDAO = findImageDAO(path);
         return new String[]{imageDAO.getPath(), imageDAO.getTags(), String.valueOf(imageDAO.getFileSize()), String.valueOf(imageDAO.getDate()), String.valueOf(imageDAO.getImageHeight()), String.valueOf(imageDAO.getImageWidth()), String.valueOf(imageDAO.getLatitude()), String.valueOf(imageDAO.getLongitude())};
     }
+
 
     private EntityManager getEM() {
         return emf.createEntityManager();

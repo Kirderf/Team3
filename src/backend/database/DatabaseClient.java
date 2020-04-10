@@ -17,6 +17,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * The type Database client.
+ *
  * @author Fredrik Julsen & Ingebrigt Hovind
  */
 public class DatabaseClient {
@@ -111,12 +113,11 @@ public class DatabaseClient {
     }
 
 
-
-
     /**
      * Singleton method for getting an instance of this class
      *
      * @return instance of DatabaseClient
+     * @throws IOException the io exception
      */
     public static DatabaseClient getInstance() throws IOException {
         if (imageDatabase == null && emf == null) {
@@ -165,6 +166,12 @@ public class DatabaseClient {
         return false;
     }
 
+    /**
+     * Gets tags.
+     *
+     * @param path the path
+     * @return the tags
+     */
     public String getTags(String path) {
         logger.logNewInfo("Getting tags from " + path);
         return imageDatabase.getTags(path);
@@ -187,7 +194,7 @@ public class DatabaseClient {
      *
      * @param path path til bilde
      * @param tag  String[] av tags
-     * @return boolean
+     * @return boolean boolean
      */
     public boolean addTag(String path, String[] tag) {
         logger.logNewInfo("DatabaseClient : Adding tag to " + path);
@@ -199,6 +206,12 @@ public class DatabaseClient {
         }
     }
 
+    /**
+     * Remove image boolean.
+     *
+     * @param path the path
+     * @return the boolean
+     */
     public boolean removeImage(String path) {
         imageDatabase.removeImageDAO(path);
         return true;
@@ -208,9 +221,9 @@ public class DatabaseClient {
     /**
      * removes all the tags of the picture matching the tags in the arraylist
      *
-     * @param path
-     * @param tags
-     * @return
+     * @param path the path
+     * @param tags the tags
+     * @return boolean
      */
     public boolean removeTag(String path, String[] tags) {
         logger.logNewInfo("DatabaseClient : Removing tag from " + path);
@@ -244,7 +257,7 @@ public class DatabaseClient {
      * Returns an sorted arraylist sorted by the column in sortby
      *
      * @param sortBy    column in database to sort by
-     * @param ascending
+     * @param ascending the ascending
      * @return sorted arraylist
      */
     public ArrayList<String> sort(String sortBy, boolean ascending) {
@@ -258,18 +271,52 @@ public class DatabaseClient {
     }
 
 
+    /**
+     * Add album.
+     *
+     * @param name  the name to the new album
+     * @param paths the paths this album starts with
+     */
     public void addAlbum(String name, List<String> paths){
         imageDatabase.addAlbum(name, paths);
     }
+
+    /**
+     * Remove album.
+     *
+     * @param name the name of the album
+     */
     public void removeAlbum(String name){
         imageDatabase.removeAlbum(name);
     }
+
+    /**
+     * Remove from album boolean.
+     *
+     * @param name  the name of album you want to remove from
+     * @param paths the paths you want to remove
+     * @return the boolean
+     */
     public boolean removeFromAlbum(String name, String[] paths){
         return imageDatabase.removePathFromAlbum(name,paths);
     }
+
+    /**
+     * Add path to album boolean.
+     *
+     * @param name  the name
+     * @param paths the paths
+     * @return the boolean
+     */
     public boolean addPathToAlbum(String name, ArrayList<String> paths){
         return imageDatabase.addPathToAlbum(name,paths);
     }
+
+    /**
+     * Get all albums map.
+     *
+     * @return the map
+     */
     public Map getAllAlbums(){
         return (Map) imageDatabase.getAllAlbums().stream()
                 //collects the stream into the hashmap, calling the key becoming each objects album name

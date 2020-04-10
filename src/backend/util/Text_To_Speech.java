@@ -9,11 +9,15 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 import java.io.IOException;
 
 /**
- * @author goxr3plus, Tommy Luu
- * Text-to-speech using google translate API
+ * The type Text to speech.
+ *
+ * @author goxr3plus, Tommy Luu Text-to-speech using google translate API
  */
 public class Text_To_Speech {
-    //Create a Synthesizer instance
+    /**
+     * The Synthesizer.
+     */
+//Create a Synthesizer instance
     SynthesiserV2 synthesizer = new SynthesiserV2("AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw");
     private static final Log logger = new Log();
     private static boolean instanceExist = false;
@@ -22,6 +26,11 @@ public class Text_To_Speech {
     private Text_To_Speech() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static Text_To_Speech getInstance() {
         if(!instanceExist) {
             instance = new Text_To_Speech();
@@ -29,10 +38,11 @@ public class Text_To_Speech {
             return instance;
         } return instance;
     }
+
     /**
      * Calls the MaryTTS to say the given text
      *
-     * @param text
+     * @param text the text you want to say
      */
     public void speak(String text) {
         //Create a new Thread because JLayer is running on the current Thread and will make the application to lag
@@ -56,6 +66,11 @@ public class Text_To_Speech {
         }
     }
 
+    /**
+     * Startup.
+     *
+     * @param text the text
+     */
     public void startup(String text) {
         //Create a new Thread because JLayer is running on the current Thread and will make the application to lag
         Thread thread = new Thread(() -> {
