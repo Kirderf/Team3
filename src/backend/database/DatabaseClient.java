@@ -222,10 +222,11 @@ public class DatabaseClient {
     }
 
     /**
-     * Remove image boolean.
+     * Removes an image from the database.
      *
-     * @param path the path
-     * @return the boolean
+     * @param path the image's path
+     * @return true
+     * @see ImageDAOManager#removeImageDAO(String)
      */
     public boolean removeImage(String path) {
         imageDatabase.removeImageDAO(path);
