@@ -5,6 +5,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.drew.metadata.exif.GpsDirectory;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -14,14 +15,14 @@ import java.util.*;
 /**
  * @author Ingebrigt Hovind
  */
-public class ImageImport {
+public abstract class ImageImport {
     private static final Log logger = new Log();
     //this is the names of the various kinds of metadata we are interested in in com.drew.metadata methods
-    private List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude","File Modified Date");
-    private int noOfData = interestingMetadata.size() -1;
+    private static List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude","File Modified Date");
+    private static int noOfData = interestingMetadata.size() -1;
     //needs to be all lowercase, update if we accept other file types
-    private List<String> validImageExtensions = Arrays.asList(".jpg",".png",".jpeg");
-    private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+    private static List<String> validImageExtensions = Arrays.asList("jpg","png","jpeg");
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 
     /**
      * Checks whether a file is an image or not based on the extension, validImageExtions contains all file extensions that are valid
@@ -30,10 +31,10 @@ public class ImageImport {
      * @return true if the file has an extension that is in validImageExtensions
      * @author Ingebrigt Hovind
      */
-    private boolean isImage(File file){
+    private static boolean isImage(File file){
         try {
             if(file.exists()){
-                return validImageExtensions.contains(getExtensionFromFile(file).toLowerCase());
+                return validImageExtensions.contains(FilenameUtils.getExtension(file.getPath()).toLowerCase());
             }
             return false;
         } catch (Exception e) {
@@ -48,7 +49,7 @@ public class ImageImport {
      * @return the corresponding coordinate in decimal form
      * @author Ingebrigt Hovind
      */
-    private Double conMinutesToDecimal(String latOrLong) {
+    private static Double conMinutesToDecimal(String latOrLong) {
         //number of seconds
         double second = Double.parseDouble(latOrLong.substring(latOrLong.indexOf(" "),latOrLong.indexOf("'")))*60 + Double.parseDouble(latOrLong.substring(latOrLong.indexOf("' ")+1,latOrLong.length()-1).replaceAll(",","."));
         return Double.parseDouble(latOrLong.substring(0,latOrLong.indexOf("°"))) + second/3600;
@@ -60,7 +61,7 @@ public class ImageImport {
      * @return an array with the interesting metadata, the metadata is in the same order as the interestingmetadata arraylist, null if no corresponding data is found
      * @author Ingebrigt Hovind
      */
-    public String[] getMetaData(File file) {
+    public static String[] getMetaData(File file) {
         logger.logNewInfo("ImageImport : " + "Getting metadata from file");
         try {
             if (isImage(file)) {
@@ -88,7 +89,9 @@ public class ImageImport {
                                     //in case the system is gives norwegian months
                                     tempMonth = tempMonth.replaceAll("k","c");
                                     tempMonth = tempMonth.replaceAll("i","y");
-                                    tempMonth = tempMonth.replaceAll("s","c");
+                                    if(!tempMonth.equals("sep")) {
+                                        tempMonth = tempMonth.replaceAll("s", "c");
+                                    }
                                     //parses the month from letters into numbers
                                     Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(tempMonth);
                                     Calendar cal = Calendar.getInstance();
@@ -163,18 +166,5 @@ public class ImageImport {
         //if the file this is run on is not a valid image
         return null;
     }
-
-
-    /**
-     * gets the extension from a given file, used to verify that the file is an image
-     * @param file the file you want to find the extension for
-     * @return a string with the extension, including the full stop
-     * @author Ingebrigt Hovind
-     */
-    private String getExtensionFromFile(File file){
-        //public for tests only
-        return file.getPath().substring(file.getPath().lastIndexOf("."));
-    }
-
 }
 
