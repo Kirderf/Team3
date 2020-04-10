@@ -288,7 +288,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.ID=" + this.instanceID);
+                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.userID=" + this.instanceID);
                 return q.getResultList();
             }
             return Collections.emptyList();
