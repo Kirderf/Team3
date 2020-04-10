@@ -11,7 +11,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -85,14 +84,12 @@ public abstract class ImageImport {
                                     hasDateTime = true;
                                     Date date1 = directory.getDate(tag.getTagType());
                                     LocalDate localDate = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                                    System.out.println(localDate.toString());
                                     String formattedDate = localDate.toString().replaceAll("-","");
                                     metaArray[interestingMetadata.indexOf("Date/Time Original")] = formattedDate;
                                 }
                                 else if(tag.getTagName().equalsIgnoreCase("File Modified Date")&&!hasDateTime){
                                     Date date1 = directory.getDate(tag.getTagType());
                                     LocalDate localDate = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                                    System.out.println(localDate.toString());
                                     String formattedDate = localDate.toString().replaceAll("-","");
                                     metaArray[interestingMetadata.indexOf("Date/Time Original")] = formattedDate;
                                 }
@@ -115,25 +112,40 @@ public abstract class ImageImport {
                         }
                     }
                 }
-                //even if there is no interesting metadata, then an empty array is returned
+                //goes through the metadata and makes sure it is not null
+                //date
                 if (metaArray[1] == null){
                     metaArray[1] = format.format(new Date());
                 }else {
-
+                    //if date is not null
                     metaArray[1] = metaArray[1].replaceAll(":","").substring(0,8).trim();
                 }
+                //file size
                 if (metaArray[0] != null){
                     metaArray[0] = metaArray[0].replaceAll("bytes","").trim();
                 }
+                else{
+                    metaArray[0] = "-1";
+                }
+                //image height
                 if (metaArray[2] != null){
                     metaArray[2] = metaArray[2].replaceAll("pixels","").trim();
                 }
+                else{
+                    metaArray[2] = "-1";
+                }
+                //image width
                 if (metaArray[3] != null){
                     metaArray[3] = metaArray[3].replaceAll("pixels","").trim();
                 }
+                else{
+                    metaArray[3] = "-1";
+                }
+                //latitude
                 if (metaArray[4] == null){
                     metaArray[4] = "0";
                 }
+                //longitude
                 if (metaArray[5] == null){
                     metaArray[5] = "0";
                 }
