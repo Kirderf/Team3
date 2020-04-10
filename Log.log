@@ -1,12 +1,18 @@
-apr 10, 2020 10:37:04 AM backend.util.Log logNewInfo
-INFO: Text_To_Speech : Successfully recieved synthesizer data
-apr 10, 2020 10:37:04 AM backend.util.Log logNewInfo
+apr 10, 2020 11:01:28 AM backend.util.Log logNewInfo
 INFO: Initializing ControllerMain
-apr 10, 2020 10:37:04 AM backend.util.Log logNewInfo
+apr 10, 2020 11:01:28 AM backend.util.Log logNewInfo
+INFO: Text_To_Speech : Successfully recieved synthesizer data
+apr 10, 2020 11:01:29 AM backend.util.Log logNewInfo
 INFO: Showing app
-apr 10, 2020 10:37:14 AM backend.util.Log logNewInfo
+apr 10, 2020 11:01:42 AM backend.util.Log logNewInfo
 INFO: DatabaseClient : Adding image
-apr 10, 2020 10:37:14 AM backend.util.Log logNewInfo
+apr 10, 2020 11:01:42 AM backend.util.Log logNewInfo
 INFO: ImageImport : Getting metadata from file
-apr 10, 2020 10:37:14 AM backend.util.Log logNewInfo
+apr 10, 2020 11:01:43 AM backend.util.Log logNewInfo
 INFO: Refreshing images after import controllermain
+apr 10, 2020 11:01:45 AM backend.util.Log logNewInfo
+INFO: DatabaseClient : Getting metadata from C:/Users/Ingebrigt/Pictures/COLOURBOX43569142.jpg
+apr 10, 2020 11:01:45 AM backend.util.Log logNewInfo
+INFO: Getting tags from C:/Users/Ingebrigt/Pictures/COLOURBOX43569142.jpg
+apr 10, 2020 11:01:49 AM backend.util.Log logNewInfo
+INFO: Closing application

@@ -9,6 +9,8 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -70,47 +72,28 @@ public abstract class ImageImport {
                 //reads metadata
                 Metadata metadata = ImageMetadataReader.readMetadata(file.getAbsoluteFile());
                 //iterates through directory
+                boolean hasDateTime = false;
                 for (Directory directory : metadata.getDirectories()) {
                     //iterates through tags in directory
                     for (Tag tag : directory.getTags()) {
                         //if the tag is part of the tags we are interested in
                         if(interestingMetadata.contains(tag.getTagName())){
-                            boolean hasDateTime = false;
                             //png images have slightly different metadata for dates, this fixes that
                             if(tag.getTagName().equals("Date/Time Original")||tag.getTagName().equals("File Modified Date")){
+                                //this is preferable as this is a more relevant date
                                 if(tag.getDescription().equals("Date/Time Original")){
                                     hasDateTime = true;
-                                    metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
+                                    Date date1 = directory.getDate(tag.getTagType());
+                                    LocalDate localDate = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                                    System.out.println(localDate.toString());
+                                    String formattedDate = localDate.toString().replaceAll("-","");
+                                    metaArray[interestingMetadata.indexOf("Date/Time Original")] = formattedDate;
                                 }
-                                else if(tag.getTagName().equalsIgnoreCase("File Modified Date")){
-                                    //this converts from three letter month codes into numbers, e.g "feb" = 02
-                                    DateTimeFormatter parser = DateTimeFormatter.ofPattern("MMM").withLocale(Locale.ENGLISH);
-                                    String tempMonth = tag.getDescription().substring(tag.getDescription().indexOf(" ")+1,tag.getDescription().indexOf(" ")+4);
-                                    //in case the system is gives norwegian months
-                                    tempMonth = tempMonth.replaceAll("k","c");
-                                    tempMonth = tempMonth.replaceAll("i","y");
-                                    if(!tempMonth.equals("sep")) {
-                                        tempMonth = tempMonth.replaceAll("s", "c");
-                                    }
-                                    //parses the month from letters into numbers
-                                    Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(tempMonth);
-                                    Calendar cal = Calendar.getInstance();
-                                    cal.setTime(date);
-                                    String month = String.valueOf(cal.get(Calendar.MONTH) +1);
-                                    if(Integer.parseInt(month)<10){
-                                        month = "0" + month;
-                                    }
-                                    //formats the day correctly
-                                    String day = "";
-                                    //finds the first space
-                                    String testString = tag.getDescription().trim().substring(tag.getDescription().indexOf(' ')+1);
-                                    //finds the second space
-                                    testString = testString.substring(testString.indexOf(' ')+1);
-                                    //selects the string between the second and third space
-                                    testString = testString.substring(0,testString.indexOf(' '));
-                                    day = testString;
-                                    String formattedDate = tag.getDescription().substring(tag.getDescription().lastIndexOf(" ")) + month +day;
-                                    formattedDate = formattedDate.trim();
+                                else if(tag.getTagName().equalsIgnoreCase("File Modified Date")&&!hasDateTime){
+                                    Date date1 = directory.getDate(tag.getTagType());
+                                    LocalDate localDate = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                                    System.out.println(localDate.toString());
+                                    String formattedDate = localDate.toString().replaceAll("-","");
                                     metaArray[interestingMetadata.indexOf("Date/Time Original")] = formattedDate;
                                 }
                                 //the new tag is placed in the index that corresponds with the index of the tag in the interestingmetadata array
@@ -136,6 +119,7 @@ public abstract class ImageImport {
                 if (metaArray[1] == null){
                     metaArray[1] = format.format(new Date());
                 }else {
+
                     metaArray[1] = metaArray[1].replaceAll(":","").substring(0,8).trim();
                 }
                 if (metaArray[0] != null){
@@ -154,7 +138,6 @@ public abstract class ImageImport {
                     metaArray[5] = "0";
                 }
                 return metaArray;
-
             }
             else{
                 throw new IllegalArgumentException("The file does not exist, or is not an image");
