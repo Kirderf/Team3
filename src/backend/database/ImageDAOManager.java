@@ -3,7 +3,6 @@ package backend.database;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.List;
@@ -175,7 +174,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
-            List<ImageDAO> imageDAOList = images.stream().filter(s->s.getPath().equalsIgnoreCase(path)&&s.getID()== this.instanceID).collect(Collectors.toList());
+            List<ImageDAO> imageDAOList = images.stream().filter(s->s.getPath().equalsIgnoreCase(path)&&s.getUserID()== this.instanceID).collect(Collectors.toList());
             return imageDAOList.get(0);
         } finally {
             closeEM(em);
