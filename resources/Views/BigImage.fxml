@@ -124,7 +124,7 @@
                 <RowConstraints minHeight="0.0" valignment="CENTER" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
-                  <Button fx:id="addTagButton" mnemonicParsing="false" onAction="#addTagAction" text="Edit Tag" GridPane.halignment="RIGHT">
+                  <Button fx:id="addTagButton" mnemonicParsing="false" onAction="#addTagAction" text="Edit tags" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets bottom="10.0" right="25.0" top="10.0" />
                      </GridPane.margin>
