@@ -11,82 +11,73 @@ import java.util.logging.Logger;
 public class AlbumRow {
     private static final Log logger = new Log();
 
-    /**
-     * The Id.
-     */
     int id;
-    /**
-     * The Tag name.
-     */
     String tagName;
-    /**
-     * The Check box.
-     */
     CheckBox checkBox;
 
     /**
-     * Instantiates a new Album row.
+     * Initializes a new AlbumRow, i.e. creates a new row in the table.
      *
-     * @param id       the id
-     * @param tagName  the tag name
-     * @param checkBox the check box
+     * @param id       the row's id
+     * @param tagName  the row's corresponding tag
+     * @param checkBox the row's checkbox
      */
     public AlbumRow(int id, String tagName, CheckBox checkBox) {
-        logger.logNewInfo("new albumRow" + "id: " + id+ ", tagname: " + tagName + ", Checkbox: " + checkBox.toString());
+        logger.logNewInfo("new albumRow" + "id: " + id + ", tagname: " + tagName + ", Checkbox: " + checkBox.toString());
         this.id = id;
         this.tagName = tagName;
         this.checkBox = checkBox;
     }
 
     /**
-     * Gets id.
+     * Gets the row id.
      *
-     * @return the id
+     * @return the row id
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Sets id.
+     * Sets the row id.
      *
-     * @param id the id
+     * @param id the row id
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * Gets name.
+     * Gets the row's corresponding tag.
      *
-     * @return the name
+     * @return the tag
      */
     public String getName() {
         return tagName;
     }
 
     /**
-     * Sets name.
+     * Sets the row's corresponding tag.
      *
-     * @param name the name
+     * @param name the new tag
      */
     public void setName(String name) {
         this.tagName = tagName;
     }
 
     /**
-     * Gets check box.
+     * Gets the row's check box.
      *
-     * @return the check box
+     * @return the checkbox
      */
     public CheckBox getCheckBox() {
         return checkBox;
     }
 
     /**
-     * Sets check box.
+     * Sets the row's checkbox.
      *
-     * @param checkBox the check box
+     * @param checkBox the new checkbox
      */
     public void setCheckBox(CheckBox checkBox) {
         this.checkBox = checkBox;
