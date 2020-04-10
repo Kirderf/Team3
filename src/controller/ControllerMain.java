@@ -875,7 +875,7 @@ public class ControllerMain implements Initializable {
         if (ControllerPreferences.isColourChecked()) {
             for (int x = 0; x < image.getWidth(); x++) {
                 for (int y = 0; y < image.getHeight(); y++) {
-                    if ((x < 2 * image.getWidth() / 3 && x > image.getHeight() / 3) || (y < 2 * image.getHeight() / 3 && y > image.getHeight() / 3)) {
+                    if ((x < image.getWidth() / 3 || x > image.getHeight() / 3) || (y < image.getHeight() / 3 || y > image.getHeight() / 3)) {
                         Color black = new Color(0, 0, 0);
                         image.setRGB(x, y, black.getRGB());
                     }
