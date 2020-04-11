@@ -2,16 +2,9 @@ package backend.database;
 
 import backend.util.ImageImport;
 import backend.util.Log;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.commons.io.FilenameUtils;
-
-import javax.activation.DataSource;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.xml.bind.SchemaOutputResolver;
-import javax.xml.crypto.Data;
 import java.io.*;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
