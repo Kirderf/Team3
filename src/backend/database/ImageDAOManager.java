@@ -69,6 +69,8 @@ public class ImageDAOManager {
     void addImageToTable(String path, int fileSize, int date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) {
         EntityManager em = getEM();
         try {
+
+           // addUserTable();
             //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
             path = path.replaceAll("\\\\", "/");
             em.getTransaction().begin();
@@ -80,6 +82,17 @@ public class ImageDAOManager {
         }
     }
 
+    void addUserTable(){
+        EntityManager em = getEM();
+        try{
+            UserDAO testUser = new UserDAO("testusername","testpassword");
+            em.getTransaction().begin();
+            em.persist(testUser);
+            em.getTransaction().commit();
+        } finally {
+            closeEM(em);
+        }
+    }
     /**
      * Get all user id in array list.
      * @return the array list
