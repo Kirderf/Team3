@@ -41,8 +41,17 @@ public class DatabaseClient {
         emf = javax.persistence.Persistence.createEntityManagerFactory("DatabasePU", newProperties);
         imageDatabase = new ImageDAOManager(emf);
         //sets the tenant id
-        imageDatabase.setInstanceID(getTenantID());
+        //imageDatabase.setInstanceID(getTenantID());
         imageDatabase.isAccountPresent();
+    }
+
+    public boolean login(String username, String password){
+        logger.logNewInfo("DatabaseClient : login");
+        return imageDatabase.login(username,password);
+    }
+    public boolean newUser(String username,String password){
+        logger.logNewInfo("DatabaseClient : new user");
+        return imageDatabase.newUser(username,password);
     }
 
     /**
@@ -76,7 +85,6 @@ public class DatabaseClient {
         String pathToProperties = (FilenameUtils.normalize(test1 + "\\resources\\.properties"));
 
         // load a properties file
-        // get the property value and print it out
         if (properties.getProperty("TENANT_ID") == null) {
             logger.logNewInfo("generating new tenantID");
             Properties table = new Properties();

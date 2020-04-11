@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class ImageDAOManager {
     private boolean isInitialized = false;
     private int instanceID;
-    private UserDAO currentUser;
     private EntityManagerFactory emf;
 
     /**
@@ -27,6 +26,54 @@ public class ImageDAOManager {
         this.emf = emf;
     }
 
+    public boolean newUser(String username, String password){
+        EntityManager em = getEM();
+        try {
+            ArrayList<String> usernames = (ArrayList<String>) getAllUsers().stream().map(s->((UserDAO)s).getUsername()).collect(Collectors.toList());
+             if(usernames.contains(username)) return false;
+
+            UserDAO newUser = new UserDAO(username,password);
+            em.getTransaction().begin();
+            em.persist(newUser);
+            em.getTransaction().commit();
+            this.instanceID = newUser.getAccountID();
+            return true;
+        } finally {
+            closeEM(em);
+        }
+    }
+    public boolean login(String username, String password){
+        EntityManager em = getEM();
+        try {
+            UserDAO us = new UserDAO("faeb","testerbare");
+            System.out.println("verifying " + us.verifyPassword("testerbare"));
+            List users = getAllUsers();
+            for(Object u : users){
+                System.out.println(((UserDAO) u).getUsername().equals(username));
+                if(((UserDAO) u).getUsername().equals(username)){
+                    //test with saving the string in the database
+                    System.out.println(((UserDAO) u).verifyPassword("p"));
+                    if(((UserDAO) u).verifyPassword(password)){
+                        this.instanceID = ((UserDAO) u).getAccountID();
+                        return true;
+                    }
+                }
+            }
+        } finally {
+            closeEM(em);
+        }
+        return false;
+    }
+    private List getAllUsers(){
+        EntityManager em = getEM();
+        try {
+            Query q = em.createQuery("SELECT OBJECT(o) FROM UserDAO o");
+            System.out.println(q.getResultList().toString());
+            return q.getResultList();
+        } finally {
+            closeEM(em);
+        }
+    }
     /**
      * Sets instance id.
      *
@@ -103,7 +150,7 @@ public class ImageDAOManager {
                 Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o");
                 return (ArrayList<Integer>) q.getResultList().stream().map(s->((ImageDAO)s).getUserID()).collect(Collectors.toList());
             }
-            ;
+
             return new ArrayList<Integer>();
         } finally {
             closeEM(em);

@@ -104,6 +104,27 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setTitle("new user");
+        dialog.setHeaderText("new user");
+        dialog.setContentText("new user");
+
+// Traditional way to get the response value.
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            String username = result.get();
+            TextInputDialog password = new TextInputDialog("");
+            password.setTitle("input password");
+            password.setHeaderText("input password");
+            password.setContentText("input password");
+            Optional<String> passwordResult = password.showAndWait();
+            if (passwordResult.isPresent()) {
+                String passwordString = passwordResult.get();
+                System.out.println(databaseClient.login(username, passwordString));
+            }
+        }
+
+
         logger.logNewInfo("Initializing ControllerMain");
         pictureGrid.setAlignment(Pos.CENTER);
         imgDataSplitPane.setDividerPositions(splitPanePos);
@@ -877,7 +898,6 @@ public class ControllerMain implements Initializable {
                     int b = (pixelColor.getBlue() + Color.black.getBlue()) / 2;
                     int a = pixelColor.getAlpha();
                     int rgba = (a << 24) | (r << 16) | (g << 8) | b;
-                    System.out.println(rgba);
                     image.setRGB(x, y, rgba);
 
                 }

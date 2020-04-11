@@ -19,7 +19,6 @@ public  class UserDAO {
     private String username;
     private String hashedPassword;
     private String saltString;
-    private List<ImageDAO> imageDAOS;
     @Transient
     private static int iterations = 10000;
     @Transient
@@ -47,6 +46,9 @@ public  class UserDAO {
         this.hashedPassword = hashedString;
     }
     public UserDAO(){
+    }
+    public int getAccountID(){
+        return this.accountID;
     }
 
     public boolean verifyPassword(String testPassword){
@@ -96,11 +98,4 @@ public  class UserDAO {
         this.saltString = saltString;
     }
 
-    public List<ImageDAO> getImageDAOS() {
-        return imageDAOS;
-    }
-
-    public void setImageDAOS(List<ImageDAO> imageDAOS) {
-        this.imageDAOS = imageDAOS;
-    }
 }
