@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class ImageDAOManager {
     private boolean isInitialized = false;
     private int instanceID;
+    private UserDAO currentUser;
     private EntityManagerFactory emf;
 
     /**
@@ -69,8 +70,6 @@ public class ImageDAOManager {
     void addImageToTable(String path, int fileSize, int date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) {
         EntityManager em = getEM();
         try {
-
-           // addUserTable();
             //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
             path = path.replaceAll("\\\\", "/");
             em.getTransaction().begin();
