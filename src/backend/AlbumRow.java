@@ -6,7 +6,8 @@ import javafx.scene.control.CheckBox;
 import java.util.logging.Logger;
 
 /**
- * The type Album row. used for rows in addToAlbum
+ * This class is used to generate objects of the AlbumRow class, that is rows
+ * of albums that will be added into a TableView in {@link controller.ControllerAddToAlbum}
  */
 public class AlbumRow {
     private static final Log logger = new Log();
