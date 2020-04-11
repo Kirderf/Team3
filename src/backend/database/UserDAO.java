@@ -17,7 +17,8 @@ import java.util.List;
 public  class UserDAO {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int accountID;
+    @OneToMany(targetEntity = ImageDAO.class)
+    private long accountID;
     private String username;
     private String hashedPassword;
     private String saltString;
@@ -46,11 +47,10 @@ public  class UserDAO {
         this.saltString = org.apache.commons.codec.binary.Base64.encodeBase64String(salt);
         this.username = username;
         this.hashedPassword = hashedString;
-        System.out.println(this.saltString);
     }
     public UserDAO(){
     }
-    public int getAccountID(){
+    public long getAccountID(){
         return this.accountID;
     }
 
@@ -58,7 +58,6 @@ public  class UserDAO {
         char[] passwordChars = testPassword.toCharArray();
         byte[] saltBytes = Base64.decodeBase64(saltString);
         byte[] hashedBytes = hashPassword(passwordChars, saltBytes);
-        //System.out.println(Arrays.toString(saltBytes));
         String hashedString = Hex.encodeHexString(hashedBytes);
         return (hashedString.equals(hashedPassword));
     }

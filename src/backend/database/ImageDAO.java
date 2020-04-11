@@ -14,7 +14,7 @@ public class ImageDAO implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long imageID;
     private String path;
-    private int userID;
+    private long userID;
     private int fileSize;
     private int date;
     private int imageHeight;
@@ -34,7 +34,7 @@ public class ImageDAO implements Serializable {
      * @param latitude metadata
      * @param longitude metadata
      */
-    public ImageDAO(int userID, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
+    public ImageDAO(long userID, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
         this.userID = userID;
         this.path = path;
         this.fileSize = fileSize;
@@ -58,7 +58,7 @@ public class ImageDAO implements Serializable {
      * gets the image id for this image
      * @return int value of the users TENANT_ID
      */
-    int getUserID() {
+    long getUserID() {
         return userID;
     }
 

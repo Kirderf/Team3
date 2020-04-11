@@ -66,7 +66,7 @@ public class ControllerMain implements Initializable {
     public static ArrayList<String> selectedImages = new ArrayList<>();
     public static Image imageBuffer;
     public static double splitPanePos = 0.51;
-
+    private static boolean loggedin = false;
     //Stages
     private Stage importStage = new Stage();
     protected Stage searchStage = new Stage();
@@ -104,6 +104,16 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if(!loggedin){
+            loggedin = login();
+        }
+
+        logger.logNewInfo("Initializing ControllerMain");
+        pictureGrid.setAlignment(Pos.CENTER);
+        imgDataSplitPane.setDividerPositions(splitPanePos);
+        if(!loadFromSelectedImages()) refreshImages();
+    }
+    public static boolean login(){
         TextInputDialog usernameDialog = new TextInputDialog("");
         usernameDialog.setTitle("Username");
         usernameDialog.setHeaderText("Username");
@@ -115,7 +125,6 @@ public class ControllerMain implements Initializable {
         passwordDialog.setContentText("Enter password");
 
 
-// Traditional way to get the response value.
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Login");
@@ -132,25 +141,49 @@ public class ControllerMain implements Initializable {
             Optional<String> usernameResult = usernameDialog.showAndWait();
             if(usernameResult.isPresent()){
                 Optional<String> passwordResult = passwordDialog.showAndWait();
-                System.out.println(databaseClient.login(usernameResult.get(),passwordResult.get()));
+                if(databaseClient.login(usernameResult.get(),passwordResult.get())){
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("Success");
+                    success.setHeaderText("Login successful");
+                    success.setContentText("Login successful, you are now logged in");
+                    success.showAndWait();
+                    return true;
+                }
+                else{
+                    Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                    failure.setTitle("Login failed");
+                    failure.setHeaderText("Your login failed");
+                    failure.setContentText("Login failed, wrong username/password");
+                    failure.showAndWait();
+                    return false;
+                }
             }
+            //new user
         } else if (choice.get() == buttonTypeTwo) {
             Optional<String> usernameResult = usernameDialog.showAndWait();
             if (usernameResult.isPresent()){
                 Optional<String> passwordResult = passwordDialog.showAndWait();
                 if(passwordResult.isPresent()){
-                    System.out.println(databaseClient.newUser(usernameResult.get(),passwordResult.get()));
+                    if(databaseClient.newUser(usernameResult.get(),passwordResult.get())){
+                        Alert success = new Alert(Alert.AlertType.INFORMATION);
+                        success.setTitle("Success");
+                        success.setHeaderText("Registration successful");
+                        success.setContentText("Registration successful, you are now logged in");
+                        success.showAndWait();
+                        return true;
+                    }
+                    else {
+                        Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                        failure.setTitle("Registration failed");
+                        failure.setHeaderText("Registration failed");
+                        failure.setContentText("That username already exists, or you enter an invalid username/password");
+                        failure.showAndWait();
+                        return false;
+                    }
                 }
             }
-        } else {
-            System.exit(0);
         }
-
-
-        logger.logNewInfo("Initializing ControllerMain");
-        pictureGrid.setAlignment(Pos.CENTER);
-        imgDataSplitPane.setDividerPositions(splitPanePos);
-        if(!loadFromSelectedImages()) refreshImages();
+        return false;
     }
 
     /**

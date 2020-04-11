@@ -41,7 +41,6 @@ public class DatabaseClient {
         emf = javax.persistence.Persistence.createEntityManagerFactory("DatabasePU", newProperties);
         imageDatabase = new ImageDAOManager(emf);
         //sets the tenant id
-        //imageDatabase.setInstanceID(getTenantID());
     }
 
     public boolean login(String username, String password){
@@ -52,8 +51,7 @@ public class DatabaseClient {
     }
     public boolean newUser(String username,String password){
         logger.logNewInfo("DatabaseClient : new user");
-        boolean result = imageDatabase.newUser(username,password);
-        return result;
+        return imageDatabase.newUser(username,password);
     }
 
     /**

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 //use compostion, as the only Image objects we would want to manipulate would be the ones already in the database, therefore it should be done through this class
 public class ImageDAOManager {
     private boolean isInitialized = false;
-    private int instanceID;
+    private long instanceID;
     private EntityManagerFactory emf;
 
     /**
@@ -48,8 +48,7 @@ public class ImageDAOManager {
             List users = getAllUsers();
             for(Object u : users){
                 if(((UserDAO) u).getUsername().equals(username)){
-                    System.out.println("username found");
-                    //test with saving the string in the database
+                    //found the username, now testing password
                     if(((UserDAO) u).verifyPassword(password)){
                         this.instanceID = ((UserDAO) u).getAccountID();
                         return true;
@@ -65,7 +64,6 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             Query q = em.createQuery("SELECT OBJECT(o) FROM UserDAO o");
-            System.out.println(q.getResultList().toString());
             return q.getResultList();
         } finally {
             closeEM(em);
@@ -204,7 +202,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userID=" + this.instanceID);
+                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.USERID=" + this.instanceID);
                 return q.getResultList();
             }
             return Collections.emptyList();
@@ -368,7 +366,7 @@ public class ImageDAOManager {
     private int getNumberOfImageDAO() {
         EntityManager em = getEM();
         try {
-            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.userID =" + this.instanceID);
+            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.USERID =" + this.instanceID);
             Long num = (Long) q.getSingleResult();
             return num.intValue();
         } finally {
