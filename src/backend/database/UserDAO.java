@@ -1,5 +1,6 @@
 package backend.database;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -9,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -29,21 +31,22 @@ public  class UserDAO {
         //high iterations slows down algorithm
         //hashes password with salt
 
+        //generates random salt
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
 
-        this.saltString =new String(salt, StandardCharsets.UTF_8);
 
         char[] passwordChars = password.toCharArray();
-        byte[] saltBytes = saltString.getBytes();
-        byte[] hashedBytes = hashPassword(passwordChars, saltBytes);
+        //password hashed with salt
+        byte[] hashedBytes = hashPassword(passwordChars, salt);
 
         String hashedString = Hex.encodeHexString(hashedBytes);
-
+        //convert byte to string
+        this.saltString = org.apache.commons.codec.binary.Base64.encodeBase64String(salt);
         this.username = username;
-        this.saltString = new String(salt, StandardCharsets.UTF_8);
         this.hashedPassword = hashedString;
+        System.out.println(this.saltString);
     }
     public UserDAO(){
     }
@@ -53,10 +56,9 @@ public  class UserDAO {
 
     public boolean verifyPassword(String testPassword){
         char[] passwordChars = testPassword.toCharArray();
-        byte[] saltBytes = saltString.getBytes();
-
+        byte[] saltBytes = Base64.decodeBase64(saltString);
         byte[] hashedBytes = hashPassword(passwordChars, saltBytes);
-
+        //System.out.println(Arrays.toString(saltBytes));
         String hashedString = Hex.encodeHexString(hashedBytes);
         return (hashedString.equals(hashedPassword));
     }

@@ -104,24 +104,46 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        TextInputDialog dialog = new TextInputDialog("");
-        dialog.setTitle("new user");
-        dialog.setHeaderText("new user");
-        dialog.setContentText("new user");
+        TextInputDialog usernameDialog = new TextInputDialog("");
+        usernameDialog.setTitle("Username");
+        usernameDialog.setHeaderText("Username");
+        usernameDialog.setContentText("Enter username");
+
+        TextInputDialog passwordDialog = new TextInputDialog("");
+        passwordDialog.setTitle("Password");
+        passwordDialog.setHeaderText("Password");
+        passwordDialog.setContentText("Enter password");
+
 
 // Traditional way to get the response value.
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
-            String username = result.get();
-            TextInputDialog password = new TextInputDialog("");
-            password.setTitle("input password");
-            password.setHeaderText("input password");
-            password.setContentText("input password");
-            Optional<String> passwordResult = password.showAndWait();
-            if (passwordResult.isPresent()) {
-                String passwordString = passwordResult.get();
-                System.out.println(databaseClient.login(username, passwordString));
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Login");
+        alert.setHeaderText("Login");
+        alert.setContentText("Please log in or register a new account");
+
+        ButtonType buttonTypeOne = new ButtonType("Login");
+        ButtonType buttonTypeTwo = new ButtonType("Register");
+
+        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+
+        Optional<ButtonType> choice = alert.showAndWait();
+        if (choice.get() == buttonTypeOne){
+            Optional<String> usernameResult = usernameDialog.showAndWait();
+            if(usernameResult.isPresent()){
+                Optional<String> passwordResult = passwordDialog.showAndWait();
+                System.out.println(databaseClient.login(usernameResult.get(),passwordResult.get()));
             }
+        } else if (choice.get() == buttonTypeTwo) {
+            Optional<String> usernameResult = usernameDialog.showAndWait();
+            if (usernameResult.isPresent()){
+                Optional<String> passwordResult = passwordDialog.showAndWait();
+                if(passwordResult.isPresent()){
+                    System.out.println(databaseClient.newUser(usernameResult.get(),passwordResult.get()));
+                }
+            }
+        } else {
+            System.exit(0);
         }
 
 

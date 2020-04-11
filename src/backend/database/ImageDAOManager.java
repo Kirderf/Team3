@@ -45,14 +45,11 @@ public class ImageDAOManager {
     public boolean login(String username, String password){
         EntityManager em = getEM();
         try {
-            UserDAO us = new UserDAO("faeb","testerbare");
-            System.out.println("verifying " + us.verifyPassword("testerbare"));
             List users = getAllUsers();
             for(Object u : users){
-                System.out.println(((UserDAO) u).getUsername().equals(username));
                 if(((UserDAO) u).getUsername().equals(username)){
+                    System.out.println("username found");
                     //test with saving the string in the database
-                    System.out.println(((UserDAO) u).verifyPassword("p"));
                     if(((UserDAO) u).verifyPassword(password)){
                         this.instanceID = ((UserDAO) u).getAccountID();
                         return true;

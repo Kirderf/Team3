@@ -42,16 +42,18 @@ public class DatabaseClient {
         imageDatabase = new ImageDAOManager(emf);
         //sets the tenant id
         //imageDatabase.setInstanceID(getTenantID());
-        imageDatabase.isAccountPresent();
     }
 
     public boolean login(String username, String password){
         logger.logNewInfo("DatabaseClient : login");
-        return imageDatabase.login(username,password);
+        boolean result = imageDatabase.login(username,password);
+        imageDatabase.isAccountPresent();
+        return result;
     }
     public boolean newUser(String username,String password){
         logger.logNewInfo("DatabaseClient : new user");
-        return imageDatabase.newUser(username,password);
+        boolean result = imageDatabase.newUser(username,password);
+        return result;
     }
 
     /**
