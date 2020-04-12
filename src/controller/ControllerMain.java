@@ -48,9 +48,8 @@ import java.util.*;
 public class ControllerMain implements Initializable {
     private static final Log logger = new Log();
 
-    //Must be public static to get access from other places
-    public static HashMap<String, String> locations = new HashMap<>();
-    public static DatabaseClient databaseClient;
+    private static HashMap<String, String> locations = new HashMap<>();
+    private static DatabaseClient databaseClient;
 
     static {
         try {
@@ -61,11 +60,11 @@ public class ControllerMain implements Initializable {
     }
 
 
-    public static String pathBuffer;
-    public static boolean ascending = true;
-    public static ArrayList<String> selectedImages = new ArrayList<>();
-    public static Image imageBuffer;
-    public static double splitPanePos = 0.51;
+    private static String pathBuffer;
+    private static boolean ascending = true;
+    private static ArrayList<String> selectedImages = new ArrayList<>();
+    private static Image imageBuffer;
+    private static double splitPanePos = 0.51;
     private static boolean loggedin = false;
     //Stages
     private Stage importStage = new Stage();
@@ -92,7 +91,7 @@ public class ControllerMain implements Initializable {
 
     protected static Button stageButton;
 
-    protected Text_To_Speech voice = Text_To_Speech.getInstance();
+    private Text_To_Speech voice = Text_To_Speech.getInstance();
     private int photoCount = 0;
     private int rowCount = 0;
     private int columnCount = 0;
@@ -293,6 +292,7 @@ public class ControllerMain implements Initializable {
                 searchStage.showAndWait();
                 if (ControllerSearch.isSearchSucceed()) {
                     clearView();
+                    clearSelectedImages();
                     for (String s : ControllerSearch.getSearchResults()) {
                         insertImage(s);
                         ControllerSearch.setSearchSucceed(false);
@@ -633,10 +633,8 @@ public class ControllerMain implements Initializable {
                 //Single click
                 selectImage(imageView, image, path);
                 //if the last image is unselected
-                if(!selectedImages.isEmpty()) {
-                    showMetadata(null);
-                    showTags(null);
-                }
+                showMetadata(null);
+                showTags(null);
             } else {
                 imageView.setImage(image);
                 try {
@@ -729,7 +727,10 @@ public class ControllerMain implements Initializable {
      * @param imagePath the path to the image from which you are getting the metadata
      */
     protected void showMetadata(String imagePath) {
-        if(selectedImages.isEmpty()) return;
+        if(selectedImages.isEmpty()) {
+            metadataVbox.getChildren().clear();
+            return;
+        }
         String path = getSelectedImages().get(getSelectedImages().size()-1);
         metadataVbox.getChildren().clear();
         String[] metadata = getDatabaseClient().getMetaDataFromDatabase(path);
@@ -745,7 +746,10 @@ public class ControllerMain implements Initializable {
 
 
     protected void showTags(String imagePath) {
-        if (selectedImages.isEmpty()) return;
+        if (selectedImages.isEmpty()){
+            tagVbox.getChildren().clear();
+            return;
+        }
         String path = getSelectedImages().get(getSelectedImages().size() - 1);
         tagVbox.getChildren().clear();
         String[] tags = getDatabaseClient().getTags(path).split(",");

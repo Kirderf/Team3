@@ -160,7 +160,7 @@ public class ControllerTagging implements Initializable {
     }
 
     protected static ArrayList<String> getAllTags() throws SQLException {
-        ArrayList tagStrings = ControllerMain.databaseClient.getColumn("Tags");
+        ArrayList tagStrings = ControllerMain.getDatabaseClient().getColumn("Tags");
         LinkedHashSet<String> hashSet = new LinkedHashSet<>();
         for (Object s : tagStrings) {
             hashSet.addAll(Arrays.asList(s.toString().split(",")));

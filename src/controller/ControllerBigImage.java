@@ -92,7 +92,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @FXML
     protected void saveAlbumAction(ActionEvent event) throws IOException {
         super.saveAlbumAction(event);
-        addToSelectedImages(pathBuffer);
+        addToSelectedImages(getPathBuffer());
     }
 
     /**
@@ -209,9 +209,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                 if (ControllerSearch.isSearchSucceed()) {
                     ControllerSearch.setSearchSucceed(false);
                     clearSelectedImages();
-                    for (String s : ControllerSearch.getSearchResults()) {
-                        addToSelectedImages(s);
-                    }
                     setSplitPanePos(bigImgDataSplitPane.getDividerPositions()[0]);
                     bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
                 }
@@ -251,11 +248,11 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     private void showMetadata() {
-        super.showMetadata(pathBuffer);
+        super.showMetadata(getPathBuffer());
     }
 
     private void showTags() {
-        super.showTags(pathBuffer);
+        super.showTags(getPathBuffer());
     }
 
 }

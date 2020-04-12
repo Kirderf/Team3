@@ -173,7 +173,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.accountID.userID=" + this.userDAO.getAccountID());
+                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userID=" + this.userDAO.getAccountID());
                 return q.getResultList();
             }
             return Collections.emptyList();
@@ -313,33 +313,10 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.userDAO.accountID=" + this.userDAO.getAccountID());
+                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.userDAO.accountID =" + this.userDAO.getAccountID());
                 return q.getResultList();
             }
             return Collections.emptyList();
-        } finally {
-            closeEM(em);
-        }
-    }
-
-    /**
-     * sets initialized based on whether or not the any account is present.
-     */
-    void isAccountPresent() {
-        if(getNumberOfImageDAO() > 0) setInitialized(true);
-    }
-
-    /**
-     * Gets number of image dao.
-     *
-     * @return the number of image dao
-     */
-    private int getNumberOfImageDAO() {
-        EntityManager em = getEM();
-        try {
-            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.userDAO.accountID =" + this.userDAO.getAccountID());
-            Long num = (Long) q.getSingleResult();
-            return num.intValue();
         } finally {
             closeEM(em);
         }
