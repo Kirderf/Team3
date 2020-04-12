@@ -105,85 +105,18 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(!loggedin){
-            loggedin = login();
+            loggedin = databaseClient.login("f","f");
+            System.out.println(loggedin);
         }
-
-        logger.logNewInfo("Initializing ControllerMain");
-        pictureGrid.setAlignment(Pos.CENTER);
-        imgDataSplitPane.setDividerPositions(splitPanePos);
-        if(!loadFromSelectedImages()) refreshImages();
-    }
-    public static boolean login(){
-        TextInputDialog usernameDialog = new TextInputDialog("");
-        usernameDialog.setTitle("Username");
-        usernameDialog.setHeaderText("Username");
-        usernameDialog.setContentText("Enter username");
-
-        TextInputDialog passwordDialog = new TextInputDialog("");
-        passwordDialog.setTitle("Password");
-        passwordDialog.setHeaderText("Password");
-        passwordDialog.setContentText("Enter password");
-
-
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Login");
-        alert.setHeaderText("Login");
-        alert.setContentText("Please log in or register a new account");
-
-        ButtonType buttonTypeOne = new ButtonType("Login");
-        ButtonType buttonTypeTwo = new ButtonType("Register");
-
-        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
-
-        Optional<ButtonType> choice = alert.showAndWait();
-        if (choice.get() == buttonTypeOne){
-            Optional<String> usernameResult = usernameDialog.showAndWait();
-            if(usernameResult.isPresent()){
-                Optional<String> passwordResult = passwordDialog.showAndWait();
-                if(databaseClient.login(usernameResult.get(),passwordResult.get())){
-                    Alert success = new Alert(Alert.AlertType.INFORMATION);
-                    success.setTitle("Success");
-                    success.setHeaderText("Login successful");
-                    success.setContentText("Login successful, you are now logged in");
-                    success.showAndWait();
-                    return true;
-                }
-                else{
-                    Alert failure = new Alert(Alert.AlertType.INFORMATION);
-                    failure.setTitle("Login failed");
-                    failure.setHeaderText("Your login failed");
-                    failure.setContentText("Login failed, wrong username/password");
-                    failure.showAndWait();
-                    return false;
-                }
-            }
-            //new user
-        } else if (choice.get() == buttonTypeTwo) {
-            Optional<String> usernameResult = usernameDialog.showAndWait();
-            if (usernameResult.isPresent()){
-                Optional<String> passwordResult = passwordDialog.showAndWait();
-                if(passwordResult.isPresent()){
-                    if(databaseClient.newUser(usernameResult.get(),passwordResult.get())){
-                        Alert success = new Alert(Alert.AlertType.INFORMATION);
-                        success.setTitle("Success");
-                        success.setHeaderText("Registration successful");
-                        success.setContentText("Registration successful, you are now logged in");
-                        success.showAndWait();
-                        return true;
-                    }
-                    else {
-                        Alert failure = new Alert(Alert.AlertType.INFORMATION);
-                        failure.setTitle("Registration failed");
-                        failure.setHeaderText("Registration failed");
-                        failure.setContentText("That username already exists, or you enter an invalid username/password");
-                        failure.showAndWait();
-                        return false;
-                    }
-                }
-            }
+        if(loggedin) {
+            logger.logNewInfo("Initializing ControllerMain");
+            pictureGrid.setAlignment(Pos.CENTER);
+            imgDataSplitPane.setDividerPositions(splitPanePos);
+            if (!loadFromSelectedImages()) refreshImages();
         }
-        return false;
+        else{
+            quitAction();
+        }
     }
 
     /**

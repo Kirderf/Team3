@@ -66,7 +66,7 @@ public class ImageDAO implements Serializable {
      * sets the user id to a new value
      * @param userID the int you want to set it to
      */
-    public void setUserID(int userID) {
+    public void setUserID(long userID) {
         this.userID = userID;
     }
 

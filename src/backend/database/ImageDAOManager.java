@@ -202,7 +202,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.USERID=" + this.instanceID);
+                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userID=" + this.instanceID);
                 return q.getResultList();
             }
             return Collections.emptyList();
@@ -366,7 +366,7 @@ public class ImageDAOManager {
     private int getNumberOfImageDAO() {
         EntityManager em = getEM();
         try {
-            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.USERID =" + this.instanceID);
+            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.userID =" + this.instanceID);
             Long num = (Long) q.getSingleResult();
             return num.intValue();
         } finally {
