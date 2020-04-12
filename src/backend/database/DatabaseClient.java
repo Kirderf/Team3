@@ -2,16 +2,15 @@ package backend.database;
 
 import backend.util.ImageImport;
 import backend.util.Log;
-import org.apache.commons.io.FilenameUtils;
+
 import javax.persistence.EntityManagerFactory;
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static java.nio.charset.Charset.forName;
 
 /**
  * The DatabaseClient class represents objects that work as a middleman between the database and the user.
@@ -53,9 +52,9 @@ public class DatabaseClient {
      * @param password the password
      * @return true if login was successful, false if not
      */
-    public boolean login(String username, String password){
+    public boolean login(String username, String password) {
         logger.logNewInfo("DatabaseClient : login");
-        boolean result = imageDatabase.login(username,password);
+        boolean result = imageDatabase.login(username, password);
         imageDatabase.isAccountPresent();
         return result;
     }
@@ -63,18 +62,18 @@ public class DatabaseClient {
     /**
      * New user boolean.
      * both username and password needs to consist of only ascii characters
+     *
      * @param username the username
      * @param password the password
      * @return true if registration was successful, false if not. username must not be present in our system
      */
-    public boolean newUser(String username,String password){
+    public boolean newUser(String username, String password) {
         boolean usernameASCII = StandardCharsets.US_ASCII.newEncoder().canEncode(username);
         boolean passwordASCII = StandardCharsets.US_ASCII.newEncoder().canEncode(password);
-        if(usernameASCII && passwordASCII) {
+        if (usernameASCII && passwordASCII) {
             logger.logNewInfo("DatabaseClient : new user");
             return imageDatabase.newUser(username, password);
-        }
-        else{
+        } else {
             return false;
         }
     }
