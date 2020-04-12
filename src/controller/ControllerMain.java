@@ -105,7 +105,7 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(!loggedin){
-            loggedin = databaseClient.login("f","f");
+            loggedin = databaseClient.newUser("aae","f");
             System.out.println(loggedin);
         }
         if(loggedin) {

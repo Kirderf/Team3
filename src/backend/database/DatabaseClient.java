@@ -84,55 +84,7 @@ public class DatabaseClient {
         return prop;
     }
 
-    /**
-     * Gets the tenant id if it is saved in the database, generates a new one if not
-     *
-     * @return the int value of the new or existing tenant id
-     * @throws IOException reads from the tenant file
-     */
-    private static int getTenantID() throws IOException {
-        //i struggled to find the .properties file using normal methods, so this is the implementation that i got working
-        String test1 = (new File("").getAbsolutePath());
-        String pathToProperties = (FilenameUtils.normalize(test1 + "\\resources\\.properties"));
 
-        // load a properties file
-        if (properties.getProperty("TENANT_ID") == null) {
-            logger.logNewInfo("generating new tenantID");
-            Properties table = new Properties();
-            //generates a random int to be used for tenant id
-            Random rand = new Random();
-            //TODO should this be different? find something that doesn't tie us to only 10000 tenants
-            int randInt = rand.nextInt(10000);
-            //if the tenant id exists, then a new one is generated
-            while (imageDatabase.getAllUserID().contains(randInt)) {
-                randInt = rand.nextInt(10000);
-            }
-            //iterates through .properties file in order to save the values that are there already
-            Enumeration<String> enums = (Enumeration<String>) properties.propertyNames();
-            while (enums.hasMoreElements()) {
-                String key = enums.nextElement();
-                String value = properties.getProperty(key);
-                //adds the already existing keys and values to the new table that is being saved
-                table.setProperty(key, value);
-            }
-            //adds tenant id value
-            table.setProperty("TENANT_ID", String.valueOf(rand.nextInt(10000)));
-            //writes to .properties, overwriting the old file
-            FileOutputStream fr = new FileOutputStream(pathToProperties);
-            //uses the outputstream to write
-            table.store(fr, "tenant-id generated automatically");
-            fr.close();
-            //returns the new tenant id, get nullpointer if properties is used instead of table here
-            return Integer.parseInt(table.getProperty("TENANT_ID"));
-        } else if (!imageDatabase.getAllUserID().contains(Integer.parseInt(properties.getProperty("TENANT_ID")))) {
-            //returns the existing table
-            return Integer.parseInt(properties.getProperty("TENANT_ID"));
-        } else {
-            //if the key matches one that is already in the table
-            //should maybe check if the images belonging to that tenant id can be loaded on this maching
-            return Integer.parseInt(properties.getProperty("TENANT_ID"));
-        }
-    }
 
 
     /**

@@ -115,7 +115,7 @@ public class ImageDAOManager {
             //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
             path = path.replaceAll("\\\\", "/");
             em.getTransaction().begin();
-            ImageDAO imageDAO = new ImageDAO(instanceID, path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
+            ImageDAO imageDAO = new ImageDAO(findUser(instanceID), path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
             em.persist(imageDAO);
             em.getTransaction().commit();//store into database
         } finally {
@@ -123,34 +123,14 @@ public class ImageDAOManager {
         }
     }
 
-    void addUserTable(){
-        EntityManager em = getEM();
-        try{
-            UserDAO testUser = new UserDAO("testusername","testpassword");
-            em.getTransaction().begin();
-            em.persist(testUser);
-            em.getTransaction().commit();
-        } finally {
-            closeEM(em);
+    public UserDAO findUser(long id){
+        List users = getAllUsers();
+        if(users.stream().filter(x -> ((UserDAO) x).getAccountID() == id).findFirst().isPresent()) {
+            return (UserDAO) users.stream().filter(x -> ((UserDAO) x).getAccountID() == id).findFirst().get();
         }
+        return null;
     }
-    /**
-     * Get all user id in array list.
-     * @return the array list
-     */
-    ArrayList<Integer> getAllUserID(){
-        EntityManager em = getEM();
-        try {
-            if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o");
-                return (ArrayList<Integer>) q.getResultList().stream().map(s->((ImageDAO)s).getUserID()).collect(Collectors.toList());
-            }
 
-            return new ArrayList<Integer>();
-        } finally {
-            closeEM(em);
-        }
-    }
 
     /**
      * Add album.
@@ -202,7 +182,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userID=" + this.instanceID);
+                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.accountID.userID=" + this.instanceID);
                 return q.getResultList();
             }
             return Collections.emptyList();
@@ -306,7 +286,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
-            List<ImageDAO> imageDAOList = images.stream().filter(s->s.getPath().equalsIgnoreCase(path)&&s.getUserID()== this.instanceID).collect(Collectors.toList());
+            List<ImageDAO> imageDAOList = images.stream().filter(s->s.getPath().equalsIgnoreCase(path)&&s.getUserDAO().getAccountID() == this.instanceID).collect(Collectors.toList());
             return imageDAOList.get(0);
         } finally {
             closeEM(em);
@@ -342,7 +322,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.userID=" + this.instanceID);
+                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.userDAO.accountID=" + this.instanceID);
                 return q.getResultList();
             }
             return Collections.emptyList();
@@ -366,7 +346,7 @@ public class ImageDAOManager {
     private int getNumberOfImageDAO() {
         EntityManager em = getEM();
         try {
-            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.userID =" + this.instanceID);
+            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.userDAO.accountID =" + this.instanceID);
             Long num = (Long) q.getSingleResult();
             return num.intValue();
         } finally {

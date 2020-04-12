@@ -14,7 +14,6 @@ public class ImageDAO implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long imageID;
     private String path;
-    private long userID;
     private int fileSize;
     private int date;
     private int imageHeight;
@@ -22,10 +21,12 @@ public class ImageDAO implements Serializable {
     private double latitude;
     private double longitude;
     private String tags;
+    @ManyToOne
+    private UserDAO userDAO;
 
     /**
      * generates a new imageDAO object to be saved in the database
-     * @param userID user userID for user saving this image, imageID is generated automatically
+     * @param userDAO The user this image is saved to
      * @param path path to where the image is saved
      * @param fileSize metadata
      * @param date metadata
@@ -34,8 +35,8 @@ public class ImageDAO implements Serializable {
      * @param latitude metadata
      * @param longitude metadata
      */
-    public ImageDAO(long userID, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
-        this.userID = userID;
+    public ImageDAO(UserDAO userDAO, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
+        this.userDAO = userDAO;
         this.path = path;
         this.fileSize = fileSize;
         this.date = date;
@@ -53,21 +54,12 @@ public class ImageDAO implements Serializable {
         //TODO check if this is necessary
         ClassDescriptor.shouldUseFullChangeSetsForNewObjects = true;
     }
-
-    /**
-     * gets the image id for this image
-     * @return int value of the users TENANT_ID
-     */
-    long getUserID() {
-        return userID;
+    public void setUserDAO(UserDAO userDAO){
+        this.userDAO = userDAO;
     }
 
-    /**
-     * sets the user id to a new value
-     * @param userID the int you want to set it to
-     */
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public UserDAO getUserDAO() {
+        return this.userDAO;
     }
 
     /**
@@ -241,7 +233,7 @@ public class ImageDAO implements Serializable {
         }
         if (obj instanceof ImageDAO) {
             //if the path is equal then the Images are equal
-            return (((ImageDAO) obj).getPath().equalsIgnoreCase(this.getPath())&&this.getUserID() == ((ImageDAO) obj).getUserID());
+            return (((ImageDAO) obj).getPath().equalsIgnoreCase(this.getPath())&&this.userDAO.equals((UserDAO) obj));
         }
         return false;
     }
