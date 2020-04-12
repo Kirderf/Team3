@@ -105,11 +105,11 @@ public class ControllerMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(!loggedin){
-            loggedin = databaseClient.newUser("aae","f");
+            loggedin = databaseClient.login("aae","f");
             System.out.println(loggedin);
         }
         if(loggedin) {
-            logger.logNewInfo("Initializing ControllerMain");
+            logger.logNewInfo("Iitializing ControllerMain");
             pictureGrid.setAlignment(Pos.CENTER);
             imgDataSplitPane.setDividerPositions(splitPanePos);
             if (!loadFromSelectedImages()) refreshImages();
@@ -237,14 +237,14 @@ public class ControllerMain implements Initializable {
      *
      * @param s the path that you want to add to the image
      */
-    public static void addToSelectedImages(String s){
+    static void addToSelectedImages(String s){
         selectedImages.add(s);
     }
 
     /**
      * clears the selected images
      */
-    public static void clearSelectedImages(){
+    static void clearSelectedImages(){
         selectedImages.clear();
     }
 
@@ -253,7 +253,7 @@ public class ControllerMain implements Initializable {
      * @param path the path to the image you want to remove
      * @return boolean whether or not the removal was successful
      */
-    public static boolean removeFromSelectedImages(String path){
+    private static boolean removeFromSelectedImages(String path){
         return selectedImages.remove(path);
     }
 
@@ -554,7 +554,7 @@ public class ControllerMain implements Initializable {
      *
      * @param path to image object
      */
-    protected void insertImage(String path) throws FileNotFoundException {
+    private void insertImage(String path) throws FileNotFoundException {
         int row = getNextRow();
         int coloumn = getNextColumn();
         ImageView image = importImage(path);
@@ -852,14 +852,14 @@ public class ControllerMain implements Initializable {
      * Loads images from selected paths
      * @return true if images are selected, else false
      */
-    protected boolean loadFromSelectedImages() {
+    private boolean loadFromSelectedImages() {
         if(!getSelectedImages().isEmpty()) {
             clearView();
             getSelectedImages().forEach(path-> {
                 try {
                     insertImage(path);
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    logger.logNewFatalError("Controllermain loadfromSelectedImages" + e.getLocalizedMessage());
                 }
             });
             clearSelectedImages();
@@ -872,7 +872,6 @@ public class ControllerMain implements Initializable {
      *
      * @param imageInput the image that you want to tint
      */
-    //TODO take in image as parameter, and convert to buffered image inside the method
     //TODO check if any of the other methods on stackoverflow tint quicker
     private static BufferedImage tint(Image imageInput) {
         BufferedImage image = SwingFXUtils.fromFXImage(imageInput,null);

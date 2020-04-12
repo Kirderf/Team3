@@ -5,6 +5,9 @@ import org.eclipse.persistence.descriptors.ClassDescriptor;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * The type Image dao.
+ */
 //should we have a named query?
 //named this way to avoid confusion with existing Image classes
 @Entity
@@ -26,14 +29,15 @@ public class ImageDAO implements Serializable {
 
     /**
      * generates a new imageDAO object to be saved in the database
-     * @param userDAO The user this image is saved to
-     * @param path path to where the image is saved
-     * @param fileSize metadata
-     * @param date metadata
+     *
+     * @param userDAO     The user this image is saved to
+     * @param path        path to where the image is saved
+     * @param fileSize    metadata
+     * @param date        metadata
      * @param imageHeight metadata
-     * @param imageWidth metadata
-     * @param latitude metadata
-     * @param longitude metadata
+     * @param imageWidth  metadata
+     * @param latitude    metadata
+     * @param longitude   metadata
      */
     public ImageDAO(UserDAO userDAO, String path, int fileSize, int date, int imageHeight, int imageWidth, double latitude, double longitude) {
         this.userDAO = userDAO;
@@ -54,16 +58,28 @@ public class ImageDAO implements Serializable {
         //TODO check if this is necessary
         ClassDescriptor.shouldUseFullChangeSetsForNewObjects = true;
     }
+
+    /**
+     * Set user dao.
+     *
+     * @param userDAO the user dao
+     */
     public void setUserDAO(UserDAO userDAO){
         this.userDAO = userDAO;
     }
 
+    /**
+     * Gets user dao.
+     *
+     * @return the user dao
+     */
     public UserDAO getUserDAO() {
         return this.userDAO;
     }
 
     /**
      * gets the path of the image
+     *
      * @return String containing the path to the local image
      */
     public String getPath() {
@@ -72,6 +88,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * sets the path for a image
+     *
      * @param path the String you want to set it to
      */
     public void setPath(String path) {
@@ -80,6 +97,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * returns the file size of this image
+     *
      * @return int representing the size of the image in bytes
      */
     int getFileSize() {
@@ -88,6 +106,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * sets the file size
+     *
      * @param fileSize the int you want to set it to
      */
     public void setFileSize(int fileSize) {
@@ -96,6 +115,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * gets the current date
+     *
      * @return the date in the format yyyymmdd
      */
     int getDate() {
@@ -104,6 +124,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * sets the date to a specific value
+     *
      * @param date should be in the format yyyymmdd
      */
     public void setDate(int date) {
@@ -112,6 +133,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * gets the height of an image
+     *
      * @return height in number of pixels
      */
     int getImageHeight() {
@@ -121,13 +143,16 @@ public class ImageDAO implements Serializable {
     /**
      * sets the height to a value
      * does not actually change the image, only the value in the object
+     *
      * @param imageHeight height in pixels you want to set it to
      */
     public void setImageHeight(int imageHeight) {
         this.imageHeight = imageHeight;
     }
+
     /**
      * gets the width of an image
+     *
      * @return width in pixels
      */
     int getImageWidth() {
@@ -137,6 +162,7 @@ public class ImageDAO implements Serializable {
     /**
      * sets the height to a value
      * does not actually change the image, only the value in the object
+     *
      * @param imageWidth width in pixels you want to set it to
      */
     public void setImageWidth(int imageWidth) {
@@ -145,6 +171,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * image latitude
+     *
      * @return 0 if the image does not have valid gps data, otherwise latitude in decimals
      */
     double getLatitude() {
@@ -154,6 +181,7 @@ public class ImageDAO implements Serializable {
     /**
      * sets the image latitude to a value
      * does not change the image metadata, only this object
+     *
      * @param latitude latitude in decimals
      */
     public void setLatitude(double latitude) {
@@ -162,6 +190,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * image longitude
+     *
      * @return 0 if the image does not have valid gps data, otherwise longitude in decimals
      */
     double getLongitude() {
@@ -171,6 +200,7 @@ public class ImageDAO implements Serializable {
     /**
      * Sets the image longitude to a value
      * does not change the image metadata, only this object
+     *
      * @param longitude longitude in decimals
      */
     public void setLongitude(double longitude) {
@@ -179,6 +209,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * gets the tags that have been added to the object
+     *
      * @return a string of tags with commas seperating every tag, empty string if no tags are present
      */
     public String getTags() {
@@ -187,6 +218,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * sets the tags to a specific string
+     *
      * @param tags String you want to set the tags field to
      */
     public void setTags(String tags) {
@@ -195,6 +227,7 @@ public class ImageDAO implements Serializable {
 
     /**
      * adds tag to the object formatting it automatically
+     *
      * @param tag the tag you want to add, should not contain commas
      */
     void addTag(String tag) {
@@ -222,7 +255,7 @@ public class ImageDAO implements Serializable {
     }
 
     /**
-     * Two imageDAO objects are equal if their path is equal and their userID is equal
+     * Two imageDAO objects are equal if their path is equal and the userId of their users are equal
      * @param obj the object you want to compare it to
      * @return true if they are equal, false if not
      */
@@ -232,9 +265,10 @@ public class ImageDAO implements Serializable {
             return true;
         }
         if (obj instanceof ImageDAO) {
-            //if the path is equal then the Images are equal
-            return (((ImageDAO) obj).getPath().equalsIgnoreCase(this.getPath())&&this.userDAO.equals((UserDAO) obj));
+            //if the path is equal and the users are equal then the Images are equal
+            return (((ImageDAO) obj).getPath().equalsIgnoreCase(this.getPath())&&this.userDAO.equals(((ImageDAO)obj).userDAO));
         }
         return false;
     }
+
 }

@@ -28,7 +28,7 @@ public class DatabaseClient {
 
     /**
      * This constructor creates a DatabaseClient object, which represents a users unique instance of the program.
-     * It checks the users .properties file to find the login details, as well as the TenantID, which tells
+     * It checks the users .properties file to find the login details, which tells
      * the program who's using it, and thus which images should be loaded in.
      * The DatabaseClient has an object of the {@link ImageDAOManager} class, which acts as the image database.
      *
@@ -44,15 +44,29 @@ public class DatabaseClient {
         //loads persistenceunit with local map containing username and password
         emf = javax.persistence.Persistence.createEntityManagerFactory("DatabasePU", newProperties);
         imageDatabase = new ImageDAOManager(emf);
-        //sets the tenant id
     }
 
+    /**
+     * logs the user into the system.
+     *
+     * @param username the username
+     * @param password the password
+     * @return true if login was successful, false if not
+     */
     public boolean login(String username, String password){
         logger.logNewInfo("DatabaseClient : login");
         boolean result = imageDatabase.login(username,password);
         imageDatabase.isAccountPresent();
         return result;
     }
+
+    /**
+     * New user boolean.
+     * both username and password needs to consist of only ascii characters
+     * @param username the username
+     * @param password the password
+     * @return true if registration was successful, false if not. username must not be present in our system
+     */
     public boolean newUser(String username,String password){
         boolean usernameASCII = StandardCharsets.US_ASCII.newEncoder().canEncode(username);
         boolean passwordASCII = StandardCharsets.US_ASCII.newEncoder().canEncode(password);
@@ -85,8 +99,6 @@ public class DatabaseClient {
     }
 
 
-
-
     /**
      * Singleton method for getting an instance of this class
      *
@@ -105,7 +117,7 @@ public class DatabaseClient {
      *
      * @param columnName name of the column to get, e.g. path, imageid, tags, date, height or width.
      * @return an ArrayList of data objects
-     * @see ImageDAOManager#getColumn(String)
+     * @see ImageDAOManager#getColumn(String) ImageDAOManager#getColumn(String)
      */
     public ArrayList<String> getColumn(String columnName) {
         return (ArrayList<String>) imageDatabase.getColumn(columnName);
@@ -116,7 +128,7 @@ public class DatabaseClient {
      *
      * @param image the File, in our case an image, that will be added to the database
      * @return true if the image was successfully added to database, false if not
-     * @see ImageDAOManager#addImageToTable(String, int, int, int, int, double, double)
+     * @see ImageDAOManager#addImageToTable(String, int, int, int, int, double, double) ImageDAOManager#addImageToTable(String, int, int, int, int, double, double)
      */
     public boolean addImage(File image) {
         logger.logNewInfo("DatabaseClient : Adding image");
@@ -147,7 +159,7 @@ public class DatabaseClient {
      *
      * @param path path to the image
      * @return a String with all the image's tags
-     * @see ImageDAOManager#getTags(String)
+     * @see ImageDAOManager#getTags(String) ImageDAOManager#getTags(String)
      */
     public String getTags(String path) {
         logger.logNewInfo("Getting tags from " + path);
@@ -160,7 +172,7 @@ public class DatabaseClient {
      * @param path path to the image
      * @return String array with the image's metadata
      * @throws SQLException
-     * @see ImageDAOManager#getImageMetadata(String)
+     * @see ImageDAOManager#getImageMetadata(String) ImageDAOManager#getImageMetadata(String)
      */
     public String[] getMetaDataFromDatabase(String path) {
         logger.logNewInfo("DatabaseClient : Getting metadata from " + path);
@@ -173,7 +185,7 @@ public class DatabaseClient {
      * @param path path to the image
      * @param tag  String[] of tags
      * @return true if tags were added successfully, false if not
-     * @see ImageDAOManager#addTags(String, String[])
+     * @see ImageDAOManager#addTags(String, String[]) ImageDAOManager#addTags(String, String[])
      */
     public boolean addTag(String path, String[] tag) {
         logger.logNewInfo("DatabaseClient : Adding tag to " + path);
@@ -189,8 +201,8 @@ public class DatabaseClient {
      * Removes an image from the database.
      *
      * @param path the image's path
-     * @return true
-     * @see ImageDAOManager#removeImageDAO(String)
+     * @return true boolean
+     * @see ImageDAOManager#removeImageDAO(String) ImageDAOManager#removeImageDAO(String)
      */
     public boolean removeImage(String path) {
         imageDatabase.removeImageDAO(path);
@@ -204,7 +216,7 @@ public class DatabaseClient {
      * @param path path to the image
      * @param tags String array of tags to be removed
      * @return true if the tags are successfully removed, false if not
-     * @see ImageDAOManager#removeTag(String, String[])
+     * @see ImageDAOManager#removeTag(String, String[]) ImageDAOManager#removeTag(String, String[])
      */
     public boolean removeTag(String path, String[] tags) {
         logger.logNewInfo("DatabaseClient : Removing tag from " + path);
@@ -222,7 +234,7 @@ public class DatabaseClient {
      * @param searchFor keyword or phrase that you are searching for
      * @param searchIn  the column in which the search should take place, e.g. path, or date
      * @return ArrayList with the paths that are found
-     * @see ImageDAOManager#search(String, String)
+     * @see ImageDAOManager#search(String, String) ImageDAOManager#search(String, String)
      */
     public ArrayList<String> search(String searchFor, String searchIn) {
         logger.logNewInfo("DatabaseClient : " + "Searching for" + searchFor);
@@ -240,7 +252,7 @@ public class DatabaseClient {
      * @param sortBy    column in database to sort by
      * @param ascending boolean that decides what order the images should be sorted in
      * @return an sorted ArrayList
-     * @see ImageDAOManager#sortBy(String, boolean)
+     * @see ImageDAOManager#sortBy(String, boolean) ImageDAOManager#sortBy(String, boolean)
      */
     public ArrayList<String> sort(String sortBy, boolean ascending) {
         logger.logNewInfo("DatabaseClient : " + "Sorting by " + sortBy);
@@ -257,7 +269,7 @@ public class DatabaseClient {
      *
      * @param name  name of the album
      * @param paths paths to images in the album
-     * @see ImageDAOManager#addAlbum(String, List)
+     * @see ImageDAOManager#addAlbum(String, List) ImageDAOManager#addAlbum(String, List)
      */
     public void addAlbum(String name, List<String> paths) {
         imageDatabase.addAlbum(name, paths);
@@ -267,7 +279,7 @@ public class DatabaseClient {
      * Deletes an album from the database
      *
      * @param name name of the album
-     * @see ImageDAOManager#removeAlbum(String)
+     * @see ImageDAOManager#removeAlbum(String) ImageDAOManager#removeAlbum(String)
      */
     public void removeAlbum(String name) {
         imageDatabase.removeAlbum(name);
@@ -279,7 +291,7 @@ public class DatabaseClient {
      * @param name  name of the album
      * @param paths paths to the images
      * @return true if image is successfully removed, false if not
-     * @see ImageDAOManager#removePathFromAlbum(String, String[])
+     * @see ImageDAOManager#removePathFromAlbum(String, String[]) ImageDAOManager#removePathFromAlbum(String, String[])
      */
     public boolean removeFromAlbum(String name, String[] paths) {
         return imageDatabase.removePathFromAlbum(name, paths);
@@ -291,7 +303,7 @@ public class DatabaseClient {
      * @param name  name of the album
      * @param paths path to the image
      * @return true if image is successfully added, false if not
-     * @see ImageDAOManager#addPathToAlbum(String, ArrayList)
+     * @see ImageDAOManager#addPathToAlbum(String, ArrayList) ImageDAOManager#addPathToAlbum(String, ArrayList)
      */
     public boolean addPathToAlbum(String name, ArrayList<String> paths) {
         return imageDatabase.addPathToAlbum(name, paths);
@@ -301,7 +313,7 @@ public class DatabaseClient {
      * Gets all the albums from the database
      *
      * @return a Map with all existing Albums
-     * @see ImageDAOManager#getAllAlbums()
+     * @see ImageDAOManager#getAllAlbums() ImageDAOManager#getAllAlbums()
      */
     public Map getAllAlbums() {
         return (Map) imageDatabase.getAllAlbums().stream()
