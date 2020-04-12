@@ -277,7 +277,7 @@ public class ControllerMain implements Initializable {
      * When the search button is clicked
      */
     @FXML
-    protected void searchAction(ActionEvent event) {
+    protected void searchAction(ActionEvent event) throws IOException {
         logger.logNewInfo("SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
@@ -295,13 +295,13 @@ public class ControllerMain implements Initializable {
                     clearSelectedImages();
                     for (String s : ControllerSearch.getSearchResults()) {
                         insertImage(s);
-                        ControllerSearch.setSearchSucceed(false);
                     }
                 }
             } catch (Exception e) {
                 logger.logNewFatalError("ControllerMain searchAction " + e.getLocalizedMessage());
             }
         }
+        ControllerSearch.setSearchSucceed(false);
     }
 
     /**
@@ -331,7 +331,6 @@ public class ControllerMain implements Initializable {
             if (result.get() == ButtonType.OK) {
                 Iterator albumIterator;
                 for (String path : getSelectedImages()) {
-                    databaseClient.removeImage(path);
                     albumIterator = getAlbums().entrySet().iterator();
                     //iterates through albums
                     ArrayList<String> emptyAlbums = new ArrayList<>();
@@ -345,6 +344,7 @@ public class ControllerMain implements Initializable {
                         }
                     }
                     emptyAlbums.forEach(ControllerMain::removeAlbum);
+                    databaseClient.removeImage(path);
                 }
                 refreshImages();
                 return true;
@@ -571,7 +571,7 @@ public class ControllerMain implements Initializable {
      *
      * @param path to image object
      */
-    private void insertImage(String path) throws FileNotFoundException {
+    void insertImage(String path) throws FileNotFoundException {
         int row = getNextRow();
         int coloumn = getNextColumn();
         ImageView image = importImage(path);
