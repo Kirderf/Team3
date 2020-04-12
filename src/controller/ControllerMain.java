@@ -74,6 +74,7 @@ public class ControllerMain implements Initializable {
     private Stage worldStage = new Stage();
     private Stage preferenceStage = new Stage();
     private Stage addToAlbumStage = new Stage();
+    private Stage loginStage = new Stage();
 
     //Nodes
     @FXML
@@ -104,19 +105,31 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(!loggedin){
-            loggedin = databaseClient.login("aae","f");
-            System.out.println(loggedin);
+        if(!loggedin) {
+            if (!loginStage.getModality().equals(Modality.APPLICATION_MODAL))
+                loginStage.initModality(Modality.APPLICATION_MODAL);
+            if (!searchStage.getStyle().equals(StageStyle.UTILITY)) searchStage.initStyle(StageStyle.UTILITY);
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/Views/Login.fxml"));
+                loginStage.setScene(new Scene(root));
+                loginStage.setTitle("Search");
+                loginStage.setResizable(false);
+                loginStage.showAndWait();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        if(loggedin) {
+        if (loggedin) {
             logger.logNewInfo("Iitializing ControllerMain");
             pictureGrid.setAlignment(Pos.CENTER);
             imgDataSplitPane.setDividerPositions(splitPanePos);
             if (!loadFromSelectedImages()) refreshImages();
         }
-        else{
+        else {
             quitAction();
         }
+
     }
 
     /**
@@ -130,6 +143,10 @@ public class ControllerMain implements Initializable {
 
     public static String getPathBuffer() {
         return pathBuffer;
+    }
+
+    static void setLoggedin(boolean b){
+        loggedin = b;
     }
 
     public static void setPathBuffer(String pathBuffer) {
@@ -615,8 +632,11 @@ public class ControllerMain implements Initializable {
             if (event.isControlDown()) {
                 //Single click
                 selectImage(imageView, image, path);
-                showMetadata(null);
-                showTags(null);
+                //if the last image is unselected
+                if(!selectedImages.isEmpty()) {
+                    showMetadata(null);
+                    showTags(null);
+                }
             } else {
                 imageView.setImage(image);
                 try {
@@ -640,6 +660,7 @@ public class ControllerMain implements Initializable {
     private void selectImage(ImageView imageView, Image image, String path) {
         if (!getSelectedImages().contains(path)) {
             addToSelectedImages(path);
+            //sets the imageview of the image you clicked to be blue
             imageView.setImage(SwingFXUtils.toFXImage(tint(image), null));
         } else {
             removeFromSelectedImages(path);

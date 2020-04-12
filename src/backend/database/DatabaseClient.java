@@ -55,7 +55,7 @@ public class DatabaseClient {
     public boolean login(String username, String password) {
         logger.logNewInfo("DatabaseClient : login");
         boolean result = imageDatabase.login(username, password);
-        imageDatabase.isAccountPresent();
+        imageDatabase.setInitialized(true);
         return result;
     }
 
