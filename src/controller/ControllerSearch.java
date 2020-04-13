@@ -3,6 +3,8 @@ package controller;
 import backend.util.Log;
 import backend.util.TagTableRow;
 import backend.util.TagTableRow;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +22,7 @@ import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -52,7 +55,7 @@ public class ControllerSearch implements Initializable {
     TableView<TagTableRow> tagTable;
     ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
 
-    static void notNamed(ArrayList<String> tagList, ObservableList<TagTableRow> observeList, TableView<TagTableRow> tagTable, TableColumn<TagTableRow, Integer> id, TableColumn<TagTableRow, CheckBox> select) {
+    private static void notNamed(ArrayList<String> tagList, ObservableList<TagTableRow> observeList, TableView<TagTableRow> tagTable, TableColumn<TagTableRow, Integer> id, TableColumn<TagTableRow, CheckBox> select) {
         for (int i = 0; i < tagList.size(); i++) {
             String t = tagList.get(i);
             CheckBox ch = new CheckBox("" + t);
@@ -64,10 +67,29 @@ public class ControllerSearch implements Initializable {
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     }
+    private ChangeListener<Boolean> enableSearchField(){
+        return (new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue){
+                    searchField.setDisable(false);
+                }
+                else{
+                    if((!pathCheck.isSelected()&&!metaCheck.isSelected()&&!filenameCheck.isSelected())){
+                        searchField.setDisable(true);
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            searchField.setDisable(true);
+            pathCheck.selectedProperty().addListener(enableSearchField());
+            metaCheck.selectedProperty().addListener(enableSearchField());
+            filenameCheck.selectedProperty().addListener(enableSearchField());
             insertTags();
         } catch (SQLException e) {
             logger.logNewFatalError("ControllerSearch initialize " + e.getLocalizedMessage());

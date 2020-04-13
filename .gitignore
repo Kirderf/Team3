@@ -11,4 +11,4 @@ Logs/
 /-
 /resources/.properties
 *.class
-.properties
+resources/.properties
