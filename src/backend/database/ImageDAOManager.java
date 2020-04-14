@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 //use compostion, as the only Image objects we would want to manipulate would be the ones already in the database, therefore it should be done through this class
 public class ImageDAOManager {
     private boolean isInitialized = false;
-    private int instanceID;
+    private long instanceID;
+    private UserDAO userDAO;
     private EntityManagerFactory emf;
 
     /**
@@ -26,13 +27,48 @@ public class ImageDAOManager {
         this.emf = emf;
     }
 
-    /**
-     * Sets instance id.
-     *
-     * @param instanceID the instance id
-     */
-    void setInstanceID(int instanceID) {
-        this.instanceID = instanceID;
+    boolean newUser(String username, String password){
+        EntityManager em = getEM();
+        try {
+            ArrayList<String> usernames = (ArrayList<String>) getAllUsers().stream().map(s->((UserDAO)s).getUsername()).collect(Collectors.toList());
+             if(usernames.contains(username)) return false;
+
+            UserDAO newUser = new UserDAO(username,password);
+            em.getTransaction().begin();
+            em.persist(newUser);
+            em.getTransaction().commit();
+            this.userDAO = newUser;
+            this.instanceID = newUser.getAccountID();
+            return true;
+        } finally {
+            closeEM(em);
+        }
+    }
+    boolean login(String username, String password){
+        EntityManager em = getEM();
+        try {
+            List users = getAllUsers();
+            for(Object u : users){
+                //if username and password are equal
+                if(((UserDAO) u).getUsername().equals(username)&&(((UserDAO) u).verifyPassword(password))){
+                    this.instanceID = ((UserDAO) u).getAccountID();
+                    this.userDAO = ((UserDAO) u);
+                    return true;
+                }
+            }
+        } finally {
+            closeEM(em);
+        }
+        return false;
+    }
+    private List getAllUsers(){
+        EntityManager em = getEM();
+        try {
+            Query q = em.createQuery("SELECT OBJECT(o) FROM UserDAO o");
+            return q.getResultList();
+        } finally {
+            closeEM(em);
+        }
     }
 
     /**
@@ -69,12 +105,10 @@ public class ImageDAOManager {
     void addImageToTable(String path, int fileSize, int date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) {
         EntityManager em = getEM();
         try {
-
-           // addUserTable();
             //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
             path = path.replaceAll("\\\\", "/");
             em.getTransaction().begin();
-            ImageDAO imageDAO = new ImageDAO(instanceID, path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
+            ImageDAO imageDAO = new ImageDAO(userDAO, path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
             em.persist(imageDAO);
             em.getTransaction().commit();//store into database
         } finally {
@@ -82,34 +116,12 @@ public class ImageDAOManager {
         }
     }
 
-    void addUserTable(){
-        EntityManager em = getEM();
-        try{
-            UserDAO testUser = new UserDAO("testusername","testpassword");
-            em.getTransaction().begin();
-            em.persist(testUser);
-            em.getTransaction().commit();
-        } finally {
-            closeEM(em);
-        }
+    private UserDAO findUser(long id){
+        List users = getAllUsers();
+        return (UserDAO) users.stream().filter(x -> ((UserDAO) x).getAccountID() == id).findFirst().get();
+
     }
-    /**
-     * Get all user id in array list.
-     * @return the array list
-     */
-    ArrayList<Integer> getAllUserID(){
-        EntityManager em = getEM();
-        try {
-            if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o");
-                return (ArrayList<Integer>) q.getResultList().stream().map(s->((ImageDAO)s).getUserID()).collect(Collectors.toList());
-            }
-            ;
-            return new ArrayList<Integer>();
-        } finally {
-            closeEM(em);
-        }
-    }
+
 
     /**
      * Add album.
@@ -128,8 +140,8 @@ public class ImageDAOManager {
             }
             em.getTransaction().begin();
             ArrayList<ImageDAO> images = (ArrayList<ImageDAO>) paths.stream().map(s->findImageDAO((String) s)).collect(Collectors.toList());
-            AlbumDAO albumtest = new AlbumDAO(name, images, instanceID);
-            em.persist(albumtest);
+            AlbumDAO newAlbum = new AlbumDAO(name, images, userDAO.getAccountID());
+            em.persist(newAlbum);
             em.getTransaction().commit();
         }
         finally {
@@ -145,8 +157,8 @@ public class ImageDAOManager {
     private AlbumDAO findAlbumDAO(String name){
         EntityManager em = getEM();
         try{
-            List<AlbumDAO> albums = (List<AlbumDAO>) getAllAlbums();
-            return albums.stream().filter(s->s.getAlbumName().equalsIgnoreCase(name)&&s.getUserID()== this.instanceID).collect(Collectors.toList()).get(0);
+            List<AlbumDAO> albums = getAllAlbums();
+            return albums.stream().filter(s->s.getAlbumName().equalsIgnoreCase(name)&&s.getUserID()== this.userDAO.getAccountID()).collect(Collectors.toList()).get(0);
         }
         finally {
             closeEM(em);
@@ -161,7 +173,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userID=" + this.instanceID);
+                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userID=" + this.userDAO.getAccountID());
                 return q.getResultList();
             }
             return Collections.emptyList();
@@ -265,7 +277,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
-            List<ImageDAO> imageDAOList = images.stream().filter(s->s.getPath().equalsIgnoreCase(path)&&s.getUserID()== this.instanceID).collect(Collectors.toList());
+            List<ImageDAO> imageDAOList = images.stream().filter(s->s.getPath().equalsIgnoreCase(path)&&s.getUserDAO().getAccountID() == this.userDAO.getAccountID()).collect(Collectors.toList());
             return imageDAOList.get(0);
         } finally {
             closeEM(em);
@@ -301,33 +313,10 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.userID=" + this.instanceID);
+                Query q = em.createQuery("SELECT OBJECT(o) FROM ImageDAO o WHERE o.userDAO.accountID =" + this.userDAO.getAccountID());
                 return q.getResultList();
             }
             return Collections.emptyList();
-        } finally {
-            closeEM(em);
-        }
-    }
-
-    /**
-     * sets initialized based on whether or not the any account is present.
-     */
-    void isAccountPresent() {
-        if(getNumberOfImageDAO() > 0) setInitialized(true);
-    }
-
-    /**
-     * Gets number of image dao.
-     *
-     * @return the number of image dao
-     */
-    private int getNumberOfImageDAO() {
-        EntityManager em = getEM();
-        try {
-            Query q = em.createQuery("SELECT COUNT (o) FROM ImageDAO o WHERE o.userID =" + this.instanceID);
-            Long num = (Long) q.getSingleResult();
-            return num.intValue();
         } finally {
             closeEM(em);
         }

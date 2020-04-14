@@ -55,7 +55,7 @@ public class ControllerMap implements Initializable {
     public MapView mapView;
 
 
-    private ControllerMap() {
+    public ControllerMap() {
     }
 
     /**

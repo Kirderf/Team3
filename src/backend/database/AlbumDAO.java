@@ -14,7 +14,7 @@ public class AlbumDAO {
     private String albumName;
     @ManyToMany(targetEntity = ImageDAO.class)
     private List<ImageDAO> imageList;
-    private int userID;
+    private long userID;
 
     /**
      * Instantiates a new Album dao.
@@ -29,7 +29,7 @@ public class AlbumDAO {
      * @param imageList the image list
      * @param userID    the user id
      */
-    public AlbumDAO(String albumName, List<ImageDAO> imageList, int userID) {
+    public AlbumDAO(String albumName, List<ImageDAO> imageList, long userID) {
         this.albumName = albumName;
         this.imageList = imageList;
         this.userID = userID;
@@ -103,7 +103,7 @@ public class AlbumDAO {
      *
      * @return the int
      */
-    public int getUserID(){
+    public long getUserID(){
         return userID;
     }
 

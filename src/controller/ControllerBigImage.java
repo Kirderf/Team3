@@ -92,7 +92,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @FXML
     protected void saveAlbumAction(ActionEvent event) throws IOException {
         super.saveAlbumAction(event);
-        addToSelectedImages(pathBuffer);
+        addToSelectedImages(getPathBuffer());
     }
 
     /**
@@ -192,7 +192,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      * When the search button is clicked
      */
     @FXML
-    protected void searchAction(ActionEvent event) {
+    protected void searchAction(ActionEvent event) throws IOException {
+        //this has to be different form the controllermain search
         logger.logNewInfo("SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
@@ -205,10 +206,10 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                 searchStage.setTitle("Search");
                 searchStage.setResizable(false);
                 searchStage.showAndWait();
-
                 if (ControllerSearch.isSearchSucceed()) {
                     ControllerSearch.setSearchSucceed(false);
                     clearSelectedImages();
+                    //when going to library these selected images are shown
                     for (String s : ControllerSearch.getSearchResults()) {
                         addToSelectedImages(s);
                     }
@@ -251,11 +252,11 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     private void showMetadata() {
-        super.showMetadata(pathBuffer);
+        super.showMetadata(getPathBuffer());
     }
 
     private void showTags() {
-        super.showTags(pathBuffer);
+        super.showTags(getPathBuffer());
     }
 
 }

@@ -1,71 +1,97 @@
 package backend.database;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-import java.nio.charset.StandardCharsets;
+import javax.persistence.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.util.List;
 
+/**
+ * The type User dao.
+ */
 @Entity
 public  class UserDAO {
     @Id
-    @GeneratedValue
-    private int accountID;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @OneToMany(targetEntity = ImageDAO.class)
+    private long accountID;
     private String username;
     private String hashedPassword;
     private String saltString;
-    private List<ImageDAO> imageDAOS;
-    @Transient
-    private static int iterations = 10000;
-    @Transient
-    private static int keyLength = 512;
 
 
-    public UserDAO(String username, String password){
-        //high iterations slows down algorithm
-        //hashes password with salt
+    /**
+     * Instantiates a new User dao.
+     *
+     * @param username the username
+     * @param password the password
+     */
+    UserDAO(String username, String password){
 
+        //generates random salt
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
 
-        this.saltString =new String(salt, StandardCharsets.UTF_8);
-
+        //convert password to char arra
         char[] passwordChars = password.toCharArray();
-        byte[] saltBytes = saltString.getBytes();
-        byte[] hashedBytes = hashPassword(passwordChars, saltBytes);
+        //password hashed with salt
+        byte[] hashedBytes = hashPassword(passwordChars, salt);
 
+        //convert hashed password to string to store in datbase
         String hashedString = Hex.encodeHexString(hashedBytes);
-
+        //convert byte to string
+        this.saltString = org.apache.commons.codec.binary.Base64.encodeBase64String(salt);
         this.username = username;
-        this.saltString = new String(salt, StandardCharsets.UTF_8);
         this.hashedPassword = hashedString;
     }
+
+    /**
+     * Instantiates a new User dao.
+     */
     public UserDAO(){
     }
 
-    public boolean verifyPassword(String testPassword){
+    /**
+     * Get account id long.
+     *
+     * @return the long
+     */
+    long getAccountID(){
+        return this.accountID;
+    }
+
+    /**
+     * Verify password boolean.
+     *
+     * @param testPassword the test password
+     * @return the boolean
+     */
+    boolean verifyPassword(String testPassword){
+        //the password that is to be tested
         char[] passwordChars = testPassword.toCharArray();
-        byte[] saltBytes = saltString.getBytes();
-
+        //salt string from the implicit parameter
+        byte[] saltBytes = Base64.decodeBase64(saltString);
+        //hashes the password that is to be tested
         byte[] hashedBytes = hashPassword(passwordChars, saltBytes);
-
+        //converts to string to compare to string in databse
         String hashedString = Hex.encodeHexString(hashedBytes);
+        //if the outputs are equal, then the passwords are equal
         return (hashedString.equals(hashedPassword));
     }
 
     private byte[] hashPassword(final char[] password, final byte[] salt) {
+        //high iterations slows down algorithm
+        int iterations = 10000;
+        int keyLength = 512;
 
         try {
             SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA512" );
+            //encodes password
             PBEKeySpec spec = new PBEKeySpec( password, salt, iterations, keyLength );
             SecretKey key = skf.generateSecret( spec );
             byte[] res = key.getEncoded( );
@@ -75,35 +101,13 @@ public  class UserDAO {
         }
     }
 
-    public String getUsername() {
+    /**
+     * Gets username.
+     *
+     * @return the username
+     */
+    String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getHashedPassword() {
-        return hashedPassword;
-    }
-
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
-    }
-
-    public String getSaltString() {
-        return saltString;
-    }
-
-    public void setSaltString(String saltString) {
-        this.saltString = saltString;
-    }
-
-    public List<ImageDAO> getImageDAOS() {
-        return imageDAOS;
-    }
-
-    public void setImageDAOS(List<ImageDAO> imageDAOS) {
-        this.imageDAOS = imageDAOS;
-    }
 }
