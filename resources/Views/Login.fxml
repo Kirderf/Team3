@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -33,9 +34,9 @@
          </font>
       </Label>
       <TextField fx:id="usernameField" layoutX="50.0" layoutY="120.0" promptText="Username" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-      <TextField fx:id="passwordField" layoutX="50.0" layoutY="150.0" promptText="Password" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
       <Button layoutX="100.0" layoutY="180.0" mnemonicParsing="false" onAction="#loginAction" text="Log In" />
       <Text fill="#787878" layoutX="94.0" layoutY="252.92187499999997" strokeType="OUTSIDE" strokeWidth="0.0" text="New user?" AnchorPane.bottomAnchor="27.078125" AnchorPane.leftAnchor="94.0" />
-      <Hyperlink layoutX="72.0" layoutY="250.99999999999997" onAction="#gotoSignup" prefHeight="25.0" prefWidth="105.0" text="Create an Account" AnchorPane.bottomAnchor="7.666666666666686" AnchorPane.leftAnchor="72.0" />
+      <Hyperlink layoutX="72.0" layoutY="250.99999999999997" onAction="#gotoSignup" prefHeight="25.0" prefWidth="107.0" text="Create an Account" AnchorPane.bottomAnchor="7.666666666666686" AnchorPane.leftAnchor="72.0" />
+      <PasswordField fx:id="passwordField" layoutX="50.0" layoutY="150.0" promptText="Password" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
    </children>
 </AnchorPane>
