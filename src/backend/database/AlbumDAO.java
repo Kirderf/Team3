@@ -112,7 +112,7 @@ public class AlbumDAO {
      *
      * @return the list
      */
-    public List getImages(){
+    public List<ImageDAO> getImages() {
         return imageList;
     }
 
@@ -128,7 +128,7 @@ public class AlbumDAO {
      *
      * @param imageList the image list
      */
-    public void setImages(List imageList){
+    public void setImages(List<ImageDAO> imageList) {
         this.imageList = imageList;
     }
 }

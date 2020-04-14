@@ -110,4 +110,7 @@ public class UserDAO {
         return username;
     }
 
+    public void setAccountID(long accountID) {
+        this.accountID = accountID;
+    }
 }

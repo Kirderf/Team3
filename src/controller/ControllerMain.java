@@ -1,6 +1,7 @@
 package controller;
 
 import backend.database.DatabaseClient;
+import backend.database.ImageDAO;
 import backend.util.ImageExport;
 import backend.util.Log;
 import backend.util.Text_To_Speech;
@@ -42,6 +43,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.*;
 
 
@@ -165,8 +167,8 @@ public class ControllerMain implements Initializable {
      *
      * @return hashmap with saved albums
      */
-    static HashMap<String, ArrayList<String>> getAlbums() {
-        return (HashMap<String, ArrayList<String>>) databaseClient.getAllAlbums();
+    static Map<String, List<ImageDAO>> getAlbums() {
+        return databaseClient.getAllAlbums();
     }
 
     /**
@@ -407,11 +409,7 @@ public class ControllerMain implements Initializable {
             for (String s : sortedList) {
                 insertImage(s);
             }
-            if (ascending) {
-                ascending = false;
-            } else {
-                ascending = true;
-            }
+            ascending = !ascending;
         }
     }
 
@@ -571,7 +569,7 @@ public class ControllerMain implements Initializable {
         p.setStyle("-fx-border-color: black; -fx-background-color: white");
         pictureGrid.add(p, coloumn, row);
         pictureGrid.add(image, coloumn, row);
-        pictureGrid.setHalignment(image, HPos.CENTER);
+        GridPane.setHalignment(image, HPos.CENTER);
         photoCount++;
     }
 

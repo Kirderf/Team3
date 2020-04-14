@@ -47,11 +47,11 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             List<UserDAO> users = getAllUsers();
-            for(Object u : users){
+            for (UserDAO u : users) {
                 //if username and password are equal
-                if(((UserDAO) u).getUsername().equalsIgnoreCase(username)&&(((UserDAO) u).verifyPassword(password))){
-                    this.instanceID = ((UserDAO) u).getAccountID();
-                    this.userDAO = ((UserDAO) u);
+                if (u.getUsername().equalsIgnoreCase(username) && (u.verifyPassword(password))) {
+                    this.instanceID = u.getAccountID();
+                    this.userDAO = u;
                     return true;
                 }
             }
@@ -167,9 +167,10 @@ public class ImageDAOManager {
 
     /**
      * Gets list of albums.
+     *
      * @return the list
      */
-    List getAllAlbums(){
+    List<AlbumDAO> getAllAlbums() {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
@@ -506,16 +507,6 @@ public class ImageDAOManager {
     }
 
     /**
-     * Is path in database boolean.
-     *
-     * @param path the path
-     * @return the boolean
-     */
-    public boolean isPathInDatabase(String path) {
-        return (findImageDAO(path) == null);
-    }
-
-    /**
      * Gets column.
      *
      * @param columnName the column name
@@ -529,21 +520,21 @@ public class ImageDAOManager {
             switch (columnName) {
                 //checks what column you are looking for, creates a new arraylist
                 case "path":
-                    return (ArrayList<String>) imageList.stream().map(ImageDAO::getPath).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getPath).collect(Collectors.toCollection(ArrayList::new));
                 case "tags":
-                    return (ArrayList<String>) imageList.stream().map(ImageDAO::getTags).filter(s->!s.equals("")).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getTags).filter(s -> !s.equals("")).collect(Collectors.toCollection(ArrayList::new));
                 case "file_size":
-                    return (ArrayList<Integer>) imageList.stream().map(ImageDAO::getFileSize).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getFileSize).collect(Collectors.toCollection(ArrayList::new));
                 case "date":
-                    return (ArrayList<Integer>) imageList.stream().map(ImageDAO::getDate).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getDate).collect(Collectors.toCollection(ArrayList::new));
                 case "height":
-                    return (ArrayList<Integer>) imageList.stream().map(ImageDAO::getImageHeight).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getImageHeight).collect(Collectors.toCollection(ArrayList::new));
                 case "width":
-                    return (ArrayList<Integer>) imageList.stream().map(ImageDAO::getImageWidth).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getImageWidth).collect(Collectors.toCollection(ArrayList::new));
                 case "gps_latitude":
-                    return (ArrayList<Double>) imageList.stream().map(ImageDAO::getLatitude).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getLatitude).collect(Collectors.toCollection(ArrayList::new));
                 case "gps_longitude":
-                    return (ArrayList<Double>) imageList.stream().map(ImageDAO::getLongitude).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getLongitude).collect(Collectors.toCollection(ArrayList::new));
                 default:
                     throw new IllegalArgumentException("Invalid Column");
             }

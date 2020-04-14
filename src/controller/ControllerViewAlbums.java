@@ -1,34 +1,31 @@
 package controller;
 
+import backend.database.ImageDAO;
 import backend.util.Log;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
@@ -52,20 +49,19 @@ public class ControllerViewAlbums implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Iterator albumIterator = ControllerMain.getAlbums().entrySet().iterator();
         // Iterate through the hashmap
         // and add some bonus marks for every student
-        while(albumIterator.hasNext()){
-            Map.Entry mapElement = (Map.Entry)albumIterator.next();
+        for (Map.Entry<String, java.util.List<ImageDAO>> stringListEntry : ControllerMain.getAlbums().entrySet()) {
+            Map.Entry mapElement = stringListEntry;
             Pane pane = new Pane();
             pane.setMaxHeight(100);
             pane.setMinWidth(100);
             pane.setMinHeight(100);
             pane.setMaxWidth(100);
-            BufferedImage bufferedImage = new BufferedImage(100,100,TYPE_INT_ARGB);
-            for (int x = 0; x<bufferedImage.getWidth(); x++) {
-                for (int y = 0; y<bufferedImage.getHeight(); y++) {
-                    if((x>5*bufferedImage.getWidth()/6||x<bufferedImage.getWidth()/6)||(y>5*bufferedImage.getHeight()/6||y<bufferedImage.getHeight()/6)) {
+            BufferedImage bufferedImage = new BufferedImage(100, 100, TYPE_INT_ARGB);
+            for (int x = 0; x < bufferedImage.getWidth(); x++) {
+                for (int y = 0; y < bufferedImage.getHeight(); y++) {
+                    if ((x > 5 * bufferedImage.getWidth() / 6 || x < bufferedImage.getWidth() / 6) || (y > 5 * bufferedImage.getHeight() / 6 || y < bufferedImage.getHeight() / 6)) {
                         Color black = new Color(0, 0, 0);
                         bufferedImage.setRGB(x, y, black.getRGB());
                     }
@@ -85,7 +81,7 @@ public class ControllerViewAlbums implements Initializable {
             pane.setLayoutX(pane.getLayoutX());
 
             clickedOn = event -> showAlbum(key);
-            pane.addEventHandler(MouseEvent.MOUSE_CLICKED,clickedOn);
+            pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickedOn);
             albumTilePane.getChildren().add(pane);
         }
 
@@ -131,8 +127,8 @@ public class ControllerViewAlbums implements Initializable {
         ControllerMain.clearSelectedImages();
         if(!ControllerMain.getAlbums().isEmpty()) {
             if(ControllerMain.getAlbums().get(name)!=null) {
-                for(String s : ControllerMain.getAlbums().get(name)){
-                    ControllerMain.addToSelectedImages(s);
+                for (ImageDAO s : ControllerMain.getAlbums().get(name)) {
+                    ControllerMain.addToSelectedImages(s.getPath());
                 }
             }
             else{
