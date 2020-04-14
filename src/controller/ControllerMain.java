@@ -633,7 +633,7 @@ public class ControllerMain implements Initializable {
                 selectImage(imageView, image, path);
                 //if the last image is unselected
                 showMetadata(null);
-                showTags(null);
+                showTags();
             } else {
                 imageView.setImage(image);
                 try {
@@ -744,7 +744,7 @@ public class ControllerMain implements Initializable {
     }
 
 
-    protected void showTags(String imagePath) {
+    void showTags() {
         if (selectedImages.isEmpty()){
             tagVbox.getChildren().clear();
             return;
@@ -752,8 +752,9 @@ public class ControllerMain implements Initializable {
         String path = getSelectedImages().get(getSelectedImages().size() - 1);
         tagVbox.getChildren().clear();
         String[] tags = getDatabaseClient().getTags(path).split(",");
-        for (int i = 0; i < tags.length; i++) {
-            tagVbox.getChildren().add(new Label(tags[i]));
+        Arrays.sort(tags);
+        for (String tag : tags) {
+            tagVbox.getChildren().add(new Label(tag));
         }
     }
 
