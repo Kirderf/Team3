@@ -2,32 +2,24 @@ package backend.util;
 
 import javafx.scene.control.CheckBox;
 
-import java.util.logging.Logger;
-
 /**
- * used for rows when adding tags.
+ * This class is used to create objects to occupy a TableView, in our case
+ * each object of this class represents a row in a table of tags. Each row
+ * has it's own tag and checkbox.
  */
 public class TagTableRow {
     private static final Log logger = new Log();
 
-    /**
-     * The Id.
-     */
     int id;
-    /**
-     * The Tag name.
-     */
     String tagName;
-    /**
-     * The Check box.
-     */
     CheckBox checkBox;
 
     /**
-     * Instantiates a new Tag table row.
-     * @param id       the id
-     * @param tagName  the tag name
-     * @param checkBox the check box
+     * Initializes a new Tag table row.
+     *
+     * @param id       the row's id
+     * @param tagName  the row's tag
+     * @param checkBox the row's checkbox
      */
     public TagTableRow(int id, String tagName, CheckBox checkBox) {
         logger.logNewInfo("new TagTableRow" + " id: " + id + ", tag name: " + tagName + ", checkbox: " + checkBox.toString());
@@ -37,7 +29,7 @@ public class TagTableRow {
     }
 
     /**
-     * Gets id.
+     * Gets the id.
      *
      * @return the id
      */
@@ -46,7 +38,7 @@ public class TagTableRow {
     }
 
     /**
-     * Sets id.
+     * Sets the id.
      *
      * @param id the id
      */
@@ -55,36 +47,36 @@ public class TagTableRow {
     }
 
     /**
-     * Gets name.
+     * Gets the tag.
      *
-     * @return the name
+     * @return the tag
      */
     public String getName() {
         return tagName;
     }
 
     /**
-     * Sets name.
+     * Sets the tag
      *
-     * @param name the name
+     * @param name the tag
      */
     public void setName(String name) {
-        this.tagName = tagName;
+        this.tagName = name;
     }
 
     /**
-     * Gets check box.
+     * Gets checkbox.
      *
-     * @return the check box
+     * @return the checkbox
      */
     public CheckBox getCheckBox() {
         return checkBox;
     }
 
     /**
-     * Sets check box.
+     * Sets checkbox.
      *
-     * @param checkBox the check box
+     * @param checkBox the checkbox
      */
     public void setCheckBox(CheckBox checkBox) {
         this.checkBox = checkBox;
