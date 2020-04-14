@@ -107,11 +107,11 @@ public class ControllerMain implements Initializable {
         if(!loggedin) {
             if (!loginStage.getModality().equals(Modality.APPLICATION_MODAL))
                 loginStage.initModality(Modality.APPLICATION_MODAL);
-            if (!searchStage.getStyle().equals(StageStyle.UTILITY)) searchStage.initStyle(StageStyle.UTILITY);
+            if (!loginStage.getStyle().equals(StageStyle.UTILITY)) loginStage.initStyle(StageStyle.UTILITY);
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/Login.fxml"));
                 loginStage.setScene(new Scene(root));
-                loginStage.setTitle("Search");
+                loginStage.setTitle("Log in");
                 loginStage.setResizable(false);
                 loginStage.showAndWait();
 

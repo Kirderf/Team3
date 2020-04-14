@@ -1,6 +1,6 @@
 package controller;
 
-import backend.AlbumRow;
+import backend.util.AlbumRow;
 import backend.util.Log;
 import backend.util.TagTableRow;
 import javafx.collections.FXCollections;

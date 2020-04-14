@@ -49,7 +49,7 @@ public class ImageDAOManager {
             List<UserDAO> users = getAllUsers();
             for(Object u : users){
                 //if username and password are equal
-                if(((UserDAO) u).getUsername().equals(username)&&(((UserDAO) u).verifyPassword(password))){
+                if(((UserDAO) u).getUsername().equalsIgnoreCase(username)&&(((UserDAO) u).verifyPassword(password))){
                     this.instanceID = ((UserDAO) u).getAccountID();
                     this.userDAO = ((UserDAO) u);
                     return true;

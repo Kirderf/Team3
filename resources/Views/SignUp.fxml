@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -33,7 +34,7 @@
          </font>
       </Label>
       <TextField fx:id="usernameFieldS" layoutX="50.0" layoutY="120.0" promptText="Username" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-      <TextField fx:id="passwordFieldS" layoutX="50.0" layoutY="150.0" promptText="Password" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <PasswordField fx:id="passwordFieldS" layoutX="53.0" layoutY="150.0" promptText="Password" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
       <Button layoutX="95.0" layoutY="180.0" mnemonicParsing="false" onAction="#signupAction" text="Sign Up" />
       <Text fill="#787878" layoutX="60.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account?" AnchorPane.bottomAnchor="27.0" />
       <Hyperlink layoutX="86.0" layoutY="258.0" onAction="#gotoLogin" text="Log in instead" AnchorPane.bottomAnchor="7.666666666666668" />
