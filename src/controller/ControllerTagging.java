@@ -12,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -35,7 +34,6 @@ public class ControllerTagging implements Initializable {
 
 
     static ArrayList<String> bufferTags = new ArrayList<>();
-    ArrayList<String> newTagNames = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -78,17 +76,16 @@ public class ControllerTagging implements Initializable {
             String s = newTagList.get(i);
             boolean exists = false;
             for (TagTableRow t : observeList) {
-                System.out.println("s: " + s + ", t: " + t);
                 if (t.getName().equals(s)) {
                     exists = true;
                     break;
                 }
             }
 
-            if(!exists) {
+            if (!exists) {
                 CheckBox ch = new CheckBox("" + s);
                 //automatically selects the new tags
-                if (newTagNames.contains(s)) ch.setSelected(true);
+                if (bufferTags.contains(s)) ch.setSelected(true);
                 if (Arrays.asList(alreadySelected).contains(s)) ch.setSelected(true);
                 observeList.add(new TagTableRow(i, s, ch));
             }
@@ -150,7 +147,7 @@ public class ControllerTagging implements Initializable {
     private void newTagAction(ActionEvent ae) throws SQLException {
         //if any of the tags added this session have been unchecked, they are removed from the arraylist
         //the tagsAddedThisSession arraylist decides whether or not the tags are checked when inserting
-        getUncheckedBoxes().forEach(newTagNames::remove);
+        getUncheckedBoxes().forEach(bufferTags::remove);
         TextInputDialog d = new TextInputDialog();
         d.setTitle("New tag");
         d.setContentText("Tag:");
@@ -160,7 +157,8 @@ public class ControllerTagging implements Initializable {
         Optional<String> input = d.showAndWait();
 
         if (input.isPresent()) {
-            if (input.get().contains(",")) {
+            String tag = input.get().substring(0, 1).toUpperCase() + input.get().substring(1).toLowerCase();
+            if (tag.contains(",")) {
                 Alert a = new Alert(Alert.AlertType.ERROR);
                 a.setHeaderText(null);
                 a.setContentText("The tag cannot contain ','!");
@@ -168,9 +166,16 @@ public class ControllerTagging implements Initializable {
                 logger.logNewWarning("User attempted to create a tag containing ','");
                 return;
             }
-            if (!input.get().equals("")) {
-                newTagNames.add(input.get());
-                bufferTags.add(input.get());
+
+            if (!tag.equals("")) {
+                if (tagInTable(tag)) {
+                    Alert a = new Alert(Alert.AlertType.ERROR);
+                    a.setHeaderText(null);
+                    a.setContentText("This tag already exists");
+                    a.showAndWait();
+                    return;
+                }
+                bufferTags.add(tag);
             } else {
                 Alert a = new Alert(Alert.AlertType.ERROR);
                 a.setTitle("404: Tag name not found");
@@ -182,6 +187,18 @@ public class ControllerTagging implements Initializable {
         }
 
         insertTags();
+    }
+
+    public boolean tagInTable(String inTag) {
+        if (bufferTags.contains(inTag)){
+            return true;
+        }
+        for (TagTableRow t : observeList){
+            if(t.getName().equals(inTag)){
+                return true;
+            }
+        }
+        return false;
     }
 
     protected static ArrayList<String> getAllTags() throws SQLException {
