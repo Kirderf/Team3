@@ -1,8 +1,8 @@
 /out/*
 .idea/*
-target/
+target/*
 target
-Logs/
+Logs/*
 .vscode/*
 .settings/*
 .classpath

@@ -57,9 +57,9 @@ public class Log {
      */
     private static String pickLog() {
         //three valid logs
-        logs.add("Logs/Log1.log");
-        logs.add("Logs/Log2.log");
-        logs.add("Logs/Log3.log");
+        logs.add(System.getProperty("user.dir")+File.separator+"Logs"+File.separator+"Log1.log");
+        logs.add(System.getProperty("user.dir")+File.separator+"Logs"+File.separator+"Log2.log");
+        logs.add(System.getProperty("user.dir")+File.separator+"Logs"+File.separator+"Log3.log");
         //places the one that is the oldest last
         logs.sort((o1, o2) -> {
             File file1 = new File(o1);
