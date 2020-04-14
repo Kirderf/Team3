@@ -95,8 +95,6 @@ public class ControllerMain implements Initializable {
     @FXML
     private Menu buttonHome;
 
-    protected static Button stageButton;
-
     private Text_To_Speech voice = Text_To_Speech.getInstance();
     private int photoCount = 0;
     private int rowCount = 0;
@@ -144,22 +142,42 @@ public class ControllerMain implements Initializable {
         return databaseClient;
     }
 
+    /**
+     * Get current selected path
+     * @return pathBuffer string with path
+     */
     public static String getPathBuffer() {
         return pathBuffer;
     }
 
+    /**
+     * Set login status
+     * @param b login status
+     */
     static void setLoggedin(boolean b) {
         loggedin = b;
     }
 
+    /**
+     * Set current selected path
+     * @param pathBuffer string with path
+     */
     public static void setPathBuffer(String pathBuffer) {
         ControllerMain.pathBuffer = pathBuffer;
     }
 
+    /**
+     * Set split pane posistion
+     * @param pos position
+     */
     public static void setSplitPanePos(double pos) {
         splitPanePos = pos;
     }
 
+    /**
+     * Get split pane position
+     * @return double position
+     */
     public static double getSplitPanePos() {
         return splitPanePos;
     }
