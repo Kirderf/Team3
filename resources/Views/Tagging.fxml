@@ -18,7 +18,7 @@
       </Label>
       <HBox prefHeight="27.0" prefWidth="304.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <Button fx:id="newTagButton" mnemonicParsing="false" prefWidth="60.0" text="New Tag" onAction="#newTagAction">
+            <Button fx:id="newTagButton" mnemonicParsing="false" onAction="#newTagAction" prefWidth="60.0" text="New Tag">
                <HBox.margin>
                   <Insets right="80.0" />
                </HBox.margin>
@@ -26,12 +26,12 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Button>
-            <Button fx:id="taggingCancel" mnemonicParsing="false" prefWidth="60.0" text="Cancel" onAction="#cancelAction">
+            <Button fx:id="taggingCancel" mnemonicParsing="false" onAction="#cancelAction" prefWidth="60.0" text="Cancel">
                <HBox.margin>
                   <Insets left="70.0" right="5.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="taggingDone" mnemonicParsing="false" prefWidth="60.0" text="Done" onAction="#doneAction">
+            <Button fx:id="taggingDone" mnemonicParsing="false" onAction="#doneAction" prefWidth="60.0" text="Done">
                <HBox.margin>
                   <Insets />
                </HBox.margin></Button>
@@ -40,7 +40,8 @@
       <TableView fx:id="taggingTable" layoutX="15.0" layoutY="42.0" prefHeight="136.0" prefWidth="330.0">
         <columns>
           <TableColumn fx:id="select" prefWidth="296.0" text="Tag" />
-          <TableColumn fx:id="id" minWidth="0.0" prefWidth="33.0" text="id" />
+            <TableColumn prefWidth="75.0" text="name" visible="false" />
+          <TableColumn fx:id="id" minWidth="0.0" prefWidth="33.0" text="id" visible="false" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

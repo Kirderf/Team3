@@ -4,22 +4,17 @@ import backend.util.Log;
 import backend.util.TagTableRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
 
 public class ControllerTagging implements Initializable {
     private static final Log logger = new Log();
-    @FXML
-    private Button newTagButton;
     @FXML
     private Button taggingCancel;
     @FXML
@@ -40,12 +35,12 @@ public class ControllerTagging implements Initializable {
         try {
             logger.logNewInfo("Initializing controllerTagging");
             insertTags();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
         }
     }
 
-    ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
+    private ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
 
     /**
      * Finds all available tags, assigns their labels and checkboxes and adds them to an observable
@@ -53,9 +48,8 @@ public class ControllerTagging implements Initializable {
      */
     @FXML
     @SuppressWarnings("Duplicates")
-    private void insertTags() throws SQLException {
+    private void insertTags() {
         logger.logNewInfo("Inserting tags in ControllerTagging");
-        //taggingTable.getItems().clear();
 
         ArrayList<String> tagList = getAllTags();
 
@@ -87,13 +81,12 @@ public class ControllerTagging implements Initializable {
                 //automatically selects the new tags
                 if (bufferTags.contains(s)) ch.setSelected(true);
                 if (Arrays.asList(alreadySelected).contains(s)) ch.setSelected(true);
-                observeList.add(new TagTableRow(i, s, ch));
+                observeList.add(new TagTableRow(observeList.size()+i, s, ch));
             }
         }
 
         taggingTable.setItems(observeList);
-        id.setCellValueFactory(new PropertyValueFactory<TagTableRow, Integer>("id"));
-        select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
+        select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     }
 
     /**
@@ -101,39 +94,31 @@ public class ControllerTagging implements Initializable {
      * Goes through each checkbox, checking which ones are selected, and sends a string array with
      * all the selected tags to the database.
      *
-     * @param ae
-     * @throws SQLException
      */
     @FXML
-    private void doneAction(ActionEvent ae) throws SQLException {
+    private void doneAction() {
         ArrayList<String> tempUnchecked = getUncheckedBoxes();
-        String[] uncheckedTags = tempUnchecked.toArray(new String[tempUnchecked.size()]);
-        //used in contains later
-        bufferTags.forEach(String::toLowerCase);
+        String[] uncheckedTags = tempUnchecked.toArray(new String[0]);
         //prompts the user that tags will not be saved
-        for (int i = 0; i < tempUnchecked.size(); i++) {
-            if (bufferTags.contains(tempUnchecked.get(i).toLowerCase())) {
+        for (String s : tempUnchecked) {
+            if (bufferTags.contains(s.toLowerCase())) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Please be advised that tags that are not applied to an image will not be saved");
                 Optional<ButtonType> option = alert.showAndWait();
-                if (option.get() != ButtonType.OK) {
-                    //if they are not ok with saving their tags
+                if (option.isPresent() && option.get() != ButtonType.OK) {
                     return;
-                } else {
-                    i = tempUnchecked.size();
                 }
             }
         }
         bufferTags.clear();
         ArrayList<String> tempTagList = getCheckedBoxes();
-        String[] tagList = tempTagList.toArray(new String[tempTagList.size()]);
+        String[] tagList = tempTagList.toArray(new String[0]);
         ControllerMain.getDatabaseClient().addTag(ControllerMain.getPathBuffer(), tagList);
         ControllerMain.getDatabaseClient().removeTag(ControllerMain.getPathBuffer(), uncheckedTags);
         ((Stage) taggingDone.getScene().getWindow()).close();
     }
 
     @FXML
-    private void cancelAction(ActionEvent ae) {
-        //bufferTags.clear();
+    private void cancelAction() {
         ((Stage) taggingCancel.getScene().getWindow()).close();
     }
 
@@ -141,10 +126,9 @@ public class ControllerTagging implements Initializable {
      * Activates when the user presses the "New Tag" button.
      * Opens a new window where the user can create a new tag.
      *
-     * @param ae
      */
     @FXML
-    private void newTagAction(ActionEvent ae) throws SQLException {
+    private void newTagAction() {
         //if any of the tags added this session have been unchecked, they are removed from the arraylist
         //the tagsAddedThisSession arraylist decides whether or not the tags are checked when inserting
         getUncheckedBoxes().forEach(bufferTags::remove);
@@ -171,7 +155,7 @@ public class ControllerTagging implements Initializable {
                 if (tagInTable(tag)) {
                     Alert a = new Alert(Alert.AlertType.ERROR);
                     a.setHeaderText(null);
-                    a.setContentText("This tag already exists");
+                    a.setContentText("The tag '" + tag + "' already exists!");
                     a.showAndWait();
                     return;
                 }
@@ -189,19 +173,19 @@ public class ControllerTagging implements Initializable {
         insertTags();
     }
 
-    public boolean tagInTable(String inTag) {
-        if (bufferTags.contains(inTag)){
+    private boolean tagInTable(String inTag) {
+        if (bufferTags.contains(inTag)) {
             return true;
         }
-        for (TagTableRow t : observeList){
-            if(t.getName().equals(inTag)){
+        for (TagTableRow t : observeList) {
+            if (t.getName().equals(inTag)) {
                 return true;
             }
         }
         return false;
     }
 
-    protected static ArrayList<String> getAllTags() throws SQLException {
+    static ArrayList<String> getAllTags() {
         ArrayList tagStrings = ControllerMain.getDatabaseClient().getColumn("Tags");
         LinkedHashSet<String> hashSet = new LinkedHashSet<>();
         for (Object s : tagStrings) {
@@ -212,7 +196,7 @@ public class ControllerTagging implements Initializable {
         return tagList;
     }
 
-    protected ArrayList<String> getCheckedBoxes() {
+    private ArrayList<String> getCheckedBoxes() {
         ArrayList<String> tempTagList = new ArrayList<>();
         for (TagTableRow tb : taggingTable.getItems()) {
             if (tb.getCheckBox().isSelected()) {
