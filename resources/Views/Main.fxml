@@ -106,7 +106,7 @@
     <bottom>
         <HBox BorderPane.alignment="CENTER">
             <children>
-                <ComboBox fx:id="sortDropDown" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="174.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#sortAction" prefHeight="25.0" prefWidth="174.0" promptText="Sort by">
+                <ComboBox fx:id="sortDropDown" nodeOrientation="LEFT_TO_RIGHT" onAction="#sortAction" prefHeight="26.0" prefWidth="178.0" promptText="Sort by">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:id="sortByFilename" fx:value="Filename" />

@@ -24,6 +24,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -109,7 +110,7 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(!loggedin) {
+        if (!loggedin) {
             if (!loginStage.getModality().equals(Modality.APPLICATION_MODAL))
                 loginStage.initModality(Modality.APPLICATION_MODAL);
             try {
@@ -124,12 +125,11 @@ public class ControllerMain implements Initializable {
             }
         }
         if (loggedin) {
-            logger.logNewInfo("Iitializing ControllerMain");
+            logger.logNewInfo("Initializing ControllerMain");
             pictureGrid.setAlignment(Pos.CENTER);
             imgDataSplitPane.setDividerPositions(splitPanePos);
             if (!loadFromSelectedImages()) refreshImages();
-        }
-        else {
+        } else {
             quitAction();
         }
 
@@ -148,7 +148,7 @@ public class ControllerMain implements Initializable {
         return pathBuffer;
     }
 
-    static void setLoggedin(boolean b){
+    static void setLoggedin(boolean b) {
         loggedin = b;
     }
 
@@ -183,7 +183,6 @@ public class ControllerMain implements Initializable {
     }
 
 
-
     /**
      * sets the imageBuffer
      *
@@ -195,6 +194,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * returns a hashmap with all the images that have valid g
+     *
      * @return
      */
     public static HashMap<String, String> getLocations() {
@@ -207,20 +207,22 @@ public class ControllerMain implements Initializable {
 
     /**
      * adds an album to the albums hashmap
-     * @param key the name of the album
+     *
+     * @param key    the name of the album
      * @param images arraylist containing the path to teh images
      */
     private static void newAlbum(String key, ArrayList<String> images) {
-        databaseClient.addAlbum(key,images);
+        databaseClient.addAlbum(key, images);
     }
 
     /**
      * adds the following paths to an existing album
-     * @param name the name of the existing album
+     *
+     * @param name   the name of the existing album
      * @param images Arraylist with the path to the images you want to add
      */
-    static void addPathsToAlbum(String name, ArrayList<String> images){
-        databaseClient.addPathToAlbum(name,images);
+    static void addPathsToAlbum(String name, ArrayList<String> images) {
+        databaseClient.addPathToAlbum(name, images);
     }
 
     /**
@@ -257,23 +259,24 @@ public class ControllerMain implements Initializable {
      *
      * @param s the path that you want to add to the image
      */
-    static void addToSelectedImages(String s){
+    static void addToSelectedImages(String s) {
         selectedImages.add(s);
     }
 
     /**
      * clears the selected images
      */
-    static void clearSelectedImages(){
+    static void clearSelectedImages() {
         selectedImages.clear();
     }
 
     /**
      * removes a specific image from the selected images
+     *
      * @param path the path to the image you want to remove
      * @return boolean whether or not the removal was successful
      */
-    private static boolean removeFromSelectedImages(String path){
+    private static boolean removeFromSelectedImages(String path) {
         return selectedImages.remove(path);
     }
 
@@ -310,6 +313,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * Remove images from view and database
+     *
      * @param event
      * @return true if something is deleted or false if nothing is deleted.
      * @throws SQLException
@@ -338,13 +342,13 @@ public class ControllerMain implements Initializable {
                     albumIterator = getAlbums().entrySet().iterator();
                     //iterates through albums
                     ArrayList<String> emptyAlbums = new ArrayList<>();
-                    while(albumIterator.hasNext()){
+                    while (albumIterator.hasNext()) {
                         Map.Entry albumEntry = (Map.Entry) albumIterator.next();
                         //if the image is in the album then it is removed
                         ((ArrayList<String>) albumEntry.getValue()).remove(path);
                         //if the last image was just removed, then the album is deleted
                         if (((ArrayList<String>) albumEntry.getValue()).isEmpty()) {
-                            emptyAlbums.add((String)albumEntry.getKey());
+                            emptyAlbums.add((String) albumEntry.getKey());
                         }
                     }
                     emptyAlbums.forEach(ControllerMain::removeAlbum);
@@ -532,7 +536,8 @@ public class ControllerMain implements Initializable {
         voice.speak("Help");
         if (!aboutStage.isShowing()) {
             Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
-            if(aboutStage.getModality() != Modality.APPLICATION_MODAL) aboutStage.initModality(Modality.APPLICATION_MODAL);
+            if (aboutStage.getModality() != Modality.APPLICATION_MODAL)
+                aboutStage.initModality(Modality.APPLICATION_MODAL);
             aboutStage.setScene(new Scene(root));
             aboutStage.setTitle("About");
             aboutStage.setResizable(false);
@@ -579,7 +584,6 @@ public class ControllerMain implements Initializable {
         int row = getNextRow();
         int coloumn = getNextColumn();
         ImageView image = importImage(path);
-        //if the image has already been added
         Pane p = new Pane();
         p.setStyle("-fx-border-color: black; -fx-background-color: white");
         pictureGrid.add(p, coloumn, row);
@@ -626,29 +630,31 @@ public class ControllerMain implements Initializable {
      * normal clicks tags the image and adds it to selected images
      *
      * @param imageView the image that you want to view or mark when clicked
-     * @param image the image that the imageview should display
-     * @param path the local path to the image on the user's machine
+     * @param image     the image that the imageview should display
+     * @param path      the local path to the image on the user's machine
      * @return eventhandler that marks the images as directed
      */
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path) {
         return (EventHandler<MouseEvent>) event -> {
-            //Ctrl click
-            if (event.isControlDown()) {
-                //Single click
-                selectImage(imageView, image, path);
-                //if the last image is unselected
-                showMetadata(null);
-                showTags();
-            } else {
-                imageView.setImage(image);
-                try {
-                    showBigImage(imageView, path);
-                } catch (IOException e) {
-                    logger.logNewFatalError("ControllerMain onImageClickedEvent " + e.getLocalizedMessage());
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                //Ctrl click
+                if (event.isControlDown()) {
+                    //Single click
+                    selectImage(imageView, image, path);
+                    //if the last image is unselected
+                    showMetadata(null);
+                    showTags();
+                } else {
+                    imageView.setImage(image);
+                    try {
+                        showBigImage(imageView, path);
+                    } catch (IOException e) {
+                        logger.logNewFatalError("ControllerMain onImageClickedEvent " + e.getLocalizedMessage());
+                    }
+
                 }
 
             }
-
         };
     }
 
@@ -656,8 +662,8 @@ public class ControllerMain implements Initializable {
      * select the image and tints it, if it is already selected then the tint is removed
      *
      * @param imageView the imageview that you want to update with the new image
-     * @param image the image that you want to tint
-     * @param path the path to the photo
+     * @param image     the image that you want to tint
+     * @param path      the path to the photo
      */
     private void selectImage(ImageView imageView, Image image, String path) {
         if (!getSelectedImages().contains(path)) {
@@ -731,11 +737,11 @@ public class ControllerMain implements Initializable {
      * @param imagePath the path to the image from which you are getting the metadata
      */
     protected void showMetadata(String imagePath) {
-        if(selectedImages.isEmpty()) {
+        if (selectedImages.isEmpty()) {
             metadataVbox.getChildren().clear();
             return;
         }
-        String path = getSelectedImages().get(getSelectedImages().size()-1);
+        String path = getSelectedImages().get(getSelectedImages().size() - 1);
         metadataVbox.getChildren().clear();
         String[] metadata = getDatabaseClient().getMetaDataFromDatabase(path);
         textField.setText("Path :" + metadata[0]);
@@ -750,7 +756,7 @@ public class ControllerMain implements Initializable {
 
 
     void showTags() {
-        if (selectedImages.isEmpty()){
+        if (selectedImages.isEmpty()) {
             tagVbox.getChildren().clear();
             return;
         }
@@ -826,8 +832,8 @@ public class ControllerMain implements Initializable {
                             clearSelectedImages();
                         } else {
                             ArrayList<String> tempArray = new ArrayList<>(getSelectedImages());
-                            newAlbum(result.get(),tempArray);
-                            new Alert(Alert.AlertType.INFORMATION, "Images were successfully added to the album [" + result.get()+"]").showAndWait();
+                            newAlbum(result.get(), tempArray);
+                            new Alert(Alert.AlertType.INFORMATION, "Images were successfully added to the album [" + result.get() + "]").showAndWait();
                             refreshImages();
                         }
                     } else {
@@ -880,12 +886,13 @@ public class ControllerMain implements Initializable {
 
     /**
      * Loads images from selected paths
+     *
      * @return true if images are selected, else false
      */
     private boolean loadFromSelectedImages() {
-        if(!getSelectedImages().isEmpty()) {
+        if (!getSelectedImages().isEmpty()) {
             clearView();
-            getSelectedImages().forEach(path-> {
+            getSelectedImages().forEach(path -> {
                 try {
                     insertImage(path);
                 } catch (FileNotFoundException e) {
@@ -904,7 +911,7 @@ public class ControllerMain implements Initializable {
      */
     //TODO check if any of the other methods on stackoverflow tint quicker
     private static BufferedImage tint(Image imageInput) {
-        BufferedImage image = SwingFXUtils.fromFXImage(imageInput,null);
+        BufferedImage image = SwingFXUtils.fromFXImage(imageInput, null);
         //if colourblind
         if (ControllerPreferences.isColourChecked()) {
             for (int x = 0; x < image.getWidth(); x++) {
