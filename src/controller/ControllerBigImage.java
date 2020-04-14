@@ -8,16 +8,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -32,17 +37,16 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @FXML
     private ImageView bigImage;
     @FXML
-    private VBox metadataVbox;
+    private Menu buttonHome;
+    @FXML
+    Label homeLabel;
     @FXML
     private GridPane bigImageGrid;
-
     @FXML
     private TextField textField;
 
     @FXML
     private VBox imageVbox;
-    @FXML
-    private VBox tagVbox;
     @FXML
     private SplitPane bigImgDataSplitPane;
 
@@ -61,12 +65,15 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         textField.setEditable(false);
         bigImgDataSplitPane.setDividerPositions(getSplitPanePos());
     }
-    public static String getImagePath(){
+
+    public static String getImagePath() {
         return imagePath;
     }
-    public static void setImagePath(String s){
+
+    public static void setImagePath(String s) {
         imagePath = s;
     }
+
     @FXML
     /**
      * when go to library is pressed
@@ -169,14 +176,15 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     /**
      * Remove image that is being shown
+     *
      * @param event
+     * @return boolean true if something is deleted or false if nothing is deleted.
      * @throws SQLException
      * @throws IOException
-     * @return boolean true if something is deleted or false if nothing is deleted.
      */
     @FXML
     protected boolean removeAction(ActionEvent event) throws SQLException, IOException {
-        if(super.removeAction(event)) {
+        if (super.removeAction(event)) {
             goToLibrary(event);
             return true;
         }
@@ -256,4 +264,13 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         super.showTags();
     }
 
+    public void tintHome() {
+        buttonHome.setStyle("-fx-background-color:#0096c9;");
+        homeLabel.setOpacity(1);
+    }
+
+    public void untintHome() {
+        buttonHome.setStyle("-fx-background-color:transparent;");
+        homeLabel.setOpacity(0);
+    }
 }

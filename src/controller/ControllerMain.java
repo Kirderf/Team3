@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -88,6 +89,10 @@ public class ControllerMain implements Initializable {
     private VBox tagVbox;
     @FXML
     protected SplitPane imgDataSplitPane;
+    @FXML
+    protected Label homeLabel;
+    @FXML
+    private Menu buttonHome;
 
     protected static Button stageButton;
 
@@ -982,6 +987,16 @@ public class ControllerMain implements Initializable {
             new Alert(Alert.AlertType.WARNING, "You need to select some images to add to the albums").showAndWait();
         }
         refreshImages();
+    }
+
+    public void tintHome() {
+        buttonHome.setStyle("-fx-background-color:#0096c9;");
+        homeLabel.setOpacity(1);
+    }
+
+    public void untintHome() {
+        buttonHome.setStyle("-fx-background-color:transparent;");
+        homeLabel.setOpacity(0);
     }
 }
 

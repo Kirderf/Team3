@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -22,43 +23,53 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
     <top>
-        <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" BorderPane.alignment="CENTER">
-            <menus>
-                <Menu fx:id="fileButton" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="File">
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+              <MenuBar maxHeight="30.0" prefHeight="30.0" prefWidth="717.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <menus>
+                  <Menu fx:id="buttonHome" mnemonicParsing="false" text="Home">
                     <items>
-                        <MenuItem fx:id="importButton" mnemonicParsing="false" onAction="#importAction" onMenuValidation="#TextToSpeakOnMenu" text="Import" />
-                        <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" onMenuValidation="#TextToSpeakOnMenu" text="Export" />
-                        <MenuItem fx:id="addToAlbum" mnemonicParsing="false" onAction="#addToAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Add to album" />
-                        <MenuItem fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Save to album" />
-                        <MenuItem fx:id="removeButton" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#preferencesAction" text="Preferences..." />
-                        <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
                     </items>
-                </Menu>
-                <Menu fx:id="searchbutton" mnemonicParsing="false" onAction="#searchAction" onMenuValidation="#TextToSpeakOnMenu" text="Search">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Search" />
-                    </items>
-                </Menu>
-                <Menu fx:id="returnToLibrary" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="Library">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#goToLibrary" text="Go to library" />
-                   <MenuItem mnemonicParsing="false" onAction="#viewAlbums" text="View Albums" />
-               </items>
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#goToMap" text="Go to map" />
-                    </items>
-                </Menu>
-                <Menu fx:id="helpButton" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#helpAction" text="About" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
+                  </Menu>
+                      <Menu fx:id="fileButton" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="File">
+                          <items>
+                              <MenuItem fx:id="importButton" mnemonicParsing="false" onAction="#importAction" onMenuValidation="#TextToSpeakOnMenu" text="Import" />
+                              <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" onMenuValidation="#TextToSpeakOnMenu" text="Export" />
+                              <MenuItem fx:id="addToAlbum" mnemonicParsing="false" onAction="#addToAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Add to album" />
+                              <MenuItem fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Save to album" />
+                              <MenuItem fx:id="removeButton" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" onAction="#preferencesAction" text="Preferences..." />
+                              <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
+                          </items>
+                      </Menu>
+                      <Menu fx:id="searchbutton" mnemonicParsing="false" onAction="#searchAction" onMenuValidation="#TextToSpeakOnMenu" text="Search">
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="Search" />
+                          </items>
+                      </Menu>
+                      <Menu fx:id="returnToLibrary" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="Library">
+                     <items>
+                         <MenuItem mnemonicParsing="false" onAction="#viewAlbums" text="View Albums" />
+                     </items>
+                          <items>
+                              <MenuItem mnemonicParsing="false" onAction="#goToMap" text="Go to map" />
+                          </items>
+                      </Menu>
+                      <Menu fx:id="helpButton" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="Help">
+                          <items>
+                              <MenuItem mnemonicParsing="false" onAction="#helpAction" text="About" />
+                          </items>
+                      </Menu>
+                  </menus>
+              </MenuBar>
+            <Label fx:id="homeLabel" layoutX="16.0" layoutY="4.0" opacity="0.0" text="Home" textFill="WHITE" />
+            <Button layoutX="8.0" mnemonicParsing="false" onAction="#goToLibrary" onMouseEntered="#tintHome" onMouseExited="#untintHome" opacity="0.0" text="Home" />
+         </children>
+      </AnchorPane>
     </top>
     <left>
         <SplitPane fx:id="imgDataSplitPane" dividerPositions="0.5112612612612613" orientation="VERTICAL" prefHeight="446.0" prefWidth="184.0" BorderPane.alignment="CENTER">
