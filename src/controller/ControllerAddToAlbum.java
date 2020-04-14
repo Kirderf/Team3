@@ -1,5 +1,6 @@
 package controller;
 
+import backend.database.ImageDAO;
 import backend.util.AlbumRow;
 import backend.util.Log;
 import backend.util.TagTableRow;
@@ -37,27 +38,28 @@ public class ControllerAddToAlbum implements Initializable {
 
     /**
      * gets an iterator that iterates over the albums in controllerMain
+     *
      * @return Iterator on ControllerMain albums
      */
-    private Iterator getAlbumIterator(){
+    private Iterator<Map.Entry<String, List<ImageDAO>>> getAlbumIterator() {
         return ControllerMain.getAlbums().entrySet().iterator();
     }
 
     /**
      * inserts the album into the list of checkboxes
      */
-    private void insertAlbums(){
-        Iterator albumIterator = getAlbumIterator();
+    private void insertAlbums() {
+        Iterator<Map.Entry<String, List<ImageDAO>>> albumIterator = getAlbumIterator();
         int counter = 1;
-        while(albumIterator.hasNext()){
-            Map.Entry album = (Map.Entry)albumIterator.next();
-            CheckBox ch = new CheckBox(""+(String)album.getKey());
-            albumList.add(new AlbumRow(counter, "",ch));
+        while (albumIterator.hasNext()) {
+            Map.Entry<String, List<ImageDAO>> album = albumIterator.next();
+            CheckBox ch = new CheckBox("" + album.getKey());
+            albumList.add(new AlbumRow(counter, "", ch));
             counter++;
         }
         albumTable.setItems(albumList);
-        id.setCellValueFactory(new PropertyValueFactory<TagTableRow,Integer>("ID"));
-        select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
+        id.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     }
 
     /**

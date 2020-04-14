@@ -22,7 +22,6 @@ public class DatabaseClient {
     private static DatabaseClient instance;
     private static ImageDAOManager imageDatabase = null;
     private static EntityManagerFactory emf = null;
-    private static Properties properties;
 
     /**
      * This constructor creates a DatabaseClient object, which represents a users unique instance of the program.
@@ -33,7 +32,7 @@ public class DatabaseClient {
     private DatabaseClient() {
         Map newProperties = new HashMap();
         //loads the local .properties file
-        properties = loadProperties();
+        Properties properties = loadProperties();
         //loads username and password to local map
         newProperties.put("javax.persistence.jdbc.user", properties.getProperty("USERNAME"));
         newProperties.put("javax.persistence.jdbc.password", properties.getProperty("PASSWORD"));
@@ -115,8 +114,8 @@ public class DatabaseClient {
      * @return an ArrayList of data objects
      * @see ImageDAOManager#getColumn(String) ImageDAOManager#getColumn(String)
      */
-    public ArrayList<String> getColumn(String columnName) {
-        return (ArrayList<String>) imageDatabase.getColumn(columnName);
+    public ArrayList<?> getColumn(String columnName) {
+        return imageDatabase.getColumn(columnName);
     }
 
     /**
@@ -227,7 +226,7 @@ public class DatabaseClient {
             return imageDatabase.search(searchFor, searchIn);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
-            return (ArrayList) Collections.emptyList();
+            return new ArrayList<>();
         }
     }
 

@@ -31,19 +31,66 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class ControllerViewAlbums implements Initializable {
     private static final Log logger = new Log();
-
+    private static String albumToBeDeleted;
+    private static boolean albumSelected = false;
     @FXML
     private MenuItem albumDelete;
     @FXML
     private TilePane albumTilePane;
     @FXML
     private VBox albumView;
-    private static String albumToBeDeleted;
-    private EventHandler clickedOn;
-    private static boolean albumSelected = false;
+    private EventHandler<MouseEvent> clickedOn;
+
+    /**
+     * whether or not a specific album has been selected
+     *
+     * @return boolean
+     */
+    public static boolean isAlbumSelected() {
+        return albumSelected;
+    }
+
+    /**
+     * Is used to change whether or not an album is selected
+     *
+     * @param b boolean
+     */
+    public static void setAlbumSelected(boolean b) {
+        albumSelected = b;
+    }
+
+    /**
+     * the name of the album that is to be deleted
+     *
+     * @return String
+     */
+    static String getAlbumToBeDeleted() {
+        return albumToBeDeleted;
+    }
+
+    /**
+     * Changes the album that the user wants to delete
+     *
+     * @param s the name of the new album that is to be deleted
+     */
+    static void setAlbumToBeDeleted(String s) {
+        albumToBeDeleted = s;
+    }
+
+    /**
+     * removes the album from the hashmap in main
+     *
+     * @param name
+     */
+    //TODO change this to boolean
+    public static void deleteAlbum(String name) {
+        //deletes the selected album from the arraylist
+        ControllerMain.removeAlbum(name);
+    }
 
     /**
      * adds all the albums to the view when the window is first opened
+     *
      * @param location
      * @param resources
      */
@@ -52,7 +99,6 @@ public class ControllerViewAlbums implements Initializable {
         // Iterate through the hashmap
         // and add some bonus marks for every student
         for (Map.Entry<String, java.util.List<ImageDAO>> stringListEntry : ControllerMain.getAlbums().entrySet()) {
-            Map.Entry mapElement = stringListEntry;
             Pane pane = new Pane();
             pane.setMaxHeight(100);
             pane.setMinWidth(100);
@@ -70,9 +116,9 @@ public class ControllerViewAlbums implements Initializable {
             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
             ImageView testView = new ImageView();
             testView.setImage(image);
-            String key = (mapElement.getKey().toString());
-            Text name = new Text(mapElement.getKey().toString());
-            name.setId(mapElement.getKey().toString());
+            String key = (stringListEntry.getKey());
+            Text name = new Text(stringListEntry.getKey());
+            name.setId(stringListEntry.getKey());
             name.setFill(Paint.valueOf("#000000"));
             name.setLayoutX(25);
             name.setLayoutY(35);
@@ -88,68 +134,38 @@ public class ControllerViewAlbums implements Initializable {
     }
 
     /**
-     * whether or not a specific album has been selected
-     * @return boolean
-     */
-    public static boolean isAlbumSelected(){
-        return albumSelected;
-    }
-
-    /**
-     * Is used to change whether or not an album is selected
-     * @param b boolean
-     */
-    public static void setAlbumSelected(boolean b){
-        albumSelected = b;
-    }
-
-    /**
-     * the name of the album that is to be deleted
-     * @return String
-     */
-    static String getAlbumToBeDeleted(){
-        return albumToBeDeleted;
-    }
-
-    /**
-     * Changes the album that the user wants to delete
-     * @param s the name of the new album that is to be deleted
-     */
-    static void setAlbumToBeDeleted(String s){
-        albumToBeDeleted = s;
-    }
-
-    /**
      * when an album is clicked on, this shows it in the main view
+     *
      * @param name name of the album that the user wants to view
      */
     private void showAlbum(String name) {
         ControllerMain.clearSelectedImages();
-        if(!ControllerMain.getAlbums().isEmpty()) {
-            if(ControllerMain.getAlbums().get(name)!=null) {
+        if (!ControllerMain.getAlbums().isEmpty()) {
+            if (ControllerMain.getAlbums().get(name) != null) {
                 for (ImageDAO s : ControllerMain.getAlbums().get(name)) {
                     ControllerMain.addToSelectedImages(s.getPath());
                 }
-            }
-            else{
+            } else {
                 ControllerMain.clearSelectedImages();
             }
         }
         albumSelected = true;
         ((Stage) albumTilePane.getScene().getWindow()).close();
     }
-    public void closeWindow(){
+
+    public void closeWindow() {
         ((Stage) albumTilePane.getScene().getWindow()).close();
     }
+
     //this is the event handler that makes shows the deletion prompt
-    public EventHandler deletePane(Pane pane){
-        return ((EventHandler<MouseEvent>) event -> {
+    public EventHandler<MouseEvent> deletePane(Pane pane) {
+        return event -> {
             try {
                 deleteConfirmation(pane);
             } catch (IOException e) {
                 logger.logNewFatalError("ControllerViewAlbums deletePane " + e.getLocalizedMessage());
             }
-        });
+        };
     }
 
     /**
@@ -158,13 +174,13 @@ public class ControllerViewAlbums implements Initializable {
     public void deleteAction() {
         //iterates through all albums
         new Alert(Alert.AlertType.INFORMATION, "Select an album to delete").showAndWait();
-        for(int i = 0; i<albumTilePane.getChildren().size();i++){
+        for (int i = 0; i < albumTilePane.getChildren().size(); i++) {
             //if it is a pane it is an album
-            if(albumTilePane.getChildren().get(i) instanceof Pane){
+            if (albumTilePane.getChildren().get(i) instanceof Pane) {
                 //gets the corrensponding album
                 Pane pane = (Pane) albumTilePane.getChildren().get(i);
                 //removes the eventhandler that shows the album when it is clicked on
-                albumTilePane.getChildren().get(i).removeEventHandler(MouseEvent.MOUSE_CLICKED,clickedOn);
+                albumTilePane.getChildren().get(i).removeEventHandler(MouseEvent.MOUSE_CLICKED, clickedOn);
                 //ads the event handler that confirms that the user wants to delete the album
                 albumTilePane.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, deletePane(pane));
             }
@@ -173,6 +189,7 @@ public class ControllerViewAlbums implements Initializable {
 
     /**
      * shows delete confirmation window
+     *
      * @param pane the pane that you want to confirm deletion off
      * @throws IOException input of confirmation.fxml
      */
@@ -185,7 +202,7 @@ public class ControllerViewAlbums implements Initializable {
         alert.setContentText(getAlbumToBeDeleted());
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             ControllerViewAlbums.deleteAlbum(getAlbumToBeDeleted());
             ControllerViewAlbums.setAlbumToBeDeleted("");
             addBackEvents();
@@ -201,24 +218,14 @@ public class ControllerViewAlbums implements Initializable {
     /**
      * removes the deletion event and adds back the view album event
      */
-    public void addBackEvents(){
-        for(int i = 0; i<albumTilePane.getChildren().size();i++){
-            if(albumTilePane.getChildren().get(i) instanceof Pane){
+    public void addBackEvents() {
+        for (int i = 0; i < albumTilePane.getChildren().size(); i++) {
+            if (albumTilePane.getChildren().get(i) instanceof Pane) {
                 Pane albumPane = (Pane) albumTilePane.getChildren().get(i);
-                albumTilePane.getChildren().get(i).removeEventHandler(MouseEvent.MOUSE_CLICKED,deletePane(albumPane));
+                albumTilePane.getChildren().get(i).removeEventHandler(MouseEvent.MOUSE_CLICKED, deletePane(albumPane));
                 albumTilePane.getChildren().get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, clickedOn);
             }
         }
 
-    }
-
-    /**
-     * removes the album from the hashmap in main
-     * @param name
-     */
-    //TODO change this to boolean
-    public static void deleteAlbum(String name){
-        //deletes the selected album from the arraylist
-        ControllerMain.removeAlbum(name);
     }
 }

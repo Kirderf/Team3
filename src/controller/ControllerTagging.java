@@ -52,12 +52,11 @@ public class ControllerTagging implements Initializable {
      * list, which is then inserted into a table list that's presented to the user.
      */
     @FXML
-    @SuppressWarnings("Duplicates")
     protected void insertTags() throws SQLException {
         logger.logNewInfo("Inserting tags in ControllerTagging");
         taggingTable.getItems().clear();
 
-        ArrayList tagList = getAllTags();
+        ArrayList<String> tagList = getAllTags();
 
         ArrayList<String> newTagList;
         Set<String> set = new LinkedHashSet<>(tagList);
@@ -71,35 +70,35 @@ public class ControllerTagging implements Initializable {
         String[] alreadySelected = ControllerMain.getDatabaseClient().getTags(ControllerMain.getPathBuffer()).split(",");
         for (int i = 0; i < newTagList.size(); i++) {
             String t = newTagList.get(i);
-            CheckBox ch = new CheckBox(""+t);
+            CheckBox ch = new CheckBox("" + t);
             //automatically selects the new tags
-            if(newTagNames.contains(t)) ch.setSelected(true);
-            if(Arrays.asList(alreadySelected).contains(t)) ch.setSelected(true);
+            if (newTagNames.contains(t)) ch.setSelected(true);
+            if (Arrays.asList(alreadySelected).contains(t)) ch.setSelected(true);
             observeList.add(new TagTableRow(i, "", ch));
         }
 
         taggingTable.setItems(observeList);
-        id.setCellValueFactory(new PropertyValueFactory<TagTableRow, Integer>("id"));
-        select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     }
 
     /**
      * Activates when the user presses the "Done" button.
      * Goes through each checkbox, checking which ones are selected, and sends a string array with
      * all the selected tags to the database.
+     *
      * @param ae
-     * @throws SQLException
      */
     @FXML
-    private void doneAction(ActionEvent ae) throws SQLException {
+    private void doneAction(ActionEvent ae) {
         ArrayList<String> tempUnchecked = getUncheckedBoxes();
         String[] uncheckedTags = tempUnchecked.toArray(new String[tempUnchecked.size()]);
         //used in contains later
         bufferTags.forEach(String::toLowerCase);
         //prompts the user that tags will not be saved
-        for(int i = 0;i<tempUnchecked.size(); i++) {
+        for (int i = 0; i < tempUnchecked.size(); i++) {
             if (bufferTags.contains(tempUnchecked.get(i).toLowerCase())) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Please be advised that tags that are not applied to an image will not be saved");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Please be advised that tags that are not applied to an image will not be saved");
                 Optional<ButtonType> option = alert.showAndWait();
                 if (option.get() != ButtonType.OK) {
                     //if they are not ok with saving their tags
@@ -127,10 +126,9 @@ public class ControllerTagging implements Initializable {
     /**
      * Activates when the user presses the "New Tag" button.
      * Opens a new window where the user can create a new tag.
-     * @param ae
      */
     @FXML
-    private void newTagAction(ActionEvent ae) throws SQLException {
+    private void newTagAction() throws SQLException {
         //if any of the tags added this session have been unchecked, they are removed from the arraylist
         //the tagsAddedThisSession arraylist decides whether or not the tags are checked when inserting
         getUncheckedBoxes().forEach(newTagNames::remove);
@@ -159,8 +157,8 @@ public class ControllerTagging implements Initializable {
         insertTags();
     }
 
-    protected static ArrayList<String> getAllTags() throws SQLException {
-        ArrayList tagStrings = ControllerMain.getDatabaseClient().getColumn("Tags");
+    protected static ArrayList<String> getAllTags() {
+        ArrayList<String> tagStrings = (ArrayList<String>) ControllerMain.getDatabaseClient().getColumn("Tags");
         LinkedHashSet<String> hashSet = new LinkedHashSet<>();
         for (Object s : tagStrings) {
             hashSet.addAll(Arrays.asList(s.toString().split(",")));

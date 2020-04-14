@@ -2,29 +2,24 @@ package controller;
 
 import backend.util.Log;
 import backend.util.Text_To_Speech;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ControllerBigImage extends ControllerMain implements Initializable {
@@ -32,7 +27,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     private Stage addTagStage = new Stage();
     private Stage importStage = new Stage();
     private Text_To_Speech voice = Text_To_Speech.getInstance();
-    private static String imagePath;
     @FXML
     private ImageView bigImage;
     @FXML
@@ -50,6 +44,9 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @FXML
     private SplitPane bigImgDataSplitPane;
 
+    public static void setImagePath(String s) {
+    }
+
     /**
      * Run 1 time once the window opens
      *
@@ -65,12 +62,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         textField.setEditable(false);
         bigImgDataSplitPane.setDividerPositions(getSplitPanePos());
     }
-    public static String getImagePath(){
-        return imagePath;
-    }
-    public static void setImagePath(String s){
-        imagePath = s;
-    }
+
     @FXML
     /**
      * when go to library is pressed
@@ -173,14 +165,14 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     /**
      * Remove image that is being shown
+     *
      * @param event
-     * @throws SQLException
-     * @throws IOException
      * @return boolean true if something is deleted or false if nothing is deleted.
+     * @throws IOException
      */
     @FXML
-    protected boolean removeAction(ActionEvent event) throws SQLException, IOException {
-        if(super.removeAction(event)) {
+    protected boolean removeAction(ActionEvent event) throws IOException {
+        if (super.removeAction(event)) {
             goToLibrary(event);
             return true;
         }
@@ -192,7 +184,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      * When the search button is clicked
      */
     @FXML
-    protected void searchAction(ActionEvent event) throws IOException {
+    protected void searchAction(ActionEvent event) {
         //this has to be different form the controllermain search
         logger.logNewInfo("SearchAction");
         voice.speak("Searching");
@@ -251,12 +243,12 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         textField.setText(getSelectedImages().get(getSelectedImages().size() - 1));
     }
 
-    private void showMetadata() {
-        super.showMetadata(getPathBuffer());
+    protected void showMetadata() {
+        super.showMetadata();
     }
 
-    private void showTags() {
-        super.showTags(getPathBuffer());
+    protected void showTags() {
+        super.showTags();
     }
 
 }

@@ -80,8 +80,8 @@ public class ControllerImport implements Initializable {
         /**
          * List for containing temporary file explorer results
          */
-        List<File> list =  fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
-        ArrayList<String> paths = ControllerMain.getDatabaseClient().getColumn("Path");
+        List<File> list = fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
+        ArrayList<String> paths = (ArrayList<String>) ControllerMain.getDatabaseClient().getColumn("Path");
         ArrayList<File> presentFiles = new ArrayList<>();
         if (list != null) {
             paths.forEach((x) -> {

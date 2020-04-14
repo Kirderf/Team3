@@ -3,7 +3,6 @@ package backend.database;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -512,7 +511,7 @@ public class ImageDAOManager {
      * @param columnName the column name
      * @return the column
      */
-    ArrayList<? extends Serializable> getColumn(String columnName) {
+    ArrayList<?> getColumn(String columnName) {
         EntityManager em = getEM();
         try {
             columnName = columnName.toLowerCase();
