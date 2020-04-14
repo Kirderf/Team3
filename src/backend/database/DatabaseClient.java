@@ -200,12 +200,10 @@ public class DatabaseClient {
      * Removes an image from the database.
      *
      * @param path the image's path
-     * @return true boolean
      * @see ImageDAOManager#removeImageDAO(String) ImageDAOManager#removeImageDAO(String)
      */
-    public boolean removeImage(String path) {
+    public void removeImage(String path) {
         imageDatabase.removeImageDAO(path);
-        return true;
     }
 
 
@@ -214,16 +212,14 @@ public class DatabaseClient {
      *
      * @param path path to the image
      * @param tags String array of tags to be removed
-     * @return true if the tags are successfully removed, false if not
      * @see ImageDAOManager#removeTag(String, String[]) ImageDAOManager#removeTag(String, String[])
      */
-    public boolean removeTag(String path, String[] tags) {
+    public void removeTag(String path, String[] tags) {
         logger.logNewInfo("DatabaseClient : Removing tag from " + path);
         try {
-            return imageDatabase.removeTag(path, tags);
+            imageDatabase.removeTag(path, tags);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
-            return false;
         }
     }
 

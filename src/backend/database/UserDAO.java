@@ -2,6 +2,7 @@ package backend.database;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
+
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -14,7 +15,7 @@ import java.security.spec.InvalidKeySpecException;
  * The type User dao.
  */
 @Entity
-public  class UserDAO {
+public class UserDAO {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @OneToMany(targetEntity = ImageDAO.class)
@@ -30,7 +31,7 @@ public  class UserDAO {
      * @param username the username
      * @param password the password
      */
-    UserDAO(String username, String password){
+    UserDAO(String username, String password) {
 
         //generates random salt
         SecureRandom random = new SecureRandom();
@@ -53,7 +54,7 @@ public  class UserDAO {
     /**
      * Instantiates a new User dao.
      */
-    public UserDAO(){
+    public UserDAO() {
     }
 
     /**
@@ -61,7 +62,7 @@ public  class UserDAO {
      *
      * @return the long
      */
-    long getAccountID(){
+    long getAccountID() {
         return this.accountID;
     }
 
@@ -71,7 +72,7 @@ public  class UserDAO {
      * @param testPassword the test password
      * @return the boolean
      */
-    boolean verifyPassword(String testPassword){
+    boolean verifyPassword(String testPassword) {
         //the password that is to be tested
         char[] passwordChars = testPassword.toCharArray();
         //salt string from the implicit parameter
@@ -90,14 +91,13 @@ public  class UserDAO {
         int keyLength = 512;
 
         try {
-            SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA512" );
+            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
             //encodes password
-            PBEKeySpec spec = new PBEKeySpec( password, salt, iterations, keyLength );
-            SecretKey key = skf.generateSecret( spec );
-            byte[] res = key.getEncoded( );
-            return res;
-        } catch ( NoSuchAlgorithmException | InvalidKeySpecException e ) {
-            throw new RuntimeException( e );
+            PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, keyLength);
+            SecretKey key = skf.generateSecret(spec);
+            return key.getEncoded();
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
         }
     }
 

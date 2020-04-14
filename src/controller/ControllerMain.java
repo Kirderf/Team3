@@ -1,9 +1,9 @@
 package controller;
 
-import backend.util.Text_To_Speech;
 import backend.database.DatabaseClient;
 import backend.util.ImageExport;
 import backend.util.Log;
+import backend.util.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -16,11 +16,11 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -238,15 +238,6 @@ public class ControllerMain implements Initializable {
         return selectedImages;
     }
 
-    /**
-     * clears the selected images and sets it equal to the new arraylist
-     *
-     * @param s the new arraylist with image paths
-     */
-    public static void setSelectedImages(ArrayList<String> s) {
-        selectedImages.clear();
-        selectedImages = s;
-    }
 
     /**
      * adds a path to the selectedimages
