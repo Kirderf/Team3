@@ -3,14 +3,19 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ControllerSignup {
+public class ControllerSignup implements Initializable {
 
     @FXML
     private TextField usernameFieldS;
@@ -18,18 +23,31 @@ public class ControllerSignup {
     @FXML
     private TextField passwordFieldS;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        passwordFieldS.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)){
+                signupAction();
+            }
+        });
+        usernameFieldS.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)){
+                signupAction();
+            }
+        });
+    }
+
     @FXML
     void gotoLogin(ActionEvent event) throws IOException {
         usernameFieldS.getScene().setRoot(ControllerLogin.getContent());
     }
 
     @FXML
-    void signupAction(ActionEvent event){
-        if(ControllerMain.getDatabaseClient().newUser(usernameFieldS.getText(),passwordFieldS.getText())){
+    void signupAction() {
+        if (ControllerMain.getDatabaseClient().newUser(usernameFieldS.getText(), passwordFieldS.getText())) {
             ControllerMain.setLoggedin(true);
             ((Stage) usernameFieldS.getScene().getWindow()).close();
-        }
-        else{
+        } else {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Error when logging in");
             error.setHeaderText(null);
@@ -38,7 +56,7 @@ public class ControllerSignup {
         }
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return usernameFieldS.getText();
     }
 
@@ -49,4 +67,6 @@ public class ControllerSignup {
     public static Parent getContent() throws IOException {
         return FXMLLoader.load(ControllerSignup.class.getResource("/Views/SignUp.fxml"));
     }
+
+
 }
