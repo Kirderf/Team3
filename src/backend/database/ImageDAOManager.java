@@ -133,7 +133,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             for(Object a : getAllAlbums()){
-                if(((AlbumDAO) a).getAlbumName().equalsIgnoreCase(name)){
+                if(a instanceof AlbumDAO && ((AlbumDAO) a).getAlbumName().equalsIgnoreCase(name)){
                     //throw exception here because it should not be possible to enter a name that already exists due to previous checks
                     throw new IllegalArgumentException("That album already exists");
                 }
@@ -217,7 +217,7 @@ public class ImageDAOManager {
         try {
             AlbumDAO albumDAO = findAlbumDAO(name);
             for (String s : paths) {
-                if (!albumDAO.getImages().contains(s)) {
+                if (!albumDAO.getImagePaths().contains(s)) {
                     albumDAO.addImage(findImageDAO(s));
                 } else {
                     //counts number of paths already present
@@ -248,8 +248,7 @@ public class ImageDAOManager {
         try {
             AlbumDAO albumDAO = findAlbumDAO(name);
             for (String s : paths) {
-                if (albumDAO.getImages().contains(s.toLowerCase())) {
-                    //The first letter is a capital letter, rest is lower case
+                if (albumDAO.getImagePaths().contains(s.toLowerCase())) {
                     albumDAO.removeImage(findImageDAO(s));
                 } else {
                     //counts number of tags already present

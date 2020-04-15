@@ -352,26 +352,27 @@ public class ControllerMain implements Initializable {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
             confirm.setTitle("Confirmation Dialog");
             confirm.setHeaderText("Are you sure you want to remove " + getSelectedImages().size() + " images?");
-            confirm.setContentText("This action is not revertable!");
+            confirm.setContentText("This action is not revertible!");
             Optional<ButtonType> result = confirm.showAndWait();
             if (result.get() == ButtonType.OK) {
                 Iterator albumIterator;
                 for (String path : getSelectedImages()) {
-                    albumIterator = getAlbums().entrySet().iterator();
-                    //iterates through albums
-                    ArrayList<String> emptyAlbums = new ArrayList<>();
-                    while (albumIterator.hasNext()) {
-                        Map.Entry albumEntry = (Map.Entry) albumIterator.next();
-                        //if the image is in the album then it is removed
-                        ((ArrayList<String>) albumEntry.getValue()).remove(path);
-                        //if the last image was just removed, then the album is deleted
-                        if (((ArrayList<String>) albumEntry.getValue()).isEmpty()) {
-                            emptyAlbums.add((String) albumEntry.getKey());
-                        }
-                    }
-                    emptyAlbums.forEach(ControllerMain::removeAlbum);
+                    //removes images, this deletion is cascaded to albums as well
                     databaseClient.removeImage(path);
                 }
+                albumIterator = getAlbums().entrySet().iterator();
+                ArrayList<String> emptyAlbums = new ArrayList<>();
+                //iterates through albums to find empty ones
+                while (albumIterator.hasNext()) {
+                    Map.Entry albumEntry = (Map.Entry) albumIterator.next();
+                    //if the last image was just removed, then the album is deleted
+                    if (((ArrayList<String>) albumEntry.getValue()).isEmpty()) {
+                        //can't edit hashmap while iterating over it, so the albums to be removed are saved for later
+                        emptyAlbums.add((String) albumEntry.getKey());
+                    }
+                }
+                emptyAlbums.forEach(ControllerMain::removeAlbum);
+
                 refreshImages();
                 return true;
             } else {

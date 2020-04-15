@@ -1,7 +1,10 @@
 package backend.database;
 
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The type Album dao.
@@ -13,6 +16,7 @@ public class AlbumDAO {
     private int albumId;
     private String albumName;
     @ManyToMany(targetEntity = ImageDAO.class)
+    @CascadeOnDelete
     private List<ImageDAO> imageList;
     private long userID;
 
@@ -117,18 +121,15 @@ public class AlbumDAO {
     }
 
     /**
-     * Clear images.
-     */
-    public void clearImages(){
-        this.imageList.clear();
-    }
-
-    /**
      * Set images.
      *
      * @param imageList the image list
      */
     public void setImages(List<ImageDAO> imageList) {
         this.imageList = imageList;
+    }
+
+    public List<String> getImagePaths(){
+        return getImages().stream().map(ImageDAO::getPath).collect(Collectors.toList());
     }
 }

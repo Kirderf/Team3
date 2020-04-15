@@ -317,12 +317,6 @@ public class DatabaseClient {
     public Map getAllAlbums() {
         return (Map) imageDatabase.getAllAlbums().stream()
                 //collects the stream into the hashmap, calling the key becoming each objects album name
-                .collect(Collectors.toMap(AlbumDAO::getAlbumName,
-                        //gets the images belonging belonging to the album
-                        s -> s.getImages().stream()
-                                //calls getpath on each of these
-                                .map(a -> ((ImageDAO) a).getPath())
-                                //collects the results into a list which is the value in the hashmap
-                                .collect(Collectors.toList())));
+                .collect(Collectors.toMap(AlbumDAO::getAlbumName,AlbumDAO::getImagePaths));
     }
 }
