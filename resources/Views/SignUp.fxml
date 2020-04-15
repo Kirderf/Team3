@@ -13,29 +13,29 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="284.0" prefWidth="255.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerSignup">
    <children>
-      <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="-57.0" layoutY="-27.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
          <image>
-            <Image url="@../squareLogo.JPG" />
+            <Image url="@../squareLogo.png" />
          </image>
       </ImageView>
-      <Label layoutX="79.0" layoutY="21.0" text="Photo" textFill="#ad5555">
+      <Label layoutX="85.0" layoutY="22.0" text="Photo" textFill="#da4848">
          <font>
             <Font size="35.0" />
          </font>
       </Label>
-      <Label layoutX="172.0" layoutY="21.0" text="App" textFill="#8c1212">
+      <Label layoutX="176.0" layoutY="21.0" text="App" textFill="#bc3236">
          <font>
             <Font size="35.0" />
          </font>
       </Label>
-      <Label layoutX="53.0" layoutY="92.0" text="Sign Up" textFill="#787878">
+      <Label layoutX="53.0" layoutY="94.0" text="Sign Up" textFill="#787878">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="usernameFieldS" layoutX="50.0" layoutY="120.0" promptText="Username" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-      <PasswordField fx:id="passwordFieldS" layoutX="53.0" layoutY="150.0" promptText="Password" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-      <Button layoutX="95.0" layoutY="180.0" mnemonicParsing="false" onAction="#signupAction" text="Sign Up" />
+      <TextField fx:id="usernameFieldS" layoutX="50.0" layoutY="122.0" promptText="Username" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <PasswordField fx:id="passwordFieldS" layoutX="53.0" layoutY="152.0" promptText="Password" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <Button layoutX="95.0" layoutY="182.0" mnemonicParsing="false" onAction="#signupAction" text="Sign Up" />
       <Text fill="#787878" layoutX="60.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account?" AnchorPane.bottomAnchor="27.0" />
       <Hyperlink layoutX="86.0" layoutY="258.0" onAction="#gotoLogin" text="Log in instead" AnchorPane.bottomAnchor="7.666666666666668" />
    </children>
