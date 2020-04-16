@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,22 +21,26 @@ public class ControllerSignup implements Initializable {
     @FXML
     private TextField passwordFieldS;
 
+    public static Parent getContent() throws IOException {
+        return FXMLLoader.load(ControllerSignup.class.getResource("/Views/SignUp.fxml"));
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         passwordFieldS.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)){
+            if (event.getCode().equals(KeyCode.ENTER)) {
                 signupAction();
             }
         });
         usernameFieldS.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)){
+            if (event.getCode().equals(KeyCode.ENTER)) {
                 signupAction();
             }
         });
     }
 
     @FXML
-    void gotoLogin(ActionEvent event) throws IOException {
+    void gotoLogin() throws IOException {
         usernameFieldS.getScene().setRoot(ControllerLogin.getContent());
     }
 
@@ -54,18 +56,6 @@ public class ControllerSignup implements Initializable {
             error.setContentText("There was an error when attempting registration, that username is taken, or you have used non-ascii characters in your username/password ");
             error.showAndWait();
         }
-    }
-
-    public String getUsername() {
-        return usernameFieldS.getText();
-    }
-
-    public String getPassword() {
-        return passwordFieldS.getText();
-    }
-
-    public static Parent getContent() throws IOException {
-        return FXMLLoader.load(ControllerSignup.class.getResource("/Views/SignUp.fxml"));
     }
 
 
