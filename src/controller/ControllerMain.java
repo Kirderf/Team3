@@ -634,7 +634,7 @@ public class ControllerMain implements Initializable {
         imageView.setPreserveRatio(true);
         imageView.maxHeight(185);
         //If image height is greater than width, only lock the height to the grid
-        if (image.getHeight() - image.getWidth() >= 0) {
+        if (image.getHeight() - image.getWidth() > 0) {
             imageView.fitHeightProperty().bind(pictureGrid.getRowConstraints().get(0).prefHeightProperty());
         } else {
             imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(5));
