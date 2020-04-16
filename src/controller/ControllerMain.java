@@ -355,20 +355,25 @@ public class ControllerMain implements Initializable {
             confirm.setContentText("This action is not revertible!");
             Optional<ButtonType> result = confirm.showAndWait();
             if (result.get() == ButtonType.OK) {
-                Iterator albumIterator;
-                for (String path : getSelectedImages()) {
-                    //removes images, this deletion is cascaded to albums as well
-                    databaseClient.removeImage(path);
-                }
-                albumIterator = getAlbums().entrySet().iterator();
+                Iterator albumIterator = getAlbums().entrySet().iterator();
                 ArrayList<String> emptyAlbums = new ArrayList<>();
                 //iterates through albums to find empty ones
                 while (albumIterator.hasNext()) {
                     Map.Entry albumEntry = (Map.Entry) albumIterator.next();
-                    //if the last image was just removed, then the album is deleted
-                    if (((ArrayList<String>) albumEntry.getValue()).isEmpty()) {
-                        //can't edit hashmap while iterating over it, so the albums to be removed are saved for later
-                        emptyAlbums.add((String) albumEntry.getKey());
+                    for (String path : getSelectedImages()) {
+                        //removes images, this deletion is cascaded to albums as well
+                        databaseClient.removeImage(path);
+                        //removes the images from the path
+                        //needs to do this in order to make sure to delete the images that are empty
+                        if (((ArrayList<String>) albumEntry.getValue()).contains(path)) {
+                            ((ArrayList<String>) albumEntry.getValue()).remove(path);
+                        }
+
+                        //if the last image was just removed, then the album is deleted
+                        if (((ArrayList<String>) albumEntry.getValue()).isEmpty()) {
+                            //can't edit hashmap while iterating over it, so the albums to be removed are saved for later
+                            emptyAlbums.add((String) albumEntry.getKey());
+                        }
                     }
                 }
                 emptyAlbums.forEach(ControllerMain::removeAlbum);

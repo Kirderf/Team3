@@ -220,7 +220,6 @@ public class ControllerViewAlbums implements Initializable {
      * removes the album from the hashmap in main
      * @param name
      */
-    //TODO change this to boolean
     public static void deleteAlbum(String name){
         //deletes the selected album from the arraylist
         ControllerMain.removeAlbum(name);

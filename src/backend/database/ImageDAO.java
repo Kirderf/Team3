@@ -57,8 +57,6 @@ public class ImageDAO implements Serializable {
      * Constructor without parameters according to NetBeans standard
      */
     public ImageDAO() {
-        //TODO check if this is necessary
-        ClassDescriptor.shouldUseFullChangeSetsForNewObjects = true;
     }
 
     /**

@@ -64,7 +64,6 @@ public class ControllerMap implements Initializable {
      */
     private void placeMarkers() throws IOException {
         //used to iterate through the images
-        //TODO does this need to be a static hashmap? can it be a parameter in some way
         Iterator hmIterator = ControllerMain.getLocations().entrySet().iterator();
         //double array with longitude first, then latitude
         Double[] longLat = new Double[2];
