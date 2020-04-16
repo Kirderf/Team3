@@ -17,18 +17,20 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class ControllerAddToAlbum implements Initializable {
     private static final Log logger = new Log();
-
+    ObservableList<AlbumRow> albumList = FXCollections.observableArrayList();
     @FXML
     private TableView<AlbumRow> albumTable;
     @FXML
     private TableColumn<TagTableRow, CheckBox> select;
     @FXML
     private TableColumn<TagTableRow, Integer> id;
-    ObservableList<AlbumRow> albumList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -37,37 +39,39 @@ public class ControllerAddToAlbum implements Initializable {
 
     /**
      * gets an iterator that iterates over the albums in controllerMain
+     *
      * @return Iterator on ControllerMain albums
      */
-    private Iterator getAlbumIterator(){
+    private Iterator<Map.Entry<String, ArrayList<String>>> getAlbumIterator() {
         return ControllerMain.getAlbums().entrySet().iterator();
     }
 
     /**
      * inserts the album into the list of checkboxes
      */
-    private void insertAlbums(){
-        Iterator albumIterator = getAlbumIterator();
+    private void insertAlbums() {
+        Iterator<Map.Entry<String, ArrayList<String>>> albumIterator = getAlbumIterator();
         int counter = 1;
-        while(albumIterator.hasNext()){
-            Map.Entry album = (Map.Entry)albumIterator.next();
-            CheckBox ch = new CheckBox(""+ album.getKey());
-            albumList.add(new AlbumRow(counter, "",ch));
+        while (albumIterator.hasNext()) {
+            Map.Entry<String, ArrayList<String>> album = albumIterator.next();
+            CheckBox ch = new CheckBox("" + album.getKey());
+            albumList.add(new AlbumRow(counter, "", ch));
             counter++;
         }
         albumTable.setItems(albumList);
-        id.setCellValueFactory(new PropertyValueFactory<TagTableRow,Integer>("ID"));
-        select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
+        id.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     }
 
     /**
      * gets all of the albums that are currently checked
+     *
      * @return Arraylist with the names of the albums that the images were added
      */
-    private ArrayList<String> getCheckedBoxes(){
+    private ArrayList<String> getCheckedBoxes() {
         ArrayList<String> tempAlbumList = new ArrayList<>();
-        for(AlbumRow ar : albumTable.getItems()){
-            if(ar.getCheckBox().isSelected()){
+        for (AlbumRow ar : albumTable.getItems()) {
+            if (ar.getCheckBox().isSelected()) {
                 tempAlbumList.add(ar.getCheckBox().getText());
             }
         }
@@ -76,6 +80,7 @@ public class ControllerAddToAlbum implements Initializable {
 
     /**
      * when confirm is clicked
+     *
      * @param event confirm button clicked
      */
     @FXML
@@ -85,7 +90,7 @@ public class ControllerAddToAlbum implements Initializable {
         ArrayList<String> selectedImages = ControllerMain.getSelectedImages();
         int counter = 0;
         int albumCounter = 0;
-        if(!checkedBoxes.isEmpty()) {
+        if (!checkedBoxes.isEmpty()) {
 
             //iterates through albums
             for (String s : checkedBoxes) {
@@ -97,21 +102,20 @@ public class ControllerAddToAlbum implements Initializable {
                         counter++;
                     }
                 }
-                if(counter == 0){
+                if (counter == 0) {
                     albumCounter++;
                 }
                 counter = 0;
-                ControllerMain.addPathsToAlbum(s,newImages);
+                ControllerMain.addPathsToAlbum(s, newImages);
             }
-            if(albumCounter < checkedBoxes.size()){
+            if (albumCounter < checkedBoxes.size()) {
                 logger.logNewInfo("Images added successfully to album");
                 Alert a = new Alert(Alert.AlertType.INFORMATION, "The images were added successfully to the album");
                 a.initModality(Modality.APPLICATION_MODAL);
                 a.initOwner(thisStage);
                 a.showAndWait();
                 thisStage.close();
-            }
-            else{
+            } else {
                 logger.logNewInfo("All the selected images were already in the selected album");
                 Alert b = new Alert(Alert.AlertType.WARNING, "All the selected images were already present in the selected albums");
                 b.initModality(Modality.APPLICATION_MODAL);
