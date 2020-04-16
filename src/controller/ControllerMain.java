@@ -103,7 +103,7 @@ public class ControllerMain implements Initializable {
      *
      * @return DatabaseClient instance
      */
-    public static DatabaseClient getDatabaseClient() {
+    static DatabaseClient getDatabaseClient() {
         return databaseClient;
     }
 
@@ -112,7 +112,7 @@ public class ControllerMain implements Initializable {
      *
      * @return pathBuffer string with path
      */
-    public static String getPathBuffer() {
+    static String getPathBuffer() {
         return pathBuffer;
     }
 
@@ -121,7 +121,7 @@ public class ControllerMain implements Initializable {
      *
      * @param pathBuffer string with path
      */
-    public static void setPathBuffer(String pathBuffer) {
+    private static void setPathBuffer(String pathBuffer) {
         ControllerMain.pathBuffer = pathBuffer;
     }
 
@@ -130,7 +130,7 @@ public class ControllerMain implements Initializable {
      *
      * @param b login status
      */
-    protected static void setLoggedin(boolean b) {
+    static void setLoggedin(boolean b) {
         loggedin = b;
     }
 
@@ -139,7 +139,7 @@ public class ControllerMain implements Initializable {
      *
      * @return double position
      */
-    public static double getSplitPanePos() {
+    static double getSplitPanePos() {
         return splitPanePos;
     }
 
@@ -148,7 +148,7 @@ public class ControllerMain implements Initializable {
      *
      * @param pos position
      */
-    public static void setSplitPanePos(double pos) {
+    static void setSplitPanePos(double pos) {
         splitPanePos = pos;
     }
 
@@ -166,7 +166,7 @@ public class ControllerMain implements Initializable {
      *
      * @return Image in image buffer
      */
-    public static Image getImageBuffer() {
+    static Image getImageBuffer() {
         return imageBuffer;
     }
 
@@ -175,14 +175,14 @@ public class ControllerMain implements Initializable {
      *
      * @param imageBuffer image you want to set it to
      */
-    public static void setImageBuffer(Image imageBuffer) {
+    private static void setImageBuffer(Image imageBuffer) {
         ControllerMain.imageBuffer = imageBuffer;
     }
 
     /**
      * @return returns a hashmap with all the images that have valid g
      */
-    public static HashMap<String, String> getLocations() {
+    static HashMap<String, String> getLocations() {
         return locations;
     }
 
@@ -210,7 +210,6 @@ public class ControllerMain implements Initializable {
      * removes an album from the saved albums
      *
      * @param key the name of the album
-     * @return arraylist with the removed images
      */
     static void removeAlbum(String key) {
         databaseClient.removeAlbum(key);
@@ -221,7 +220,7 @@ public class ControllerMain implements Initializable {
      *
      * @return returns all selected images
      */
-    public static ArrayList<String> getSelectedImages() {
+    static ArrayList<String> getSelectedImages() {
         return selectedImages;
     }
 
@@ -602,10 +601,17 @@ public class ControllerMain implements Initializable {
             ArrayList<String> paths = (ArrayList<String>) getDatabaseClient().getColumn("Path");
             clearView();
             clearSelectedImages();
-            for (String obj : paths) {
+            for (String s : paths) {
                 //the view is cleared, so there's no use checking if the image has been added as there are no added photos to start with
-                if (obj != null) {
-                    insertImage(obj);
+                if (s != null) {
+                    //if the file doesn't exist, the image has been moved or deleted
+                    if (new File(s).exists()) {
+                        insertImage(s);
+                    } else {
+                        logger.logNewWarning("Image with path '" + s + "' is missing, removing from the database");
+                        //if the image has been moved or deleted, then the image is removed from the database
+                        databaseClient.removeImage(s);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -677,7 +683,7 @@ public class ControllerMain implements Initializable {
      * @param path      the local path to the image on the user's machine
      * @return eventhandler that marks the images as directed
      */
-    private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView,Image thumbnail, Image image, String path) {
+    private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image thumbnail, Image image, String path) {
         return (EventHandler<MouseEvent>) event -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
                 //Ctrl click
@@ -955,11 +961,12 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * opens preferences window
+     * opens prefrences window
      *
-     * @throws IOException if Preferences.fxml cannot be found
+     * @param actionEvent auto-generated
+     * @throws IOException
      */
-    public void preferencesAction() throws IOException {
+    public void preferencesAction(ActionEvent actionEvent) throws IOException {
         if (!preferenceStage.isShowing()) {
             if (preferenceStage.getModality() != Modality.APPLICATION_MODAL)
                 preferenceStage.initModality(Modality.APPLICATION_MODAL);
