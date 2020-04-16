@@ -3,9 +3,7 @@ package backend.database;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import java.io.Serializable;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -520,7 +518,7 @@ public class ImageDAOManager {
      * @param columnName the column name
      * @return the column
      */
-    ArrayList<? extends Serializable> getColumn(String columnName) {
+    ArrayList<?> getColumn(String columnName) {
         EntityManager em = getEM();
         try {
             columnName = columnName.toLowerCase();
@@ -530,7 +528,7 @@ public class ImageDAOManager {
                 case "path":
                     return (ArrayList<String>) imageList.stream().map(ImageDAO::getPath).collect(Collectors.toList());
                 case "tags":
-                    return (ArrayList<String>) imageList.stream().map(ImageDAO::getTags).filter(s->!s.equals("")).collect(Collectors.toList());
+                    return (ArrayList<String>) imageList.stream().map(ImageDAO::getTags).filter(s -> !s.equals("")).collect(Collectors.toList());
                 case "file_size":
                     return (ArrayList<Integer>) imageList.stream().map(ImageDAO::getFileSize).collect(Collectors.toList());
                 case "date":

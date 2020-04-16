@@ -558,7 +558,7 @@ public class ControllerMain implements Initializable {
      * when go library is clicked, refreshes the images
      */
     @FXML
-    protected void goToLibrary() {
+    protected void goToLibrary() throws IOException {
         voice.speak("Going to library");
         clearSelectedImages();
         refreshImages();
@@ -599,7 +599,7 @@ public class ControllerMain implements Initializable {
      */
     protected void refreshImages() {
         try {
-            ArrayList<String> paths = getDatabaseClient().getColumn("Path");
+            ArrayList<String> paths = (ArrayList<String>) getDatabaseClient().getColumn("Path");
             clearView();
             clearSelectedImages();
             for (String obj : paths) {
@@ -810,7 +810,7 @@ public class ControllerMain implements Initializable {
             worldStage.initModality(Modality.APPLICATION_MODAL);
         }
         voice.speak("Showing map");
-        ArrayList<String> paths = getDatabaseClient().getColumn("Path");
+        ArrayList<String> paths = (ArrayList<String>) getDatabaseClient().getColumn("Path");
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
         for (int i = 0; i < getDatabaseClient().getColumn("GPS_Longitude").size(); i++) {

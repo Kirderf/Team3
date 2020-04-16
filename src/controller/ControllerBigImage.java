@@ -64,7 +64,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     @FXML
-    private void goToLibrary(ActionEvent event) throws IOException {
+    protected void goToLibrary() throws IOException {
         voice.speak("Going to library");
         clearSelectedImages();
         setSplitPanePos(bigImgDataSplitPane.getDividerPositions()[0]);
@@ -171,7 +171,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @FXML
     protected boolean removeAction(ActionEvent event) throws IOException, SQLException {
         if (super.removeAction(event)) {
-            goToLibrary(event);
+            goToLibrary();
             return true;
         }
         return false;
