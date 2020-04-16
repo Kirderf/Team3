@@ -285,27 +285,14 @@ public class DatabaseClient {
     }
 
     /**
-     * Removes a path, and thereby it's corresponding image, from a given album
-     *
-     * @param name  name of the album
-     * @param paths paths to the images
-     * @return true if image is successfully removed, false if not
-     * @see ImageDAOManager#removePathFromAlbum(String, String[]) ImageDAOManager#removePathFromAlbum(String, String[])
-     */
-    public boolean removeFromAlbum(String name, String[] paths) {
-        return imageDatabase.removePathFromAlbum(name, paths);
-    }
-
-    /**
      * Adds a path, and thereby it's corresponding image, to a given album
      *
      * @param name  name of the album
      * @param paths path to the image
-     * @return true if image is successfully added, false if not
      * @see ImageDAOManager#addPathToAlbum(String, ArrayList) ImageDAOManager#addPathToAlbum(String, ArrayList)
      */
-    public boolean addPathToAlbum(String name, ArrayList<String> paths) {
-        return imageDatabase.addPathToAlbum(name, paths);
+    public void addPathToAlbum(String name, ArrayList<String> paths) {
+        imageDatabase.addPathToAlbum(name, paths);
     }
 
     /**
@@ -314,9 +301,7 @@ public class DatabaseClient {
      * @return a Map with all existing Albums
      * @see ImageDAOManager#getAllAlbums() ImageDAOManager#getAllAlbums()
      */
-    public Map getAllAlbums() {
-        return (Map) imageDatabase.getAllAlbums().stream()
-                //collects the stream into the hashmap, calling the key becoming each objects album name
-                .collect(Collectors.toMap(AlbumDAO::getAlbumName,AlbumDAO::getImagePaths));
+    public Map<String, String> getAllAlbums() {
+        return (Map<String, String>) imageDatabase.getAllAlbums().stream().collect(Collectors.toMap(AlbumDAO::getAlbumName, AlbumDAO::getImagePaths));
     }
 }
