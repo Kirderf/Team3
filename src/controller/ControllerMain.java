@@ -602,10 +602,17 @@ public class ControllerMain implements Initializable {
             ArrayList<String> paths = (ArrayList<String>) getDatabaseClient().getColumn("Path");
             clearView();
             clearSelectedImages();
-            for (String obj : paths) {
+            for (String s : paths) {
                 //the view is cleared, so there's no use checking if the image has been added as there are no added photos to start with
-                if (obj != null) {
-                    insertImage(obj);
+                if (s != null) {
+                    //if the file doesn't exist, the image has been moved or deleted
+                    if(new File(s).exists()) {
+                        insertImage(s);
+                    }
+                    else{
+                        //if the image has been moved or deleted, then the image is removed from the database
+                        databaseClient.removeImage(s);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -955,11 +962,12 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * opens preferences window
+     * opens prefrences window
      *
-     * @throws IOException if Preferences.fxml cannot be found
+     * @param actionEvent auto-generated
+     * @throws IOException
      */
-    public void preferencesAction() throws IOException {
+    public void preferencesAction(ActionEvent actionEvent) throws IOException {
         if (!preferenceStage.isShowing()) {
             if (preferenceStage.getModality() != Modality.APPLICATION_MODAL)
                 preferenceStage.initModality(Modality.APPLICATION_MODAL);
