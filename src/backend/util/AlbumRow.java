@@ -1,9 +1,6 @@
 package backend.util;
 
-import backend.util.Log;
 import javafx.scene.control.CheckBox;
-
-import java.util.logging.Logger;
 
 /**
  * This class is used to generate objects of the AlbumRow class, that is rows
@@ -63,7 +60,7 @@ public class AlbumRow {
      * @param name the new tag
      */
     public void setName(String name) {
-        this.tagName = tagName;
+        this.tagName = name;
     }
 
     /**
@@ -73,15 +70,6 @@ public class AlbumRow {
      */
     public CheckBox getCheckBox() {
         return checkBox;
-    }
-
-    /**
-     * Sets the row's checkbox.
-     *
-     * @param checkBox the new checkbox
-     */
-    public void setCheckBox(CheckBox checkBox) {
-        this.checkBox = checkBox;
     }
 
 }
