@@ -73,12 +73,4 @@ public class TagTableRow {
         return checkBox;
     }
 
-    /**
-     * Sets checkbox.
-     *
-     * @param checkBox the checkbox
-     */
-    public void setCheckBox(CheckBox checkBox) {
-        this.checkBox = checkBox;
-    }
 }
