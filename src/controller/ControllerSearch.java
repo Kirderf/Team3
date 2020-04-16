@@ -1,13 +1,9 @@
 package controller;
 
-import backend.util.Log;
-import backend.util.TagTableRow;
 import backend.util.TagTableRow;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -17,24 +13,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.awt.Button;
-import java.io.File;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerSearch implements Initializable {
-    private static final Log logger = new Log();
-
-    private List<File> list;
-    private final double prefHeight = 27;
-    private final double prefWidth = 330;
     private static ArrayList<String> searchResults = new ArrayList<>();
     private static boolean searchSucceed = false;
-
     @FXML
     CheckBox metaCheck;
     @FXML
@@ -44,57 +29,12 @@ public class ControllerSearch implements Initializable {
     @FXML
     TextField searchField;
     @FXML
-    TextField addTagField;
-    @FXML
-    Button addDone;
-    @FXML
     TableColumn<TagTableRow, Integer> id;
     @FXML
     TableColumn<TagTableRow, CheckBox> select;
     @FXML
     TableView<TagTableRow> tagTable;
     ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
-
-    private static void notNamed(ArrayList<String> tagList, ObservableList<TagTableRow> observeList, TableView<TagTableRow> tagTable, TableColumn<TagTableRow, Integer> id, TableColumn<TagTableRow, CheckBox> select) {
-        for (int i = 0; i < tagList.size(); i++) {
-            String t = tagList.get(i);
-            CheckBox ch = new CheckBox("" + t);
-            observeList.add(new TagTableRow(i, "", ch));
-        }
-
-
-        tagTable.setItems(observeList);
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
-    }
-    private ChangeListener<Boolean> enableSearchField(){
-        return (new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue){
-                    searchField.setDisable(false);
-                }
-                else{
-                    if((!pathCheck.isSelected()&&!metaCheck.isSelected()&&!filenameCheck.isSelected())){
-                        searchField.setDisable(true);
-                    }
-                }
-            }
-        });
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        try {
-            searchField.setDisable(true);
-            pathCheck.selectedProperty().addListener(enableSearchField());
-            metaCheck.selectedProperty().addListener(enableSearchField());
-            filenameCheck.selectedProperty().addListener(enableSearchField());
-            insertTags();
-        } catch (SQLException e) {
-            logger.logNewFatalError("ControllerSearch initialize " + e.getLocalizedMessage());
-        }
-    }
 
     public static ArrayList<String> getSearchResults() {
         return searchResults;
@@ -108,22 +48,40 @@ public class ControllerSearch implements Initializable {
         ControllerSearch.searchSucceed = searchSucceed;
     }
 
+    private ChangeListener<Boolean> enableSearchField() {
+        return ((observable, oldValue, newValue) -> {
+            if (newValue) {
+                searchField.setDisable(false);
+            } else {
+                if ((!pathCheck.isSelected() && !metaCheck.isSelected() && !filenameCheck.isSelected())) {
+                    searchField.setDisable(true);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        searchField.setDisable(true);
+        pathCheck.selectedProperty().addListener(enableSearchField());
+        metaCheck.selectedProperty().addListener(enableSearchField());
+        filenameCheck.selectedProperty().addListener(enableSearchField());
+        insertTags();
+    }
 
     /**
      * if the close button is clicked
-     * @param event
      */
     @FXML
-    private void cancel(ActionEvent event) {
+    private void cancel() {
         ((Stage) searchField.getScene().getWindow()).close();
     }
 
     /**
      * if the search button is clicked
-     * @param event the eventlistener on the button that called this method
      */
     @FXML
-    private void searchAction(ActionEvent event) {
+    private void searchAction() {
         //clears static resultList
         searchResults.clear();
 
@@ -164,10 +122,10 @@ public class ControllerSearch implements Initializable {
             }
         }
 
-        if(filenameCheck.isSelected()){
+        if (filenameCheck.isSelected()) {
             //finds the matching paths
-            ArrayList<String> filenameResult = ControllerMain.getDatabaseClient().search(searchField.getText(),"Path");
-            if(filenameResult!= null) {
+            ArrayList<String> filenameResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Path");
+            if (filenameResult != null) {
                 for (String s : filenameResult) {
                     //specifies that we only want the ones where the actual filename contains the search term
                     if (s.substring(s.lastIndexOf("/")).contains(searchField.getText())) {
@@ -179,7 +137,7 @@ public class ControllerSearch implements Initializable {
 
 
         searchSucceed = true;
-        cancel(event);
+        cancel();
     }
 
 
@@ -188,26 +146,25 @@ public class ControllerSearch implements Initializable {
      * list, which is then inserted into a table list that's presented to the user.
      */
     @FXML
-    @SuppressWarnings("Duplicates")
-    protected void insertTags() throws SQLException {
+    protected void insertTags() {
         ArrayList<String> tagList = ControllerTagging.getAllTags();
 
         for (int i = 0; i < tagList.size(); i++) {
             String t = tagList.get(i);
-            CheckBox ch = new CheckBox(""+t);
+            CheckBox ch = new CheckBox("" + t);
             observeList.add(new TagTableRow(i, "", ch));
         }
 
 
         tagTable.setItems(observeList);
-        id.setCellValueFactory(new PropertyValueFactory<TagTableRow, Integer>("id"));
-        select.setCellValueFactory(new PropertyValueFactory<TagTableRow, CheckBox>("checkBox"));
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     }
 
-    protected ArrayList<String> getCheckedBoxes(){
+    protected ArrayList<String> getCheckedBoxes() {
         ArrayList<String> tempTagList = new ArrayList<>();
-        for(TagTableRow tb : tagTable.getItems()){
-            if(tb.getCheckBox().isSelected()){
+        for (TagTableRow tb : tagTable.getItems()) {
+            if (tb.getCheckBox().isSelected()) {
                 tempTagList.add(tb.getCheckBox().getText());
             }
         }
