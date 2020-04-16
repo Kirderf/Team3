@@ -51,7 +51,7 @@ public class ControllerAddToAlbum implements Initializable {
         int counter = 1;
         while(albumIterator.hasNext()){
             Map.Entry album = (Map.Entry)albumIterator.next();
-            CheckBox ch = new CheckBox(""+(String)album.getKey());
+            CheckBox ch = new CheckBox(""+ album.getKey());
             albumList.add(new AlbumRow(counter, "",ch));
             counter++;
         }

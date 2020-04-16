@@ -36,7 +36,7 @@ public class DatabaseClient {
     private DatabaseClient() throws IOException {
         Map newProperties = new HashMap();
         //loads the local .properties file
-        this.properties = loadProperties();
+        properties = loadProperties();
         //loads username and password to local map
         newProperties.put("javax.persistence.jdbc.user", properties.getProperty("USERNAME"));
         newProperties.put("javax.persistence.jdbc.password", properties.getProperty("PASSWORD"));

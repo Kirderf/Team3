@@ -57,7 +57,7 @@ public class ControllerMain implements Initializable {
         try {
             databaseClient = DatabaseClient.getInstance();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.logNewFatalError("Initializing database client " + e.getLocalizedMessage());
         }
     }
 
@@ -119,7 +119,7 @@ public class ControllerMain implements Initializable {
                 loginStage.showAndWait();
 
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.logNewFatalError("Initialize IOException " + e.getLocalizedMessage());
             }
         }
         if (loggedin) {
@@ -318,6 +318,9 @@ public class ControllerMain implements Initializable {
                 if (ControllerSearch.isSearchSucceed()) {
                     clearView();
                     clearSelectedImages();
+                    showMetadata(null);
+                    showTags();
+
                     for (String s : ControllerSearch.getSearchResults()) {
                         insertImage(s);
                     }
@@ -365,9 +368,7 @@ public class ControllerMain implements Initializable {
                         databaseClient.removeImage(path);
                         //removes the images from the path
                         //needs to do this in order to make sure to delete the images that are empty
-                        if (((ArrayList<String>) albumEntry.getValue()).contains(path)) {
-                            ((ArrayList<String>) albumEntry.getValue()).remove(path);
-                        }
+                        ((ArrayList<String>) albumEntry.getValue()).remove(path);
 
                         //if the last image was just removed, then the album is deleted
                         if (((ArrayList<String>) albumEntry.getValue()).isEmpty()) {
@@ -420,7 +421,7 @@ public class ControllerMain implements Initializable {
      * sort the pictures based on the selected value in the drop down
      */
     @FXML
-    private void sortAction() throws SQLException, FileNotFoundException {
+    private void sortAction() throws FileNotFoundException {
         //if size is selected
         voice.speak("Sorting");
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
@@ -448,11 +449,7 @@ public class ControllerMain implements Initializable {
             for (String s : sortedList) {
                 insertImage(s);
             }
-            if (ascending) {
-                ascending = false;
-            } else {
-                ascending = true;
-            }
+            ascending = !ascending;
         }
     }
 
@@ -573,7 +570,7 @@ public class ControllerMain implements Initializable {
     /**
      * Clears all rows on the gridView
      */
-    protected void clearView() {
+    private void clearView() {
         rowCount = 0;
         columnCount = 0;
         photoCount = 0;
@@ -612,7 +609,7 @@ public class ControllerMain implements Initializable {
         p.setStyle("-fx-border-color: black; -fx-background-color: white");
         pictureGrid.add(p, coloumn, row);
         pictureGrid.add(image, coloumn, row);
-        pictureGrid.setHalignment(image, HPos.CENTER);
+        GridPane.setHalignment(image, HPos.CENTER);
         photoCount++;
     }
 
@@ -737,7 +734,6 @@ public class ControllerMain implements Initializable {
         return rowCount;
     }
 
-    //for every 5th picture, the coloumn will reset. Gives the coloumn of the next imageview
 
     /**
      * for every 5th picture the column will reset, therefore this is used to give the column of the next imageview
@@ -760,7 +756,7 @@ public class ControllerMain implements Initializable {
      *
      * @param imagePath the path to the image from which you are getting the metadata
      */
-    protected void showMetadata(String imagePath) {
+    void showMetadata(String imagePath) {
         if (selectedImages.isEmpty()) {
             metadataVbox.getChildren().clear();
             return;
@@ -810,8 +806,8 @@ public class ControllerMain implements Initializable {
         //do this by checking ration of long at latitiude according to image pixel placing
         //add them to the worldmap view with event listener to check when they're clicked
         for (int i = 0; i < getDatabaseClient().getColumn("GPS_Longitude").size(); i++) {
-            Double latitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String) paths.get(i))[6]);
-            Double longitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String) paths.get(i))[7]);
+            double latitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String) paths.get(i))[6]);
+            double longitude = Double.parseDouble(getDatabaseClient().getMetaDataFromDatabase((String) paths.get(i))[7]);
             //if both are not equal to zero, maybe this should be changed to an or
             if (longitude != 0 && latitude != 0) {
                 getLocations().put((String) paths.get(i), "" + latitude + "," + longitude);
