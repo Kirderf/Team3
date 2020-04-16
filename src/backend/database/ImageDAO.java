@@ -1,15 +1,10 @@
 package backend.database;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import javax.persistence.*;
-
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import org.eclipse.persistence.descriptors.ClassDescriptor;
+
+import javax.persistence.*;
+import java.io.File;
+import java.net.MalformedURLException;
 
 /**
  * This class creates ImageDAO objects that represent the
@@ -18,7 +13,7 @@ import org.eclipse.persistence.descriptors.ClassDescriptor;
 //should we have a named query?
 //named this way to avoid confusion with existing Image classes
 @Entity
-public class ImageDAO implements Serializable {
+public class ImageDAO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -66,16 +61,8 @@ public class ImageDAO implements Serializable {
     }
 
     /**
-     * Set userDAO.
-     *
-     * @param userDAO the userDAO
-     */
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
-
-    /**
      * gets the thumbnail of this image object
+     *
      * @return resized image object
      * @throws MalformedURLException calls resize function which may throw this error
      */
@@ -85,8 +72,9 @@ public class ImageDAO implements Serializable {
 
     private Image rezise() throws MalformedURLException {
         //requestedWidth is just a placeholder, simply needs to be bigger than height
-        return new Image(new File(path).toURI().toURL().toExternalForm(),186,185,true,true);
+        return new Image(new File(path).toURI().toURL().toExternalForm(), 186, 185, true, true);
     }
+
     /**
      * Gets userDAO.
      *
@@ -94,6 +82,15 @@ public class ImageDAO implements Serializable {
      */
     public UserDAO getUserDAO() {
         return this.userDAO;
+    }
+
+    /**
+     * Set userDAO.
+     *
+     * @param userDAO the userDAO
+     */
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     /**

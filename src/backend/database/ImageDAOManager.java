@@ -202,27 +202,22 @@ public class ImageDAOManager {
      *
      * @param name  the name
      * @param paths the paths
-     * @return if successful
      */
-    boolean addPathToAlbum(String name, ArrayList<String> paths) {
+    void addPathToAlbum(String name, List<String> paths) {
         EntityManager em = getEM();
-        int counter = 0;
         try {
             AlbumDAO albumDAO = findAlbumDAO(name);
             for (String s : paths) {
                 if (!albumDAO.getImagePaths().contains(s)) {
                     albumDAO.addImage(findImageDAO(s));
-                } else {
-                    //counts number of paths already present
-                    counter++;
-                }
+                }  //counts number of paths already present
+
             }
             //This might not do anything, if em.find returns a shallow copy, then we do not need this
             em.getTransaction().begin();
             em.merge(albumDAO);
             em.getTransaction().commit();
             //returns true if any tag was added, false if not
-            return counter != paths.size();
         } finally {
             closeEM(em);
         }
