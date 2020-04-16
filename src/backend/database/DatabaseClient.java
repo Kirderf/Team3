@@ -2,11 +2,14 @@ package backend.database;
 
 import backend.util.ImageImport;
 import backend.util.Log;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import javax.persistence.EntityManagerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -67,6 +70,20 @@ public class DatabaseClient {
         return result;
     }
 
+    /**
+     * gets the thumbnail of this image object
+     * @param path the path to the thumbnail
+     * @return scaled Image object
+     */
+    public Image getThumbnail(String path) {
+        try {
+            return imageDatabase.getThumbnail(path);
+        }
+        catch (Exception e){
+            logger.logNewFatalError("DatabaseClient getThumbnail" + e.getLocalizedMessage());
+        }
+        return null;
+    }
     /**
      * New user boolean.
      * both username and password needs to consist of only ascii characters
