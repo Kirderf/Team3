@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 //use compostion, as the only Image objects we would want to manipulate would be the ones already in the database, therefore it should be done through this class
 public class ImageDAOManager {
     private boolean isInitialized = false;
-    private long instanceID;
     private UserDAO userDAO;
     private EntityManagerFactory emf;
 
@@ -28,7 +27,7 @@ public class ImageDAOManager {
     boolean newUser(String username, String password){
         EntityManager em = getEM();
         try {
-            ArrayList<String> usernames = (ArrayList<String>) getAllUsers().stream().map(s->((UserDAO)s).getUsername()).collect(Collectors.toList());
+            ArrayList<String> usernames = (ArrayList<String>) getAllUsers().stream().map(UserDAO::getUsername).collect(Collectors.toList());
              if(usernames.contains(username)) return false;
 
             UserDAO newUser = new UserDAO(username,password);
@@ -36,7 +35,6 @@ public class ImageDAOManager {
             em.persist(newUser);
             em.getTransaction().commit();
             this.userDAO = newUser;
-            this.instanceID = newUser.getAccountID();
             return true;
         } finally {
             closeEM(em);
@@ -45,12 +43,11 @@ public class ImageDAOManager {
     boolean login(String username, String password){
         EntityManager em = getEM();
         try {
-            List users = getAllUsers();
-            for(Object u : users){
+            List<UserDAO> users = getAllUsers();
+            for (UserDAO u : users) {
                 //if username and password are equal
-                if(((UserDAO) u).getUsername().equalsIgnoreCase(username)&&(((UserDAO) u).verifyPassword(password))){
-                    this.instanceID = ((UserDAO) u).getAccountID();
-                    this.userDAO = ((UserDAO) u);
+                if (u.getUsername().equalsIgnoreCase(username) && (u.verifyPassword(password))) {
+                    this.userDAO = u;
                     return true;
                 }
             }
@@ -59,7 +56,8 @@ public class ImageDAOManager {
         }
         return false;
     }
-    private List getAllUsers(){
+
+    private List<UserDAO> getAllUsers() {
         EntityManager em = getEM();
         try {
             Query q = em.createQuery("SELECT OBJECT(o) FROM UserDAO o");
@@ -114,12 +112,6 @@ public class ImageDAOManager {
         }
     }
 
-    private UserDAO findUser(long id){
-        List users = getAllUsers();
-        return (UserDAO) users.stream().filter(x -> ((UserDAO) x).getAccountID() == id).findFirst().get();
-
-    }
-
 
     /**
      * Add album.
@@ -127,17 +119,17 @@ public class ImageDAOManager {
      * @param name  the name of the album
      * @param paths the paths to images in lbum
      */
-    void addAlbum(String name, List paths){
+    void addAlbum(String name, List<String> paths) {
         EntityManager em = getEM();
         try {
-            for(Object a : getAllAlbums()){
-                if(a instanceof AlbumDAO && ((AlbumDAO) a).getAlbumName().equalsIgnoreCase(name)){
+            for (AlbumDAO a : getAllAlbums()) {
+                if (a != null && a.getAlbumName().equalsIgnoreCase(name)) {
                     //throw exception here because it should not be possible to enter a name that already exists due to previous checks
                     throw new IllegalArgumentException("That album already exists");
                 }
             }
             em.getTransaction().begin();
-            ArrayList<ImageDAO> images = (ArrayList<ImageDAO>) paths.stream().map(s->findImageDAO((String) s)).collect(Collectors.toList());
+            ArrayList<ImageDAO> images = (ArrayList<ImageDAO>) paths.stream().map(this::findImageDAO).collect(Collectors.toList());
             AlbumDAO newAlbum = new AlbumDAO(name, images, userDAO.getAccountID());
             em.persist(newAlbum);
             em.getTransaction().commit();
@@ -165,9 +157,10 @@ public class ImageDAOManager {
 
     /**
      * Gets list of albums.
+     *
      * @return the list
      */
-    List getAllAlbums(){
+    List<AlbumDAO> getAllAlbums() {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
@@ -234,37 +227,6 @@ public class ImageDAOManager {
     }
 
     /**
-     * Remove path from album .
-     *
-     * @param name  the name
-     * @param paths the paths
-     * @return true if removal was successful
-     */
-    boolean removePathFromAlbum(String name, String[] paths){
-        EntityManager em = getEM();
-        int counter = 0;
-        try {
-            AlbumDAO albumDAO = findAlbumDAO(name);
-            for (String s : paths) {
-                if (albumDAO.getImagePaths().contains(s.toLowerCase())) {
-                    albumDAO.removeImage(findImageDAO(s));
-                } else {
-                    //counts number of tags already present
-                    counter++;
-                }
-            }
-            //This might not do anything, if em.find returns a shallow copy, then we do not need this
-            em.getTransaction().begin();
-            em.merge(albumDAO);
-            em.getTransaction().commit();
-            //returns true if any tag was added, false if not
-            return counter != paths.length;
-        } finally {
-            closeEM(em);
-        }
-    }
-
-    /**
      * Find image dao by path
      *
      * @param path the path of the image you want to find
@@ -273,8 +235,8 @@ public class ImageDAOManager {
     private ImageDAO findImageDAO(String path) {
         EntityManager em = getEM();
         try {
-            List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
-            List<ImageDAO> imageDAOList = images.stream().filter(s->s.getPath().equalsIgnoreCase(path)&&s.getUserDAO().getAccountID() == this.userDAO.getAccountID()).collect(Collectors.toList());
+            List<ImageDAO> images = getAllImageDAO();
+            List<ImageDAO> imageDAOList = images.stream().filter(s -> s.getPath().equalsIgnoreCase(path) && s.getUserDAO().getAccountID() == this.userDAO.getAccountID()).collect(Collectors.toList());
             return imageDAOList.get(0);
         } finally {
             closeEM(em);
@@ -306,7 +268,7 @@ public class ImageDAOManager {
      *
      * @return the all image dao
      */
-    private List<?> getAllImageDAO() {
+    private List<ImageDAO> getAllImageDAO() {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
@@ -405,7 +367,7 @@ public class ImageDAOManager {
      * @return the array list
      */
     ArrayList<String> sortBy(String columnName, boolean ascending) {
-        List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
+        List<ImageDAO> images = getAllImageDAO();
         columnName = columnName.toLowerCase();
         switch (columnName) {
             //checks what column you are looking for, creates a new arraylist containing only that using lambda
@@ -455,7 +417,7 @@ public class ImageDAOManager {
         validColumns.add("tags");
         validColumns.add("metadata");
         if (!validColumns.contains(searchIn.toLowerCase()) || searchFor == null) return new ArrayList<>();
-        List<ImageDAO> images = (List<ImageDAO>) getAllImageDAO();
+        List<ImageDAO> images = getAllImageDAO();
         ArrayList<String> pathResults = new ArrayList<>();
 
         if (searchIn.equalsIgnoreCase("path")) {
@@ -503,16 +465,6 @@ public class ImageDAOManager {
     }
 
     /**
-     * Is path in database boolean.
-     *
-     * @param path the path
-     * @return the boolean
-     */
-    public boolean isPathInDatabase(String path) {
-        return (findImageDAO(path) == null);
-    }
-
-    /**
      * Gets column.
      *
      * @param columnName the column name
@@ -522,7 +474,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             columnName = columnName.toLowerCase();
-            List<ImageDAO> imageList = (List<ImageDAO>) getAllImageDAO();
+            List<ImageDAO> imageList = getAllImageDAO();
             switch (columnName) {
                 //checks what column you are looking for, creates a new arraylist
                 case "path":

@@ -42,6 +42,18 @@ public class DatabaseClient {
     }
 
     /**
+     * Singleton method for getting an instance of this class
+     *
+     * @return instance of DatabaseClient
+     */
+    public static DatabaseClient getInstance() {
+        if (imageDatabase == null && emf == null) {
+            instance = new DatabaseClient();
+        }
+        return instance;
+    }
+
+    /**
      * logs the user into the system.
      *
      * @param username the username
@@ -93,19 +105,6 @@ public class DatabaseClient {
         return prop;
     }
 
-
-    /**
-     * Singleton method for getting an instance of this class
-     *
-     * @return instance of DatabaseClient
-     */
-    public static DatabaseClient getInstance() {
-        if (imageDatabase == null && emf == null) {
-            instance = new DatabaseClient();
-        }
-        return instance;
-    }
-
     /**
      * Gets all the data in a given column, e.g all the paths
      *
@@ -127,19 +126,16 @@ public class DatabaseClient {
         logger.logNewInfo("DatabaseClient : Adding image");
         String[] metadata = ImageImport.getMetaData(image);
         if (metadata != null) {
-            if (getColumn("Path").contains(image.getPath().replaceAll("\\\\", "/"))) {
-            } else {
-                imageDatabase.addImageToTable(
-                        image.getPath(),
-                        Integer.parseInt(metadata[0]),
-                        Integer.parseInt(metadata[1]),
-                        Integer.parseInt(metadata[2]),
-                        Integer.parseInt(metadata[3]),
-                        Double.parseDouble(metadata[4]),
-                        Double.parseDouble(metadata[5]));
-                if (!imageDatabase.isInitialized()) {
-                    imageDatabase.setInitialized(true);
-                }
+            imageDatabase.addImageToTable(
+                    image.getPath(),
+                    Integer.parseInt(metadata[0]),
+                    Integer.parseInt(metadata[1]),
+                    Integer.parseInt(metadata[2]),
+                    Integer.parseInt(metadata[3]),
+                    Double.parseDouble(metadata[4]),
+                    Double.parseDouble(metadata[5]));
+            if (!imageDatabase.isInitialized()) {
+                imageDatabase.setInitialized(true);
             }
         }
     }
@@ -286,6 +282,6 @@ public class DatabaseClient {
      * @see ImageDAOManager#getAllAlbums() ImageDAOManager#getAllAlbums()
      */
     public Map<String, List<String>> getAllAlbums() {
-        return (Map<String, List<String>>) imageDatabase.getAllAlbums().stream().collect(Collectors.toMap(AlbumDAO::getAlbumName, AlbumDAO::getImagePaths));
+        return imageDatabase.getAllAlbums().stream().collect(Collectors.toMap(AlbumDAO::getAlbumName, AlbumDAO::getImagePaths));
     }
 }
