@@ -301,7 +301,7 @@ public class DatabaseClient {
      * @return a Map with all existing Albums
      * @see ImageDAOManager#getAllAlbums() ImageDAOManager#getAllAlbums()
      */
-    public Map<String, String> getAllAlbums() {
-        return (Map<String, String>) imageDatabase.getAllAlbums().stream().collect(Collectors.toMap(AlbumDAO::getAlbumName, AlbumDAO::getImagePaths));
+    public Map<String, List<String>> getAllAlbums() {
+        return (Map<String, List<String>>) imageDatabase.getAllAlbums().stream().collect(Collectors.toMap(AlbumDAO::getAlbumName, AlbumDAO::getImagePaths));
     }
 }

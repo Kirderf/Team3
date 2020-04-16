@@ -52,8 +52,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     /**
      * Run 1 time once the window opens
      *
-     * @param location
-     * @param resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -243,8 +241,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         textField.setText(getSelectedImages().get(getSelectedImages().size() - 1));
     }
 
-    private void showMetadata() {
-        super.showMetadata(getPathBuffer());
+    protected void showMetadata() {
+        super.showMetadata();
     }
 
     @Override
