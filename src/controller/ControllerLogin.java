@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +21,10 @@ public class ControllerLogin implements Initializable {
     @FXML
     private TextField passwordField;
 
+    public static Parent getContent() throws IOException {
+        return FXMLLoader.load(ControllerLogin.class.getResource("/Views/Login.fxml"));
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         usernameField.setOnKeyPressed(event -> {
@@ -38,7 +41,7 @@ public class ControllerLogin implements Initializable {
     }
 
     @FXML
-    void gotoSignup(ActionEvent event) throws IOException {
+    void gotoSignup() throws IOException {
         usernameField.getScene().setRoot(ControllerSignup.getContent());
     }
 
@@ -54,18 +57,6 @@ public class ControllerLogin implements Initializable {
             error.setContentText("There was an error when attempting login, incorrect username or password");
             error.showAndWait();
         }
-    }
-
-    public String getUsername() {
-        return usernameField.getText();
-    }
-
-    public String getPassword() {
-        return passwordField.getText();
-    }
-
-    public static Parent getContent() throws IOException {
-        return FXMLLoader.load(ControllerLogin.class.getResource("/Views/Login.fxml"));
     }
 
 

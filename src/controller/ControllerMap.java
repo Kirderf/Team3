@@ -64,29 +64,29 @@ public class ControllerMap implements Initializable {
      */
     private void placeMarkers() throws IOException {
         //used to iterate through the images
-        Iterator hmIterator = ControllerMain.getLocations().entrySet().iterator();
+        Iterator<Map.Entry<String, String>> hmIterator = ControllerMain.getLocations().entrySet().iterator();
         //double array with longitude first, then latitude
         Double[] longLat = new Double[2];
         //iterates through hashmap with pictures that have valid gps data
         while(hmIterator.hasNext()) {
-            Map.Entry mapElement = (Map.Entry)hmIterator.next();
+            Map.Entry<String, String> mapElement = hmIterator.next();
 
-            String latLongString = (String)mapElement.getValue();
+            String latLongString = mapElement.getValue();
             //longitude
             longLat[0] = Double.parseDouble(latLongString.split(",")[0]);
             //latitude
             longLat[1] = Double.parseDouble(latLongString.split(",")[1]);
             //String with absolute path to image with valid gps data
-            String url = FilenameUtils.normalize(mapElement.getKey().toString());
+            String url = FilenameUtils.normalize(mapElement.getKey());
             //resizes image to be used as a thumbnail on map
             //ratio is preserved
             String output = resize(url);
             //arraylist which is later used to delete saved images
             savedToDisk.add(output);
             File file = new File(output);
-            URL outputUrl = file.toURL();
+            URL outputUrl = file.toURI().toURL();
             //add marker and path to file to markers hashmap
-            markers.put((new Marker(outputUrl, -20, -20).setPosition(new Coordinate(longLat[0],longLat[1])).setVisible(false)),(String)mapElement.getKey());
+            markers.put((new Marker(outputUrl, -20, -20).setPosition(new Coordinate(longLat[0], longLat[1])).setVisible(false)), mapElement.getKey());
         }
 
     }

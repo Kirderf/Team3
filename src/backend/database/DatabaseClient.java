@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,26 +25,35 @@ public class DatabaseClient {
     private static DatabaseClient instance;
     private static ImageDAOManager imageDatabase = null;
     private static EntityManagerFactory emf = null;
-    private static Properties properties;
 
     /**
      * This constructor creates a DatabaseClient object, which represents a users unique instance of the program.
      * It checks the users .properties file to find the login details, which tells
      * the program who's using it, and thus which images should be loaded in.
      * The DatabaseClient has an object of the {@link ImageDAOManager} class, which acts as the image database.
-     *
-     * @throws IOException
      */
-    private DatabaseClient() throws IOException {
-        Map newProperties = new HashMap();
+    private DatabaseClient() {
+        HashMap<String, String> newProperties = new HashMap<>();
         //loads the local .properties file
-        properties = loadProperties();
+        Properties properties = loadProperties();
         //loads username and password to local map
         newProperties.put("javax.persistence.jdbc.user", properties.getProperty("USERNAME"));
         newProperties.put("javax.persistence.jdbc.password", properties.getProperty("PASSWORD"));
         //loads persistenceunit with local map containing username and password
         emf = javax.persistence.Persistence.createEntityManagerFactory("DatabasePU", newProperties);
         imageDatabase = new ImageDAOManager(emf);
+    }
+
+    /**
+     * Singleton method for getting an instance of this class
+     *
+     * @return instance of DatabaseClient
+     */
+    public static DatabaseClient getInstance() {
+        if (imageDatabase == null && emf == null) {
+            instance = new DatabaseClient();
+        }
+        return instance;
     }
 
     /**
@@ -114,20 +122,6 @@ public class DatabaseClient {
         return prop;
     }
 
-
-    /**
-     * Singleton method for getting an instance of this class
-     *
-     * @return instance of DatabaseClient
-     * @throws IOException the io exception
-     */
-    public static DatabaseClient getInstance() throws IOException {
-        if (imageDatabase == null && emf == null) {
-            instance = new DatabaseClient();
-        }
-        return instance;
-    }
-
     /**
      * Gets all the data in a given column, e.g all the paths
      *
@@ -135,39 +129,32 @@ public class DatabaseClient {
      * @return an ArrayList of data objects
      * @see ImageDAOManager#getColumn(String) ImageDAOManager#getColumn(String)
      */
-    public ArrayList<String> getColumn(String columnName) {
-        return (ArrayList<String>) imageDatabase.getColumn(columnName);
+    public ArrayList<?> getColumn(String columnName) {
+        return imageDatabase.getColumn(columnName);
     }
 
     /**
      * Adds an image, more specifically its path and metadata, to the database
      *
      * @param image the File, in our case an image, that will be added to the database
-     * @return true if the image was successfully added to database, false if not
      * @see ImageDAOManager#addImageToTable(String, int, int, int, int, double, double) ImageDAOManager#addImageToTable(String, int, int, int, int, double, double)
      */
-    public boolean addImage(File image) {
+    public void addImage(File image) {
         logger.logNewInfo("DatabaseClient : Adding image");
         String[] metadata = ImageImport.getMetaData(image);
         if (metadata != null) {
-            if (getColumn("Path").contains(image.getPath().replaceAll("\\\\", "/"))) {
-                return false;
-            } else {
-                imageDatabase.addImageToTable(
-                        image.getPath(),
-                        Integer.parseInt(metadata[0]),
-                        Integer.parseInt(metadata[1]),
-                        Integer.parseInt(metadata[2]),
-                        Integer.parseInt(metadata[3]),
-                        Double.parseDouble(metadata[4]),
-                        Double.parseDouble(metadata[5]));
-                if (!imageDatabase.isInitialized()) {
-                    imageDatabase.setInitialized(true);
-                }
-                return true;
+            imageDatabase.addImageToTable(
+                    image.getPath(),
+                    Integer.parseInt(metadata[0]),
+                    Integer.parseInt(metadata[1]),
+                    Integer.parseInt(metadata[2]),
+                    Integer.parseInt(metadata[3]),
+                    Double.parseDouble(metadata[4]),
+                    Double.parseDouble(metadata[5]));
+            if (!imageDatabase.isInitialized()) {
+                imageDatabase.setInitialized(true);
             }
         }
-        return false;
     }
 
     /**
@@ -187,7 +174,6 @@ public class DatabaseClient {
      *
      * @param path path to the image
      * @return String array with the image's metadata
-     * @throws SQLException
      * @see ImageDAOManager#getImageMetadata(String) ImageDAOManager#getImageMetadata(String)
      */
     public String[] getMetaDataFromDatabase(String path) {
@@ -200,16 +186,14 @@ public class DatabaseClient {
      *
      * @param path path to the image
      * @param tag  String[] of tags
-     * @return true if tags were added successfully, false if not
      * @see ImageDAOManager#addTags(String, String[]) ImageDAOManager#addTags(String, String[])
      */
-    public boolean addTag(String path, String[] tag) {
+    public void addTag(String path, String[] tag) {
         logger.logNewInfo("DatabaseClient : Adding tag to " + path);
         try {
-            return imageDatabase.addTags(path, tag);
+            imageDatabase.addTags(path, tag);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
-            return false;
         }
     }
 
@@ -217,12 +201,10 @@ public class DatabaseClient {
      * Removes an image from the database.
      *
      * @param path the image's path
-     * @return true boolean
      * @see ImageDAOManager#removeImageDAO(String) ImageDAOManager#removeImageDAO(String)
      */
-    public boolean removeImage(String path) {
+    public void removeImage(String path) {
         imageDatabase.removeImageDAO(path);
-        return true;
     }
 
 
@@ -231,16 +213,14 @@ public class DatabaseClient {
      *
      * @param path path to the image
      * @param tags String array of tags to be removed
-     * @return true if the tags are successfully removed, false if not
      * @see ImageDAOManager#removeTag(String, String[]) ImageDAOManager#removeTag(String, String[])
      */
-    public boolean removeTag(String path, String[] tags) {
+    public void removeTag(String path, String[] tags) {
         logger.logNewInfo("DatabaseClient : Removing tag from " + path);
         try {
-            return imageDatabase.removeTag(path, tags);
+            imageDatabase.removeTag(path, tags);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
-            return false;
         }
     }
 
@@ -258,7 +238,7 @@ public class DatabaseClient {
             return imageDatabase.search(searchFor, searchIn);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
-            return (ArrayList) Collections.emptyList();
+            return new ArrayList<>();
         }
     }
 
@@ -302,27 +282,14 @@ public class DatabaseClient {
     }
 
     /**
-     * Removes a path, and thereby it's corresponding image, from a given album
-     *
-     * @param name  name of the album
-     * @param paths paths to the images
-     * @return true if image is successfully removed, false if not
-     * @see ImageDAOManager#removePathFromAlbum(String, String[]) ImageDAOManager#removePathFromAlbum(String, String[])
-     */
-    public boolean removeFromAlbum(String name, String[] paths) {
-        return imageDatabase.removePathFromAlbum(name, paths);
-    }
-
-    /**
      * Adds a path, and thereby it's corresponding image, to a given album
      *
      * @param name  name of the album
      * @param paths path to the image
-     * @return true if image is successfully added, false if not
      * @see ImageDAOManager#addPathToAlbum(String, ArrayList) ImageDAOManager#addPathToAlbum(String, ArrayList)
      */
-    public boolean addPathToAlbum(String name, ArrayList<String> paths) {
-        return imageDatabase.addPathToAlbum(name, paths);
+    public void addPathToAlbum(String name, ArrayList<String> paths) {
+        imageDatabase.addPathToAlbum(name, paths);
     }
 
     /**
@@ -331,9 +298,7 @@ public class DatabaseClient {
      * @return a Map with all existing Albums
      * @see ImageDAOManager#getAllAlbums() ImageDAOManager#getAllAlbums()
      */
-    public Map getAllAlbums() {
-        return (Map) imageDatabase.getAllAlbums().stream()
-                //collects the stream into the hashmap, calling the key becoming each objects album name
-                .collect(Collectors.toMap(AlbumDAO::getAlbumName,AlbumDAO::getImagePaths));
+    public Map<String, List<String>> getAllAlbums() {
+        return imageDatabase.getAllAlbums().stream().collect(Collectors.toMap(AlbumDAO::getAlbumName, AlbumDAO::getImagePaths));
     }
 }

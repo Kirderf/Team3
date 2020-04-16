@@ -186,7 +186,7 @@ public class ControllerTagging implements Initializable {
     }
 
     static ArrayList<String> getAllTags() {
-        ArrayList tagStrings = ControllerMain.getDatabaseClient().getColumn("Tags");
+        ArrayList<String> tagStrings = (ArrayList<String>) ControllerMain.getDatabaseClient().getColumn("Tags");
         LinkedHashSet<String> hashSet = new LinkedHashSet<>();
         for (Object s : tagStrings) {
             hashSet.addAll(Arrays.asList(s.toString().split(",")));

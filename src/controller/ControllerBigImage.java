@@ -14,15 +14,12 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -30,16 +27,15 @@ import java.util.ResourceBundle;
 
 public class ControllerBigImage extends ControllerMain implements Initializable {
     private static final Log logger = new Log();
+    @FXML
+    Label homeLabel;
     private Stage addTagStage = new Stage();
     private Stage importStage = new Stage();
     private Text_To_Speech voice = Text_To_Speech.getInstance();
-    private static String imagePath;
     @FXML
     private ImageView bigImage;
     @FXML
     private Menu buttonHome;
-    @FXML
-    Label homeLabel;
     @FXML
     private GridPane bigImageGrid;
     @FXML
@@ -50,15 +46,16 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @FXML
     private SplitPane bigImgDataSplitPane;
 
+    public static void setImagePath() {
+    }
+
     /**
      * Run 1 time once the window opens
      *
-     * @param location
-     * @param resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setImagePath(getPathBuffer());
+        setImagePath();
         setBigImage(getImageBuffer());
         showMetadata();
         showTags();
@@ -66,32 +63,21 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         bigImgDataSplitPane.setDividerPositions(getSplitPanePos());
     }
 
-    public static String getImagePath() {
-        return imagePath;
-    }
-
-    public static void setImagePath(String s) {
-        imagePath = s;
-    }
-
     @FXML
-    /**
-     * when go to library is pressed
-     */
-    private void goToLibrary(ActionEvent event) throws IOException {
+    protected void goToLibrary() throws IOException {
         voice.speak("Going to library");
         clearSelectedImages();
         setSplitPanePos(bigImgDataSplitPane.getDividerPositions()[0]);
         bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
     }
 
-    @Override
     /**
      * Saves image to an album
      *
      * @param event
      * @throws IOException
      */
+    @Override
     @FXML
     protected void saveAlbumAction(ActionEvent event) throws IOException {
         super.saveAlbumAction(event);
@@ -113,20 +99,20 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         setBigImage(imageView.getImage());
     }
 
-    @Override
     /**
      * Cannot refresh in bigimage view
      */
+    @Override
     protected void refreshImages() {
     }
 
-    @Override
     /**
      * When view albums is clicked
      *
      * @param actionEvent auto-generated
      * @throws IOException
      */
+    @Override
     @FXML
     protected void viewAlbums(ActionEvent actionEvent) throws IOException {
         voice.speak("View albums");
@@ -151,11 +137,11 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     }
 
-    @FXML
     /**
      * add tag is clicked
      */
-    private void addTagAction(ActionEvent event) {
+    @FXML
+    private void addTagAction() {
         voice.speak("Tagging");
         if (!addTagStage.isShowing()) {
             try {
@@ -183,20 +169,20 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      * @throws IOException
      */
     @FXML
-    protected boolean removeAction(ActionEvent event) throws SQLException, IOException {
+    protected boolean removeAction(ActionEvent event) throws IOException, SQLException {
         if (super.removeAction(event)) {
-            goToLibrary(event);
+            goToLibrary();
             return true;
         }
         return false;
     }
 
-    @Override
     /**
      * When the search button is clicked
      */
+    @Override
     @FXML
-    protected void searchAction(ActionEvent event) throws IOException {
+    protected void searchAction(ActionEvent event) {
         //this has to be different form the controllermain search
         logger.logNewInfo("SearchAction");
         voice.speak("Searching");
@@ -226,10 +212,10 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         }
     }
 
-    @Override
     /**
      * when import image is clicked
      */
+    @Override
     @FXML
     protected void importAction(ActionEvent event) throws IOException {
         voice.speak("Importing");
@@ -255,8 +241,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         textField.setText(getSelectedImages().get(getSelectedImages().size() - 1));
     }
 
-    private void showMetadata() {
-        super.showMetadata(getPathBuffer());
+    protected void showMetadata() {
+        super.showMetadata();
     }
 
     @Override
