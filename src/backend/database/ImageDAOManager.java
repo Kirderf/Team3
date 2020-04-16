@@ -1,9 +1,13 @@
 package backend.database;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -319,6 +323,21 @@ public class ImageDAOManager {
         } finally {
             closeEM(em);
         }
+    }
+
+    /**
+     * Gets the thumbnail of the specified image
+     * @param path the image you want to find the thumbnail for
+     * @return the imageview with the resized image
+     */
+    public Image getThumbnail(String path) throws MalformedURLException {
+        for(Object o : getAllImageDAO()){
+            //if the path is found
+            if(((ImageDAO) o ).getPath().equals(path)){
+                return ((ImageDAO) o).getThumbnail();
+            }
+        }
+        return null;
     }
 
     /**

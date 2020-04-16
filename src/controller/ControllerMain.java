@@ -629,7 +629,11 @@ public class ControllerMain implements Initializable {
      * @param path to image
      */
     private ImageView importImage(String path) throws FileNotFoundException {
-        Image image = new Image(new FileInputStream(path));
+        //the full resolution image
+        Image fullImage = new Image(new FileInputStream(path));
+        //the thumbnail that is shown in the grid view
+        Image image = databaseClient.getThumbnail(path);
+        //thumbnail
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         imageView.maxHeight(185);
@@ -640,7 +644,9 @@ public class ControllerMain implements Initializable {
             imageView.fitWidthProperty().bind(pictureGrid.widthProperty().divide(5));
             imageView.fitHeightProperty().bind(pictureGrid.getRowConstraints().get(0).prefHeightProperty());
         }
-        imageView.setOnMouseClicked(onImageClickedEvent(imageView, image, path));
+        //adds event listener to image
+        imageView.setOnMouseClicked(onImageClickedEvent(imageView, image, fullImage, path));
+        //return thumbnail, this is added into the grid
         return imageView;
     }
 
@@ -650,23 +656,26 @@ public class ControllerMain implements Initializable {
      * normal clicks tags the image and adds it to selected images
      *
      * @param imageView the image that you want to view or mark when clicked
+     * @param thumbnail the image thumbnail scaled to a height of 185
      * @param image     the image that the imageview should display
      * @param path      the local path to the image on the user's machine
      * @return eventhandler that marks the images as directed
      */
-    private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView, Image image, String path) {
+    private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onImageClickedEvent(ImageView imageView,Image thumbnail, Image image, String path) {
         return (EventHandler<MouseEvent>) event -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
                 //Ctrl click
                 if (event.isControlDown()) {
-                    //Single click
-                    selectImage(imageView, image, path);
+                    //ctrl is down
+                    selectImage(imageView, thumbnail, path);
                     //if the last image is unselected
                     showMetadata(null);
                     showTags();
                 } else {
+                    //full resolution image
                     imageView.setImage(image);
                     try {
+                        //shows the full resolution image
                         showBigImage(imageView, path);
                     } catch (IOException e) {
                         logger.logNewFatalError("ControllerMain onImageClickedEvent " + e.getLocalizedMessage());
