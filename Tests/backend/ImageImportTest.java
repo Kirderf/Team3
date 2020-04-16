@@ -1,6 +1,6 @@
 package backend;
 
-import backend.ImageImport;
+import backend.util.ImageImport;
 import com.drew.imaging.ImageProcessingException;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ImageImportTest {
     //generally don't unit test private methods directly
 
-    private ImageImport imageImport;
+    private ImageImport ImageImport;
     private String pathToPhoto = this.getClass().getResource("/IMG_0963.JPG").getPath();
     private String pathToNonPhoto = this.getClass().getResource("/Views/Import.fxml").getPath();
     private File testImage1 = new File("resources/worldmap.png");
@@ -24,30 +24,29 @@ class ImageImportTest {
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
-        imageImport = new ImageImport();
     }
     @Test
     void getMetaData() throws IOException, ImageProcessingException {
-        assertNull(imageImport.getMetaData(new File(pathToNonPhoto)));
+        assertNull(ImageImport.getMetaData(new File(pathToNonPhoto)));
         assertNotNull(testImage1);
         assertNotNull(testImage2);
         assertNotNull(testImage3);
-        for(String s : imageImport.getMetaData(testImage1)){
+        for(String s : ImageImport.getMetaData(testImage1)){
             assertNotNull(s);
         }
-        for(String s : imageImport.getMetaData(testImage2)){
+        for(String s : ImageImport.getMetaData(testImage2)){
             assertNotNull(s);
         }
-        for(String s : imageImport.getMetaData(testImage3)){
+        for(String s : ImageImport.getMetaData(testImage3)){
             assertNotNull(s);
         }
         //6 pieces of metadata
-        assertEquals(imageImport.getMetaData(testImage1).length,6);
-        assertEquals(imageImport.getMetaData(testImage2).length,6);
-        assertEquals(imageImport.getMetaData(testImage3).length,6);
+        assertEquals(ImageImport.getMetaData(testImage1).length,6);
+        assertEquals(ImageImport.getMetaData(testImage2).length,6);
+        assertEquals(ImageImport.getMetaData(testImage3).length,6);
         //longitude
-        assertEquals(imageImport.getMetaData(gpsImage)[5],String.valueOf(0.13679166666666667));
+        assertEquals(ImageImport.getMetaData(gpsImage)[5],String.valueOf(0.13679166666666667));
         //latitude
-        assertEquals(imageImport.getMetaData(gpsImage)[4],String.valueOf(50.81905277777778));
+        assertEquals(ImageImport.getMetaData(gpsImage)[4],String.valueOf(50.81905277777778));
     }
 }

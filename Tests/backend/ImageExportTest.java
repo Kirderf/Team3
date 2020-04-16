@@ -2,7 +2,7 @@ package backend;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import backend.util.ImageExport;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ class ImageExportTest {
         assertTrue(ImageExport.exportToPdf(path,toBeExported));
         assertTrue(new File(path).exists());
         new File(path).delete();
-        assertFalse(ImageExport.exportToPdf(path2,emptyArrayList));
+        assertThrows(ExceptionInInitializerError.class,()->ImageExport.exportToPdf(path2,emptyArrayList));
         assertFalse(new File(path2).exists());
         assertFalse(ImageExport.exportToPdf(path3,invalidPathList));
         assertFalse(new File(path3).exists());
