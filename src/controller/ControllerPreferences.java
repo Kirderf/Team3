@@ -30,7 +30,7 @@ public class ControllerPreferences implements Initializable {
      *
      * @return boolean
      */
-    protected static boolean isTtsChecked() {
+    public static boolean isTtsChecked() {
         return ttsChecked;
     }
 

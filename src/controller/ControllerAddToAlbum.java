@@ -17,10 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ControllerAddToAlbum implements Initializable {
     private static final Log logger = new Log();
@@ -42,7 +39,7 @@ public class ControllerAddToAlbum implements Initializable {
      *
      * @return Iterator on ControllerMain albums
      */
-    private Iterator<Map.Entry<String, ArrayList<String>>> getAlbumIterator() {
+    private Iterator<Map.Entry<String, List<String>>> getAlbumIterator() {
         return ControllerMain.getAlbums().entrySet().iterator();
     }
 
@@ -50,10 +47,10 @@ public class ControllerAddToAlbum implements Initializable {
      * inserts the album into the list of checkboxes
      */
     private void insertAlbums() {
-        Iterator<Map.Entry<String, ArrayList<String>>> albumIterator = getAlbumIterator();
+        Iterator<Map.Entry<String, List<String>>> albumIterator = getAlbumIterator();
         int counter = 1;
         while (albumIterator.hasNext()) {
-            Map.Entry<String, ArrayList<String>> album = albumIterator.next();
+            Map.Entry<String, List<String>> album = albumIterator.next();
             CheckBox ch = new CheckBox("" + album.getKey());
             albumList.add(new AlbumRow(counter, "", ch));
             counter++;
