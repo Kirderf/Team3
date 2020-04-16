@@ -1,9 +1,9 @@
 package controller;
 
-import backend.util.Text_To_Speech;
 import backend.database.DatabaseClient;
 import backend.util.ImageExport;
 import backend.util.Log;
+import backend.util.Text_To_Speech;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -16,12 +16,11 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -187,8 +186,8 @@ public class ControllerMain implements Initializable {
      *
      * @return hashmap with saved albums
      */
-    static HashMap<String, ArrayList<String>> getAlbums() {
-        return (HashMap<String, ArrayList<String>>) databaseClient.getAllAlbums();
+    static Map<String, String> getAlbums() {
+        return databaseClient.getAllAlbums();
     }
 
     /**

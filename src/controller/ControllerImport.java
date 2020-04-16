@@ -1,7 +1,5 @@
 package controller;
 
-import backend.util.Log;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -16,13 +14,11 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerImport implements Initializable {
-    private static final Log logger = new Log();
 
     /**
      * Boolean for import status
@@ -47,10 +43,16 @@ public class ControllerImport implements Initializable {
      */
     private ArrayList<File> bufferList = new ArrayList<>();
 
+    protected static boolean isImportSucceed() {
+        return importSucceed;
+    }
+
+    protected static void setImportSucceed(boolean b) {
+        importSucceed = b;
+    }
+
     /**
      * Set container content and alignment of elements
-     * @param location
-     * @param resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -59,48 +61,38 @@ public class ControllerImport implements Initializable {
         pathVbox.setSpacing(7);
     }
 
-
-    public static void setImportSucceed(boolean b){
-        importSucceed = b;
-    }
-
-    public static boolean isImportSucceed(){
-        return importSucceed;
-    }
-
     /**
      * Opens file chooser, and gets path, then displays it to the user.
-     * @param event button clicked
      */
     @FXML
-    private void addImageFile(ActionEvent event) {
+    private void addImageFile() {
 
         fc.setTitle("Open Resource File");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Pictures", "*.png", "*.jpg", "*.jpeg", "*.PNG", "*.JPG", "*.JPEG"));
-        /**
+        /*
          * List for containing temporary file explorer results
          */
-        List<File> list =  fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
+        List<File> list = fc.showOpenMultipleDialog(scrollPane.getScene().getWindow());
         ArrayList<String> paths = ControllerMain.getDatabaseClient().getColumn("Path");
         ArrayList<File> presentFiles = new ArrayList<>();
         if (list != null) {
             paths.forEach((x) -> {
-                if (list.contains(new File(FilenameUtils.normalize(x)))){
+                if (list.contains(new File(FilenameUtils.normalize(x)))) {
                     presentFiles.add(new File(x));
                 }
             });
         }
         //if some images have already been added the user is prompted
-        if(!presentFiles.isEmpty()) {
-            String alertString = "The image(s)\n";
-            for(File f : presentFiles){
-                alertString += f.getPath() + "\n";
+        if (!presentFiles.isEmpty()) {
+            StringBuilder alertString = new StringBuilder("The image(s)\n");
+            for (File f : presentFiles) {
+                alertString.append(f.getPath()).append("\n");
             }
             new Alert(Alert.AlertType.INFORMATION, alertString + "have already been added").showAndWait();
         }
         if (list != null) {
             list.forEach((x) -> {
-                if (!bufferList.contains(x)&&!presentFiles.contains(x)) bufferList.add(x);
+                if (!bufferList.contains(x) && !presentFiles.contains(x)) bufferList.add(x);
             });
         }
         if (bufferList != null) {
@@ -113,25 +105,24 @@ public class ControllerImport implements Initializable {
 
     /**
      * Closes the window
-     * @param event button clicked
      */
     @FXML
-    private void cancel(ActionEvent event) {
+    private void cancel() {
         ((Stage) scrollPane.getScene().getWindow()).close();
     }
 
     /**
      * Clear the buffer list and view buffer
-     * @param event
      */
     @FXML
-    private void clearAction(ActionEvent event) {
+    private void clearAction() {
         clearListView();
         bufferList.clear();
     }
 
     /**
      * Creates a duplicate of a textfield and insert into scrollpane
+     *
      * @param text input for textfields
      */
     @FXML
@@ -144,18 +135,16 @@ public class ControllerImport implements Initializable {
 
     /**
      * Once all paths has been added to the list, add it to the database and display it in the MainView
-     *
-     * @param event button clicked
      */
     @FXML
-    private void importAction(ActionEvent event) throws SQLException {
+    private void importAction() {
         if (bufferList != null) {
             for (File file : bufferList) {
                 ControllerMain.getDatabaseClient().addImage(file);
             }
             setImportSucceed(true);
         }
-        cancel(event);
+        cancel();
     }
 
     /**
