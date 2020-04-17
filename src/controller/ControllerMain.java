@@ -447,7 +447,7 @@ public class ControllerMain implements Initializable {
         //if size is selected
         voice.speak("Sorting");
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
-            ArrayList<String> sortedList = getDatabaseClient().sort("File_size", ascending);
+            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("File_size", ascending);
             clearView();
             for (String s : sortedList) {
                 insertImage(s);
@@ -456,7 +456,7 @@ public class ControllerMain implements Initializable {
         //if filename is selected
         else if (sortDropDown.getValue().toString().equalsIgnoreCase("Filename")) {
             //this is just a way to get an arraylist with the paths, theres no use for the sort function here
-            ArrayList<String> sortedList = getDatabaseClient().sort("File_size", ascending);
+            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("File_size", ascending);
             sortedList.sort(Comparator.comparing(o -> o.substring(o.lastIndexOf("/"))));
             clearView();
             for (String s : sortedList) {
@@ -466,7 +466,7 @@ public class ControllerMain implements Initializable {
         //if path or date is selected
         else {
             //ascending changes value every time this function is called
-            ArrayList<String> sortedList = getDatabaseClient().sort(sortDropDown.getValue().toString(), ascending);
+            List<String> sortedList = getDatabaseClient().sort(sortDropDown.getValue().toString(), ascending);
             clearView();
             for (String s : sortedList) {
                 insertImage(s);

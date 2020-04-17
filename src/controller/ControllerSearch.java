@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerSearch implements Initializable {
@@ -90,7 +91,7 @@ public class ControllerSearch implements Initializable {
         ArrayList<String> tempTagList = getCheckedBoxes();
         if (!tempTagList.isEmpty()) {
             for (String tag : tempTagList) {
-                ArrayList<String> tagResult = ControllerMain.getDatabaseClient().search(tag, "Tags");
+                List<String> tagResult = ControllerMain.getDatabaseClient().search(tag, "Tags");
                 if (tagResult != null) {
                     for (String s : tagResult) {
                         if (!searchResults.contains(s)) {
@@ -102,7 +103,7 @@ public class ControllerSearch implements Initializable {
         }
 
         if (metaCheck.isSelected()) {
-            ArrayList<String> metaResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Metadata");
+            List<String> metaResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Metadata");
             if (metaResult != null) {
                 for (String s : metaResult) {
                     if (!searchResults.contains(s)) {
@@ -112,7 +113,7 @@ public class ControllerSearch implements Initializable {
             }
         }
         if (pathCheck.isSelected()) {
-            ArrayList<String> pathResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Path");
+            List<String> pathResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Path");
             if (pathResult != null) {
                 for (String s : pathResult) {
                     if (!searchResults.contains(s)) {
@@ -124,7 +125,7 @@ public class ControllerSearch implements Initializable {
 
         if (filenameCheck.isSelected()) {
             //finds the matching paths
-            ArrayList<String> filenameResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Path");
+            List<String> filenameResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Path");
             if (filenameResult != null) {
                 for (String s : filenameResult) {
                     //specifies that we only want the ones where the actual filename contains the search term

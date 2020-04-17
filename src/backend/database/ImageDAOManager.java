@@ -204,7 +204,7 @@ public class ImageDAOManager {
      * @param paths the paths
      * @return if successful
      */
-    boolean addPathToAlbum(String name, ArrayList<String> paths){
+    boolean addPathToAlbum(String name, List<String> paths){
         EntityManager em = getEM();
         int counter = 0;
         try {
