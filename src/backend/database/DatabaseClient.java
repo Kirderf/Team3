@@ -284,8 +284,8 @@ public class DatabaseClient {
      * @param name  name of the album
      * @param paths path to the image
      */
-    public boolean addPathToAlbum(String name, List<String> paths) {
-        return imageDatabase.addPathToAlbum(name, paths);
+    public void addPathToAlbum(String name, List<String> paths) {
+        imageDatabase.addPathToAlbum(name, paths);
     }
 
     /**
