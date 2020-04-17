@@ -35,7 +35,7 @@ class DatabaseClientTest {
         if(!databaseClient.newUser("testUser","testPassword")){
             databaseClient.login("testUser","testPassword");
         }
-        databaseClient.addImage(new File(absPath3));
+        databaseClient.addImage((absPath3));
         paths.add(absPath3);
         databaseClient.addAlbum("testalbum",paths);
     }
@@ -52,7 +52,7 @@ class DatabaseClientTest {
         assertEquals(1,databaseClient.getColumn("path").size());
         databaseClient.removeImage(absPath3);
         assertTrue(databaseClient.getColumn("path").isEmpty());
-        databaseClient.addImage(new File(absPath3));
+        databaseClient.addImage((absPath3));
 
     }
 
@@ -67,12 +67,12 @@ class DatabaseClientTest {
         //if the path gets the correct data
         assertEquals(databaseClient.getColumn("path").get(0), absPath3);
         assertEquals(0, databaseClient.getColumn("tags").size());
-        assertEquals(ImageImport.getMetaData(new File(absPath3))[0],String.valueOf(databaseClient.getColumn("file_size").get(0)));
-        assertEquals(ImageImport.getMetaData(new File(absPath3))[1],String.valueOf(databaseClient.getColumn("date").get(0)));
-        assertEquals(ImageImport.getMetaData(new File(absPath3))[2],String.valueOf(databaseClient.getColumn("height").get(0)));
-        assertEquals(ImageImport.getMetaData(new File(absPath3))[3],String.valueOf(databaseClient.getColumn("width").get(0)));
-        assertEquals(Double.parseDouble(ImageImport.getMetaData(new File(absPath3))[4]),Double.parseDouble(String.valueOf(databaseClient.getColumn("gps_latitude").get(0))));
-        assertEquals(Double.parseDouble(ImageImport.getMetaData(new File(absPath3))[5]),Double.parseDouble(String.valueOf(databaseClient.getColumn("gps_longitude").get(0))));
+        assertEquals(ImageImport.getMetaData((absPath3))[0],String.valueOf(databaseClient.getColumn("file_size").get(0)));
+        assertEquals(ImageImport.getMetaData((absPath3))[1],String.valueOf(databaseClient.getColumn("date").get(0)));
+        assertEquals(ImageImport.getMetaData((absPath3))[2],String.valueOf(databaseClient.getColumn("height").get(0)));
+        assertEquals(ImageImport.getMetaData((absPath3))[3],String.valueOf(databaseClient.getColumn("width").get(0)));
+        assertEquals(Double.parseDouble(ImageImport.getMetaData((absPath3))[4]),Double.parseDouble(String.valueOf(databaseClient.getColumn("gps_latitude").get(0))));
+        assertEquals(Double.parseDouble(ImageImport.getMetaData((absPath3))[5]),Double.parseDouble(String.valueOf(databaseClient.getColumn("gps_longitude").get(0))));
 
     }
 
@@ -89,9 +89,9 @@ class DatabaseClientTest {
 
     @Test
     void getMetaDataFromDatabase() {
-        databaseClient.addImage(new File(absGpsPath));
-        for(int i = 0; i<ImageImport.getMetaData(new File(absGpsPath)).length;i++){
-            assertTrue(Arrays.asList(databaseClient.getMetaDataFromDatabase(absGpsPath)).contains(ImageImport.getMetaData(new File(absGpsPath))[i]));
+        databaseClient.addImage((absGpsPath));
+        for(int i = 0; i<ImageImport.getMetaData((absGpsPath)).length;i++){
+            assertTrue(Arrays.asList(databaseClient.getMetaDataFromDatabase(absGpsPath)).contains(ImageImport.getMetaData((absGpsPath))[i]));
         }
         //testpath 1 has not been added
         assertThrows(NullPointerException.class,()->databaseClient.getMetaDataFromDatabase(testPath1));
@@ -128,7 +128,7 @@ class DatabaseClientTest {
         //the only image should have been added
         assertEquals(0,databaseClient.getColumn("path").size());
         //add it back for later tests
-        databaseClient.addImage(new File(absPath3));
+        databaseClient.addImage((absPath3));
     }
 
     @Test
@@ -160,8 +160,8 @@ class DatabaseClientTest {
         addedPaths.add(absPath2);
         addedPaths.add(absPath3);
 
-        databaseClient.addImage(new File(absPath1));
-        databaseClient.addImage(new File(absPath2));
+        databaseClient.addImage((absPath1));
+        databaseClient.addImage((absPath2));
         for (String s : addedPaths){
             assertTrue(databaseClient.getColumn("path").contains(s));
         }
@@ -169,7 +169,7 @@ class DatabaseClientTest {
         Collections.sort(addedPaths, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                return Integer.parseInt(ImageImport.getMetaData(new File(o1))[0])- Integer.parseInt(ImageImport.getMetaData(new File(o2))[0]);
+                return Integer.parseInt(ImageImport.getMetaData((o1))[0])- Integer.parseInt(ImageImport.getMetaData((o2))[0]);
             }
         });
         assertEquals(addedPaths,databaseClient.sort("file_size"));
@@ -177,7 +177,7 @@ class DatabaseClientTest {
         Collections.sort(addedPaths, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                return ImageImport.getMetaData(new File(o1))[1].compareTo(ImageImport.getMetaData(new File(o2))[1]);
+                return ImageImport.getMetaData((o1))[1].compareTo(ImageImport.getMetaData((o2))[1]);
             }
         });
         assertEquals(addedPaths,databaseClient.sort("date"));
@@ -209,12 +209,11 @@ class DatabaseClientTest {
 
     @Test
     void addPathToAlbum() {
-        databaseClient.addImage(new File(absPath1));
+        databaseClient.addImage((absPath1));
         ArrayList<String> pathList = new ArrayList<>();
         pathList.add(absPath1);
-        assertTrue(databaseClient.addPathToAlbum("testalbum",pathList));
+        databaseClient.addPathToAlbum("testalbum",pathList);
         assertEquals(2,databaseClient.getAllAlbums().get("testalbum").size());
-        assertFalse(databaseClient.addPathToAlbum("testalbum",paths));
         assertThrows(NullPointerException.class,()->databaseClient.addPathToAlbum("noSuchAlbum",pathList));
     }
 

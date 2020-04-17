@@ -140,7 +140,7 @@ public class ControllerImport implements Initializable {
     private void importAction() {
         if (bufferList != null) {
             for (File file : bufferList) {
-                ControllerMain.getDatabaseClient().addImage(file);
+                ControllerMain.getDatabaseClient().addImage(file.getAbsolutePath());
             }
             setImportSucceed(true);
         }

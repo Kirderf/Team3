@@ -137,12 +137,12 @@ public class DatabaseClient {
      * @param image the File, in our case an image, that will be added to the database
      * @see ImageDAOManager#addImageToTable(String, int, int, int, int, double, double) ImageDAOManager#addImageToTable(String, int, int, int, int, double, double)
      */
-    public void addImage(File image) {
+    public void addImage(String imagePath) {
         logger.logNewInfo("DatabaseClient : Adding image");
-        String[] metadata = ImageImport.getMetaData(image);
+        String[] metadata = ImageImport.getMetaData(imagePath);
         if (metadata != null) {
             imageDatabase.addImageToTable(
-                    image.getPath(),
+                    imagePath,
                     Integer.parseInt(metadata[0]),
                     Integer.parseInt(metadata[1]),
                     Integer.parseInt(metadata[2]),

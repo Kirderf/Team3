@@ -58,11 +58,12 @@ public abstract class ImageImport {
     /**
      * returns an array with the interesting metadata, the metadata is in the same order as the interestingmetadata arraylist
      * needs to be public
-     * @param file the file you want to find the metadata for
+     * @param pathToFile the path file you want to find the metadata for
      * @return an array with the interesting metadata, the metadata is in the same order as the interestingmetadata arraylist, null if no corresponding data is found
      * @author Ingebrigt Hovind
      */
-    public static String[] getMetaData(File file) {
+    public static String[] getMetaData(String pathToFile) {
+        File file = new File(pathToFile);
         logger.logNewInfo("ImageImport : " + "Getting metadata from file");
         try {
             if (isImage(file)) {
