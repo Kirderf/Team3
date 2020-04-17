@@ -490,11 +490,8 @@ public class ControllerMain implements Initializable {
                     dialog.setHeaderText("Enter name for pdf:");
                     dialog.setContentText("Please enter name for pdf:");
                     Optional<String> result = dialog.showAndWait();
-                    if (result.isPresent()) {
-                        exportPDF(result.get());
-                    } else {
-                        refreshImages();
-                    }
+                    //this refers to the result
+                    result.ifPresent(this::exportPDF);
                 } catch (Exception exception) {
                     logger.logNewFatalError("ControllerMain ExportAction " + exception.getLocalizedMessage());
                 }
@@ -506,9 +503,12 @@ public class ControllerMain implements Initializable {
     }
 
     private void exportPDF(String inputText) {
-        File f = new File("/" + inputText + ".txt");
         try {
             if (inputText.trim().equals("")) throw new IOException("Invalid filename inputted");
+            //used to check of the inputText is a valid name for a arbitrary file
+
+            File f = new File(File.separator + inputText + FilenameUtils.EXTENSION_SEPARATOR + "txt");
+            System.out.println(f.getAbsolutePath());
             //this throws error is filename is invalid
             f.getCanonicalPath(); //this throws an error if the filename is invalid
 
@@ -527,7 +527,7 @@ public class ControllerMain implements Initializable {
                 alert.setHeaderText("Your album was exported successfully");
                 alert.showAndWait();
             } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Something went wrong when attempting to save your selected");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Something went wrong when attempting to save your selected images");
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Something went wrong");
                 alert.setHeaderText("Unfortunately we were unable to export your album");

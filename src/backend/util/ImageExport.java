@@ -30,7 +30,8 @@ public abstract class ImageExport {
         PDDocument document = new PDDocument();
         try{
             if(paths.isEmpty()){
-                new Alert(Alert.AlertType.WARNING, "You need to select some images to export").showAndWait();
+                //throw error here as it should not be possible for paths to be empty, as this is checked earlier
+                throw new IllegalArgumentException("Empty list of paths");
             }
             for(String s : paths){
                 InputStream in = new FileInputStream(s);
@@ -44,7 +45,6 @@ public abstract class ImageExport {
                     contentStream.drawImage(img, 0f, 0f);
                 }
                 in.close();
-
             }
             document.save(name);
             document.close();
