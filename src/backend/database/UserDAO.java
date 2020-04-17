@@ -14,8 +14,9 @@ import java.security.spec.InvalidKeySpecException;
 /**
  * The type User dao.
  */
+
 @Entity
-public  class UserDAO {
+public class UserDAO {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @OneToMany(targetEntity = ImageDAO.class)
@@ -95,10 +96,9 @@ public  class UserDAO {
             //encodes password
             PBEKeySpec spec = new PBEKeySpec( password, salt, iterations, keyLength );
             SecretKey key = skf.generateSecret( spec );
-            byte[] res = key.getEncoded( );
-            return res;
+            return key.getEncoded();
         } catch ( NoSuchAlgorithmException | InvalidKeySpecException e ) {
-            throw new RuntimeException( e );
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -111,4 +111,7 @@ public  class UserDAO {
         return username;
     }
 
+    public void setAccountID(long accountID) {
+        this.accountID = accountID;
+    }
 }

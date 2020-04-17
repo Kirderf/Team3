@@ -1,7 +1,6 @@
 package backend.database;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -28,13 +27,13 @@ public class ImageDAOManager {
         this.emf = emf;
     }
 
-    boolean newUser(String username, String password){
+    boolean newUser(String username, String password) {
         EntityManager em = getEM();
         try {
             ArrayList<String> usernames = (ArrayList<String>) getAllUsers().stream().map(UserDAO::getUsername).collect(Collectors.toList());
-             if(usernames.contains(username)) return false;
+            if (usernames.contains(username)) return false;
 
-            UserDAO newUser = new UserDAO(username,password);
+            UserDAO newUser = new UserDAO(username, password);
             em.getTransaction().begin();
             em.persist(newUser);
             em.getTransaction().commit();
@@ -44,7 +43,8 @@ public class ImageDAOManager {
             closeEM(em);
         }
     }
-    boolean login(String username, String password){
+
+    boolean login(String username, String password) {
         EntityManager em = getEM();
         try {
             List<UserDAO> users = getAllUsers();
@@ -137,24 +137,23 @@ public class ImageDAOManager {
             AlbumDAO newAlbum = new AlbumDAO(name, images, userDAO);
             em.persist(newAlbum);
             em.getTransaction().commit();
-        }
-        finally {
+        } finally {
             closeEM(em);
         }
     }
 
     /**
      * finds album
+     *
      * @param name name of album you want to find
      * @return corresponding album object
      */
-    private AlbumDAO findAlbumDAO(String name){
+    private AlbumDAO findAlbumDAO(String name) {
         EntityManager em = getEM();
-        try{
+        try {
             List<AlbumDAO> albums = getAllAlbums();
-            return albums.stream().filter(s->s.getAlbumName().equalsIgnoreCase(name)&&s.getUserID()== this.userDAO.getAccountID()).collect(Collectors.toList()).get(0);
-        }
-        finally {
+            return albums.stream().filter(s -> s.getAlbumName().equalsIgnoreCase(name) && s.getUserID() == this.userDAO.getAccountID()).collect(Collectors.toList()).get(0);
+        } finally {
             closeEM(em);
         }
     }
@@ -168,7 +167,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userDAO.accountID=" + this.userDAO.getAccountID());
+                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userDAO.accountID=" + this.userDAO.getAccountID(), AlbumDAO.class);
                 return q.getResultList();
             }
             return Collections.emptyList();
@@ -193,8 +192,7 @@ public class ImageDAOManager {
             }
             em.remove(a);
             em.getTransaction().commit();
-        }
-        finally {
+        } finally {
             closeEM(em);
         }
     }
@@ -287,14 +285,15 @@ public class ImageDAOManager {
 
     /**
      * Gets the thumbnail of the specified image
+     *
      * @param path the image you want to find the thumbnail for
      * @return the imageview with the resized image
      */
     public Image getThumbnail(String path) throws MalformedURLException {
-        for(Object o : getAllImageDAO()){
+        for (ImageDAO o : getAllImageDAO()) {
             //if the path is found
-            if(((ImageDAO) o ).getPath().equals(path)){
-                return ((ImageDAO) o).getThumbnail();
+            if (o.getPath().equals(path)) {
+                return o.getThumbnail();
             }
         }
         return null;
@@ -430,7 +429,7 @@ public class ImageDAOManager {
      * @param searchIn  the search in
      * @return the array list with results of path
      */
-    public ArrayList<String> search(String searchFor, String searchIn) {
+    public List<String> search(String searchFor, String searchIn) {
         ArrayList<String> validColumns = new ArrayList<>();
         validColumns.add("path");
         validColumns.add("tags");
@@ -489,7 +488,8 @@ public class ImageDAOManager {
      * @param columnName the column name
      * @return the column
      */
-    ArrayList<?> getColumn(String columnName) {
+    List<?> getColumn(String columnName) {
+        //TODO: edit return to not a generic Wildcard
         EntityManager em = getEM();
         try {
             columnName = columnName.toLowerCase();
@@ -497,21 +497,21 @@ public class ImageDAOManager {
             switch (columnName) {
                 //checks what column you are looking for, creates a new arraylist
                 case "path":
-                    return (ArrayList<String>) imageList.stream().map(ImageDAO::getPath).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getPath).collect(Collectors.toList());
                 case "tags":
-                    return (ArrayList<String>) imageList.stream().map(ImageDAO::getTags).filter(s -> !s.equals("")).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getTags).filter(s -> !s.equals("")).collect(Collectors.toList());
                 case "file_size":
-                    return (ArrayList<Integer>) imageList.stream().map(ImageDAO::getFileSize).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getFileSize).collect(Collectors.toList());
                 case "date":
-                    return (ArrayList<Integer>) imageList.stream().map(ImageDAO::getDate).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getDate).collect(Collectors.toList());
                 case "height":
-                    return (ArrayList<Integer>) imageList.stream().map(ImageDAO::getImageHeight).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getImageHeight).collect(Collectors.toList());
                 case "width":
-                    return (ArrayList<Integer>) imageList.stream().map(ImageDAO::getImageWidth).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getImageWidth).collect(Collectors.toList());
                 case "gps_latitude":
-                    return (ArrayList<Double>) imageList.stream().map(ImageDAO::getLatitude).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getLatitude).collect(Collectors.toList());
                 case "gps_longitude":
-                    return (ArrayList<Double>) imageList.stream().map(ImageDAO::getLongitude).collect(Collectors.toList());
+                    return imageList.stream().map(ImageDAO::getLongitude).collect(Collectors.toList());
                 default:
                     throw new IllegalArgumentException("Invalid Column");
             }

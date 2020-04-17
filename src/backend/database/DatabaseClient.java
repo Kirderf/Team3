@@ -3,13 +3,11 @@ package backend.database;
 import backend.util.ImageImport;
 import backend.util.Log;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import javax.persistence.EntityManagerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -117,7 +115,7 @@ public class DatabaseClient {
             assert input != null;
             input.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            logger.logNewFatalError("Could not load properties");
         }
         return prop;
     }
@@ -129,7 +127,7 @@ public class DatabaseClient {
      * @return an ArrayList of data objects
      * @see ImageDAOManager#getColumn(String) ImageDAOManager#getColumn(String)
      */
-    public ArrayList<?> getColumn(String columnName) {
+    public List<?> getColumn(String columnName) {
         return imageDatabase.getColumn(columnName);
     }
 
@@ -232,13 +230,13 @@ public class DatabaseClient {
      * @return ArrayList with the paths that are found
      * @see ImageDAOManager#search(String, String) ImageDAOManager#search(String, String)
      */
-    public ArrayList<String> search(String searchFor, String searchIn) {
+    public List<String> search(String searchFor, String searchIn) {
         logger.logNewInfo("DatabaseClient : " + "Searching for" + searchFor);
         try {
             return imageDatabase.search(searchFor, searchIn);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 
@@ -250,13 +248,13 @@ public class DatabaseClient {
      * @return an sorted ArrayList
      * @see ImageDAOManager#sortBy(String, boolean) ImageDAOManager#sortBy(String, boolean)
      */
-    public ArrayList<String> sort(String sortBy, boolean ascending) {
+    public List<String> sort(String sortBy, boolean ascending) {
         logger.logNewInfo("DatabaseClient : " + "Sorting by " + sortBy);
         try {
             return imageDatabase.sortBy(sortBy, ascending);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -286,9 +284,8 @@ public class DatabaseClient {
      *
      * @param name  name of the album
      * @param paths path to the image
-     * @see ImageDAOManager#addPathToAlbum(String, ArrayList) ImageDAOManager#addPathToAlbum(String, ArrayList)
      */
-    public void addPathToAlbum(String name, ArrayList<String> paths) {
+    public void addPathToAlbum(String name, List<String> paths) {
         imageDatabase.addPathToAlbum(name, paths);
     }
 
