@@ -302,7 +302,7 @@ public class ImageDAOManager {
     public Image getThumbnail(String path) throws MalformedURLException {
         for (ImageDAO o : getAllImageDAO()) {
             //if the path is found
-            if (o.getPath().equals(path))
+            if (o.getPath().equals(path)){
                 return o.getThumbnail();
             }
         }

@@ -113,7 +113,6 @@
                             <String fx:id="sortByPath" fx:value="Path" />
                             <String fx:id="sortByDate" fx:value="Date" />
                             <String fx:id="sortBySize" fx:value="Size" />
-                            <String fx:id="sortByLocation" fx:value="Location" />
                         </FXCollections>
                     </items>
                <HBox.margin>
