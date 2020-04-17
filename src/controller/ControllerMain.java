@@ -255,7 +255,6 @@ public class ControllerMain implements Initializable {
      *
      * @param imageInput the image that you want to tint
      */
-    //TODO check if any of the other methods on stackoverflow tint quicker
     private static BufferedImage tint(Image imageInput) {
         BufferedImage image = SwingFXUtils.fromFXImage(imageInput, null);
         //if colourblind
@@ -386,19 +385,21 @@ public class ControllerMain implements Initializable {
                 //iterates through albums to find empty ones
                 for (String path : getSelectedImages()) {
                     databaseClient.removeImage(path);
-                    while (albumIterator.hasNext()) {
-                        Map.Entry<String, List<String>> albumEntry = albumIterator.next();
-                        //removes images, this deletion is cascaded to albums as well
-                        //removes the images from the path
-                        //needs to do this in order to make sure to delete the images that are empty
-                        albumEntry.getValue().remove(path);
-                        //if the last image was just removed, then the album is deleted
-                        if (albumEntry.getValue().isEmpty()) {
-                            //can't edit hashmap while iterating over it, so the albums to be removed are saved for later
-                            emptyAlbums.add(albumEntry.getKey());
-                        }
+                }
+
+                while (albumIterator.hasNext()) {
+                    Map.Entry<String, List<String>> albumEntry = albumIterator.next();
+                    //removes images, this deletion is cascaded to albums as well
+                    //removes the images from the path
+                    //needs to do this in order to make sure to delete the images that are empty
+                    albumEntry.getValue().removeAll(selectedImages);
+                    //if the last image was just removed, then the album is deleted
+                    if (albumEntry.getValue().isEmpty()) {
+                        //can't edit hashmap while iterating over it, so the albums to be removed are saved for later
+                        emptyAlbums.add(albumEntry.getKey());
                     }
                 }
+
                 emptyAlbums.forEach(ControllerMain::removeAlbum);
 
                 refreshImages();

@@ -18,7 +18,8 @@ public class AlbumDAO {
     @ManyToMany(targetEntity = ImageDAO.class)
     @CascadeOnDelete
     private List<ImageDAO> imageList;
-    private long userID;
+    @ManyToOne
+    private UserDAO userDAO;
 
     /**
      * Instantiates a new Album dao.
@@ -31,12 +32,12 @@ public class AlbumDAO {
      *
      * @param albumName the album name
      * @param imageList the image list
-     * @param userID    the user id
+     * @param userDAO    the user that made the album
      */
-    public AlbumDAO(String albumName, List<ImageDAO> imageList, long userID) {
+    public AlbumDAO(String albumName, List<ImageDAO> imageList, UserDAO userDAO) {
         this.albumName = albumName;
         this.imageList = imageList;
-        this.userID = userID;
+        this.userDAO = userDAO;
     }
 
     /**
@@ -108,7 +109,7 @@ public class AlbumDAO {
      * @return the int
      */
     public long getUserID(){
-        return userID;
+        return userDAO.getAccountID();
     }
 
     /**

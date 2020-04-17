@@ -134,7 +134,7 @@ public class ImageDAOManager {
             }
             em.getTransaction().begin();
             ArrayList<ImageDAO> images = (ArrayList<ImageDAO>) paths.stream().map(this::findImageDAO).collect(Collectors.toList());
-            AlbumDAO newAlbum = new AlbumDAO(name, images, userDAO.getAccountID());
+            AlbumDAO newAlbum = new AlbumDAO(name, images, userDAO);
             em.persist(newAlbum);
             em.getTransaction().commit();
         }
@@ -168,7 +168,7 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
-                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userID=" + this.userDAO.getAccountID());
+                Query q = em.createQuery("SELECT OBJECT(o) FROM AlbumDAO o WHERE o.userDAO.accountID=" + this.userDAO.getAccountID());
                 return q.getResultList();
             }
             return Collections.emptyList();
