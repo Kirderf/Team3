@@ -53,7 +53,6 @@ public class ControllerMain implements Initializable {
     private static HashMap<String, String> locations = new HashMap<>();
     private static DatabaseClient databaseClient;
     private static String pathBuffer;
-    private static boolean ascending = true;
     private static ArrayList<String> selectedImages = new ArrayList<>();
     private static Image imageBuffer;
     private static double splitPanePos = 0.51;
@@ -447,7 +446,7 @@ public class ControllerMain implements Initializable {
         //if size is selected
         voice.speak("Sorting");
         if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
-            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("File_size", ascending);
+            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("File_size");
             clearView();
             for (String s : sortedList) {
                 insertImage(s);
@@ -456,8 +455,8 @@ public class ControllerMain implements Initializable {
         //if filename is selected
         else if (sortDropDown.getValue().toString().equalsIgnoreCase("Filename")) {
             //this is just a way to get an arraylist with the paths, theres no use for the sort function here
-            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("File_size", ascending);
-            sortedList.sort(Comparator.comparing(o -> o.substring(o.lastIndexOf("/"))));
+            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("File_size");
+            sortedList.sort(Comparator.comparing(o -> o.substring(o.lastIndexOf(File.separator))));
             clearView();
             for (String s : sortedList) {
                 insertImage(s);
@@ -465,13 +464,11 @@ public class ControllerMain implements Initializable {
         }
         //if path or date is selected
         else {
-            //ascending changes value every time this function is called
-            List<String> sortedList = getDatabaseClient().sort(sortDropDown.getValue().toString(), ascending);
+            List<String> sortedList = getDatabaseClient().sort(sortDropDown.getValue().toString());
             clearView();
             for (String s : sortedList) {
                 insertImage(s);
             }
-            ascending = !ascending;
         }
     }
 
@@ -508,7 +505,6 @@ public class ControllerMain implements Initializable {
             //used to check of the inputText is a valid name for a arbitrary file
 
             File f = new File(File.separator + inputText + FilenameUtils.EXTENSION_SEPARATOR + "txt");
-            System.out.println(f.getAbsolutePath());
             //this throws error is filename is invalid
             f.getCanonicalPath(); //this throws an error if the filename is invalid
 

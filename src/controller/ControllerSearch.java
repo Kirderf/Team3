@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,8 @@ public class ControllerSearch implements Initializable {
         // Tags
 
         ArrayList<String> tempTagList = getCheckedBoxes();
-        if (!tempTagList.isEmpty()) {
+        //does not need to check if temptagList is empty
+        //this for loop will not run if the tag list is empty
             for (String tag : tempTagList) {
                 List<String> tagResult = ControllerMain.getDatabaseClient().search(tag, "Tags");
                 if (tagResult != null) {
@@ -100,7 +102,7 @@ public class ControllerSearch implements Initializable {
                     }
                 }
             }
-        }
+
 
         if (metaCheck.isSelected()) {
             List<String> metaResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Metadata");
@@ -129,7 +131,7 @@ public class ControllerSearch implements Initializable {
             if (filenameResult != null) {
                 for (String s : filenameResult) {
                     //specifies that we only want the ones where the actual filename contains the search term
-                    if (s.substring(s.lastIndexOf("/")).contains(searchField.getText())) {
+                    if (s.substring(s.lastIndexOf(File.separator)).contains(searchField.getText())) {
                         searchResults.add(s);
                     }
                 }

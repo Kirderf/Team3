@@ -75,6 +75,7 @@ public class UserDAO {
      */
     boolean verifyPassword(String testPassword){
         //the password that is to be tested
+        if(testPassword == null) return false;
         char[] passwordChars = testPassword.toCharArray();
         //salt string from the implicit parameter
         byte[] saltBytes = Base64.decodeBase64(saltString);

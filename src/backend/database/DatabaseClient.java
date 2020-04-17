@@ -190,7 +190,7 @@ public class DatabaseClient {
         logger.logNewInfo("DatabaseClient : Adding tag to " + path);
         try {
             imageDatabase.addTags(path, tag);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             logger.logNewFatalError(e.getLocalizedMessage());
         }
     }
@@ -244,14 +244,13 @@ public class DatabaseClient {
      * Sorts an ArrayList by a given rule, e.g. filesize or date
      *
      * @param sortBy    column in database to sort by
-     * @param ascending boolean that decides what order the images should be sorted in
      * @return an sorted ArrayList
-     * @see ImageDAOManager#sortBy(String, boolean) ImageDAOManager#sortBy(String, boolean)
+     * @see ImageDAOManager#sortBy(String) ImageDAOManager#sortBy(String)
      */
-    public List<String> sort(String sortBy, boolean ascending) {
+    public List<String> sort(String sortBy) {
         logger.logNewInfo("DatabaseClient : " + "Sorting by " + sortBy);
         try {
-            return imageDatabase.sortBy(sortBy, ascending);
+            return imageDatabase.sortBy(sortBy);
         } catch (Exception e) {
             logger.logNewFatalError(e.getLocalizedMessage());
             return Collections.emptyList();
@@ -285,8 +284,8 @@ public class DatabaseClient {
      * @param name  name of the album
      * @param paths path to the image
      */
-    public void addPathToAlbum(String name, List<String> paths) {
-        imageDatabase.addPathToAlbum(name, paths);
+    public boolean addPathToAlbum(String name, List<String> paths) {
+        return imageDatabase.addPathToAlbum(name, paths);
     }
 
     /**

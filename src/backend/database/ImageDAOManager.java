@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -105,8 +106,6 @@ public class ImageDAOManager {
     void addImageToTable(String path, int fileSize, int date, int imageHeight, int imageWidth, double gpsLatitude, double gpsLongitude) {
         EntityManager em = getEM();
         try {
-            //paths are stored with forward slashes instead of backslashes, this helps functionality later in the program
-            path = path.replaceAll("\\\\", "/");
             em.getTransaction().begin();
             ImageDAO imageDAO = new ImageDAO(userDAO, path, fileSize, date, imageHeight, imageWidth, gpsLatitude, gpsLongitude);
             em.persist(imageDAO);
@@ -126,6 +125,8 @@ public class ImageDAOManager {
     void addAlbum(String name, List<String> paths) {
         EntityManager em = getEM();
         try {
+            //throw exception because this should not happen under normal cirumstances
+            if(paths.isEmpty()) throw new IllegalArgumentException("You cannot create an empty album");
             for (AlbumDAO a : getAllAlbums()) {
                 if (a != null && a.getAlbumName().equalsIgnoreCase(name)) {
                     //throw exception here because it should not be possible to enter a name that already exists due to previous checks
@@ -152,7 +153,11 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             List<AlbumDAO> albums = getAllAlbums();
-            return albums.stream().filter(s -> s.getAlbumName().equalsIgnoreCase(name) && s.getUserID() == this.userDAO.getAccountID()).collect(Collectors.toList()).get(0);
+            List<AlbumDAO> albumList =  albums.stream().filter(s -> s.getAlbumName().equalsIgnoreCase(name) && s.getUserID() == this.userDAO.getAccountID()).collect(Collectors.toList());
+            if(albumList.isEmpty()){
+                return null;
+            }
+            return albumList.get(0);
         } finally {
             closeEM(em);
         }
@@ -239,6 +244,9 @@ public class ImageDAOManager {
         try {
             List<ImageDAO> images = getAllImageDAO();
             List<ImageDAO> imageDAOList = images.stream().filter(s -> s.getPath().equalsIgnoreCase(path) && s.getUserDAO().getAccountID() == this.userDAO.getAccountID()).collect(Collectors.toList());
+            if(imageDAOList.isEmpty()){
+                return null;
+            }
             return imageDAOList.get(0);
         } finally {
             closeEM(em);
@@ -254,12 +262,14 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         try {
             ImageDAO t = findImageDAO(path);
-            em.getTransaction().begin();
-            if (!em.contains(t)) {
-                t = em.merge(t);
+            if(t!= null) {
+                em.getTransaction().begin();
+                if (!em.contains(t)) {
+                    t = em.merge(t);
+                }
+                em.remove(t);
+                em.getTransaction().commit();
             }
-            em.remove(t);
-            em.getTransaction().commit();
         } finally {
             closeEM(em);
         }
@@ -292,7 +302,7 @@ public class ImageDAOManager {
     public Image getThumbnail(String path) throws MalformedURLException {
         for (ImageDAO o : getAllImageDAO()) {
             //if the path is found
-            if (o.getPath().equals(path)) {
+            if (o.getPath().equals(path))
                 return o.getThumbnail();
             }
         }
@@ -325,6 +335,11 @@ public class ImageDAOManager {
         EntityManager em = getEM();
         int counter = 0;
         try {
+            for (String s : tags){
+                if(s.contains(",")){
+                    throw new IllegalArgumentException("Cannot add a tag containing a comma");
+                }
+            }
             ImageDAO imageDAO = findImageDAO(path);
             //convert to lowercase
             List<String> tagList = Arrays.stream(imageDAO.getTags().split(",")).map(String::toLowerCase).collect(Collectors.toList());
@@ -381,10 +396,9 @@ public class ImageDAOManager {
      * Sort by array list.
      *
      * @param columnName the column name
-     * @param ascending  the ascending
      * @return the array list
      */
-    ArrayList<String> sortBy(String columnName, boolean ascending) {
+    ArrayList<String> sortBy(String columnName) {
         List<ImageDAO> images = getAllImageDAO();
         columnName = columnName.toLowerCase();
         switch (columnName) {
@@ -398,21 +412,11 @@ public class ImageDAOManager {
             case "date":
                 images.sort(Comparator.comparing(ImageDAO::getDate));
                 break;
-            case "height":
-                images.sort(Comparator.comparing(ImageDAO::getImageHeight));
-                break;
-            case "width":
-                images.sort(Comparator.comparing(ImageDAO::getImageWidth));
-                break;
-            case "tags":
-                //sorts by number of tags
-                images.sort(Comparator.comparing((ImageDAO t) -> t.getTags().split(",").length));
+            case "filename":
+                images.sort(Comparator.comparing(o->o.getPath().substring(o.getPath().lastIndexOf(File.separator))));
                 break;
             default:
                 throw new IllegalArgumentException("Invalid Column");
-        }
-        if (!ascending) {
-            Collections.reverse(images);
         }
         ArrayList<String> stringPath = new ArrayList<>();
         for (ImageDAO t : images) {
