@@ -11,4 +11,4 @@ Logs/*
 /-
 /resources/.properties
 *.class
-resources/.properties
+/resources/loginDetails.txt

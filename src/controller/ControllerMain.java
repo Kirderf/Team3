@@ -954,7 +954,7 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     private void TextToSpeakOnMenu(Event event) {
-        voice.speak(((MenuItem) event.getSource()).getText());
+        voice.speak(((Menu) event.getSource()).getText());
     }
 
     /**
