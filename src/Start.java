@@ -25,8 +25,8 @@ public class Start extends Application {
             logger.logNewInfo("Showing app");
             primaryStage.setOnCloseRequest((event -> {
                 logger.logNewInfo("Closing application");
-                    Platform.exit();
-                    System.exit(0);
+                Platform.exit();
+                System.exit(0);
             }));
             primaryStage.show();
         } catch (Exception e) {
