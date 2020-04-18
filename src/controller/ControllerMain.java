@@ -340,7 +340,6 @@ public class ControllerMain implements Initializable {
                     clearSelectedImages();
                     showMetadata();
                     showTags();
-
                     for (String s : ControllerSearch.getSearchResults()) {
                         insertImage(s);
                     }
@@ -558,6 +557,7 @@ public class ControllerMain implements Initializable {
         voice.speak("Going to library");
         clearSelectedImages();
         refreshImages();
+
     }
 
     /**
@@ -614,6 +614,8 @@ public class ControllerMain implements Initializable {
         } catch (Exception e) {
             logger.logNewFatalError("ControllerMain refreshImages" + e.getLocalizedMessage());
         }
+        showMetadata();
+        showTags();
     }
 
     /**
@@ -872,7 +874,7 @@ public class ControllerMain implements Initializable {
                     if (!result.get().trim().equals("")) {
                         if (getAlbums().containsKey(result.get())) {
                             new Alert(Alert.AlertType.WARNING, "That album name already exists").showAndWait();
-                            clearSelectedImages();
+                            showMetadata();
                         } else {
                             ArrayList<String> tempArray = new ArrayList<>(getSelectedImages());
                             newAlbum(result.get(), tempArray);
@@ -894,6 +896,8 @@ public class ControllerMain implements Initializable {
             logger.logNewFatalError("ControllerMain saveAlbumAction " + exception.getLocalizedMessage());
         }
         refreshImages();
+        showMetadata();
+        showTags();
     }
 
     /**
@@ -904,7 +908,7 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     protected void viewAlbums(ActionEvent actionEvent) throws IOException {
-        clearSelectedImages();
+        refreshImages();
         voice.speak("View albums");
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();
@@ -922,7 +926,6 @@ public class ControllerMain implements Initializable {
                 loadFromSelectedImages();
             } else {
                 ControllerViewAlbums.setAlbumSelected(false);
-                refreshImages();
             }
         }
     }
