@@ -251,12 +251,14 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         super.showTags();
     }
 
-    public void tintHome() {
+    @FXML
+    private void tintHome() {
+        voice.speak("Home");
         buttonHome.setStyle("-fx-background-color:#0096c9;");
         homeLabel.setOpacity(1);
     }
-
-    public void untintHome() {
+    @FXML
+    private void untintHome() {
         buttonHome.setStyle("-fx-background-color:transparent;");
         homeLabel.setOpacity(0);
     }

@@ -47,6 +47,7 @@ public class ControllerPreferences implements Initializable {
     /**
      * if the checkbox is selected, then the class variable is changed
      */
+    @FXML
     protected void setColourBlind() {
         colourChecked = colourCheck.isSelected();
     }
@@ -54,6 +55,7 @@ public class ControllerPreferences implements Initializable {
     /**
      * if the checkbox is selected, then the class variable is changed
      */
+    @FXML
     protected void setTTS() {
         ttsChecked = ttsCheck.isSelected();
     }

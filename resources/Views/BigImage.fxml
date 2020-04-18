@@ -33,24 +33,24 @@
                       <MenuItem mnemonicParsing="false" text="Action 1" />
                     </items>
                   </Menu>
-                      <Menu fx:id="fileButton" mnemonicParsing="false" text="File">
+                      <Menu fx:id="fileButton" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="File" >
                           <items>
-                              <MenuItem fx:id="importButton" mnemonicParsing="false" onAction="#importAction" onMenuValidation="#TextToSpeakOnMenu" text="Import" />
-                              <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" onMenuValidation="#TextToSpeakOnMenu" text="Export" />
-                              <MenuItem fx:id="addToAlbum" mnemonicParsing="false" onAction="#addToAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Add to album" />
-                              <MenuItem fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" onMenuValidation="#TextToSpeakOnMenu" text="Save to album" />
+                              <MenuItem fx:id="importButton" mnemonicParsing="false" onAction="#importAction"  text="Import" />
+                              <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#exportAction" text="Export" />
+                              <MenuItem fx:id="addToAlbum" mnemonicParsing="false" onAction="#addToAlbumAction" text="Add to album" />
+                              <MenuItem fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" text="Save to album" />
                               <MenuItem fx:id="removeButton" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
                               <SeparatorMenuItem mnemonicParsing="false" />
                               <MenuItem mnemonicParsing="false" onAction="#preferencesAction" text="Preferences..." />
                               <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
                           </items>
                       </Menu>
-                      <Menu fx:id="searchbutton" mnemonicParsing="false" onAction="#searchAction" text="Search">
+                      <Menu fx:id="searchbutton" mnemonicParsing="false" onAction="#searchAction" onMenuValidation="#TextToSpeakOnMenu" text="Search">
                           <items>
                               <MenuItem mnemonicParsing="false" text="Search" />
                           </items>
                       </Menu>
-                      <Menu fx:id="returnToLibrary" mnemonicParsing="false" text="Library">
+                      <Menu fx:id="returnToLibrary" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="Library">
                           <items>
                               <MenuItem mnemonicParsing="false" onAction="#viewAlbums" text="View Albums" />
                           </items>
@@ -58,7 +58,7 @@
                               <MenuItem mnemonicParsing="false" onAction="#goToMap" text="Go to map" />
                           </items>
                       </Menu>
-                      <Menu fx:id="helpButton" mnemonicParsing="false" text="Help">
+                      <Menu fx:id="helpButton" mnemonicParsing="false" onMenuValidation="#TextToSpeakOnMenu" text="Help">
                           <items>
                               <MenuItem mnemonicParsing="false" onAction="#helpAction" text="About" />
                           </items>
