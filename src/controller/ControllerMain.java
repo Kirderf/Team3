@@ -985,6 +985,9 @@ public class ControllerMain implements Initializable {
 
     }
 
+    /**
+     * when add to album is clicked
+     */
     public void addToAlbumAction() {
         logger.logNewInfo("adding to album");
         if (!getSelectedImages().isEmpty()) {

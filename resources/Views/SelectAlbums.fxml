@@ -17,8 +17,6 @@
                 <TableView fx:id="albumTable" layoutX="15.0" layoutY="82.0" prefHeight="164.0" prefWidth="306.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                     <columns>
                         <TableColumn fx:id="select" prefWidth="277.0" text="Albums" />
-                        <TableColumn fx:id="id" minWidth="0.0" prefWidth="27.0" text="id" />
-                        <TableColumn minWidth="0.0" prefWidth="0.0" text="Albums" />
                     </columns>
                 </TableView>
                 <Label layoutX="17.0" layoutY="61.0" text="Albums:" textFill="#938989" AnchorPane.leftAnchor="15.0">

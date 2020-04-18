@@ -115,6 +115,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @Override
     @FXML
     protected void viewAlbums(ActionEvent actionEvent) throws IOException {
+
         voice.speak("View albums");
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();

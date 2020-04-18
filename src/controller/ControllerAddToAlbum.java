@@ -25,9 +25,7 @@ public class ControllerAddToAlbum implements Initializable {
     @FXML
     private TableView<AlbumRow> albumTable;
     @FXML
-    private TableColumn<TagTableRow, CheckBox> select;
-    @FXML
-    private TableColumn<TagTableRow, Integer> id;
+    private TableColumn<AlbumRow, CheckBox> select;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,7 +54,6 @@ public class ControllerAddToAlbum implements Initializable {
             counter++;
         }
         albumTable.setItems(albumList);
-        id.setCellValueFactory(new PropertyValueFactory<>("ID"));
         select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     }
 

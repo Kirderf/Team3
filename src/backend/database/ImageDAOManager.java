@@ -163,12 +163,11 @@ public class ImageDAOManager {
         }
     }
 
-    /**
-     * Gets list of albums.
-     *
-     * @return the list
-     */
-    List<AlbumDAO> getAllAlbums() {
+    Map<String,List<String>> getAlbumMap(){
+        return getAllAlbums().stream().collect(Collectors.toMap(AlbumDAO::getAlbumName, AlbumDAO::getImagePaths));
+    }
+
+    private List<AlbumDAO> getAllAlbums() {
         EntityManager em = getEM();
         try {
             if (isInitialized) {
