@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static java.awt.Color.white;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class ControllerViewAlbums implements Initializable {
@@ -92,23 +93,34 @@ public class ControllerViewAlbums implements Initializable {
             pane.setMinHeight(100);
             pane.setMaxWidth(100);
             BufferedImage bufferedImage = new BufferedImage(100, 100, TYPE_INT_ARGB);
+            //adds black outline to each album
             for (int x = 0; x < bufferedImage.getWidth(); x++) {
                 for (int y = 0; y < bufferedImage.getHeight(); y++) {
                     if ((x > 5 * bufferedImage.getWidth() / 6 || x < bufferedImage.getWidth() / 6) || (y > 5 * bufferedImage.getHeight() / 6 || y < bufferedImage.getHeight() / 6)) {
-                        Color black = new Color(0, 0, 0);
-                        bufferedImage.setRGB(x, y, black.getRGB());
+                        bufferedImage.setRGB(x, y, Color.black.getRGB());
+                        //adds white outline
+                        if(x == bufferedImage.getWidth()-1||y == bufferedImage.getHeight()-1){
+                            bufferedImage.setRGB(x, y, white.getRGB());
+                        }
                     }
                 }
             }
+
             Image image = SwingFXUtils.toFXImage(bufferedImage, null);
             ImageView testView = new ImageView();
             testView.setImage(image);
             String key = (mapElement.getKey());
+            //album name
             Text name = new Text(mapElement.getKey());
+            //width before it goes to a new line
+            name.setWrappingWidth(50);
             name.setId(mapElement.getKey());
+            //black text
             name.setFill(Paint.valueOf("#000000"));
+            //position
             name.setLayoutX(25);
             name.setLayoutY(35);
+            //adds the outline and album name
             pane.getChildren().add(name);
             pane.getChildren().add(testView);
             pane.setLayoutX(pane.getLayoutX());

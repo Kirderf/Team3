@@ -134,7 +134,7 @@ public class DatabaseClient {
     /**
      * Adds an image, more specifically its path and metadata, to the database
      *
-     * @param image the File, in our case an image, that will be added to the database
+     * @param imagePath the path to the image, in our case an image, that will be added to the database
      * @see ImageDAOManager#addImageToTable(String, int, int, int, int, double, double) ImageDAOManager#addImageToTable(String, int, int, int, int, double, double)
      */
     public void addImage(String imagePath) {

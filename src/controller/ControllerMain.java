@@ -336,11 +336,12 @@ public class ControllerMain implements Initializable {
                 searchStage.setResizable(false);
                 searchStage.showAndWait();
                 if (ControllerSearch.isSearchSucceed()) {
+                    //clears the view
                     clearView();
                     clearSelectedImages();
+                    //clears metadata and tags
                     showMetadata();
                     showTags();
-
                     for (String s : ControllerSearch.getSearchResults()) {
                         insertImage(s);
                     }
@@ -558,6 +559,7 @@ public class ControllerMain implements Initializable {
         voice.speak("Going to library");
         clearSelectedImages();
         refreshImages();
+
     }
 
     /**
@@ -614,6 +616,9 @@ public class ControllerMain implements Initializable {
         } catch (Exception e) {
             logger.logNewFatalError("ControllerMain refreshImages" + e.getLocalizedMessage());
         }
+        //clears the metadata and tag boxes
+        showMetadata();
+        showTags();
     }
 
     /**
@@ -779,7 +784,7 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * displays the metadata of each image in the sidebar
+     * displays the metadata of the most recently selected image in the sidebar
      */
     void showMetadata() {
         if (selectedImages.isEmpty()) {
@@ -872,12 +877,17 @@ public class ControllerMain implements Initializable {
                     if (!result.get().trim().equals("")) {
                         if (getAlbums().containsKey(result.get())) {
                             new Alert(Alert.AlertType.WARNING, "That album name already exists").showAndWait();
-                            clearSelectedImages();
                         } else {
-                            ArrayList<String> tempArray = new ArrayList<>(getSelectedImages());
-                            newAlbum(result.get(), tempArray);
-                            new Alert(Alert.AlertType.INFORMATION, "Images were successfully added to the album [" + result.get() + "]").showAndWait();
-                            refreshImages();
+                            //the amount of characters that will fit inside each album icon
+                            if(result.get().trim().length()>24){
+                                new Alert(Alert.AlertType.WARNING, "Cannot save an album with more than 24 characters in the name").showAndWait();
+                            }
+                            else {
+                                ArrayList<String> tempArray = new ArrayList<>(getSelectedImages());
+                                newAlbum(result.get().trim(), tempArray);
+                                new Alert(Alert.AlertType.INFORMATION, "Images were successfully added to the album [" + result.get().trim() + "]").showAndWait();
+                                refreshImages();
+                            }
                         }
                     } else {
                         new Alert(Alert.AlertType.WARNING, "You cant save an album using a blank name").showAndWait();
@@ -904,7 +914,7 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     protected void viewAlbums(ActionEvent actionEvent) throws IOException {
-        clearSelectedImages();
+        refreshImages();
         voice.speak("View albums");
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();
@@ -922,7 +932,6 @@ public class ControllerMain implements Initializable {
                 loadFromSelectedImages();
             } else {
                 ControllerViewAlbums.setAlbumSelected(false);
-                refreshImages();
             }
         }
     }
