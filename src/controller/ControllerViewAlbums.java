@@ -92,6 +92,7 @@ public class ControllerViewAlbums implements Initializable {
             pane.setMinHeight(100);
             pane.setMaxWidth(100);
             BufferedImage bufferedImage = new BufferedImage(100, 100, TYPE_INT_ARGB);
+            //adds black outline to each album
             for (int x = 0; x < bufferedImage.getWidth(); x++) {
                 for (int y = 0; y < bufferedImage.getHeight(); y++) {
                     if ((x > 5 * bufferedImage.getWidth() / 6 || x < bufferedImage.getWidth() / 6) || (y > 5 * bufferedImage.getHeight() / 6 || y < bufferedImage.getHeight() / 6)) {
@@ -104,7 +105,9 @@ public class ControllerViewAlbums implements Initializable {
             ImageView testView = new ImageView();
             testView.setImage(image);
             String key = (mapElement.getKey());
+
             Text name = new Text(mapElement.getKey());
+            name.setWrappingWidth(50);
             name.setId(mapElement.getKey());
             name.setFill(Paint.valueOf("#000000"));
             name.setLayoutX(25);
