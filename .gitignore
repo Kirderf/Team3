@@ -12,3 +12,4 @@ Logs/*
 /resources/.properties
 *.class
 /resources/loginDetails.txt
+/classes/artifacts/systemutvikling.jar/*

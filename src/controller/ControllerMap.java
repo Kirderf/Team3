@@ -16,6 +16,7 @@
 package controller;
 
 import backend.util.Log;
+import backend.util.directoryMaker;
 import com.sothawo.mapjfx.*;
 import com.sothawo.mapjfx.event.MarkerEvent;
 import javafx.embed.swing.SwingFXUtils;
@@ -40,7 +41,7 @@ import java.util.*;
  * @author P.J. Meisch (pj.meisch@sothawo.com).
  */
 public class ControllerMap implements Initializable {
-    private static final Log logger = new Log();
+    private Log logger = new Log();
     private HashMap<Marker,String> markers = new HashMap<>();
     private static ArrayList<String> savedToDisk = new ArrayList<>();
     /**
@@ -171,12 +172,12 @@ public class ControllerMap implements Initializable {
         //formats string to have \\ instead of /
         //the path to the image is temporary, so the name of the image is given by current time in milliseconds
         File file = new File(inputImagePath);
-        //making sure the filename is different
-        String outputImagePath = file.getAbsolutePath().substring(0,file.getAbsolutePath().lastIndexOf(File.separator)+1) + System.currentTimeMillis() +FilenameUtils.EXTENSION_SEPARATOR_STR+ FilenameUtils.getExtension(file.getAbsolutePath());
+        //making sure the filename is different by using milliseconds as the name
+        String outputPath = directoryMaker.folderMaker("tempImages") + File.separator + System.currentTimeMillis() + FilenameUtils.EXTENSION_SEPARATOR + FilenameUtils.getExtension(file.getAbsolutePath());
         //writes the thumbnail to the disk so that it can be read by marker creator
-        ImageIO.write(bImage, "png", new File(outputImagePath));
+        ImageIO.write(bImage, "png", new File(outputPath));
         //the path to the file that was written
-        return outputImagePath;
+        return outputPath;
     }
 
 

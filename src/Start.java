@@ -30,7 +30,6 @@ public class Start extends Application {
             }));
             primaryStage.show();
         } catch (Exception e) {
-            e.printStackTrace();
             logger.logNewFatalError("Start start() " + e.getLocalizedMessage());
         }
     }

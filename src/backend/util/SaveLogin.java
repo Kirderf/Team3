@@ -1,12 +1,14 @@
 package backend.util;
 
 import java.io.*;
+import java.net.URISyntaxException;
 
 /**
  * IO Class for saving login details locally
  */
 public class SaveLogin {
-    private File saveFile = new File(System.getProperty("user.dir") + File.separator + "resources" + File.separator + "loginDetails.txt");
+    //writes a new directory to the the same area as the jar file
+    private File saveFile = new File(directoryMaker.folderMaker("login") + File.separator + "login.txt");
     private FileWriter fw = new FileWriter(saveFile, true);
     private BufferedWriter bw = new BufferedWriter(fw);
 
@@ -15,7 +17,7 @@ public class SaveLogin {
      * Default constructor
      * @throws IOException
      */
-    public SaveLogin() throws IOException {
+    public SaveLogin() throws IOException, URISyntaxException {
     }
 
     /**
@@ -38,7 +40,7 @@ public class SaveLogin {
      * @param password
      * @throws IOException
      */
-    public void saveUser(String username, String password) throws IOException {
+    public void saveUser(String username, String password) throws IOException, URISyntaxException {
         if (isRemembered()) {
             deleteSaveData();
         }

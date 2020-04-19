@@ -1,5 +1,6 @@
 package controller;
 
+import backend.util.Log;
 import backend.util.SaveLogin;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,11 +13,12 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerLogin implements Initializable {
-
+    Log logger = new Log();
     @FXML
     private TextField usernameField;
 
@@ -38,8 +40,8 @@ public class ControllerLogin implements Initializable {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 try {
                     loginAction();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException | URISyntaxException e) {
+                    logger.logNewFatalError("ControllerLogin initialize " + e.getLocalizedMessage());
                 }
             }
         });
@@ -47,8 +49,8 @@ public class ControllerLogin implements Initializable {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 try {
                     loginAction();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException | URISyntaxException e) {
+                    logger.logNewFatalError("ControllerLogin initialize " + e.getLocalizedMessage());
                 }
             }
         });
@@ -60,8 +62,8 @@ public class ControllerLogin implements Initializable {
                 usernameField.setText(user[0]);
                 passwordField.setText(user[1]);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | URISyntaxException e) {
+            logger.logNewFatalError("ControllerLogin initialize " + e.getLocalizedMessage());
         }
     }
 
@@ -72,7 +74,7 @@ public class ControllerLogin implements Initializable {
     }
 
     @FXML
-    void loginAction() throws IOException {
+    void loginAction() throws IOException, URISyntaxException {
         if (ControllerMain.getDatabaseClient().login(usernameField.getText(), passwordField.getText())) {
             ControllerMain.setLoggedin(true);
             if(rememberMe.isSelected()) {
@@ -81,6 +83,7 @@ public class ControllerLogin implements Initializable {
                 saveLogin.deleteSaveData();
             }
             saveLogin.close();
+
             ((Stage) usernameField.getScene().getWindow()).close();
         } else {
             Alert error = new Alert(Alert.AlertType.ERROR);

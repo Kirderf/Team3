@@ -1,6 +1,10 @@
 package backend.util;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -23,13 +27,22 @@ public class Log {
     /**
      * The log that is currently being written to
      */
-    private static String currentLog = pickLog();
+    private static String currentLog;
+
+    static {
+        try {
+            currentLog = pickLog();
+        } catch (URISyntaxException | UnsupportedEncodingException e) {
+            logger.log(Level.SEVERE, "Log picklog");
+        }
+    }
 
     /**
      * This constructor creates a new logger, and makes sure the
      * that the logger writes to the correct log file.
      */
     public Log() {
+
         //the oldest of the three log files
         new File(currentLog).delete();
         try {
@@ -55,11 +68,17 @@ public class Log {
      *
      * @return the filename of the oldest log
      */
-    private static String pickLog() {
+    private static String pickLog() throws URISyntaxException, UnsupportedEncodingException {
         //three valid logs
-        logs.add(System.getProperty("user.dir")+File.separator+"Logs"+File.separator+"Log1.log");
-        logs.add(System.getProperty("user.dir")+File.separator+"Logs"+File.separator+"Log2.log");
-        logs.add(System.getProperty("user.dir")+File.separator+"Logs"+File.separator+"Log3.log");
+        String logPath = directoryMaker.folderMaker("Logs");
+
+        File log1 = new File(logPath + File.separator+ "Log1.log");
+        File log2 = new File(logPath + File.separator + "Log2.log");
+        File log3 = new File(logPath + File.separator + "Log3.log");
+
+        logs.add(log1.getPath());
+        logs.add(log2.getPath());
+        logs.add(log3.getPath());
         //places the one that is the oldest last
         logs.sort((o1, o2) -> {
             File file1 = new File(o1);
