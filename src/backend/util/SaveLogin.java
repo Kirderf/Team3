@@ -1,7 +1,6 @@
 package backend.util;
 
 import java.io.*;
-import java.net.URISyntaxException;
 
 /**
  * IO Class for saving login details locally
@@ -15,9 +14,10 @@ public class SaveLogin {
 
     /**
      * Default constructor
+     *
      * @throws IOException
      */
-    public SaveLogin() throws IOException, URISyntaxException {
+    public SaveLogin() throws IOException {
     }
 
     /**
@@ -36,11 +36,12 @@ public class SaveLogin {
 
     /**
      * Saves a (new) user to the local txt file
+     *
      * @param username
      * @param password
      * @throws IOException
      */
-    public void saveUser(String username, String password) throws IOException, URISyntaxException {
+    public void saveUser(String username, String password) throws IOException {
         if (isRemembered()) {
             deleteSaveData();
         }

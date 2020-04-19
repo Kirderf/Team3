@@ -1,5 +1,6 @@
 package controller;
 
+import backend.util.EchoClient;
 import backend.util.Log;
 import backend.util.SaveLogin;
 import javafx.fxml.FXML;
@@ -13,7 +14,6 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,9 +29,11 @@ public class ControllerLogin implements Initializable {
     private CheckBox rememberMe;
 
     private SaveLogin saveLogin;
+    private EchoClient echoClient = EchoClient.getInstance();
 
     /**
      * gets the fxml file for the login
+     *
      * @return returns loader loading login.fxml
      * @throws IOException
      */
@@ -41,6 +43,7 @@ public class ControllerLogin implements Initializable {
 
     /**
      * when the program first is shown
+     *
      * @param location
      * @param resources
      */
@@ -50,7 +53,7 @@ public class ControllerLogin implements Initializable {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 try {
                     loginAction();
-                } catch (IOException | URISyntaxException e) {
+                } catch (IOException e) {
                     logger.logNewFatalError("ControllerLogin initialize " + e.getLocalizedMessage());
                 }
             }
@@ -59,26 +62,27 @@ public class ControllerLogin implements Initializable {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 try {
                     loginAction();
-                } catch (IOException | URISyntaxException e) {
+                } catch (IOException e) {
                     logger.logNewFatalError("ControllerLogin initialize " + e.getLocalizedMessage());
                 }
             }
         });
         try {
             saveLogin = new SaveLogin();
-            if(saveLogin.isRemembered()) {
+            if (saveLogin.isRemembered()) {
                 rememberMe.setSelected(true);
                 String[] user = saveLogin.getUser();
                 usernameField.setText(user[0]);
                 passwordField.setText(user[1]);
             }
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             logger.logNewFatalError("ControllerLogin initialize " + e.getLocalizedMessage());
         }
     }
 
     /**
      * if the user clicks the button to go to signup instead
+     *
      * @throws IOException
      */
     @FXML
@@ -89,15 +93,23 @@ public class ControllerLogin implements Initializable {
 
     /**
      * when the user clicks login
+     *
      * @throws IOException if the login details are read from .txt file
-     * @throws URISyntaxException
      */
     @FXML
-    void loginAction() throws IOException, URISyntaxException {
+    void loginAction() throws IOException {
+        if (!echoClient.ping()) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error when logging in");
+            error.setHeaderText(null);
+            error.setContentText("There was an error when attempting login, no connection to server");
+            error.showAndWait();
+            return;
+        }
         if (ControllerMain.getDatabaseClient().login(usernameField.getText(), passwordField.getText())) {
             ControllerMain.setLoggedin(true);
-            if(rememberMe.isSelected()) {
-                saveLogin.saveUser(usernameField.getText(),passwordField.getText());
+            if (rememberMe.isSelected()) {
+                saveLogin.saveUser(usernameField.getText(), passwordField.getText());
             } else {
                 saveLogin.deleteSaveData();
             }
