@@ -80,7 +80,7 @@ public class ImageDAO {
      *
      * @return the userDAO
      */
-    public UserDAO getUserDAO() {
+    UserDAO getUserDAO() {
         return this.userDAO;
     }
 

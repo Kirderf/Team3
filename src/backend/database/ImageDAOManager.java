@@ -28,13 +28,19 @@ public class ImageDAOManager {
         this.emf = emf;
     }
 
+    /**
+     * registers new user
+     * @param username The new username, cannot already be in the database, not case-sensetive
+     * @param password The password you want to register with
+     * @return true if registration was successful, false if username is taken, or if either of them contain non-ascii characters
+     */
     boolean newUser(String username, String password) {
         EntityManager em = getEM();
         try {
             ArrayList<String> usernames = (ArrayList<String>) getAllUsers().stream().map(UserDAO::getUsername).collect(Collectors.toList());
             if (usernames.contains(username)) return false;
 
-            UserDAO newUser = new UserDAO(username, password);
+            UserDAO newUser = new UserDAO(username.toLowerCase(), password);
             em.getTransaction().begin();
             em.persist(newUser);
             em.getTransaction().commit();
@@ -45,6 +51,12 @@ public class ImageDAOManager {
         }
     }
 
+    /**
+     * attempts to login with the given username or password
+     * @param username username to the user you wnat to find, not case-sensetive
+     * @param password password to this user, case-sensetive
+     * @return false if username was not found or password is incorrect, true is password is correct for the given user
+     */
     boolean login(String username, String password) {
         EntityManager em = getEM();
         try {
@@ -293,7 +305,7 @@ public class ImageDAOManager {
      * @param path the image you want to find the thumbnail for
      * @return the imageview with the resized image
      */
-    public Image getThumbnail(String path) throws MalformedURLException {
+    Image getThumbnail(String path) throws MalformedURLException {
         for (ImageDAO o : getAllImageDAO()) {
             //if the path is found
             if (o.getPath().equals(path)){

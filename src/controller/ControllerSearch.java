@@ -23,30 +23,42 @@ public class ControllerSearch implements Initializable {
     private static ArrayList<String> searchResults = new ArrayList<>();
     private static boolean searchSucceed = false;
     @FXML
-    CheckBox metaCheck;
+    private CheckBox metaCheck;
     @FXML
-    CheckBox pathCheck;
+    private CheckBox pathCheck;
     @FXML
-    CheckBox filenameCheck;
+    private CheckBox filenameCheck;
     @FXML
-    TextField searchField;
+    private TextField searchField;
     @FXML
-    TableColumn<TagTableRow, Integer> id;
+    private TableColumn<TagTableRow, Integer> id;
     @FXML
-    TableColumn<TagTableRow, CheckBox> select;
+    private TableColumn<TagTableRow, CheckBox> select;
     @FXML
-    TableView<TagTableRow> tagTable;
-    ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
+    private TableView<TagTableRow> tagTable;
+    private ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
 
-    public static ArrayList<String> getSearchResults() {
+    /**
+     * gets the result after a search has been made
+     * @return returns a list of results
+     */
+    static ArrayList<String> getSearchResults() {
         return searchResults;
     }
 
-    public static boolean isSearchSucceed() {
+    /**
+     * Used in order to know when to close the window
+     * @return boolean, true if search has been completed, false if not
+     */
+    static boolean isSearchSucceed() {
         return searchSucceed;
     }
 
-    public static void setSearchSucceed(boolean searchSucceed) {
+    /**
+     * if search is finished
+     * @param searchSucceed boolean, whether or not the search is finished
+     */
+    static void setSearchSucceed(boolean searchSucceed) {
         ControllerSearch.searchSucceed = searchSucceed;
     }
 
@@ -149,7 +161,7 @@ public class ControllerSearch implements Initializable {
      * list, which is then inserted into a table list that's presented to the user.
      */
     @FXML
-    protected void insertTags() {
+    private void insertTags() {
         ArrayList<String> tagList = ControllerTagging.getAllTags();
 
         for (int i = 0; i < tagList.size(); i++) {
@@ -164,7 +176,7 @@ public class ControllerSearch implements Initializable {
         select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     }
 
-    protected ArrayList<String> getCheckedBoxes() {
+    private ArrayList<String> getCheckedBoxes() {
         ArrayList<String> tempTagList = new ArrayList<>();
         for (TagTableRow tb : tagTable.getItems()) {
             if (tb.getCheckBox().isSelected()) {

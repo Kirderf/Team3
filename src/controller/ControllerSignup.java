@@ -25,6 +25,11 @@ public class ControllerSignup implements Initializable {
         return FXMLLoader.load(ControllerSignup.class.getResource("/Views/SignUp.fxml"));
     }
 
+    /**
+     * When the signup window is shown
+     * @param location auto-generated
+     * @param resources auto-generated
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         passwordFieldS.setOnKeyPressed(event -> {
@@ -39,11 +44,18 @@ public class ControllerSignup implements Initializable {
         });
     }
 
+    /**
+     * When the user clicks login instead
+     * @throws IOException
+     */
     @FXML
     void gotoLogin() throws IOException {
         usernameFieldS.getScene().setRoot(ControllerLogin.getContent());
     }
 
+    /**
+     * when the user clicks sign up
+     */
     @FXML
     void signupAction() {
         if (ControllerMain.getDatabaseClient().newUser(usernameFieldS.getText(), passwordFieldS.getText())) {
@@ -57,6 +69,4 @@ public class ControllerSignup implements Initializable {
             error.showAndWait();
         }
     }
-
-
 }

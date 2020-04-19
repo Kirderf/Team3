@@ -21,7 +21,7 @@ public class ControllerPreferences implements Initializable {
      *
      * @return boolean
      */
-    protected static boolean isColourChecked() {
+    static boolean isColourChecked() {
         return colourChecked;
     }
 

@@ -3,8 +3,6 @@ package backend.util;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -69,9 +67,10 @@ public class Log {
      * @return the filename of the oldest log
      */
     private static String pickLog() throws URISyntaxException, UnsupportedEncodingException {
-        //three valid logs
-        String logPath = directoryMaker.folderMaker("Logs");
+        //creates a new directory with in the same folder as the jar file named logs
+        String logPath = DirectoryMaker.folderMaker("Logs");
 
+        //three valid logs
         File log1 = new File(logPath + File.separator+ "Log1.log");
         File log2 = new File(logPath + File.separator + "Log2.log");
         File log3 = new File(logPath + File.separator + "Log3.log");

@@ -16,7 +16,7 @@
 package controller;
 
 import backend.util.Log;
-import backend.util.directoryMaker;
+import backend.util.DirectoryMaker;
 import com.sothawo.mapjfx.*;
 import com.sothawo.mapjfx.event.MarkerEvent;
 import javafx.embed.swing.SwingFXUtils;
@@ -169,11 +169,11 @@ public class ControllerMap implements Initializable {
         //requestedWidth is just a placeholder, simply needs to be bigger than height
         Image image = new Image(new File(inputImagePath).toURI().toURL().toExternalForm(),scaledHeight*2,scaledHeight,true,false);
         BufferedImage bImage = SwingFXUtils.fromFXImage(image,null);
-        //formats string to have \\ instead of /
         //the path to the image is temporary, so the name of the image is given by current time in milliseconds
         File file = new File(inputImagePath);
         //making sure the filename is different by using milliseconds as the name
-        String outputPath = directoryMaker.folderMaker("tempImages") + File.separator + System.currentTimeMillis() + FilenameUtils.EXTENSION_SEPARATOR + FilenameUtils.getExtension(file.getAbsolutePath());
+        //creates a new folder in the same folder as the jar file
+        String outputPath = DirectoryMaker.folderMaker("tempImages") + File.separator + System.currentTimeMillis() + FilenameUtils.EXTENSION_SEPARATOR + FilenameUtils.getExtension(file.getAbsolutePath());
         //writes the thumbnail to the disk so that it can be read by marker creator
         ImageIO.write(bImage, "png", new File(outputPath));
         //the path to the file that was written

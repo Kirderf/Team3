@@ -43,10 +43,18 @@ public class ControllerImport implements Initializable {
      */
     private ArrayList<File> bufferList = new ArrayList<>();
 
+    /**
+     * Used to check when window should be closed
+     * @return boolean, whether the import is succeeded and the window can be closed or not
+     */
     protected static boolean isImportSucceed() {
         return importSucceed;
     }
 
+    /**
+     * sets the importSucceed boolean
+     * @param b boolean whether the import is now finished or not
+     */
     protected static void setImportSucceed(boolean b) {
         importSucceed = b;
     }

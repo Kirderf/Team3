@@ -30,10 +30,20 @@ public class ControllerLogin implements Initializable {
 
     private SaveLogin saveLogin;
 
-    public static Parent getContent() throws IOException {
+    /**
+     * gets the fxml file for the login
+     * @return returns loader loading login.fxml
+     * @throws IOException
+     */
+    static Parent getContent() throws IOException {
         return FXMLLoader.load(ControllerLogin.class.getResource("/Views/Login.fxml"));
     }
 
+    /**
+     * when the program first is shown
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         usernameField.setOnKeyPressed(event -> {
@@ -67,12 +77,21 @@ public class ControllerLogin implements Initializable {
         }
     }
 
+    /**
+     * if the user clicks the button to go to signup instead
+     * @throws IOException
+     */
     @FXML
     void gotoSignup() throws IOException {
         saveLogin.close();
         usernameField.getScene().setRoot(ControllerSignup.getContent());
     }
 
+    /**
+     * when the user clicks login
+     * @throws IOException if the login details are read from .txt file
+     * @throws URISyntaxException
+     */
     @FXML
     void loginAction() throws IOException, URISyntaxException {
         if (ControllerMain.getDatabaseClient().login(usernameField.getText(), passwordField.getText())) {

@@ -74,7 +74,7 @@ public class ControllerViewAlbums implements Initializable {
      *
      * @param name name of the album
      */
-    public static void deleteAlbum(String name) {
+    private static void deleteAlbum(String name) {
         //deletes the selected album from the arraylist
         ControllerMain.removeAlbum(name);
     }
@@ -152,12 +152,12 @@ public class ControllerViewAlbums implements Initializable {
         ((Stage) albumTilePane.getScene().getWindow()).close();
     }
 
-    public void closeWindow() {
+    private void closeWindow() {
         ((Stage) albumTilePane.getScene().getWindow()).close();
     }
 
     //this is the event handler that makes shows the deletion prompt
-    public EventHandler<MouseEvent> deletePane(Pane pane) {
+    private EventHandler<MouseEvent> deletePane(Pane pane) {
         return event -> deleteConfirmation(pane);
     }
 
@@ -210,7 +210,7 @@ public class ControllerViewAlbums implements Initializable {
     /**
      * removes the deletion event and adds back the view album event
      */
-    public void addBackEvents() {
+    private void addBackEvents() {
         for (int i = 0; i < albumTilePane.getChildren().size(); i++) {
             if (albumTilePane.getChildren().get(i) instanceof Pane) {
                 Pane albumPane = (Pane) albumTilePane.getChildren().get(i);

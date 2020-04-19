@@ -185,8 +185,13 @@ public class ControllerTagging implements Initializable {
         return false;
     }
 
+    /**
+     * gets all the tags stored in the database
+     * @return
+     */
     static ArrayList<String> getAllTags() {
         ArrayList<String> tagStrings = (ArrayList<String>) ControllerMain.getDatabaseClient().getColumn("Tags");
+        //linkedhashsets contain unique elements only, so no tag will be added twice
         LinkedHashSet<String> hashSet = new LinkedHashSet<>();
         for (Object s : tagStrings) {
             hashSet.addAll(Arrays.asList(s.toString().split(",")));

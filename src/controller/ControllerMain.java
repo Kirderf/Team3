@@ -626,7 +626,7 @@ public class ControllerMain implements Initializable {
      *
      * @param path to image object
      */
-    void insertImage(String path) throws FileNotFoundException {
+    private void insertImage(String path) throws FileNotFoundException {
         int row = getNextRow();
         int column = getNextColumn();
         ImageView image = importImage(path);
@@ -804,6 +804,9 @@ public class ControllerMain implements Initializable {
 
     }
 
+    /**
+     * shows the tags for the most recently selected image in the sidebare
+     */
     void showTags() {
         if (selectedImages.isEmpty()) {
             tagVbox.getChildren().clear();

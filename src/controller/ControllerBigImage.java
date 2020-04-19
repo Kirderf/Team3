@@ -57,12 +57,16 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     public void initialize(URL location, ResourceBundle resources) {
         setImagePath();
         setBigImage(getImageBuffer());
-        showMetadata();
-        showTags();
+        super.showMetadata();
+        super.showTags();
         textField.setEditable(false);
         bigImgDataSplitPane.setDividerPositions(getSplitPanePos());
     }
 
+    /**
+     * when home button is clicked
+     * @throws IOException reads fxml file
+     */
     @FXML
     protected void goToLibrary() throws IOException {
         voice.speak("Going to library");
@@ -242,14 +246,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         textField.setText(getSelectedImages().get(getSelectedImages().size() - 1));
     }
 
-    protected void showMetadata() {
-        super.showMetadata();
-    }
-
-    @Override
-    protected void showTags() {
-        super.showTags();
-    }
 
     @FXML
     private void tintHome() {
