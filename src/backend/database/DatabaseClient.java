@@ -35,6 +35,7 @@ public class DatabaseClient {
         //loads the local .properties file
         Properties properties = loadProperties();
         //loads username and password to local map
+        newProperties.put("javax.persistence.jdbc.url", "jdbc:mysql://mysql.stud.ntnu.no:3306/" + properties.getProperty("URL"));
         newProperties.put("javax.persistence.jdbc.user", properties.getProperty("USERNAME"));
         newProperties.put("javax.persistence.jdbc.password", properties.getProperty("PASSWORD"));
         //loads persistenceunit with local map containing username and password
