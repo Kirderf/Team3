@@ -1,4 +1,4 @@
-# The Greatest Bestests Awesomest Photo Program That Ever Was!!11 AGAINST covid-19
+# Photon
 
 [This readme is meant as a simple introduction, for a full description, please visit our wiki-page](https://gitlab.stud.idi.ntnu.no/team3-2020/systemutvikling/-/wikis/home)
 
