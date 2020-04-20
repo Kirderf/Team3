@@ -4,7 +4,7 @@
 
 ## Installation
 
-[Installation manual] (https://gitlab.stud.idi.ntnu.no/team3-2020/systemutvikling/-/wikis/System/Installation-manual)
+[Installation manual](https://gitlab.stud.idi.ntnu.no/team3-2020/systemutvikling/-/wikis/System/Installation-manual)
 
 ## Usage
 
