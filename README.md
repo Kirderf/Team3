@@ -4,7 +4,7 @@
 
 ## Installation
 
-No installation is required, merely run the executable while being connected to NTNU's network and the application will start.
+[Installation manual](https://gitlab.stud.idi.ntnu.no/team3-2020/systemutvikling/-/wikis/System/Installation-manual)
 
 ## Usage
 
