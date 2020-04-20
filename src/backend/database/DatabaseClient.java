@@ -5,12 +5,10 @@ import backend.util.Log;
 import javafx.scene.image.Image;
 
 import javax.persistence.EntityManagerFactory;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * The DatabaseClient class represents objects that work as a middleman between the database and the user.

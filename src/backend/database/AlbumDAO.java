@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * The type Album dao.
+ * The AlbumDAO class represents an album created in the application.
+ * Each object of this class gets is assigned a name, list of images and
+ * the UserDAO that it's bound to.
  */
 @Entity
 public class AlbumDAO {
@@ -22,67 +24,22 @@ public class AlbumDAO {
     private UserDAO userDAO;
 
     /**
-     * Instantiates a new Album dao.
+     * Instantiates an empty AlbumDAO object.
      */
     public AlbumDAO() {
     }
 
     /**
-     * Instantiates a new Album dao.
+     * Instantiates an AlbumDAO object.
      *
      * @param albumName the album name
      * @param imageList the image list
-     * @param userDAO    the user that made the album
+     * @param userDAO   the user that made the album
      */
-    public AlbumDAO(String albumName, List<ImageDAO> imageList, UserDAO userDAO) {
+    AlbumDAO(String albumName, List<ImageDAO> imageList, UserDAO userDAO) {
         this.albumName = albumName;
         this.imageList = imageList;
         this.userDAO = userDAO;
-    }
-
-    /**
-     * Gets album id.
-     *
-     * @return the album id
-     */
-    public int getAlbumId() {
-        return albumId;
-    }
-
-    /**
-     * Get name string.
-     *
-     * @return the string
-     */
-    public String getName(){
-        return albumName;
-    }
-
-    /**
-     * Sets album id.
-     *
-     * @param albumId the album id
-     */
-    public void setAlbumId(int albumId) {
-        this.albumId = albumId;
-    }
-
-    /**
-     * Remove image.
-     *
-     * @param imageDAO the image dao
-     */
-    public void removeImage(ImageDAO imageDAO){
-        imageList.remove(imageDAO);
-    }
-
-    /**
-     * Add image.
-     *
-     * @param imageDAO the image dao
-     */
-    public void addImage(ImageDAO imageDAO){
-        imageList.add(imageDAO);
     }
 
     /**
@@ -90,47 +47,47 @@ public class AlbumDAO {
      *
      * @return the album name
      */
-    public String getAlbumName() {
+    String getAlbumName() {
         return albumName;
     }
 
     /**
-     * Sets album name.
+     * Adds an image.
      *
-     * @param albumName the album name
+     * @param imageDAO imageDAO to be added
      */
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
+    void addImage(ImageDAO imageDAO) {
+        imageList.add(imageDAO);
     }
 
     /**
-     * Get user id int.
+     * Gets the ID of the user who created the album.
      *
-     * @return the int
+     * @return userID as a long
      */
-    public long getUserID(){
+    long getUserID() {
         return userDAO.getAccountID();
     }
 
     /**
-     * Get images list.
+     * Get the List of images in the album
      *
-     * @return the list
+     * @return a List with images
      */
     public List<ImageDAO> getImages() {
         return imageList;
     }
 
     /**
-     * Set images.
+     * Sets the List of images in the album.
      *
-     * @param imageList the image list
+     * @param imageList the new image list
      */
     public void setImages(List<ImageDAO> imageList) {
         this.imageList = imageList;
     }
 
-    public List<String> getImagePaths(){
+    List<String> getImagePaths() {
         return getImages().stream().map(ImageDAO::getPath).collect(Collectors.toList());
     }
 }
