@@ -38,19 +38,27 @@ public final class ImageExport {
                 //throw error here as it should not be possible for paths to be empty, as this is checked earlier
                 throw new IllegalArgumentException("Empty list of paths");
             }
+            //for the paths that are included in the album
             for (String s : paths) {
                 InputStream in = new FileInputStream(s);
+                //reads the image from disk
                 BufferedImage bimg = ImageIO.read(in);
                 float width = bimg.getWidth();
                 float height = bimg.getHeight();
+                //creates pdf page with the dimensions of the image
                 PDPage page = new PDPage(new PDRectangle(width, height));
+                //ads the page onto our pdf document
                 document.addPage(page);
+                //creates object to be drawn onto the pdf using our image and our pdf
                 PDImageXObject img = PDImageXObject.createFromFile(s, document);
+                //draws image onto the pdf page
                 try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
                     contentStream.drawImage(img, 0f, 0f);
                 }
+                //closes the inputstream for this photo
                 in.close();
             }
+            //saves the pdf document to the given location
             document.save(location);
             document.close();
             return true;
