@@ -71,9 +71,9 @@ public class Log {
         String logPath = DirectoryMaker.folderMaker("Logs");
 
         //three valid logs
-        File log1 = new File(logPath + File.separator+ "Log1.log");
-        File log2 = new File(logPath + File.separator + "Log2.log");
-        File log3 = new File(logPath + File.separator + "Log3.log");
+        File log1 = new File(logPath + "Log1.log");
+        File log2 = new File(logPath + "Log2.log");
+        File log3 = new File(logPath + "Log3.log");
 
         logs.add(log1.getPath());
         logs.add(log2.getPath());

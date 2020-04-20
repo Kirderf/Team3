@@ -173,7 +173,7 @@ public class ControllerMap implements Initializable {
         File file = new File(inputImagePath);
         //making sure the filename is different by using milliseconds as the name
         //creates a new folder in the same folder as the jar file
-        String outputPath = DirectoryMaker.folderMaker("tempImages") + File.separator + System.currentTimeMillis() + FilenameUtils.EXTENSION_SEPARATOR + FilenameUtils.getExtension(file.getAbsolutePath());
+        String outputPath = DirectoryMaker.folderMaker("tempImages") + System.currentTimeMillis() + FilenameUtils.EXTENSION_SEPARATOR + FilenameUtils.getExtension(file.getAbsolutePath());
         //writes the thumbnail to the disk so that it can be read by marker creator
         ImageIO.write(bImage, "png", new File(outputPath));
         //the path to the file that was written

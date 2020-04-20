@@ -7,7 +7,7 @@ import java.io.*;
  */
 public class SaveLogin {
     //writes a new directory to the the same area as the jar file
-    private File saveFile = new File(DirectoryMaker.folderMaker("login") + File.separator + "login.txt");
+    private File saveFile = new File(DirectoryMaker.folderMaker("login") +  "login.txt");
     private FileWriter fw = new FileWriter(saveFile, true);
     private BufferedWriter bw = new BufferedWriter(fw);
 
