@@ -14,27 +14,21 @@ import java.time.ZoneId;
 import java.util.*;
 
 /**
- * @author Ingebrigt Hovind
+ * This class handles imported images. It makes sure they're of the
+ * right file type, and gets their metadata.
  */
 public abstract class ImageImport {
     private static final Log logger = new Log();
     //this is the names of the various kinds of metadata we are interested in in com.drew.metadata methods
-    private static List<String> interestingMetadata = Arrays.asList("File Size","Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude","File Modified Date");
-    private static int noOfData = interestingMetadata.size() -1;
+    private static List<String> interestingMetadata = Arrays.asList("File Size", "Date/Time Original", "Image Height", "Image Width", "GPS Latitude", "GPS Longitude", "File Modified Date");
+    private static int noOfData = interestingMetadata.size() - 1;
     //needs to be all lowercase, update if we accept other file types
-    private static List<String> validImageExtensions = Arrays.asList("jpg","png","jpeg");
+    private static List<String> validImageExtensions = Arrays.asList("jpg", "png", "jpeg");
     private static SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 
-    /**
-     * Checks whether a file is an image or not based on the extension, validImageExtions contains all file extensions that are valid
-     * public for tests only
-     * @param file the file that is to be checked if it is an image
-     * @return true if the file has an extension that is in validImageExtensions
-     * @author Ingebrigt Hovind
-     */
-    private static boolean isImage(File file){
+    private static boolean isImage(File file) {
         try {
-            if(file.exists()){
+            if (file.exists()) {
                 return validImageExtensions.contains(FilenameUtils.getExtension(file.getPath()).toLowerCase());
             }
             return false;
@@ -44,23 +38,18 @@ public abstract class ImageImport {
         }
     }
 
-    /**
-     * Converts from degrees, minutes and seconds to just degrees
-     * @param latOrLong either latitude or longitude
-     * @return the corresponding coordinate in decimal form
-     * @author Ingebrigt Hovind
-     */
     private static Double conMinutesToDecimal(String latOrLong) {
         //number of seconds
-        double second = Double.parseDouble(latOrLong.substring(latOrLong.indexOf(" "),latOrLong.indexOf("'")))*60 + Double.parseDouble(latOrLong.substring(latOrLong.indexOf("' ")+1,latOrLong.length()-1).replaceAll(",","."));
-        return Double.parseDouble(latOrLong.substring(0,latOrLong.indexOf("°"))) + second/3600;
+        double second = Double.parseDouble(latOrLong.substring(latOrLong.indexOf(" "), latOrLong.indexOf("'"))) * 60 + Double.parseDouble(latOrLong.substring(latOrLong.indexOf("' ") + 1, latOrLong.length() - 1).replaceAll(",", "."));
+        return Double.parseDouble(latOrLong.substring(0, latOrLong.indexOf("°"))) + second / 3600;
     }
+
     /**
-     * returns an array with the interesting metadata, the metadata is in the same order as the interestingmetadata arraylist
-     * needs to be public
-     * @param pathToFile the path file you want to find the metadata for
-     * @return an array with the interesting metadata, the metadata is in the same order as the interestingmetadata arraylist, null if no corresponding data is found
-     * @author Ingebrigt Hovind
+     * Returns an Array with a given file's interesting metadata.
+     * If a given metadata is null, then it's value is set to -1.
+     *
+     * @param pathToFile the path to the file
+     * @return an Array with the interesting metadata, or null if the file is invalid
      */
     public static String[] getMetaData(String pathToFile) {
         File file = new File(pathToFile);
@@ -77,86 +66,79 @@ public abstract class ImageImport {
                     //iterates through tags in directory
                     for (Tag tag : directory.getTags()) {
                         //if the tag is part of the tags we are interested in
-                        if(interestingMetadata.contains(tag.getTagName())){
+                        if (interestingMetadata.contains(tag.getTagName())) {
                             //png images have slightly different metadata for dates, this fixes that
-                            if(tag.getTagName().equals("Date/Time Original")||tag.getTagName().equals("File Modified Date")){
+                            if (tag.getTagName().equals("Date/Time Original") || tag.getTagName().equals("File Modified Date")) {
                                 //this is preferable as this is a more relevant date
-                                if(tag.getDescription().equals("Date/Time Original")){
+                                if (tag.getDescription().equals("Date/Time Original")) {
                                     hasDateTime = true;
                                     Date date1 = directory.getDate(tag.getTagType());
                                     LocalDate localDate = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                                    String formattedDate = localDate.toString().replaceAll("-","");
+                                    String formattedDate = localDate.toString().replaceAll("-", "");
                                     metaArray[interestingMetadata.indexOf("Date/Time Original")] = formattedDate;
-                                }
-                                else if(tag.getTagName().equalsIgnoreCase("File Modified Date")&&!hasDateTime){
+                                } else if (tag.getTagName().equalsIgnoreCase("File Modified Date") && !hasDateTime) {
                                     Date date1 = directory.getDate(tag.getTagType());
                                     LocalDate localDate = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                                    String formattedDate = localDate.toString().replaceAll("-","");
+                                    String formattedDate = localDate.toString().replaceAll("-", "");
                                     metaArray[interestingMetadata.indexOf("Date/Time Original")] = formattedDate;
                                 }
                                 //the new tag is placed in the index that corresponds with the index of the tag in the interestingmetadata array
-                            }
-                            else {
+                            } else {
                                 metaArray[interestingMetadata.indexOf(tag.getTagName())] = tag.getDescription();
                             }
                         }
                     }
                 }
-                for(GpsDirectory directory : metadata.getDirectoriesOfType(GpsDirectory.class)){
+                for (GpsDirectory directory : metadata.getDirectoriesOfType(GpsDirectory.class)) {
                     for (Tag tag : directory.getTags()) {
-                        if(tag.getTagName().equals("GPS Latitude")){
+                        if (tag.getTagName().equals("GPS Latitude")) {
                             //this gives a value in degrees, minutes and seconds, but it is converted to decimal, then converted to string
-                            metaArray[interestingMetadata.indexOf(tag.getTagName())] = ""+ conMinutesToDecimal(tag.getDescription());
-                        }
-                        else if(tag.getTagName().equals("GPS Longitude")){
-                            metaArray[interestingMetadata.indexOf(tag.getTagName())] = ""+ conMinutesToDecimal(tag.getDescription());
+                            metaArray[interestingMetadata.indexOf(tag.getTagName())] = "" + conMinutesToDecimal(tag.getDescription());
+                        } else if (tag.getTagName().equals("GPS Longitude")) {
+                            metaArray[interestingMetadata.indexOf(tag.getTagName())] = "" + conMinutesToDecimal(tag.getDescription());
                         }
                     }
                 }
                 //goes through the metadata and makes sure it is not null
                 //date
-                if (metaArray[1] == null){
+                if (metaArray[1] == null) {
                     metaArray[1] = format.format(new Date());
-                }else {
+                } else {
                     //if date is not null
-                    metaArray[1] = metaArray[1].replaceAll(":","").substring(0,8).trim();
+                    metaArray[1] = metaArray[1].replaceAll(":", "").substring(0, 8).trim();
                 }
                 //file size
-                if (metaArray[0] != null){
-                    metaArray[0] = metaArray[0].replaceAll("bytes","").trim();
-                }
-                else{
+                if (metaArray[0] != null) {
+                    metaArray[0] = metaArray[0].replaceAll("bytes", "").trim();
+                } else {
                     metaArray[0] = "-1";
                 }
                 //image height
-                if (metaArray[2] != null){
-                    metaArray[2] = metaArray[2].replaceAll("pixels","").trim();
-                }
-                else{
+                if (metaArray[2] != null) {
+                    metaArray[2] = metaArray[2].replaceAll("pixels", "").trim();
+                } else {
                     metaArray[2] = "-1";
                 }
                 //image width
-                if (metaArray[3] != null){
-                    metaArray[3] = metaArray[3].replaceAll("pixels","").trim();
-                }
-                else{
+                if (metaArray[3] != null) {
+                    metaArray[3] = metaArray[3].replaceAll("pixels", "").trim();
+                } else {
                     metaArray[3] = "-1";
                 }
                 //latitude
-                if (metaArray[4] == null){
-                    metaArray[4] = "0";
+                if (metaArray[4] == null) {
+                    metaArray[4] = "-1";
                 }
                 //longitude
-                if (metaArray[5] == null){
-                    metaArray[5] = "0";
+                if (metaArray[5] == null) {
+                    metaArray[5] = "-1";
                 }
                 return metaArray;
-            }
-            else{
+            } else {
                 throw new IllegalArgumentException("The file does not exist, or is not an image");
             }
             //thrown by the metadata-library we are using
-        } catch(Exception e){
+        } catch (Exception e) {
             logger.logNewFatalError("ImageImport : " + e.getLocalizedMessage());
         }
         //if the file this is run on is not a valid image
