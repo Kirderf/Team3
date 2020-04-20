@@ -7,7 +7,7 @@ import java.io.*;
  */
 public class SaveLogin {
     //writes a new directory to the the same area as the jar file
-    private File saveFile = new File(DirectoryMaker.folderMaker("login") +  "login.txt");
+    private File saveFile = new File(DirectoryMaker.folderMaker("login") + "login.txt");
     private FileWriter fw = new FileWriter(saveFile, true);
     private BufferedWriter bw = new BufferedWriter(fw);
 
@@ -21,7 +21,8 @@ public class SaveLogin {
     }
 
     /**
-     * Get user details from savefile
+     * Get user details from the save file
+     *
      * @return string array with user details
      * @throws IOException
      */
@@ -37,8 +38,8 @@ public class SaveLogin {
     /**
      * Saves a (new) user to the local txt file
      *
-     * @param username
-     * @param password
+     * @param username the user's username
+     * @param password the user's password
      * @throws IOException
      */
     public void saveUser(String username, String password) throws IOException {
@@ -50,6 +51,7 @@ public class SaveLogin {
 
     /**
      * Deletes data in save file
+     *
      * @throws IOException
      */
     public void deleteSaveData() throws IOException {
@@ -60,7 +62,8 @@ public class SaveLogin {
 
     /**
      * Checks if there already exist a user in the save file
-     * @return
+     *
+     * @return true if a user exists, false if not
      * @throws IOException
      */
     public boolean isRemembered() throws IOException {
@@ -76,6 +79,7 @@ public class SaveLogin {
 
     /**
      * Close writing streams
+     *
      * @throws IOException
      */
     public void close() throws IOException {
