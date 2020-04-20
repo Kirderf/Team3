@@ -16,9 +16,13 @@ import java.util.List;
 /**
  * This class is used to export images in a pdf format.
  */
-public abstract class ImageExport {
+public final class ImageExport {
     private static final Log logger = new Log();
 
+
+    private ImageExport(){
+        //hide the implicit public constructor
+    }
     /**
      * Saves all the given images in a pdf
      *

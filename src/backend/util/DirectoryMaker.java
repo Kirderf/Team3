@@ -5,7 +5,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 
-public abstract class DirectoryMaker {
+public final class DirectoryMaker {
+    private DirectoryMaker(){
+        //hide the implicit public constructor
+    }
     /**
      * Used to create a new folder relative to the jar file
      *
