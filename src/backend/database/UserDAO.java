@@ -12,7 +12,8 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
 /**
- * The type User dao.
+ * The UserDAO class represents a User's login details, and
+ * has their unique accountID, username, hashed password and salt string.
  */
 
 @Entity
@@ -27,12 +28,13 @@ public class UserDAO {
 
 
     /**
-     * Instantiates a new User dao.
+     * Takes in a user's given username and password, generates a random salt string
+     * and creates a new UserDAO object with these.
      *
      * @param username the username
      * @param password the password
      */
-    UserDAO(String username, String password){
+    UserDAO(String username, String password) {
 
         //generates random salt
         SecureRandom random = new SecureRandom();
@@ -53,29 +55,29 @@ public class UserDAO {
     }
 
     /**
-     * Instantiates a new User dao.
+     * Instantiates a new UserDAO.
      */
-    public UserDAO(){
+    public UserDAO() {
     }
 
     /**
-     * Get account id long.
+     * Gets the account ID.
      *
-     * @return the long
+     * @return account ID as a long
      */
-    long getAccountID(){
+    long getAccountID() {
         return this.accountID;
     }
 
     /**
-     * Verify password boolean.
+     * This method checks if the password is correct.
      *
-     * @param testPassword the test password
-     * @return the boolean
+     * @param testPassword the input password
+     * @return true if password is correct, false if not
      */
-    boolean verifyPassword(String testPassword){
+    boolean verifyPassword(String testPassword) {
         //the password that is to be tested
-        if(testPassword == null) return false;
+        if (testPassword == null) return false;
         char[] passwordChars = testPassword.toCharArray();
         //salt string from the implicit parameter
         byte[] saltBytes = Base64.decodeBase64(saltString);
@@ -93,12 +95,12 @@ public class UserDAO {
         int keyLength = 512;
 
         try {
-            SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA512" );
+            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
             //encodes password
-            PBEKeySpec spec = new PBEKeySpec( password, salt, iterations, keyLength );
-            SecretKey key = skf.generateSecret( spec );
+            PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, keyLength);
+            SecretKey key = skf.generateSecret(spec);
             return key.getEncoded();
-        } catch ( NoSuchAlgorithmException | InvalidKeySpecException e ) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new IllegalArgumentException(e);
         }
     }

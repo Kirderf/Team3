@@ -64,7 +64,7 @@ public class ImageDAO {
      * Gets the thumbnail of this image object
      *
      * @return resized image object
-     * @throws MalformedURLException calls {@link ImageDAO#resize()} function which may throw this error
+     * @throws MalformedURLException calls {@link ImageDAO#rezise()} function which may throw this error
      */
     public Image getThumbnail() throws MalformedURLException {
         return this.rezise();
