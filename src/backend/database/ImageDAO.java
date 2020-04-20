@@ -17,7 +17,6 @@ public class ImageDAO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long imageID;
     private String path;
     private int fileSize;
     private int date;
@@ -41,8 +40,8 @@ public class ImageDAO {
      * @param latitude    geographical latitude (if it has one)
      * @param longitude   geographical longitude (if it has one)
      */
-    public ImageDAO(UserDAO userDAO, String path, int fileSize, int date,
-                    int imageHeight, int imageWidth, double latitude, double longitude) {
+    ImageDAO(UserDAO userDAO, String path, int fileSize, int date,
+             int imageHeight, int imageWidth, double latitude, double longitude) {
         this.userDAO = userDAO;
         this.path = path;
         this.fileSize = fileSize;
@@ -61,16 +60,16 @@ public class ImageDAO {
     }
 
     /**
-     * gets the thumbnail of this image object
+     * Gets the thumbnail of this image object
      *
      * @return resized image object
-     * @throws MalformedURLException calls resize function which may throw this error
+     * @throws MalformedURLException calls {@link ImageDAO#resize()} function which may throw this error
      */
-    public Image getThumbnail() throws MalformedURLException {
-        return this.rezise();
+    Image getThumbnail() throws MalformedURLException {
+        return this.resize();
     }
 
-    private Image rezise() throws MalformedURLException {
+    private Image resize() throws MalformedURLException {
         //requestedWidth is just a placeholder, simply needs to be bigger than height
         return new Image(new File(path).toURI().toURL().toExternalForm(), 186, 185, true, true);
     }
@@ -82,15 +81,6 @@ public class ImageDAO {
      */
     UserDAO getUserDAO() {
         return this.userDAO;
-    }
-
-    /**
-     * Set userDAO.
-     *
-     * @param userDAO the userDAO
-     */
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
     }
 
     /**
@@ -112,7 +102,7 @@ public class ImageDAO {
     }
 
     /**
-     * Returns the file size of this image
+     * Returns the file size of an image
      *
      * @return int representing the size of the image in bytes
      */
@@ -121,18 +111,9 @@ public class ImageDAO {
     }
 
     /**
-     * Sets the file size
+     * Gets the date
      *
-     * @param fileSize the int you want to set it to
-     */
-    public void setFileSize(int fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    /**
-     * Gets the current date
-     *
-     * @return the date in the format yyyymmdd
+     * @return the date as an int in the format yyyymmdd
      */
     int getDate() {
         return date;
@@ -157,17 +138,6 @@ public class ImageDAO {
     }
 
     /**
-     * Sets the image's height to a value
-     * This method does not actually change the image,
-     * only the value in the object
-     *
-     * @param imageHeight height in pixels you want to set it to
-     */
-    public void setImageHeight(int imageHeight) {
-        this.imageHeight = imageHeight;
-    }
-
-    /**
      * Gets the width of an image
      *
      * @return width in pixels
@@ -177,18 +147,7 @@ public class ImageDAO {
     }
 
     /**
-     * Sets the height to a value
-     * This method does not actually change the image,
-     * only the value in the object
-     *
-     * @param imageWidth width in pixels you want to set it to
-     */
-    public void setImageWidth(int imageWidth) {
-        this.imageWidth = imageWidth;
-    }
-
-    /**
-     * Image latitude
+     * Gets the image latitude if it has one
      *
      * @return 0 if the image does not have valid gps data, otherwise latitude in decimals
      */
@@ -197,32 +156,12 @@ public class ImageDAO {
     }
 
     /**
-     * Sets the image latitude to a value
-     * Does not change the image metadata, only this object
-     *
-     * @param latitude latitude in decimals
-     */
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    /**
-     * Image longitude
+     * Gets the image longitude if it has one
      *
      * @return 0 if the image does not have valid gps data, otherwise longitude in decimals
      */
     double getLongitude() {
         return longitude;
-    }
-
-    /**
-     * Sets the image longitude to a value
-     * Does not change the image metadata, only this object
-     *
-     * @param longitude longitude in decimals
-     */
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     /**
