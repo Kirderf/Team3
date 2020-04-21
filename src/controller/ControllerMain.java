@@ -332,6 +332,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * When the search button is clicked
+     * @param event mouse click on search
      */
     @FXML
     protected void searchAction(ActionEvent event) {
@@ -369,7 +370,7 @@ public class ControllerMain implements Initializable {
     /**
      * Remove images from view and database
      *
-     * @param event
+     * @param event mouse click on remove
      * @return true if something is deleted or false if nothing is deleted.
      * @throws SQLException
      * @throws IOException
@@ -427,6 +428,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * Opens import window, once window closes, all pictures from database will get inserted into the UI
+     * @param event auto-generated
      */
     @FXML
     protected void importAction(ActionEvent event) throws IOException {

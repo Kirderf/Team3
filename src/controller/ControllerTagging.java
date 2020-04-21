@@ -190,7 +190,7 @@ public class ControllerTagging implements Initializable {
     /**
      * gets all the tags stored in the database
      *
-     * @return
+     * @return an arraylist with every unique tag in the database
      */
     static ArrayList<String> getAllTags() {
         ArrayList<String> tagStrings = (ArrayList<String>) ControllerMain.getDatabaseClient().getColumn("Tags");
