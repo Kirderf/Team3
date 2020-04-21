@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * This class is a controller that handles all actions made by the user
+ * when interacting with the search stage.
+ */
 public class ControllerSearch implements Initializable {
     private static ArrayList<String> searchResults = new ArrayList<>();
     private static boolean searchSucceed = false;
@@ -36,8 +40,9 @@ public class ControllerSearch implements Initializable {
     private ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
 
     /**
-     * gets the result after a search has been made
-     * @return returns a list of results
+     * Gets the result of a search
+     *
+     * @return ArrayList with paths
      */
     static ArrayList<String> getSearchResults() {
         return searchResults;
@@ -45,15 +50,18 @@ public class ControllerSearch implements Initializable {
 
     /**
      * Used in order to know when to close the window
-     * @return boolean, true if search has been completed, false if not
+     *
+     * @return  true if search has been completed, false if not
      */
     static boolean isSearchSucceed() {
         return searchSucceed;
     }
 
     /**
-     * if search is finished
-     * @param searchSucceed boolean, whether or not the search is finished
+     * Sets the searchSucceed boolean that lets the program know whether
+     * the stage can be closed or not.
+     *
+     * @param searchSucceed boolean
      */
     static void setSearchSucceed(boolean searchSucceed) {
         ControllerSearch.searchSucceed = searchSucceed;
@@ -71,6 +79,11 @@ public class ControllerSearch implements Initializable {
         });
     }
 
+    /**
+     * This method is called when a scene is created
+     * using this controller. It disables the searchField, adds listeners
+     * to the checkboxes, and inserts tags into the TableView.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         searchField.setDisable(true);
@@ -80,7 +93,7 @@ public class ControllerSearch implements Initializable {
         insertTags();
     }
 
-    /**
+    /*
      * if the close button is clicked
      */
     @FXML
@@ -88,14 +101,14 @@ public class ControllerSearch implements Initializable {
         ((Stage) searchField.getScene().getWindow()).close();
     }
 
-    /**
+    /*
      * if the search button is clicked
      */
     @FXML
     private void searchAction() {
-        if((searchField.getText() == null || searchField.getText().equalsIgnoreCase(""))&&getCheckedBoxes().isEmpty()) {
+        if ((searchField.getText() == null || searchField.getText().equalsIgnoreCase("")) && getCheckedBoxes().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "You have selected no criteria, cannot search!");
-            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
+            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
             alert.showAndWait();
         } else {
             //clears static resultList
@@ -159,7 +172,7 @@ public class ControllerSearch implements Initializable {
     }
 
 
-    /**
+    /*
      * Finds all available tags, assigns their labels and checkboxes and adds them to an observable
      * list, which is then inserted into a table list that's presented to the user.
      */
