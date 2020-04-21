@@ -2,7 +2,6 @@ package controller;
 
 import backend.util.AlbumRow;
 import backend.util.Log;
-import backend.util.TagTableRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,31 +18,32 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * This class stores and controls actions made when
+ * the user is adding images to an album.
+ */
 public class ControllerAddToAlbum implements Initializable {
     private static final Log logger = new Log();
-    ObservableList<AlbumRow> albumList = FXCollections.observableArrayList();
+    private ObservableList<AlbumRow> albumList = FXCollections.observableArrayList();
     @FXML
     private TableView<AlbumRow> albumTable;
     @FXML
     private TableColumn<AlbumRow, CheckBox> select;
 
+    /**
+     * This method runs when the a scene is created using this controller.
+     * In this case, it finds all existing albums and creates an {@link AlbumRow} object
+     * for each one, which is then inserted into a TableView.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         insertAlbums();
     }
 
-    /**
-     * gets an iterator that iterates over the albums in controllerMain
-     *
-     * @return Iterator on ControllerMain albums
-     */
     private Iterator<Map.Entry<String, List<String>>> getAlbumIterator() {
         return ControllerMain.getAlbums().entrySet().iterator();
     }
 
-    /**
-     * inserts the album into the list of checkboxes
-     */
     private void insertAlbums() {
         Iterator<Map.Entry<String, List<String>>> albumIterator = getAlbumIterator();
         int counter = 1;
@@ -57,11 +57,6 @@ public class ControllerAddToAlbum implements Initializable {
         select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     }
 
-    /**
-     * gets all of the albums that are currently checked
-     *
-     * @return Arraylist with the names of the albums that the images were added
-     */
     private ArrayList<String> getCheckedBoxes() {
         ArrayList<String> tempAlbumList = new ArrayList<>();
         for (AlbumRow ar : albumTable.getItems()) {
@@ -73,7 +68,10 @@ public class ControllerAddToAlbum implements Initializable {
     }
 
     /**
-     * when confirm is clicked
+     * This method runs when the confirm button is pressed.
+     * It first checks if there are any checked boxes in the album TableView,
+     * then iterates through these and adds the new images to each album.
+     * If no checkboxes are checked, an alert is presented to the user instead.
      *
      * @param event confirm button clicked
      */
@@ -117,7 +115,7 @@ public class ControllerAddToAlbum implements Initializable {
                 b.showAndWait();
             }
         } else {
-            logger.logNewInfo("no checkboxes selected");
+            logger.logNewInfo("No checkboxes selected");
             Alert c = new Alert(Alert.AlertType.WARNING, "No checkboxes selected");
             c.initModality(Modality.APPLICATION_MODAL);
             c.initOwner(thisStage);

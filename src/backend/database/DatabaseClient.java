@@ -13,8 +13,6 @@ import java.util.*;
 /**
  * The DatabaseClient class represents objects that work as a middleman between the database and the user.
  * The methods in this class mainly calls methods from the {@link ImageDAOManager} class.
- *
- * @author Ingebrigt Hovind, Fredrik Julsen & Erling Sletta
  */
 public class DatabaseClient {
     private static final Log logger = new Log();
@@ -69,18 +67,19 @@ public class DatabaseClient {
 
     /**
      * gets the thumbnail of this image object
+     *
      * @param path the path to the thumbnail
      * @return scaled Image object
      */
     public Image getThumbnail(String path) {
         try {
             return imageDatabase.getThumbnail(path);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.logNewFatalError("DatabaseClient getThumbnail" + e.getLocalizedMessage());
         }
         return null;
     }
+
     /**
      * New user boolean.
      * both username and password needs to consist of only ascii characters
@@ -242,7 +241,7 @@ public class DatabaseClient {
     /**
      * Sorts an ArrayList by a given rule, e.g. filesize or date
      *
-     * @param sortBy    column in database to sort by
+     * @param sortBy column in database to sort by
      * @return an sorted ArrayList
      * @see ImageDAOManager#sortBy(String) ImageDAOManager#sortBy(String)
      */
