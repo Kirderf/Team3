@@ -30,7 +30,6 @@ import java.util.ResourceBundle;
 public class ControllerBigImage extends ControllerMain implements Initializable {
     private static final Log logger = new Log();
     private Stage addTagStage = new Stage();
-    private Stage importStage = new Stage();
     private Stage albumStage = new Stage();
     private Text_To_Speech voice = Text_To_Speech.getInstance();
     @FXML
@@ -194,7 +193,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         if (!searchStage.isShowing()) {
             if (!searchStage.getModality().equals(Modality.APPLICATION_MODAL))
                 searchStage.initModality(Modality.APPLICATION_MODAL);
-            if (!searchStage.getStyle().equals(StageStyle.UTILITY)) searchStage.initStyle(StageStyle.UTILITY);
+            if (!searchStage.getStyle().equals(StageStyle.DECORATED)) searchStage.initStyle(StageStyle.DECORATED);
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
                 searchStage.setScene(new Scene(root));
@@ -225,22 +224,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         }
     }
 
-    /**
-     * This method is called when the 'Import' item is chosen from the File menu, and
-     * opens the import stage where the user can choose new images to upload.
-     */
-    @Override
-    @FXML
-    protected void importAction(ActionEvent event) throws IOException {
-        voice.speak("Importing");
-        if (!importStage.isShowing()) {
-            Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
-            importStage.setScene(new Scene(root));
-            importStage.setTitle("Import");
-            importStage.setResizable(false);
-            importStage.showAndWait();
-        }
-    }
 
     /*
      * opens an image to fullscreen view
@@ -255,22 +238,4 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         textField.setText(getSelectedImages().get(getSelectedImages().size() - 1));
     }
 
-    /*
-    Tints the Home menu blue and makes the white Home label visible
-     */
-    @FXML
-    private void tintHome() {
-        voice.speak("Home");
-        buttonHome.setStyle("-fx-background-color:#0096c9;");
-        homeLabel.setOpacity(1);
-    }
-
-    /*
-    Makes the Home menu background and label transparent
-     */
-    @FXML
-    private void untintHome() {
-        buttonHome.setStyle("-fx-background-color:transparent;");
-        homeLabel.setOpacity(0);
-    }
 }

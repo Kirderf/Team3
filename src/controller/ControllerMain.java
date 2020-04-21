@@ -96,7 +96,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private Menu buttonHome;
 
-    protected static Image appIcon = new Image(ControllerMain.class.getClassLoader().getResourceAsStream("squareLogo.png"));
+    protected static Image appIcon = new Image(ControllerMain.class.getClassLoader().getResourceAsStream("cleanLogo.png"));
     private Text_To_Speech voice = Text_To_Speech.getInstance();
     private int photoCount = 0;
     private int rowCount = 0;
@@ -345,6 +345,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * When the search button is clicked
+     * @param event mouse click on search
      */
     @FXML
     protected void searchAction(ActionEvent event) {
@@ -354,7 +355,7 @@ public class ControllerMain implements Initializable {
         if (!searchStage.isShowing()) {
             if (!searchStage.getModality().equals(Modality.APPLICATION_MODAL))
                 searchStage.initModality(Modality.APPLICATION_MODAL);
-            if (!searchStage.getStyle().equals(StageStyle.UTILITY)) searchStage.initStyle(StageStyle.UTILITY);
+            if (!searchStage.getStyle().equals(StageStyle.DECORATED)) searchStage.initStyle(StageStyle.DECORATED);
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/Views/ScrollSearch.fxml"));
                 searchStage.setScene(new Scene(root));
@@ -382,7 +383,7 @@ public class ControllerMain implements Initializable {
     /**
      * Remove images from view and database
      *
-     * @param event
+     * @param event mouse click on remove
      * @return true if something is deleted or false if nothing is deleted.
      * @throws SQLException
      * @throws IOException
@@ -440,6 +441,7 @@ public class ControllerMain implements Initializable {
 
     /**
      * Opens import window, once window closes, all pictures from database will get inserted into the UI
+     * @param event auto-generated
      */
     @FXML
     protected void importAction(ActionEvent event) throws IOException {
@@ -447,7 +449,7 @@ public class ControllerMain implements Initializable {
         if (!importStage.isShowing()) {
             if (importStage.getModality() != Modality.APPLICATION_MODAL)
                 importStage.initModality(Modality.APPLICATION_MODAL);
-            if (!importStage.getStyle().equals(StageStyle.UTILITY)) importStage.initStyle(StageStyle.UTILITY);
+            if (!importStage.getStyle().equals(StageStyle.DECORATED)) importStage.initStyle(StageStyle.DECORATED);
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Import.fxml"));
             importStage.setScene(new Scene(root));
             importStage.setTitle("Import");
