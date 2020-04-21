@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
@@ -19,7 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * This class controls the actions made by the user when
+ * This class is a controller that handles actions made by the user when
  * interacting with the login stage.
  */
 public class ControllerLogin implements Initializable {

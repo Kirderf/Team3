@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
- * This class controls all actions made by
+ * This class is a controller that handles actions made by
  * the user when in the "Big Image" view, i.e. the
  * fullscreen view reached when clicking on an image.
  */

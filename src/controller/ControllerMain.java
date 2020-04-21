@@ -46,7 +46,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.*;
 
-
+/**
+ * This class is a controller that handles all actions made by the user when
+ * interacting with the main window.
+ */
 public class ControllerMain implements Initializable {
     private static final Log logger = new Log();
 
@@ -66,7 +69,7 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    protected Stage searchStage = new Stage();
+    Stage searchStage = new Stage();
     @FXML
     protected SplitPane imgDataSplitPane;
     @FXML
@@ -100,7 +103,7 @@ public class ControllerMain implements Initializable {
     private int columnCount = 0;
 
     /**
-     * returns instance of databaseclient to be used when adding images to database
+     * Returns an instance of DatabaseClient to be used when adding images to the database
      *
      * @return DatabaseClient instance
      */
@@ -109,148 +112,156 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * Get current selected path
+     * Gets the path of the most recently selected image
      *
-     * @return pathBuffer string with path
+     * @return path as a String
      */
     static String getPathBuffer() {
         return pathBuffer;
     }
 
-    /**
-     * Set current selected path
+    /*
+     * Sets the pathBuffer to the most recently selected image
      *
-     * @param pathBuffer string with path
+     * @param pathBuffer path as a String
      */
     private static void setPathBuffer(String pathBuffer) {
         ControllerMain.pathBuffer = pathBuffer;
     }
 
     /**
-     * Set login status
+     * Sets the login status
      *
-     * @param b login status
+     * @param b boolean
      */
     static void setLoggedin(boolean b) {
         loggedin = b;
     }
 
     /**
-     * Get split pane position
+     * Gets the split pane position
      *
-     * @return double position
+     * @return double percentage (0.0 - 1.0)
      */
     static double getSplitPanePos() {
         return splitPanePos;
     }
 
     /**
-     * Set split pane posistion
+     * Sets the split pane posistion
      *
-     * @param pos position
+     * @param pos double percentage (0.0 - 1.0)
      */
     static void setSplitPanePos(double pos) {
         splitPanePos = pos;
     }
 
     /**
-     * gets the albums currently saved
+     * Gets all existing albums
      *
-     * @return hashmap with saved albums
+     * @return hashmap with albums
      */
     static Map<String, List<String>> getAlbums() {
         return databaseClient.getAllAlbums();
     }
 
     /**
-     * gets the current image buffer
+     * Gets the imageBuffer, i.e. the most recently selected image
      *
-     * @return Image in image buffer
+     * @return the Image
      */
     static Image getImageBuffer() {
         return imageBuffer;
     }
 
-    /**
-     * sets the imageBuffer
+    /*
+     * Sets the imageBuffer, i.e. the most recently selected image
      *
-     * @param imageBuffer image you want to set it to
+     * @param imageBuffer the Image
      */
     private static void setImageBuffer(Image imageBuffer) {
         ControllerMain.imageBuffer = imageBuffer;
     }
 
     /**
-     * @return returns a hashmap with all the images that have valid g
+     * Gets all images with geographical data
+     *
+     * @return a hash map with all the images that have valid geographical data
      */
     static HashMap<String, String> getLocations() {
         return locations;
     }
 
-    /**
-     * adds an album to the albums hashmap
+    /*
+     * Adds an album to the albums hash map
      *
-     * @param key    the name of the album
-     * @param images arraylist containing the path to teh images
+     * @param key    name of the album
+     * @param images ArrayList containing the paths to the images
      */
     private static void newAlbum(String key, ArrayList<String> images) {
         databaseClient.addAlbum(key, images);
     }
 
     /**
-     * adds the following paths to an existing album
+     * Adds the given paths to an existing album
      *
-     * @param name   the name of the existing album
-     * @param images Arraylist with the path to the images you want to add
+     * @param name   name of the album
+     * @param images ArrayList with paths to the images being added
      */
     static void addPathsToAlbum(String name, ArrayList<String> images) {
         databaseClient.addPathsToAlbum(name, images);
     }
 
     /**
-     * removes an album from the saved albums
+     * Removes an album
      *
-     * @param key the name of the album
+     * @param key name of the album
      */
     static void removeAlbum(String key) {
         databaseClient.removeAlbum(key);
     }
 
     /**
-     * gets all selected images
+     * Gets the list of selected images
      *
-     * @return returns all selected images
+     * @return ArrayList with paths to all the selected images
      */
     static ArrayList<String> getSelectedImages() {
         return selectedImages;
     }
 
     /**
-     * adds a path to the selectedimages
+     * Adds a path to the list of selected images
      *
-     * @param s the path that you want to add to the image
+     * @param s the path being added
      */
     static void addToSelectedImages(String s) {
         selectedImages.add(s);
     }
 
     /**
-     * clears the selected images
+     * Clears the list of selected images
      */
     static void clearSelectedImages() {
         selectedImages.clear();
     }
 
-    /**
-     * removes a specific image from the selected images
+    /*
+     * Removes a specific path from the list of selected images
      *
-     * @param path the path to the image you want to remove
+     * @param path path to the image being removed
      */
     private static void removeFromSelectedImages(String path) {
         selectedImages.remove(path);
     }
 
-    protected void setAllIcons(Image icon) {
+    /**
+     * This method is called when the main window is initialized, and makes sure
+     * all stages have our logo set as their icon.
+     *
+     * @param icon the logo
+     */
+    void setAllIcons(Image icon) {
         albumStage.getIcons().add(icon);
         loginStage.getIcons().add(icon);
         searchStage.getIcons().add(icon);
@@ -260,10 +271,11 @@ public class ControllerMain implements Initializable {
         preferenceStage.getIcons().add(icon);
         worldStage.getIcons().add(icon);
     }
-    /**
-     * tints the selected images blue
+
+    /*
+     * Tints the selected images blue
      *
-     * @param imageInput the image that you want to tint
+     * @param imageInput the image being tinted
      */
     private static BufferedImage tint(Image imageInput) {
         BufferedImage image = SwingFXUtils.fromFXImage(imageInput, null);
@@ -298,7 +310,8 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * Run 1 time once the window opens
+     * This method is called whenever a stage is created using
+     * this controller.
      *
      * @param location  auto generated
      * @param resources auto generated
@@ -380,7 +393,7 @@ public class ControllerMain implements Initializable {
         try {
             if (getSelectedImages().isEmpty()) {
                 Alert error = new Alert(Alert.AlertType.ERROR);
-                ((Stage)error.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                ((Stage) error.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                 error.setTitle("404: Image(s) not found");
                 error.setHeaderText(null);
                 error.setContentText("You need to select at least one image to remove");
@@ -388,7 +401,7 @@ public class ControllerMain implements Initializable {
                 return false;
             }
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-            ((Stage)confirm.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+            ((Stage) confirm.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
             confirm.setTitle("Confirmation Dialog");
             confirm.setHeaderText("Are you sure you want to remove " + getSelectedImages().size() + " images?");
             confirm.setContentText("This action is not revertible!");
@@ -400,7 +413,7 @@ public class ControllerMain implements Initializable {
                 while (albumIterator.hasNext()) {
                     Map.Entry<String, List<String>> albumEntry = albumIterator.next();
                     //deletes all the selcted images from every album
-                    databaseClient.removePathsFromAlbum(albumEntry.getKey(),selectedImages);
+                    databaseClient.removePathsFromAlbum(albumEntry.getKey(), selectedImages);
                     //if the last image was just removed, then the album is deleted
                     if (getAlbums().get(albumEntry.getKey()).isEmpty()) {
                         //should not edit hashmap while iterating over it, so the albums to be removed are saved for later
@@ -508,7 +521,7 @@ public class ControllerMain implements Initializable {
             refreshImages();
         } else {
             Alert exportAlert = new Alert(Alert.AlertType.WARNING, "You need to select some images to export");
-            ((Stage)exportAlert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+            ((Stage) exportAlert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
             exportAlert.showAndWait();
 
         }
@@ -533,14 +546,14 @@ public class ControllerMain implements Initializable {
             //gets the filename from the user and formats it correctly
             if (ImageExport.exportToPdf(selectedDirectory.getPath() + "/" + inputText + FilenameUtils.EXTENSION_SEPARATOR + "pdf", getSelectedImages())) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "To the directory: " + selectedDirectory.getPath() + "\n" + "With the filename: " + inputText + ".pdf");
-                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Success");
                 alert.setHeaderText("Your album was exported successfully");
                 alert.showAndWait();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Something went wrong when attempting to save your selected images");
-                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Something went wrong");
                 alert.setHeaderText("Unfortunately we were unable to export your album");
@@ -548,7 +561,7 @@ public class ControllerMain implements Initializable {
             }
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "You need to pick a valid filename for your album");
-            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
             alert.showAndWait();
         }
     }
@@ -802,11 +815,12 @@ public class ControllerMain implements Initializable {
     /**
      * Displays the path, metadata and tags of the last selected image
      */
-    void showData(){
+    void showData() {
         showTags();
         showMetadata();
         showPath();
     }
+
     /**
      * displays the metadata of the most recently selected image in the sidebar
      */
@@ -844,15 +858,16 @@ public class ControllerMain implements Initializable {
             tagVbox.getChildren().add(new Label(tag));
         }
     }
-    private void showPath(){
+
+    private void showPath() {
         if (selectedImages.isEmpty()) {
             textField.clear();
             return;
-        }
-        else{
+        } else {
             textField.setText(getSelectedImages().get(getSelectedImages().size() - 1));
         }
     }
+
     /**
      * When the user clicks on goToMap under library
      * Checks all the added photos for valid gps data, and places the ones with valid data on the map
@@ -897,12 +912,12 @@ public class ControllerMain implements Initializable {
      * @param actionEvent auto-generated
      */
     @FXML
-    protected void saveAlbumAction(ActionEvent actionEvent){
+    protected void saveAlbumAction(ActionEvent actionEvent) {
         voice.speak("Creating album");
         try {
             if (!getSelectedImages().isEmpty()) {
                 TextInputDialog dialog = new TextInputDialog("");
-                ((Stage)dialog.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                 dialog.setTitle("Name picker");
                 dialog.setHeaderText("Enter name for album:");
                 dialog.setContentText("Please enter name for album:");
@@ -912,27 +927,26 @@ public class ControllerMain implements Initializable {
                     if (!result.get().trim().equals("")) {
                         if (getAlbums().containsKey(result.get())) {
                             Alert alert = new Alert(Alert.AlertType.WARNING, "That album name already exists");
-                            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                             alert.showAndWait();
                         } else {
                             //the amount of characters that will fit inside each album icon
-                            if(result.get().trim().length()>24){
-                               Alert alert = new Alert(Alert.AlertType.WARNING, "Cannot save an album with more than 24 characters in the name");
-                                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                            if (result.get().trim().length() > 24) {
+                                Alert alert = new Alert(Alert.AlertType.WARNING, "Cannot save an album with more than 24 characters in the name");
+                                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                                 alert.showAndWait();
-                            }
-                            else {
+                            } else {
                                 ArrayList<String> tempArray = new ArrayList<>(getSelectedImages());
                                 newAlbum(result.get().trim(), tempArray);
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Images were successfully added to the album [" + result.get().trim() + "]");
-                                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                                 alert.showAndWait();
                                 refreshImages();
                             }
                         }
                     } else {
-                       Alert alert = new Alert(Alert.AlertType.WARNING, "You cant save an album using a blank name");
-                        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "You cant save an album using a blank name");
+                        ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                         alert.showAndWait();
                         refreshImages();
                     }
@@ -941,7 +955,7 @@ public class ControllerMain implements Initializable {
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "You need to select some images to save to an album");
-                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                 alert.showAndWait();
             }
             clearSelectedImages();
@@ -1055,17 +1069,19 @@ public class ControllerMain implements Initializable {
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING, "You need to select some images to add to the albums");
-            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
             alert.showAndWait();
         }
         refreshImages();
     }
+
     @FXML
     private void tintHome() {
         voice.speak("Home");
         buttonHome.setStyle("-fx-background-color:#0096c9;");
         homeLabel.setOpacity(1);
     }
+
     @FXML
     private void untintHome() {
         buttonHome.setStyle("-fx-background-color:transparent;");
