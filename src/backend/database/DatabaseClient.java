@@ -283,10 +283,13 @@ public class DatabaseClient {
      * @param name  name of the album
      * @param paths path to the image
      */
-    public void addPathToAlbum(String name, List<String> paths) {
+    public void addPathsToAlbum(String name, List<String> paths) {
         imageDatabase.addPathToAlbum(name, paths);
     }
 
+    public void removePathsFromAlbum(String name, List<String> paths){
+        imageDatabase.removePathsFromAlbum(name,paths);
+    }
     /**
      * Gets all the albums from the database
      *

@@ -78,6 +78,15 @@ public class AlbumDAO {
         return imageList;
     }
 
+    public void removeImage(String path){
+        ImageDAO toBeRemoved = new ImageDAO();
+        for(ImageDAO i : imageList){
+            if (i.getPath().equalsIgnoreCase(path)){
+                toBeRemoved = i;
+            }
+        }
+        imageList.remove(toBeRemoved);
+    }
     /**
      * Sets the List of images in the album.
      *
