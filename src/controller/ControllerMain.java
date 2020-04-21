@@ -323,6 +323,7 @@ public class ControllerMain implements Initializable {
      */
     @FXML
     protected void searchAction(ActionEvent event) {
+        clearSelectedImages();
         logger.logNewInfo("SearchAction");
         voice.speak("Searching");
         if (!searchStage.isShowing()) {
@@ -338,12 +339,13 @@ public class ControllerMain implements Initializable {
                 if (ControllerSearch.isSearchSucceed()) {
                     //clears the view
                     clearView();
-                    clearSelectedImages();
                     //clears metadata and tags
                     showData();
                     for (String s : ControllerSearch.getSearchResults()) {
+                        addToSelectedImages(s);
                         insertImage(s);
                     }
+
                 }
             } catch (Exception e) {
                 logger.logNewFatalError("ControllerMain searchAction " + e.getLocalizedMessage());
@@ -513,7 +515,7 @@ public class ControllerMain implements Initializable {
             File selectedDirectory = chooser.showDialog(null);
             //gets the filename from the user and formats it correctly
             if (ImageExport.exportToPdf(selectedDirectory.getPath() + "/" + inputText + FilenameUtils.EXTENSION_SEPARATOR + "pdf", getSelectedImages())) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "To the directory" + selectedDirectory.getPath() + "\n" + "With the filename: " + inputText + ".pdf");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "To the directory: " + selectedDirectory.getPath() + "\n" + "With the filename: " + inputText + ".pdf");
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Success");
                 alert.setHeaderText("Your album was exported successfully");
@@ -563,8 +565,8 @@ public class ControllerMain implements Initializable {
      * @throws IOException if About.fxml cannot be found
      */
     @FXML
-    public void helpAction() throws IOException {
-        voice.speak("Help");
+    public void aboutAction() throws IOException {
+        voice.speak("About");
         if (!aboutStage.isShowing()) {
             Parent root = FXMLLoader.load(getClass().getResource("/Views/About.fxml"));
             if (aboutStage.getModality() != Modality.APPLICATION_MODAL)
@@ -984,6 +986,7 @@ public class ControllerMain implements Initializable {
      * @throws IOException
      */
     public void preferencesAction(ActionEvent actionEvent) throws IOException {
+        voice.speak("Preference settings");
         if (!preferenceStage.isShowing()) {
             if (preferenceStage.getModality() != Modality.APPLICATION_MODAL)
                 preferenceStage.initModality(Modality.APPLICATION_MODAL);
@@ -1000,6 +1003,7 @@ public class ControllerMain implements Initializable {
      * when add to album is clicked
      */
     public void addToAlbumAction() {
+        voice.speak("Adding to album");
         logger.logNewInfo("adding to album");
         if (!getSelectedImages().isEmpty()) {
             voice.speak("Adding to album");
