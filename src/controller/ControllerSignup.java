@@ -1,5 +1,6 @@
 package controller;
 
+import backend.util.EchoClient;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ public class ControllerSignup implements Initializable {
 
     @FXML
     private TextField passwordFieldS;
+    private EchoClient echoClient = EchoClient.getInstance();
 
     public static Parent getContent() throws IOException {
         return FXMLLoader.load(ControllerSignup.class.getResource("/Views/SignUp.fxml"));
@@ -58,15 +60,24 @@ public class ControllerSignup implements Initializable {
      */
     @FXML
     void signupAction() {
-        if (ControllerMain.getDatabaseClient().newUser(usernameFieldS.getText(), passwordFieldS.getText())) {
-            ControllerMain.setLoggedin(true);
-            ((Stage) usernameFieldS.getScene().getWindow()).close();
-        } else {
+        if (!echoClient.ping()) {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Error when logging in");
             error.setHeaderText(null);
-            error.setContentText("There was an error when attempting registration, that username is taken, or you have used non-ascii characters in your username/password ");
+            error.setContentText("There was an error when attempting login, no connection to server");
             error.showAndWait();
+            return;
+        } else {
+            if (ControllerMain.getDatabaseClient().newUser(usernameFieldS.getText(), passwordFieldS.getText())) {
+                ControllerMain.setLoggedin(true);
+                ((Stage) usernameFieldS.getScene().getWindow()).close();
+            } else {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error when logging in");
+                error.setHeaderText(null);
+                error.setContentText("There was an error when attempting registration, that username is taken, or you have used non-ascii characters in your username/password ");
+                error.showAndWait();
+            }
         }
     }
 }

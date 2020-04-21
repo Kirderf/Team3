@@ -105,23 +105,24 @@ public class ControllerLogin implements Initializable {
             error.setContentText("There was an error when attempting login, no connection to server");
             error.showAndWait();
             return;
-        }
-        if (ControllerMain.getDatabaseClient().login(usernameField.getText(), passwordField.getText())) {
-            ControllerMain.setLoggedin(true);
-            if (rememberMe.isSelected()) {
-                saveLogin.saveUser(usernameField.getText(), passwordField.getText());
-            } else {
-                saveLogin.deleteSaveData();
-            }
-            saveLogin.close();
-
-            ((Stage) usernameField.getScene().getWindow()).close();
         } else {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Error when logging in");
-            error.setHeaderText(null);
-            error.setContentText("There was an error when attempting login, incorrect username or password");
-            error.showAndWait();
+            if (ControllerMain.getDatabaseClient().login(usernameField.getText(), passwordField.getText())) {
+                ControllerMain.setLoggedin(true);
+                if (rememberMe.isSelected()) {
+                    saveLogin.saveUser(usernameField.getText(), passwordField.getText());
+                } else {
+                    saveLogin.deleteSaveData();
+                }
+                saveLogin.close();
+
+                ((Stage) usernameField.getScene().getWindow()).close();
+            } else {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error when logging in");
+                error.setHeaderText(null);
+                error.setContentText("There was an error when attempting login, incorrect username or password");
+                error.showAndWait();
+            }
         }
     }
 
