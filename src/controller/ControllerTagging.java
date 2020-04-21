@@ -13,6 +13,10 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * This class is a controller that handles all actions made
+ * by the user when interacting with the tagging stage.
+ */
 public class ControllerTagging implements Initializable {
     private static final Log logger = new Log();
     @FXML
@@ -27,9 +31,12 @@ public class ControllerTagging implements Initializable {
     @FXML
     TableColumn<TagTableRow, CheckBox> select;
 
-
     static ArrayList<String> bufferTags = new ArrayList<>();
 
+    /**
+     * This method is called when a scene is created using this controller.
+     * It inserts the tags in the TableView.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -42,7 +49,7 @@ public class ControllerTagging implements Initializable {
 
     private ObservableList<TagTableRow> observeList = FXCollections.observableArrayList();
 
-    /**
+    /*
      * Finds all available tags, assigns their labels and checkboxes and adds them to an observable
      * list, which is then inserted into a table list that's presented to the user.
      */
@@ -89,7 +96,7 @@ public class ControllerTagging implements Initializable {
         select.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     }
 
-    /**
+    /*
      * Activates when the user presses the "Done" button.
      * Goes through each checkbox, checking which ones are selected, and sends a string array with
      * all the selected tags to the database.
@@ -122,7 +129,7 @@ public class ControllerTagging implements Initializable {
         ((Stage) taggingCancel.getScene().getWindow()).close();
     }
 
-    /**
+    /*
      * Activates when the user presses the "New Tag" button.
      * Opens a new window where the user can create a new tag.
      */
@@ -161,7 +168,7 @@ public class ControllerTagging implements Initializable {
                 return;
             }
             bufferTags.add(tag);
-        } else if (input.isPresent() && input.get().isEmpty()){
+        } else if (input.isPresent() && input.get().isEmpty()) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             ((Stage) a.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
             a.setTitle("404: Tag name not found");
@@ -188,9 +195,9 @@ public class ControllerTagging implements Initializable {
     }
 
     /**
-     * gets all the tags stored in the database
+     * Gets all the tags stored in the database
      *
-     * @return an arraylist with every unique tag in the database
+     * @return ArrayList with every unique tag in the database
      */
     static ArrayList<String> getAllTags() {
         ArrayList<String> tagStrings = (ArrayList<String>) ControllerMain.getDatabaseClient().getColumn("Tags");
