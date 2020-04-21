@@ -7,6 +7,10 @@ import javafx.scene.control.CheckBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This class is a controller that handles all actions made by the user
+ * when interacting with the preferences stage.
+ */
 public class ControllerPreferences implements Initializable {
 
     private static boolean colourChecked = false;
@@ -17,7 +21,7 @@ public class ControllerPreferences implements Initializable {
     private CheckBox colourCheck;
 
     /**
-     * returns whether or not the colour has been checked
+     * Returns true if the colorblind-mode-checkbox has been checked, false if not
      *
      * @return boolean
      */
@@ -26,7 +30,7 @@ public class ControllerPreferences implements Initializable {
     }
 
     /**
-     * returns whether or not the colour has been checked
+     * Returns true if the text-to-speech-checkbox been checked, false if not
      *
      * @return boolean
      */
@@ -35,7 +39,8 @@ public class ControllerPreferences implements Initializable {
     }
 
     /**
-     * when the prefrence window is open
+     * This method is called when a scene is created using this controller. It
+     * checks whether or not the checkboxes should be checked or not, and sets them as such.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -45,7 +50,7 @@ public class ControllerPreferences implements Initializable {
     }
 
     /**
-     * if the checkbox is selected, then the class variable is changed
+     * Changes the colourblind class variable if the checkbox is checked
      */
     @FXML
     protected void setColourBlind() {
@@ -53,7 +58,7 @@ public class ControllerPreferences implements Initializable {
     }
 
     /**
-     * if the checkbox is selected, then the class variable is changed
+     * Changes the text-to-speech class variable if the checkbox is checked
      */
     @FXML
     protected void setTTS() {
