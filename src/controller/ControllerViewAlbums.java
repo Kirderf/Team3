@@ -27,6 +27,10 @@ import java.util.ResourceBundle;
 import static java.awt.Color.white;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
+/**
+ * This class is a controller that handles actions made by the user
+ * when interacting with the album stage.
+ */
 public class ControllerViewAlbums implements Initializable {
     private static String albumToBeDeleted;
     private static boolean albumSelected = false;
@@ -37,11 +41,11 @@ public class ControllerViewAlbums implements Initializable {
     private EventHandler<MouseEvent> clickedOn;
 
     /**
-     * whether or not a specific album has been selected
+     * Whether or not a specific album has been selected
      *
      * @return boolean
      */
-    public static boolean isAlbumSelected() {
+    static boolean isAlbumSelected() {
         return albumSelected;
     }
 
@@ -50,30 +54,30 @@ public class ControllerViewAlbums implements Initializable {
      *
      * @param b boolean
      */
-    public static void setAlbumSelected(boolean b) {
+    static void setAlbumSelected(boolean b) {
         albumSelected = b;
     }
 
-    /**
-     * the name of the album that is to be deleted
+    /*
+     * The name of the album that is to be deleted
      *
      * @return String
      */
-    static String getAlbumToBeDeleted() {
+    private static String getAlbumToBeDeleted() {
         return albumToBeDeleted;
     }
 
-    /**
+    /*
      * Changes the album that the user wants to delete
      *
      * @param s the name of the new album that is to be deleted
      */
-    static void setAlbumToBeDeleted(String s) {
+    private static void setAlbumToBeDeleted(String s) {
         albumToBeDeleted = s;
     }
 
-    /**
-     * removes the album from the hashmap in main
+    /*
+     * Removes the album from the hashmap in main
      *
      * @param name name of the album
      */
@@ -83,7 +87,8 @@ public class ControllerViewAlbums implements Initializable {
     }
 
     /**
-     * adds all the albums to the view when the window is first opened
+     * This method is called when a scene is created using this controller.
+     * It adds all the albums into the tile pane.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -135,8 +140,8 @@ public class ControllerViewAlbums implements Initializable {
 
     }
 
-    /**
-     * when an album is clicked on, this shows it in the main view
+    /*
+     * When an album is clicked on, this shows it in the main view
      *
      * @param name name of the album that the user wants to view
      */
@@ -165,7 +170,8 @@ public class ControllerViewAlbums implements Initializable {
     }
 
     /**
-     * when delete album is selected
+     * This method is called when the user presses the 'Delete Album' button.
+     * It deletes an album from application and database.
      */
     public void deleteAction() {
         voice.speak("Delete album");
@@ -187,8 +193,8 @@ public class ControllerViewAlbums implements Initializable {
         }
     }
 
-    /**
-     * shows delete confirmation window
+    /*
+     * Shows delete confirmation window
      *
      * @param pane the pane that you want to confirm deletion off
      */
@@ -196,7 +202,7 @@ public class ControllerViewAlbums implements Initializable {
         setAlbumToBeDeleted(pane.getChildren().get(0).getId());
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
+        ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
         alert.setTitle("Confirm deletion");
         alert.setHeaderText("Are you sure you want to delete this album?");
         alert.setContentText(getAlbumToBeDeleted());
@@ -210,7 +216,7 @@ public class ControllerViewAlbums implements Initializable {
         } else {
             voice.speak("Album was not deleted");
             Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Album was not deleted");
-            ((Stage)alert1.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
+            ((Stage) alert1.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
             alert.showAndWait();
             ControllerViewAlbums.setAlbumToBeDeleted("");
             addBackEvents();
@@ -219,7 +225,7 @@ public class ControllerViewAlbums implements Initializable {
         }
     }
 
-    /**
+    /*
      * removes the deletion event and adds back the view album event
      */
     private void addBackEvents() {
