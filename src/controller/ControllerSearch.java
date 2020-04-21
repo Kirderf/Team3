@@ -93,8 +93,8 @@ public class ControllerSearch implements Initializable {
      */
     @FXML
     private void searchAction() {
-        if(searchField.getText() == null || searchField.getText().equalsIgnoreCase("")) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Searchfield is empty, cannot search!");
+        if((searchField.getText() == null || searchField.getText().equalsIgnoreCase(""))&&getCheckedBoxes().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "You have selected no criteria, cannot search!");
             ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
             alert.showAndWait();
         } else {
