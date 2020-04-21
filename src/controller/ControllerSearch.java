@@ -6,10 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -96,14 +93,19 @@ public class ControllerSearch implements Initializable {
      */
     @FXML
     private void searchAction() {
-        //clears static resultList
-        searchResults.clear();
+        if(searchField.getText() == null || searchField.getText().equalsIgnoreCase("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Searchfield is empty, cannot search!");
+            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
+            alert.showAndWait();
+        } else {
+            //clears static resultList
+            searchResults.clear();
 
-        // Tags
+            // Tags
 
-        ArrayList<String> tempTagList = getCheckedBoxes();
-        //does not need to check if temptagList is empty
-        //this for loop will not run if the tag list is empty
+            ArrayList<String> tempTagList = getCheckedBoxes();
+            //does not need to check if temptagList is empty
+            //this for loop will not run if the tag list is empty
             for (String tag : tempTagList) {
                 List<String> tagResult = ControllerMain.getDatabaseClient().search(tag, "Tags");
                 if (tagResult != null) {
@@ -116,43 +118,44 @@ public class ControllerSearch implements Initializable {
             }
 
 
-        if (metaCheck.isSelected()) {
-            List<String> metaResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Metadata");
-            if (metaResult != null) {
-                for (String s : metaResult) {
-                    if (!searchResults.contains(s)) {
-                        searchResults.add(s);
+            if (metaCheck.isSelected()) {
+                List<String> metaResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Metadata");
+                if (metaResult != null) {
+                    for (String s : metaResult) {
+                        if (!searchResults.contains(s)) {
+                            searchResults.add(s);
+                        }
                     }
                 }
             }
-        }
-        if (pathCheck.isSelected()) {
-            List<String> pathResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Path");
-            if (pathResult != null) {
-                for (String s : pathResult) {
-                    if (!searchResults.contains(s)) {
-                        searchResults.add(s);
+            if (pathCheck.isSelected()) {
+                List<String> pathResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Path");
+                if (pathResult != null) {
+                    for (String s : pathResult) {
+                        if (!searchResults.contains(s)) {
+                            searchResults.add(s);
+                        }
                     }
                 }
             }
-        }
 
-        if (filenameCheck.isSelected()) {
-            //finds the matching paths
-            List<String> filenameResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Path");
-            if (filenameResult != null) {
-                for (String s : filenameResult) {
-                    //specifies that we only want the ones where the actual filename contains the search term
-                    if (s.substring(s.lastIndexOf(File.separator)).contains(searchField.getText())) {
-                        searchResults.add(s);
+            if (filenameCheck.isSelected()) {
+                //finds the matching paths
+                List<String> filenameResult = ControllerMain.getDatabaseClient().search(searchField.getText(), "Path");
+                if (filenameResult != null) {
+                    for (String s : filenameResult) {
+                        //specifies that we only want the ones where the actual filename contains the search term
+                        if (s.substring(s.lastIndexOf(File.separator)).contains(searchField.getText())) {
+                            searchResults.add(s);
+                        }
                     }
                 }
             }
+
+
+            searchSucceed = true;
+            cancel();
         }
-
-
-        searchSucceed = true;
-        cancel();
     }
 
 

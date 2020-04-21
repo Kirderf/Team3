@@ -55,7 +55,7 @@ public class SaveLogin {
      * @throws IOException
      */
     public void deleteSaveData() throws IOException {
-        FileWriter fileClearer = new FileWriter(saveFile);
+        BufferedWriter fileClearer = new BufferedWriter(new FileWriter(saveFile));
         fileClearer.write("");
         fileClearer.close();
     }

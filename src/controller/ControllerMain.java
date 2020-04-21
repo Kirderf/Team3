@@ -72,6 +72,7 @@ public class ControllerMain implements Initializable {
     @FXML
     protected Label homeLabel;
     //Stages
+    private Stage albumStage = new Stage();
     private Stage importStage = new Stage();
     private Stage aboutStage = new Stage();
     private Stage worldStage = new Stage();
@@ -92,6 +93,7 @@ public class ControllerMain implements Initializable {
     @FXML
     private Menu buttonHome;
 
+    protected static Image appIcon = new Image(ControllerMain.class.getClassLoader().getResourceAsStream("squareLogo.png"));
     private Text_To_Speech voice = Text_To_Speech.getInstance();
     private int photoCount = 0;
     private int rowCount = 0;
@@ -248,6 +250,16 @@ public class ControllerMain implements Initializable {
         selectedImages.remove(path);
     }
 
+    protected void setAllIcons(Image icon) {
+        albumStage.getIcons().add(icon);
+        loginStage.getIcons().add(icon);
+        searchStage.getIcons().add(icon);
+        aboutStage.getIcons().add(icon);
+        addToAlbumStage.getIcons().add(icon);
+        importStage.getIcons().add(icon);
+        preferenceStage.getIcons().add(icon);
+        worldStage.getIcons().add(icon);
+    }
     /**
      * tints the selected images blue
      *
@@ -293,6 +305,7 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setAllIcons(appIcon);
         if (!loggedin) {
             if (!loginStage.getModality().equals(Modality.APPLICATION_MODAL))
                 loginStage.initModality(Modality.APPLICATION_MODAL);
@@ -302,7 +315,6 @@ public class ControllerMain implements Initializable {
                 loginStage.setTitle("Log in");
                 loginStage.setResizable(false);
                 loginStage.showAndWait();
-
             } catch (IOException e) {
                 logger.logNewFatalError("Initialize IOException " + e.getLocalizedMessage());
             }
@@ -368,6 +380,7 @@ public class ControllerMain implements Initializable {
         try {
             if (getSelectedImages().isEmpty()) {
                 Alert error = new Alert(Alert.AlertType.ERROR);
+                ((Stage)error.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                 error.setTitle("404: Image(s) not found");
                 error.setHeaderText(null);
                 error.setContentText("You need to select at least one image to remove");
@@ -375,6 +388,7 @@ public class ControllerMain implements Initializable {
                 return false;
             }
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            ((Stage)confirm.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
             confirm.setTitle("Confirmation Dialog");
             confirm.setHeaderText("Are you sure you want to remove " + getSelectedImages().size() + " images?");
             confirm.setContentText("This action is not revertible!");
@@ -493,7 +507,10 @@ public class ControllerMain implements Initializable {
             }
             refreshImages();
         } else {
-            new Alert(Alert.AlertType.WARNING, "You need to select some images to export").showAndWait();
+            Alert exportAlert = new Alert(Alert.AlertType.WARNING, "You need to select some images to export");
+            ((Stage)exportAlert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+            exportAlert.showAndWait();
+
         }
     }
 
@@ -516,19 +533,23 @@ public class ControllerMain implements Initializable {
             //gets the filename from the user and formats it correctly
             if (ImageExport.exportToPdf(selectedDirectory.getPath() + "/" + inputText + FilenameUtils.EXTENSION_SEPARATOR + "pdf", getSelectedImages())) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "To the directory: " + selectedDirectory.getPath() + "\n" + "With the filename: " + inputText + ".pdf");
+                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Success");
                 alert.setHeaderText("Your album was exported successfully");
                 alert.showAndWait();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Something went wrong when attempting to save your selected images");
+                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Something went wrong");
                 alert.setHeaderText("Unfortunately we were unable to export your album");
                 alert.showAndWait();
             }
         } catch (IOException e) {
-            new Alert(Alert.AlertType.WARNING, "You need to pick a valid filename for your album").showAndWait();
+            Alert alert = new Alert(Alert.AlertType.WARNING, "You need to pick a valid filename for your album");
+            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+            alert.showAndWait();
         }
     }
 
@@ -881,6 +902,7 @@ public class ControllerMain implements Initializable {
         try {
             if (!getSelectedImages().isEmpty()) {
                 TextInputDialog dialog = new TextInputDialog("");
+                ((Stage)dialog.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                 dialog.setTitle("Name picker");
                 dialog.setHeaderText("Enter name for album:");
                 dialog.setContentText("Please enter name for album:");
@@ -889,28 +911,38 @@ public class ControllerMain implements Initializable {
                 if (result.isPresent()) {
                     if (!result.get().trim().equals("")) {
                         if (getAlbums().containsKey(result.get())) {
-                            new Alert(Alert.AlertType.WARNING, "That album name already exists").showAndWait();
+                            Alert alert = new Alert(Alert.AlertType.WARNING, "That album name already exists");
+                            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                            alert.showAndWait();
                         } else {
                             //the amount of characters that will fit inside each album icon
                             if(result.get().trim().length()>24){
-                                new Alert(Alert.AlertType.WARNING, "Cannot save an album with more than 24 characters in the name").showAndWait();
+                               Alert alert = new Alert(Alert.AlertType.WARNING, "Cannot save an album with more than 24 characters in the name");
+                                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                                alert.showAndWait();
                             }
                             else {
                                 ArrayList<String> tempArray = new ArrayList<>(getSelectedImages());
                                 newAlbum(result.get().trim(), tempArray);
-                                new Alert(Alert.AlertType.INFORMATION, "Images were successfully added to the album [" + result.get().trim() + "]").showAndWait();
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Images were successfully added to the album [" + result.get().trim() + "]");
+                                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                                alert.showAndWait();
                                 refreshImages();
                             }
                         }
                     } else {
-                        new Alert(Alert.AlertType.WARNING, "You cant save an album using a blank name").showAndWait();
+                       Alert alert = new Alert(Alert.AlertType.WARNING, "You cant save an album using a blank name");
+                        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                        alert.showAndWait();
                         refreshImages();
                     }
                 } else {
                     refreshImages();
                 }
             } else {
-                new Alert(Alert.AlertType.WARNING, "You need to select some images to save to an album").showAndWait();
+                Alert alert = new Alert(Alert.AlertType.WARNING, "You need to select some images to save to an album");
+                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+                alert.showAndWait();
             }
             clearSelectedImages();
         } catch (Exception exception) {
@@ -930,7 +962,6 @@ public class ControllerMain implements Initializable {
         refreshImages();
         voice.speak("View albums");
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
-        Stage albumStage = new Stage();
         if (!albumStage.isShowing()) {
             if (albumStage.getModality() != Modality.APPLICATION_MODAL)
                 albumStage.initModality(Modality.APPLICATION_MODAL);
@@ -1023,7 +1054,9 @@ public class ControllerMain implements Initializable {
                 }
             }
         } else {
-            new Alert(Alert.AlertType.WARNING, "You need to select some images to add to the albums").showAndWait();
+            Alert alert = new Alert(Alert.AlertType.WARNING, "You need to select some images to add to the albums");
+            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
+            alert.showAndWait();
         }
         refreshImages();
     }

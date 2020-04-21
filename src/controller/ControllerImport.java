@@ -104,7 +104,9 @@ public class ControllerImport implements Initializable {
             for (File f : presentFiles) {
                 alertString.append(f.getPath()).append("\n");
             }
-            new Alert(Alert.AlertType.INFORMATION, alertString + "have already been added").showAndWait();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, alertString + "have already been added");
+            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
+            alert.showAndWait();
         }
         if (list != null) {
             list.forEach(x -> {

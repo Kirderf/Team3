@@ -62,6 +62,7 @@ public class ControllerSignup implements Initializable {
     void signupAction() {
         if (!echoClient.ping()) {
             Alert error = new Alert(Alert.AlertType.ERROR);
+            ((Stage)error.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
             error.setTitle("Error when logging in");
             error.setHeaderText(null);
             error.setContentText("There was an error when attempting login, no connection to server");
@@ -73,6 +74,7 @@ public class ControllerSignup implements Initializable {
                 ((Stage) usernameFieldS.getScene().getWindow()).close();
             } else {
                 Alert error = new Alert(Alert.AlertType.ERROR);
+                ((Stage)error.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
                 error.setTitle("Error when logging in");
                 error.setHeaderText(null);
                 error.setContentText("There was an error when attempting registration, that username is taken, or you have used non-ascii characters in your username/password ");

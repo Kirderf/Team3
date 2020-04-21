@@ -81,7 +81,7 @@ public class ControllerTagging implements Initializable {
                 //automatically selects the new tags
                 if (bufferTags.contains(s)) ch.setSelected(true);
                 if (Arrays.asList(alreadySelected).contains(s)) ch.setSelected(true);
-                observeList.add(new TagTableRow(observeList.size()+i, s, ch));
+                observeList.add(new TagTableRow(observeList.size() + i, s, ch));
             }
         }
 
@@ -93,7 +93,6 @@ public class ControllerTagging implements Initializable {
      * Activates when the user presses the "Done" button.
      * Goes through each checkbox, checking which ones are selected, and sends a string array with
      * all the selected tags to the database.
-     *
      */
     @FXML
     private void doneAction() {
@@ -103,6 +102,7 @@ public class ControllerTagging implements Initializable {
         for (String s : tempUnchecked) {
             if (bufferTags.contains(s.toLowerCase())) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Please be advised that tags that are not applied to an image will not be saved");
+                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
                 Optional<ButtonType> option = alert.showAndWait();
                 if (option.isPresent() && option.get() != ButtonType.OK) {
                     return;
@@ -125,7 +125,6 @@ public class ControllerTagging implements Initializable {
     /**
      * Activates when the user presses the "New Tag" button.
      * Opens a new window where the user can create a new tag.
-     *
      */
     @FXML
     private void newTagAction() {
@@ -133,6 +132,7 @@ public class ControllerTagging implements Initializable {
         //the tagsAddedThisSession arraylist decides whether or not the tags are checked when inserting
         getUncheckedBoxes().forEach(bufferTags::remove);
         TextInputDialog d = new TextInputDialog();
+        ((Stage) d.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
         d.setTitle("New tag");
         d.setContentText("Tag:");
         d.setHeaderText(null);
@@ -140,10 +140,11 @@ public class ControllerTagging implements Initializable {
 
         Optional<String> input = d.showAndWait();
 
-        if (input.isPresent()) {
+        if (input.isPresent() && !input.get().isEmpty()) {
             String tag = input.get().substring(0, 1).toUpperCase() + input.get().substring(1).toLowerCase();
             if (tag.contains(",")) {
                 Alert a = new Alert(Alert.AlertType.ERROR);
+                ((Stage) a.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
                 a.setHeaderText(null);
                 a.setContentText("The tag cannot contain ','!");
                 a.showAndWait();
@@ -151,27 +152,28 @@ public class ControllerTagging implements Initializable {
                 return;
             }
 
-            if (!tag.equals("")) {
-                if (tagInTable(tag)) {
-                    Alert a = new Alert(Alert.AlertType.ERROR);
-                    a.setHeaderText(null);
-                    a.setContentText("The tag '" + tag + "' already exists!");
-                    a.showAndWait();
-                    return;
-                }
-                bufferTags.add(tag);
-            } else {
+            if (tagInTable(tag)) {
                 Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setTitle("404: Tag name not found");
+                ((Stage) a.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
                 a.setHeaderText(null);
-                a.setContentText("Please enter a tag name!");
+                a.setContentText("The tag '" + tag + "' already exists!");
                 a.showAndWait();
-                logger.logNewWarning("Input was empty, no tag was added!");
+                return;
             }
+            bufferTags.add(tag);
+        } else if (input.isPresent() && input.get().isEmpty()){
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            ((Stage) a.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
+            a.setTitle("404: Tag name not found");
+            a.setHeaderText(null);
+            a.setContentText("Please enter a tag name!");
+            a.showAndWait();
+            logger.logNewWarning("Input was empty, no tag was added!");
+            return;
         }
-
         insertTags();
     }
+
 
     private boolean tagInTable(String inTag) {
         if (bufferTags.contains(inTag)) {
@@ -187,6 +189,7 @@ public class ControllerTagging implements Initializable {
 
     /**
      * gets all the tags stored in the database
+     *
      * @return
      */
     static ArrayList<String> getAllTags() {

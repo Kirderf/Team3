@@ -103,6 +103,7 @@ public class ControllerAddToAlbum implements Initializable {
             if (albumCounter < checkedBoxes.size()) {
                 logger.logNewInfo("Images added successfully to album");
                 Alert a = new Alert(Alert.AlertType.INFORMATION, "The images were added successfully to the album");
+                ((Stage)a.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
                 a.initModality(Modality.APPLICATION_MODAL);
                 a.initOwner(thisStage);
                 a.showAndWait();
@@ -110,6 +111,7 @@ public class ControllerAddToAlbum implements Initializable {
             } else {
                 logger.logNewInfo("All the selected images were already in the selected album");
                 Alert b = new Alert(Alert.AlertType.WARNING, "All the selected images were already present in the selected albums");
+                ((Stage)b.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
                 b.initModality(Modality.APPLICATION_MODAL);
                 b.initOwner(thisStage);
                 b.showAndWait();
@@ -117,6 +119,7 @@ public class ControllerAddToAlbum implements Initializable {
         } else {
             logger.logNewInfo("No checkboxes selected");
             Alert c = new Alert(Alert.AlertType.WARNING, "No checkboxes selected");
+            ((Stage)c.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
             c.initModality(Modality.APPLICATION_MODAL);
             c.initOwner(thisStage);
             c.showAndWait();

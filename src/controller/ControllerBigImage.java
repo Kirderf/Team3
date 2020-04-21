@@ -29,11 +29,12 @@ import java.util.ResourceBundle;
  */
 public class ControllerBigImage extends ControllerMain implements Initializable {
     private static final Log logger = new Log();
-    @FXML
-    Label homeLabel;
     private Stage addTagStage = new Stage();
     private Stage importStage = new Stage();
+    private Stage albumStage = new Stage();
     private Text_To_Speech voice = Text_To_Speech.getInstance();
+    @FXML
+    private Label homeLabel;
     @FXML
     private ImageView bigImage;
     @FXML
@@ -56,6 +57,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.setAllIcons(ControllerMain.appIcon);
+        addTagStage.getIcons().add(ControllerMain.appIcon);
         setBigImage(getImageBuffer());
         super.showData();
         textField.setEditable(false);
@@ -85,6 +88,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     protected void saveAlbumAction(ActionEvent event) {
         super.saveAlbumAction(event);
         addToSelectedImages(getPathBuffer());
+        showData();
+
     }
 
     /**
@@ -113,7 +118,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     protected void viewAlbums(ActionEvent actionEvent) throws IOException {
         voice.speak("View albums");
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
-        Stage albumStage = new Stage();
         if (!albumStage.isShowing()) {
             if (albumStage.getModality() != Modality.APPLICATION_MODAL)
                 albumStage.initModality(Modality.APPLICATION_MODAL);
@@ -207,6 +211,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                         }
                     } else {
                         Alert a = new Alert(Alert.AlertType.WARNING);
+                        ((Stage)a.getDialogPane().getScene().getWindow()).getIcons().add(appIcon);
                         a.setHeaderText(null);
                         a.setContentText("No images found matching the search criteria, showing all images instead.");
                         a.showAndWait();

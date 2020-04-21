@@ -99,7 +99,7 @@ public class ControllerViewAlbums implements Initializable {
                     if ((x > 5 * bufferedImage.getWidth() / 6 || x < bufferedImage.getWidth() / 6) || (y > 5 * bufferedImage.getHeight() / 6 || y < bufferedImage.getHeight() / 6)) {
                         bufferedImage.setRGB(x, y, Color.black.getRGB());
                         //adds white outline
-                        if(x == bufferedImage.getWidth()-1||y == bufferedImage.getHeight()-1){
+                        if (x == bufferedImage.getWidth() - 1 || y == bufferedImage.getHeight() - 1) {
                             bufferedImage.setRGB(x, y, white.getRGB());
                         }
                     }
@@ -166,7 +166,9 @@ public class ControllerViewAlbums implements Initializable {
      */
     public void deleteAction() {
         //iterates through all albums
-        new Alert(Alert.AlertType.INFORMATION, "Select an album to delete").showAndWait();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Select an album to delete");
+        ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
+        alert.showAndWait();
         for (int i = 0; i < albumTilePane.getChildren().size(); i++) {
             //if it is a pane it is an album
             if (albumTilePane.getChildren().get(i) instanceof Pane) {
@@ -189,6 +191,7 @@ public class ControllerViewAlbums implements Initializable {
         setAlbumToBeDeleted(pane.getChildren().get(0).getId());
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
         alert.setTitle("Confirm deletion");
         alert.setHeaderText("Are you sure you want to delete this album?");
         alert.setContentText(getAlbumToBeDeleted());
@@ -199,7 +202,9 @@ public class ControllerViewAlbums implements Initializable {
             ControllerViewAlbums.setAlbumToBeDeleted("");
             addBackEvents();
         } else {
-            new Alert(Alert.AlertType.INFORMATION, "Album was not deleted").showAndWait();
+            Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Album was not deleted");
+            ((Stage)alert1.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
+            alert.showAndWait();
             ControllerViewAlbums.setAlbumToBeDeleted("");
             addBackEvents();
             ControllerMain.clearSelectedImages();
