@@ -87,7 +87,7 @@ public class ControllerLogin implements Initializable {
      * This method is called if the user chooses to sign up,
      * it loads the sign up stage's FXML.
      *
-     * @throws IOException if the FXML can't be found
+     * @throws IOException throws if the FXML can't be found
      */
     @FXML
     void gotoSignup() throws IOException {

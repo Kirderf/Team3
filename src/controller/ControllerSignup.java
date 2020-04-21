@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This class is a controller that handles actions made by the user when
+ * interacting with the signup stage.
+ */
 public class ControllerSignup implements Initializable {
 
     @FXML
@@ -23,13 +27,22 @@ public class ControllerSignup implements Initializable {
     private TextField passwordFieldS;
     private EchoClient echoClient = EchoClient.getInstance();
 
+    /**
+     * Gets a Parent object with the Signup.fxml loaded.
+     *
+     * @return Parent
+     * @throws IOException if the FXML isn't found
+     */
     public static Parent getContent() throws IOException {
         return FXMLLoader.load(ControllerSignup.class.getResource("/Views/SignUp.fxml"));
     }
 
     /**
-     * When the signup window is shown
-     * @param location auto-generated
+     * This method is called when a stage using this controller is
+     * created. Sets up the text fields so pressing 'ENTER' will
+     * trigger the {@link ControllerSignup#signupAction()} method.
+     *
+     * @param location  auto-generated
      * @param resources auto-generated
      */
     @Override
@@ -47,8 +60,10 @@ public class ControllerSignup implements Initializable {
     }
 
     /**
-     * When the user clicks login instead
-     * @throws IOException
+     * This method is called if the user chooses to login instead,
+     * it loads the login stage's FXML.
+     *
+     * @throws IOException throws if the FXML can't be found
      */
     @FXML
     void gotoLogin() throws IOException {
@@ -56,25 +71,28 @@ public class ControllerSignup implements Initializable {
     }
 
     /**
-     * when the user clicks sign up
+     * This method is called when the user wants to finalize their sign up.
+     * It first checks if the user is connected to the server, and displays an
+     * error alert if they aren't. If connected, the database attempts to create a user
+     * with the given login details, and displays and error if the username is taken or
+     * the username/passsword is invalid.
      */
     @FXML
     void signupAction() {
         if (!echoClient.ping()) {
             Alert error = new Alert(Alert.AlertType.ERROR);
-            ((Stage)error.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
+            ((Stage) error.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
             error.setTitle("Error when logging in");
             error.setHeaderText(null);
             error.setContentText("There was an error when attempting login, no connection to server");
             error.showAndWait();
-            return;
         } else {
             if (ControllerMain.getDatabaseClient().newUser(usernameFieldS.getText(), passwordFieldS.getText())) {
                 ControllerMain.setLoggedin(true);
                 ((Stage) usernameFieldS.getScene().getWindow()).close();
             } else {
                 Alert error = new Alert(Alert.AlertType.ERROR);
-                ((Stage)error.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
+                ((Stage) error.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
                 error.setTitle("Error when logging in");
                 error.setHeaderText(null);
                 error.setContentText("There was an error when attempting registration, that username is taken, or you have used non-ascii characters in your username/password ");
