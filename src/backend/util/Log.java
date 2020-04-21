@@ -55,7 +55,7 @@ public class Log {
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
         } catch (Exception e) {
-            e.printStackTrace();
+            logNewFatalError("Log Log " + e.getLocalizedMessage());
         }
     }
 

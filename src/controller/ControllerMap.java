@@ -26,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.BasicConfigurator;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -41,7 +42,7 @@ import java.util.*;
  * @author P.J. Meisch (pj.meisch@sothawo.com).
  */
 public class ControllerMap implements Initializable {
-    private Log logger = new Log();
+    private static final Log logger = new Log();
     private HashMap<Marker,String> markers = new HashMap<>();
     private static ArrayList<String> savedToDisk = new ArrayList<>();
     /**
