@@ -15,8 +15,8 @@
 */
 package controller;
 
-import backend.util.Log;
 import backend.util.DirectoryMaker;
+import backend.util.Log;
 import com.sothawo.mapjfx.*;
 import com.sothawo.mapjfx.event.MarkerEvent;
 import javafx.embed.swing.SwingFXUtils;
@@ -26,7 +26,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.BasicConfigurator;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -43,26 +42,29 @@ import java.util.*;
  */
 public class ControllerMap implements Initializable {
     private static final Log logger = new Log();
-    private HashMap<Marker,String> markers = new HashMap<>();
+    private HashMap<Marker, String> markers = new HashMap<>();
     private static ArrayList<String> savedToDisk = new ArrayList<>();
-    /**
+    /*
      * the location that the map starts at
      */
     private static final Coordinate mapStartingLocation = new Coordinate(0.0, 0.0);
     private static ImageView clickedImage;
-    /** default zoom value. */
+    /* default zoom value. */
     private static final int ZOOM_DEFAULT = 2;
-    /** the MapView containing the map */
+    /* the MapView containing the map */
     @FXML
-    public MapView mapView;
+    private MapView mapView;
 
-
+    /**
+     * Default constructor
+     */
     public ControllerMap() {
     }
 
     /**
      * Places the markers on the mapView
-     * @throws IOException calls the resize function which writes a file to disk
+     *
+     * @throws IOException calls the {@link ControllerMap#resize(String)} function which writes a file to disk
      */
     private void placeMarkers() throws IOException {
         //used to iterate through the images
@@ -70,7 +72,7 @@ public class ControllerMap implements Initializable {
         //double array with longitude first, then latitude
         Double[] longLat = new Double[2];
         //iterates through hashmap with pictures that have valid gps data
-        while(hmIterator.hasNext()) {
+        while (hmIterator.hasNext()) {
             Map.Entry<String, String> mapElement = hmIterator.next();
 
             String latLongString = mapElement.getValue();
@@ -94,40 +96,43 @@ public class ControllerMap implements Initializable {
     }
 
     /**
-     * gets the list of images saved to disk
-     * @return arraylist of the images that have been saved to the disk
+     * Gets the list of images saved to disk
+     *
+     * @return ArrayList of the images
      */
     static ArrayList<String> getSavedToDisk() {
         return savedToDisk;
     }
 
     /**
-     * gets the image that was clicked on the map
-     * @return the full imageView of the thumbnail that was clicked on the image
+     * Gets the image that were clicked on the map
+     *
+     * @return the full imageView of image
      */
-    static ImageView getClickedImage(){
+    static ImageView getClickedImage() {
         return clickedImage;
     }
 
-    /**
-     * sets the clicked image
-     * @param i ImageView you want to set the clickedImage to
+    /*
+     * Sets the clicked image
+     *
+     * @param i ImageView being set
      */
-    private static void setClickedImage(ImageView i){
+    private static void setClickedImage(ImageView i) {
         clickedImage = i;
     }
 
     /**
-     * empties the arraylist containing the path to the images that were saved to disk
+     * Empties the ArrayList containing the paths to the images that were saved to disk
      */
     static void emptySavedToDisk() {
         savedToDisk = new ArrayList<>();
     }
 
-    /**
-     * adds the eventListener concering clicking markers to the map
+    /*
+     * Adds an eventListener that checks if you click a marker on the map
      */
-    private void addEventListeners(){
+    private void addEventListeners() {
         //single event listener for all markers
         mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
             try {
@@ -149,16 +154,17 @@ public class ControllerMap implements Initializable {
         });
     }
 
-    /**
-     * Closes the map stag
+    /*
+     * Closes the map stage
      */
-    private void closeStage(){
+    private void closeStage() {
         Stage stage = (Stage) mapView.getScene().getWindow();
         stage.close();
     }
 
-    /**
-     * resizes the image to be used as a thumbnail on the map
+    /*
+     * Resizes the image to be used as a thumbnail on the map
+     *
      * @param inputImagePath the path to the image that will be used as a thumbnail on the map
      * @return the path to the thumbnail that was saved to the disk
      * @throws IOException error in writing to disk
@@ -168,8 +174,8 @@ public class ControllerMap implements Initializable {
         int scaledHeight = 75;
         // reads input image
         //requestedWidth is just a placeholder, simply needs to be bigger than height
-        Image image = new Image(new File(inputImagePath).toURI().toURL().toExternalForm(),scaledHeight*2,scaledHeight,true,false);
-        BufferedImage bImage = SwingFXUtils.fromFXImage(image,null);
+        Image image = new Image(new File(inputImagePath).toURI().toURL().toExternalForm(), scaledHeight * 2, scaledHeight, true, false);
+        BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
         //the path to the image is temporary, so the name of the image is given by current time in milliseconds
         File file = new File(inputImagePath);
         //making sure the filename is different by using milliseconds as the name
@@ -182,11 +188,9 @@ public class ControllerMap implements Initializable {
     }
 
 
-    /**
-     * called after the fxml is loaded and all objects are created. This is not called initialize any more,
+    /*
+     * Called after the fxml is loaded and all objects are created. This is not called initialize any more,
      * because we need to pass in the projection before initializing.
-     *
-     *     the projection to use in the map.
      */
     private void initMapAndControls() throws IOException {
         //Projection.WGS_84 or Projection.WEB_MERCATOR
@@ -208,9 +212,9 @@ public class ControllerMap implements Initializable {
     }
 
     /**
-     * is run after the map is initialized markers and event listeners are added
+     * This method is run after the map is initialized, and adds markers and event listeners.
      */
-    private void afterMapIsInitialized(){
+    private void afterMapIsInitialized() {
         //iterates through all the added markers
         for (Map.Entry<Marker, String> markerStringEntry : markers.entrySet()) {
             //adds the marker to the map
@@ -222,8 +226,10 @@ public class ControllerMap implements Initializable {
     }
 
     /**
-     * initializes the map
-     * @param location auto-generated
+     * This method is called when a scene is created using this controller.
+     * It builds the scene so everything works the way it's intended.
+     *
+     * @param location  auto-generated
      * @param resources anto-generated
      */
     @Override
