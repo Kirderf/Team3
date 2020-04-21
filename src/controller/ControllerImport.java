@@ -18,49 +18,57 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls all actions the user makes when
+ * interacting with the import stage, where they choose what
+ * images to import to the program and database.
+ */
 public class ControllerImport implements Initializable {
 
-    /**
+    /*
      * Boolean for import status
      */
     private static boolean importSucceed = false;
-    /**
+    /*
      * File explorer
      */
     private final FileChooser fc = new FileChooser();
-    /**
+    /*
      * Container for textfields
      */
     @FXML
     private VBox pathVbox;
-    /**
+    /*
      * Scrollable container which includes the vbox
      */
     @FXML
     private ScrollPane scrollPane;
-    /**
+    /*
      * List for containing file explorer results
      */
     private ArrayList<File> bufferList = new ArrayList<>();
 
     /**
      * Used to check when window should be closed
-     * @return boolean, whether the import is succeeded and the window can be closed or not
+     *
+     * @return true if import succeeds and the window can be closed, or false if not
      */
-    protected static boolean isImportSucceed() {
+    static boolean isImportSucceed() {
         return importSucceed;
     }
 
     /**
-     * sets the importSucceed boolean
-     * @param b boolean whether the import is now finished or not
+     * Sets the importSucceed boolean
+     *
+     * @param b boolean
      */
-    protected static void setImportSucceed(boolean b) {
+    static void setImportSucceed(boolean b) {
         importSucceed = b;
     }
 
     /**
-     * Set container content and alignment of elements
+     * This method is called when a stage is created using this
+     * controller. It sets the container content and alignment of elements
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,8 +77,8 @@ public class ControllerImport implements Initializable {
         pathVbox.setSpacing(7);
     }
 
-    /**
-     * Opens file chooser, and gets path, then displays it to the user.
+    /*
+     * Opens file chooser, gets the paths of the chosen images, then displays them to the user.
      */
     @FXML
     private void addImageFile() {
@@ -84,7 +92,7 @@ public class ControllerImport implements Initializable {
         ArrayList<String> paths = (ArrayList<String>) ControllerMain.getDatabaseClient().getColumn("Path");
         ArrayList<File> presentFiles = new ArrayList<>();
         if (list != null) {
-            paths.forEach((x) -> {
+            paths.forEach(x -> {
                 if (list.contains(new File(FilenameUtils.normalize(x)))) {
                     presentFiles.add(new File(x));
                 }
@@ -99,7 +107,7 @@ public class ControllerImport implements Initializable {
             new Alert(Alert.AlertType.INFORMATION, alertString + "have already been added").showAndWait();
         }
         if (list != null) {
-            list.forEach((x) -> {
+            list.forEach(x -> {
                 if (!bufferList.contains(x) && !presentFiles.contains(x)) bufferList.add(x);
             });
         }
@@ -111,15 +119,15 @@ public class ControllerImport implements Initializable {
         }
     }
 
-    /**
-     * Closes the window
+    /*
+     * This method is called when the user presses the close button, it closes the window.
      */
     @FXML
     private void cancel() {
         ((Stage) scrollPane.getScene().getWindow()).close();
     }
 
-    /**
+    /*
      * Clear the buffer list and view buffer
      */
     @FXML
@@ -128,7 +136,7 @@ public class ControllerImport implements Initializable {
         bufferList.clear();
     }
 
-    /**
+    /*
      * Creates a duplicate of a textfield and insert into scrollpane
      *
      * @param text input for textfields
@@ -141,7 +149,7 @@ public class ControllerImport implements Initializable {
         pathVbox.getChildren().addAll(textElement);
     }
 
-    /**
+    /*
      * Once all paths has been added to the list, add it to the database and display it in the MainView
      */
     @FXML
@@ -155,7 +163,7 @@ public class ControllerImport implements Initializable {
         cancel();
     }
 
-    /**
+    /*
      * Clears the view buffer
      */
     private void clearListView() {
