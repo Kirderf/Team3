@@ -31,7 +31,7 @@ public class ControllerAddToAlbum implements Initializable {
     private TableColumn<AlbumRow, CheckBox> select;
 
     /**
-     * This method runs when the a scene is created using this controller.
+     * This method is called when a scene is created using this controller.
      * In this case, it finds all existing albums and creates an {@link AlbumRow} object
      * for each one, which is then inserted into a TableView.
      */
@@ -68,7 +68,7 @@ public class ControllerAddToAlbum implements Initializable {
     }
 
     /**
-     * This method runs when the confirm button is pressed.
+     * This method is called when the confirm button is pressed.
      * It first checks if there are any checked boxes in the album TableView,
      * then iterates through these and adds the new images to each album.
      * If no checkboxes are checked, an alert is presented to the user instead.

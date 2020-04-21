@@ -872,10 +872,9 @@ public class ControllerMain implements Initializable {
      * when save to album is clicked
      *
      * @param actionEvent auto-generated
-     * @throws IOException
      */
     @FXML
-    protected void saveAlbumAction(ActionEvent actionEvent) throws IOException {
+    protected void saveAlbumAction(ActionEvent actionEvent){
         voice.speak("Creating album");
         try {
             if (!getSelectedImages().isEmpty()) {
@@ -960,7 +959,7 @@ public class ControllerMain implements Initializable {
                 try {
                     insertImage(path);
                 } catch (FileNotFoundException e) {
-                    logger.logNewFatalError("Controllermain loadfromSelectedImages" + e.getLocalizedMessage());
+                    logger.logNewFatalError("ControllerMain loadFromSelectedImages" + e.getLocalizedMessage());
                 }
             });
             clearSelectedImages();
@@ -1012,7 +1011,7 @@ public class ControllerMain implements Initializable {
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/Views/SelectAlbums.fxml"));
                     addToAlbumStage.setScene(new Scene(root));
-                    addToAlbumStage.setTitle("Search");
+                    addToAlbumStage.setTitle("Adding to album");
                     addToAlbumStage.setResizable(false);
                     addToAlbumStage.showAndWait();
                 } catch (Exception e) {

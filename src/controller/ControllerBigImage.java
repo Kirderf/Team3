@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -25,6 +22,11 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * This class stores and controls all actions made by
+ * the user when in the "Big Image" view, i.e. the
+ * fullscreen view reached when clicking on an image.
+ */
 public class ControllerBigImage extends ControllerMain implements Initializable {
     private static final Log logger = new Log();
     @FXML
@@ -46,16 +48,14 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     @FXML
     private SplitPane bigImgDataSplitPane;
 
-    public static void setImagePath() {
-    }
-
     /**
-     * Run 1 time once the window opens
-     *
+     * This method is called when a scene is created using this controller.
+     * In this case, it gets the path to the image the user has clicked on,
+     * finds the corresponding image, metadata and tags, then shows
+     * these in the "Big Image" view.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setImagePath();
         setBigImage(getImageBuffer());
         super.showData();
         textField.setEditable(false);
@@ -63,9 +63,12 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     /**
-     * when home button is clicked
+     * This method is called when the home button is clicked, and takes
+     * the user back to the library/home menu.
+     *
      * @throws IOException reads fxml file
      */
+    @Override
     @FXML
     protected void goToLibrary() throws IOException {
         voice.speak("Going to library");
@@ -75,20 +78,17 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     /**
-     * Saves image to an album
-     *
-     * @param event
-     * @throws IOException
+     * Saves the image to a new album
      */
     @Override
     @FXML
-    protected void saveAlbumAction(ActionEvent event) throws IOException {
+    protected void saveAlbumAction(ActionEvent event) {
         super.saveAlbumAction(event);
         addToSelectedImages(getPathBuffer());
     }
 
     /**
-     * Reinsert a image into view
+     * Reinsert the image into view
      *
      * @param imageView the image that is to be shown
      * @param path      the path to the image
@@ -102,22 +102,15 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     /**
-     * Cannot refresh in bigimage view
-     */
-    @Override
-    protected void refreshImages() {
-    }
-
-    /**
-     * When view albums is clicked
+     * This method is called when the 'View Albums' button is pressed, and
+     * generates the album stage where the user can view their existing albums.
      *
      * @param actionEvent auto-generated
-     * @throws IOException
+     * @throws IOException if an fxml is not found
      */
     @Override
     @FXML
     protected void viewAlbums(ActionEvent actionEvent) throws IOException {
-
         voice.speak("View albums");
         Parent root = FXMLLoader.load(getClass().getResource("/Views/ViewAlbums.fxml"));
         Stage albumStage = new Stage();
@@ -140,8 +133,10 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
     }
 
-    /**
-     * add tag is clicked
+    /*
+     * This method is called when the 'Edit tags' button is pressed, and
+     * generates the Tagging stage where the user can edit the tags attached
+     * to the image.
      */
     @FXML
     private void addTagAction() {
@@ -156,7 +151,6 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                 addTagStage.showAndWait();
                 showData();
             } catch (Exception exception) {
-                exception.printStackTrace();
                 logger.logNewFatalError("ControllerBigImage addTagAction " + exception.getLocalizedMessage());
             }
         }
@@ -164,9 +158,10 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
 
 
     /**
-     * Remove image that is being shown
+     * This method is called when the user chooses 'Remove' from the
+     * file menu, and removes the shown image from the database.
      *
-     * @param event
+     * @param event the button being pressed
      * @return boolean true if something is deleted or false if nothing is deleted.
      * @throws SQLException
      * @throws IOException
@@ -181,7 +176,10 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     /**
-     * When the search button is clicked
+     * This method is called when the 'Search' item is chosen from the Search menu, and
+     * opens the search stage where the user can search after images using chosen criteria.
+     *
+     * @param event the button being pressed
      */
     @Override
     @FXML
@@ -203,8 +201,15 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                     ControllerSearch.setSearchSucceed(false);
                     clearSelectedImages();
                     //when going to library these selected images are shown
-                    for (String s : ControllerSearch.getSearchResults()) {
-                        addToSelectedImages(s);
+                    if (ControllerSearch.getSearchResults().size() != 0) {
+                        for (String s : ControllerSearch.getSearchResults()) {
+                            addToSelectedImages(s);
+                        }
+                    }else{
+                        Alert a = new Alert(Alert.AlertType.WARNING);
+                        a.setHeaderText(null);
+                        a.setContentText("No images found matching the search criteria, showing all images instead.");
+                        a.showAndWait();
                     }
                     setSplitPanePos(bigImgDataSplitPane.getDividerPositions()[0]);
                     bigImage.getScene().setRoot(FXMLLoader.load(getClass().getResource("/Views/Main.fxml")));
@@ -216,7 +221,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     }
 
     /**
-     * when import image is clicked
+     * This method is called when the 'Import' item is chosen from the File menu, and
+     * opens the import stage where the user can choose new images to upload.
      */
     @Override
     @FXML
@@ -231,8 +237,8 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         }
     }
 
-    /**
-     * opens a image to fullscreen view
+    /*
+     * opens an image to fullscreen view
      *
      * @param image the image that you want to show in fullscreen
      */
@@ -244,13 +250,19 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
         textField.setText(getSelectedImages().get(getSelectedImages().size() - 1));
     }
 
-
+    /*
+    Tints the Home menu blue and makes the white Home label visible
+     */
     @FXML
     private void tintHome() {
         voice.speak("Home");
         buttonHome.setStyle("-fx-background-color:#0096c9;");
         homeLabel.setOpacity(1);
     }
+
+    /*
+    Makes the Home menu background and label transparent
+     */
     @FXML
     private void untintHome() {
         buttonHome.setStyle("-fx-background-color:transparent;");
