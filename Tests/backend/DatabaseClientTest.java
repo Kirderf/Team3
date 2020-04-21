@@ -212,9 +212,9 @@ class DatabaseClientTest {
         databaseClient.addImage((absPath1));
         ArrayList<String> pathList = new ArrayList<>();
         pathList.add(absPath1);
-        databaseClient.addPathToAlbum("testalbum",pathList);
+        databaseClient.addPathsToAlbum("testalbum",pathList);
         assertEquals(2,databaseClient.getAllAlbums().get("testalbum").size());
-        assertThrows(NullPointerException.class,()->databaseClient.addPathToAlbum("noSuchAlbum",pathList));
+        assertThrows(NullPointerException.class,()->databaseClient.addPathsToAlbum("noSuchAlbum",pathList));
     }
 
     @Test

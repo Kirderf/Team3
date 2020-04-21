@@ -57,8 +57,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     public void initialize(URL location, ResourceBundle resources) {
         setImagePath();
         setBigImage(getImageBuffer());
-        super.showMetadata();
-        super.showTags();
+        super.showData();
         textField.setEditable(false);
         bigImgDataSplitPane.setDividerPositions(getSplitPanePos());
     }
@@ -98,8 +97,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
     protected void showBigImage(ImageView imageView, String path) {
         clearSelectedImages();
         addToSelectedImages(path);
-        showMetadata();
-        showTags();
+        showData();
         setBigImage(imageView.getImage());
     }
 
@@ -156,7 +154,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                 addTagStage.setResizable(false);
                 addTagStage.setOnCloseRequest(event1 -> ControllerTagging.bufferTags.clear());
                 addTagStage.showAndWait();
-                showTags();
+                showData();
             } catch (Exception exception) {
                 exception.printStackTrace();
                 logger.logNewFatalError("ControllerBigImage addTagAction " + exception.getLocalizedMessage());

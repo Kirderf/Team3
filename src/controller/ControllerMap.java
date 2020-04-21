@@ -87,7 +87,7 @@ public class ControllerMap implements Initializable {
             File file = new File(output);
             URL outputUrl = file.toURI().toURL();
             //add marker and path to file to markers hashmap
-            markers.put((new Marker(outputUrl, -20, -20).setPosition(new Coordinate(longLat[0], longLat[1])).setVisible(false)), mapElement.getKey());
+            markers.put((new Marker(outputUrl, 0, 0).setPosition(new Coordinate(longLat[0], longLat[1])).setVisible(false)), mapElement.getKey());
         }
 
     }

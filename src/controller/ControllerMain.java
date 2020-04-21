@@ -202,7 +202,7 @@ public class ControllerMain implements Initializable {
      * @param images Arraylist with the path to the images you want to add
      */
     static void addPathsToAlbum(String name, ArrayList<String> images) {
-        databaseClient.addPathToAlbum(name, images);
+        databaseClient.addPathsToAlbum(name, images);
     }
 
     /**
@@ -340,8 +340,7 @@ public class ControllerMain implements Initializable {
                     clearView();
                     clearSelectedImages();
                     //clears metadata and tags
-                    showMetadata();
-                    showTags();
+                    showData();
                     for (String s : ControllerSearch.getSearchResults()) {
                         insertImage(s);
                     }
@@ -382,24 +381,20 @@ public class ControllerMain implements Initializable {
                 Iterator<Map.Entry<String, List<String>>> albumIterator = getAlbums().entrySet().iterator();
                 ArrayList<String> emptyAlbums = new ArrayList<>();
                 //iterates through albums to find empty ones
-                for (String path : getSelectedImages()) {
-                    databaseClient.removeImage(path);
-                }
-
                 while (albumIterator.hasNext()) {
                     Map.Entry<String, List<String>> albumEntry = albumIterator.next();
-                    //removes images, this deletion is cascaded to albums as well
-                    //removes the images from the path
-                    //needs to do this in order to make sure to delete the images that are empty
-                    albumEntry.getValue().removeAll(selectedImages);
+                    //deletes all the selcted images from every album
+                    databaseClient.removePathsFromAlbum(albumEntry.getKey(),selectedImages);
                     //if the last image was just removed, then the album is deleted
-                    if (albumEntry.getValue().isEmpty()) {
-                        //can't edit hashmap while iterating over it, so the albums to be removed are saved for later
+                    if (getAlbums().get(albumEntry.getKey()).isEmpty()) {
+                        //should not edit hashmap while iterating over it, so the albums to be removed are saved for later
                         emptyAlbums.add(albumEntry.getKey());
                     }
                 }
-
                 emptyAlbums.forEach(ControllerMain::removeAlbum);
+                for (String path : getSelectedImages()) {
+                    databaseClient.removeImage(path);
+                }
 
                 refreshImages();
                 return true;
@@ -456,8 +451,8 @@ public class ControllerMain implements Initializable {
         //if filename is selected
         else if (sortDropDown.getValue().toString().equalsIgnoreCase("Filename")) {
             //this is just a way to get an arraylist with the paths, theres no use for the sort function here
-            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("File_size");
-            sortedList.sort(Comparator.comparing(o -> o.substring(o.lastIndexOf(File.separator))));
+            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("Path");
+            sortedList.sort((o1, o2) -> o1.substring(o1.lastIndexOf(File.separator)).compareToIgnoreCase(o2.substring(o2.lastIndexOf(File.separator))));
             clearView();
             for (String s : sortedList) {
                 insertImage(s);
@@ -617,8 +612,7 @@ public class ControllerMain implements Initializable {
             logger.logNewFatalError("ControllerMain refreshImages" + e.getLocalizedMessage());
         }
         //clears the metadata and tag boxes
-        showMetadata();
-        showTags();
+        showData();
     }
 
     /**
@@ -693,8 +687,7 @@ public class ControllerMain implements Initializable {
                     //ctrl is down
                     selectImage(imageView, thumbnail, path);
                     //if the last image is unselected
-                    showMetadata();
-                    showTags();
+                    showData();
                 } else {
                     //full resolution image
                     imageView.setImage(image);
@@ -784,9 +777,17 @@ public class ControllerMain implements Initializable {
     }
 
     /**
+     * Displays the path, metadata and tags of the last selected image
+     */
+    void showData(){
+        showTags();
+        showMetadata();
+        showPath();
+    }
+    /**
      * displays the metadata of the most recently selected image in the sidebar
      */
-    void showMetadata() {
+    private void showMetadata() {
         if (selectedImages.isEmpty()) {
             metadataVbox.getChildren().clear();
             return;
@@ -794,8 +795,8 @@ public class ControllerMain implements Initializable {
         String path = getSelectedImages().get(getSelectedImages().size() - 1);
         metadataVbox.getChildren().clear();
         String[] metadata = getDatabaseClient().getMetaDataFromDatabase(path);
-        textField.setText("Path :" + metadata[0]);
-        metadataVbox.getChildren().add(new Label("File size :" + metadata[2]));
+
+        metadataVbox.getChildren().add(new Label("File size :" + metadata[2] + " bytes"));
         metadataVbox.getChildren().add(new Label("Date :" + metadata[3].substring(0, 4) + "/" + metadata[3].substring(4, 6) + "/" + metadata[3].substring(6)));
         metadataVbox.getChildren().add(new Label("Height :" + metadata[4]));
         metadataVbox.getChildren().add(new Label("Width :" + metadata[5]));
@@ -807,7 +808,7 @@ public class ControllerMain implements Initializable {
     /**
      * shows the tags for the most recently selected image in the sidebare
      */
-    void showTags() {
+    private void showTags() {
         if (selectedImages.isEmpty()) {
             tagVbox.getChildren().clear();
             return;
@@ -820,7 +821,15 @@ public class ControllerMain implements Initializable {
             tagVbox.getChildren().add(new Label(tag));
         }
     }
-
+    private void showPath(){
+        if (selectedImages.isEmpty()) {
+            textField.clear();
+            return;
+        }
+        else{
+            textField.setText(getSelectedImages().get(getSelectedImages().size() - 1));
+        }
+    }
     /**
      * When the user clicks on goToMap under library
      * Checks all the added photos for valid gps data, and places the ones with valid data on the map

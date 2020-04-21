@@ -129,6 +129,24 @@ public class ImageDAOManager {
         }
     }
 
+    void removePathsFromAlbum(String name, List<String> paths) {
+        EntityManager em = getEM();
+        try {
+            em.getTransaction().begin();
+            AlbumDAO a = findAlbumDAO(name);
+            if (!em.contains(a)) {
+                a = em.merge(a);
+            }
+            for(String s : paths) {
+                a.removeImage(s);
+            }
+            em.getTransaction().commit();
+        } finally {
+            closeEM(em);
+        }
+
+    }
+
 
     /**
      * Adds an album to the database.
