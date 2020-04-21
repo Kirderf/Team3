@@ -1,5 +1,6 @@
 package controller;
 
+import backend.util.Text_To_Speech;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -29,6 +30,8 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 public class ControllerViewAlbums implements Initializable {
     private static String albumToBeDeleted;
     private static boolean albumSelected = false;
+    private Text_To_Speech voice = Text_To_Speech.getInstance();
+
     @FXML
     private TilePane albumTilePane;
     private EventHandler<MouseEvent> clickedOn;
@@ -165,8 +168,10 @@ public class ControllerViewAlbums implements Initializable {
      * when delete album is selected
      */
     public void deleteAction() {
+        voice.speak("Delete album");
         //iterates through all albums
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Select an album to delete");
+        voice.speak("Click the album you want to delete");
         ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
         alert.showAndWait();
         for (int i = 0; i < albumTilePane.getChildren().size(); i++) {
@@ -198,10 +203,12 @@ public class ControllerViewAlbums implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
+            voice.speak("Album was deleted");
             ControllerViewAlbums.deleteAlbum(getAlbumToBeDeleted());
             ControllerViewAlbums.setAlbumToBeDeleted("");
             addBackEvents();
         } else {
+            voice.speak("Album was not deleted");
             Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Album was not deleted");
             ((Stage)alert1.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
             alert.showAndWait();
