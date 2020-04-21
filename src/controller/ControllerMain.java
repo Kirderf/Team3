@@ -456,8 +456,8 @@ public class ControllerMain implements Initializable {
         //if filename is selected
         else if (sortDropDown.getValue().toString().equalsIgnoreCase("Filename")) {
             //this is just a way to get an arraylist with the paths, theres no use for the sort function here
-            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("File_size");
-            sortedList.sort(Comparator.comparing(o -> o.substring(o.lastIndexOf(File.separator))));
+            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("Path");
+            sortedList.sort((o1, o2) -> o1.substring(o1.lastIndexOf(File.separator)).compareToIgnoreCase(o2.substring(o2.lastIndexOf(File.separator))));
             clearView();
             for (String s : sortedList) {
                 insertImage(s);
@@ -795,7 +795,7 @@ public class ControllerMain implements Initializable {
         metadataVbox.getChildren().clear();
         String[] metadata = getDatabaseClient().getMetaDataFromDatabase(path);
         textField.setText("Path :" + metadata[0]);
-        metadataVbox.getChildren().add(new Label("File size :" + metadata[2]));
+        metadataVbox.getChildren().add(new Label("File size :" + metadata[2] + " bytes"));
         metadataVbox.getChildren().add(new Label("Date :" + metadata[3].substring(0, 4) + "/" + metadata[3].substring(4, 6) + "/" + metadata[3].substring(6)));
         metadataVbox.getChildren().add(new Label("Height :" + metadata[4]));
         metadataVbox.getChildren().add(new Label("Width :" + metadata[5]));
