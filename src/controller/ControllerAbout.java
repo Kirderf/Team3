@@ -8,7 +8,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Controller class for the "about" stage
+ * This class i a controller that handles actions made by
+ * the user when interacting with the about stage.
  */
 public class ControllerAbout implements Initializable {
 
@@ -16,9 +17,7 @@ public class ControllerAbout implements Initializable {
     private ImageView logo;
 
     /**
-     * Upon initialization update the logo
-     * @param location
-     * @param resources
+     * Updates the logo when a stage using this controller is created
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {

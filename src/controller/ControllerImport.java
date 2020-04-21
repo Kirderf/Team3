@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * This class controls all actions the user makes when
+ * This class is a controller that handles actions made by the user when
  * interacting with the import stage, where they choose what
  * images to import to the program and database.
  */
