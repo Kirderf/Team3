@@ -19,8 +19,8 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * This class stores and controls actions made when
- * the user is adding images to an album.
+ * This class controls actions made when the user is adding
+ * images to an album in the add to album stage.
  */
 public class ControllerAddToAlbum implements Initializable {
     private static final Log logger = new Log();

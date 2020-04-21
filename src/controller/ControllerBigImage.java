@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
- * This class stores and controls all actions made by
+ * This class controls all actions made by
  * the user when in the "Big Image" view, i.e. the
  * fullscreen view reached when clicking on an image.
  */
@@ -205,7 +205,7 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
                         for (String s : ControllerSearch.getSearchResults()) {
                             addToSelectedImages(s);
                         }
-                    }else{
+                    } else {
                         Alert a = new Alert(Alert.AlertType.WARNING);
                         a.setHeaderText(null);
                         a.setContentText("No images found matching the search criteria, showing all images instead.");

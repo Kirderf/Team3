@@ -17,6 +17,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the actions made by the user when
+ * interacting with the login stage.
+ */
 public class ControllerLogin implements Initializable {
     Log logger = new Log();
     @FXML
@@ -32,20 +36,19 @@ public class ControllerLogin implements Initializable {
     private EchoClient echoClient = EchoClient.getInstance();
 
     /**
-     * gets the fxml file for the login
+     * Gets a Parent object with the Login.fxml loaded.
      *
-     * @return returns loader loading login.fxml
-     * @throws IOException
+     * @return Parent
+     * @throws IOException if the FXML isn't found
      */
     static Parent getContent() throws IOException {
         return FXMLLoader.load(ControllerLogin.class.getResource("/Views/Login.fxml"));
     }
 
     /**
-     * when the program first is shown
-     *
-     * @param location
-     * @param resources
+     * This method is called when a stage using this controller is
+     * created. Handles the login stage's fields and loads the user's
+     * login information if it's saved.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -81,9 +84,10 @@ public class ControllerLogin implements Initializable {
     }
 
     /**
-     * if the user clicks the button to go to signup instead
+     * This method is called if the user chooses to sign up,
+     * it loads the sign up stage's FXML.
      *
-     * @throws IOException
+     * @throws IOException if the FXML can't be found
      */
     @FXML
     void gotoSignup() throws IOException {
@@ -92,9 +96,11 @@ public class ControllerLogin implements Initializable {
     }
 
     /**
-     * when the user clicks login
+     * This method is called when the user presses the login button.
+     * Checks if the user is connected to the server, then attempts to login with
+     * the user's entered login informatio.
      *
-     * @throws IOException if the login details are read from .txt file
+     * @throws IOException if the login details are read from .txt file, but can't be found
      */
     @FXML
     void loginAction() throws IOException {
