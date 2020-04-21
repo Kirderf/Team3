@@ -41,7 +41,7 @@
                               <MenuItem fx:id="removeButton" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                               <MenuItem fx:id="addToAlbum" mnemonicParsing="false" onAction="#addToAlbumAction" text="Add to album" />
-                              <MenuItem fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" text="Save to album" />
+                              <MenuItem fx:id="albumSave" mnemonicParsing="false" onAction="#saveAlbumAction" text="Save as album" />
                               <SeparatorMenuItem mnemonicParsing="false" />
                               <MenuItem mnemonicParsing="false" onAction="#preferencesAction" text="Preferences..." />
                               <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />

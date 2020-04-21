@@ -166,11 +166,9 @@ public class ControllerBigImage extends ControllerMain implements Initializable 
      *
      * @param event the button being pressed
      * @return boolean true if something is deleted or false if nothing is deleted.
-     * @throws SQLException
-     * @throws IOException
      */
     @FXML
-    protected boolean removeAction(ActionEvent event) throws IOException, SQLException {
+    protected boolean removeAction(ActionEvent event) throws IOException {
         if (super.removeAction(event)) {
             goToLibrary();
             return true;

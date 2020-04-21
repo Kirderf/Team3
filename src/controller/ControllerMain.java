@@ -42,7 +42,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.*;
 
@@ -344,8 +343,10 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * When the search button is clicked
-     * @param event mouse click on search
+     * This method is called when the search button is clicked.
+     * It creates and presents the user with the search stage.
+     *
+     * @param event button being pressed
      */
     @FXML
     protected void searchAction(ActionEvent event) {
@@ -381,15 +382,14 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * Remove images from view and database
+     * This method is called when the user presses the remove button.
+     * It removes images from the application and database
      *
-     * @param event mouse click on remove
-     * @return true if something is deleted or false if nothing is deleted.
-     * @throws SQLException
-     * @throws IOException
+     * @param event remove button being clicked
+     * @return true if images are deleted, false if not
      */
     @FXML
-    protected boolean removeAction(ActionEvent event) throws SQLException, IOException {
+    protected boolean removeAction(ActionEvent event) throws IOException {
         voice.speak("Removing images");
         try {
             if (getSelectedImages().isEmpty()) {
@@ -440,8 +440,11 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * Opens import window, once window closes, all pictures from database will get inserted into the UI
-     * @param event auto-generated
+     * This method is called when the user chooses the 'Import' item from the 'File' menu.
+     * If the import stage returns true, the {@link ControllerMain#refreshImages()} method is called,
+     * and all the new images are loaded into the grid.
+     *
+     * @param event 'Import' being pressed
      */
     @FXML
     protected void importAction(ActionEvent event) throws IOException {
@@ -465,8 +468,8 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    /**
-     * sort the pictures based on the selected value in the drop down
+    /*
+     * Sorts the images based on the selected value in the drop down menu
      */
     @FXML
     private void sortAction() throws FileNotFoundException {
@@ -499,8 +502,8 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    /**
-     * when the export button is clicked
+    /*
+     * When the export button is clicked
      */
     @FXML
     private void exportAction() {
@@ -568,7 +571,7 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    /**
+    /*
      * Closes application, and closes connections to database. Cannot close if other windows are open
      */
     @FXML
@@ -585,20 +588,21 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * when go library is clicked, refreshes the images
+     * This method is called when the Home button is pressed, it takes the user back to the main view
+     * clears the list of selected images and refreshes the grid.
      */
     @FXML
     protected void goToLibrary() throws IOException {
         voice.speak("Going to library");
         clearSelectedImages();
         refreshImages();
-
     }
 
     /**
-     * Shows the about stage
+     * This method is called when the 'About' item is chosen from the 'About' menu.
+     * It creates and displays the about stage to the user.
      *
-     * @throws IOException if About.fxml cannot be found
+     * @throws IOException if the fxml cannot be found
      */
     @FXML
     public void aboutAction() throws IOException {
@@ -615,7 +619,7 @@ public class ControllerMain implements Initializable {
 
     }
 
-    /**
+    /*
      * Clears all rows on the gridView
      */
     private void clearView() {
@@ -625,10 +629,10 @@ public class ControllerMain implements Initializable {
         pictureGrid.getChildren().clear();
     }
 
-    /**
+    /*
      * Refresh home UI. Clear, then gets images from database into the view.
      */
-    protected void refreshImages() {
+    private void refreshImages() {
         try {
             ArrayList<String> paths = (ArrayList<String>) getDatabaseClient().getColumn("Path");
             clearView();
@@ -653,7 +657,7 @@ public class ControllerMain implements Initializable {
         showData();
     }
 
-    /**
+    /*
      * Insert image into the gridpane
      *
      * @param path to image object
@@ -670,7 +674,7 @@ public class ControllerMain implements Initializable {
         photoCount++;
     }
 
-    /**
+    /*
      * Add rows on the bottom of the gridpane
      */
     private void addEmptyRow() {
@@ -679,7 +683,7 @@ public class ControllerMain implements Initializable {
         pictureGrid.getRowConstraints().add(con);
     }
 
-    /**
+    /*
      * Take a path, and create a ImageView that fits to a space in the grid
      *
      * @param path to image
@@ -706,7 +710,7 @@ public class ControllerMain implements Initializable {
         return imageView;
     }
 
-    /**
+    /*
      * EventHandler for mouseclicks on images
      * in the event of an control click then big image is shown
      * normal clicks tags the image and adds it to selected images
@@ -742,8 +746,8 @@ public class ControllerMain implements Initializable {
         };
     }
 
-    /**
-     * select the image and tints it, if it is already selected then the tint is removed
+    /*
+     * Select the image and tints it, if it is already selected then the tint is removed
      *
      * @param imageView the imageview that you want to update with the new image
      * @param image     the image that you want to tint
@@ -761,11 +765,11 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * shows a image in fullscreen mode
+     * Displays an image in the 'Big Image' view
      *
-     * @param imageView the image that is to be shown
-     * @param path      the path to the image
-     * @throws IOException if BigImage.fxml cannot be found
+     * @param imageView the image
+     * @param path      path to the image
+     * @throws IOException if the FXML cannot be found
      */
     protected void showBigImage(ImageView imageView, String path) throws IOException {
         voice.speak("Magnifying image");
@@ -778,8 +782,8 @@ public class ControllerMain implements Initializable {
         scene.setRoot(FXMLLoader.load(getClass().getResource("/Views/BigImage.fxml")));
     }
 
-    /**
-     * gets rowcount, is used to facilitate increasing the number of rows when adding pictures
+    /*
+     * Gets rowcount, is used to facilitate increasing the number of rows when adding pictures
      *
      * @return int with the number of rows
      */
@@ -798,7 +802,7 @@ public class ControllerMain implements Initializable {
     }
 
 
-    /**
+    /*
      * for every 5th picture the column will reset, therefore this is used to give the column of the next imageview
      *
      * @return colomnCount the integer-value for the next coloumn
@@ -823,8 +827,8 @@ public class ControllerMain implements Initializable {
         showPath();
     }
 
-    /**
-     * displays the metadata of the most recently selected image in the sidebar
+    /*
+     * Displays the metadata of the most recently selected image in the sidebar
      */
     private void showMetadata() {
         if (selectedImages.isEmpty()) {
@@ -844,8 +848,8 @@ public class ControllerMain implements Initializable {
 
     }
 
-    /**
-     * shows the tags for the most recently selected image in the sidebare
+    /*
+     * Shows the tags for the most recently selected image in the sidebar
      */
     private void showTags() {
         if (selectedImages.isEmpty()) {
@@ -864,13 +868,12 @@ public class ControllerMain implements Initializable {
     private void showPath() {
         if (selectedImages.isEmpty()) {
             textField.clear();
-            return;
         } else {
             textField.setText(getSelectedImages().get(getSelectedImages().size() - 1));
         }
     }
 
-    /**
+    /*
      * When the user clicks on goToMap under library
      * Checks all the added photos for valid gps data, and places the ones with valid data on the map
      *
@@ -909,7 +912,8 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * when save to album is clicked
+     * This method is called when the 'Save to album' item is chosen in the 'File' menu.
+     * It checks if the album name is valid, then creates a new album and adds all the chosen image to it.
      *
      * @param actionEvent auto-generated
      */
@@ -968,10 +972,12 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * When view albums is clicked
+     * This method is called when the 'View Albums' item is chosen from the 'Library' menu.
+     * It presents the user with all their existing albums in a grid view, where they can
+     * also choose to delete them.
      *
-     * @param actionEvent auto-generated
-     * @throws IOException
+     * @param actionEvent 'View Albums' being pressed
+     * @throws IOException thrown if the FXML can't be found
      */
     @FXML
     protected void viewAlbums(ActionEvent actionEvent) throws IOException {
@@ -996,7 +1002,7 @@ public class ControllerMain implements Initializable {
         }
     }
 
-    /**
+    /*
      * Loads images from selected paths
      *
      * @return true if images are selected, else false
@@ -1016,8 +1022,8 @@ public class ControllerMain implements Initializable {
         } else return false;
     }
 
-    /**
-     * speaks when hovering over the menu
+    /*
+     * Speaks when hovering over the menu
      *
      * @param event event that led to this being called, e.g hovering over or clicking on menu
      */
@@ -1027,10 +1033,12 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * opens prefrences window
+     * This method is called when the user presses the 'Preferences' item in the
+     * 'File' menu. It opens creates and displays the preference stage to the
+     * user, where they can choose to enable/disable certain settings.
      *
-     * @param actionEvent auto-generated
-     * @throws IOException
+     * @param actionEvent the button being pressed
+     * @throws IOException thrown if the FXML can't be found
      */
     public void preferencesAction(ActionEvent actionEvent) throws IOException {
         voice.speak("Preference settings");
@@ -1047,11 +1055,13 @@ public class ControllerMain implements Initializable {
     }
 
     /**
-     * when add to album is clicked
+     * This method is called when user presses the 'Add to album' item from
+     * the 'File' menu. It creates and displays the addToAlbum stage where the
+     * user can select which albums to add the images to.
      */
     public void addToAlbumAction() {
         voice.speak("Adding to album");
-        logger.logNewInfo("adding to album");
+        logger.logNewInfo("Adding to album");
         if (!getSelectedImages().isEmpty()) {
             voice.speak("Adding to album");
             if (!addToAlbumStage.isShowing()) {
