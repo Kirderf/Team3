@@ -13,7 +13,7 @@ URL = *The URL to your login*
 USERNAME=*your username*	
 PASSWORD=*your password*
 ```
-You only need to enter the part of the url that comes after " jdbc:mysql://mysql.stud.ntnu.no:3306/ "
+You only need to enter the part of the url that comes after " jdbc:mysql://mysql.stud.iie.ntnu.no:3306/ "
 Your url will often be the same as your username
 
 After you have entered the required information, you can log into the application if you are connected to an NTNU network
