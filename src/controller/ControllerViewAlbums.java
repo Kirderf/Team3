@@ -177,9 +177,9 @@ public class ControllerViewAlbums implements Initializable {
         voice.speak("Delete album");
         //iterates through all albums
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Select an album to delete");
-        voice.speak("Click the album you want to delete");
         ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(ControllerMain.appIcon);
         alert.showAndWait();
+        voice.speak("Click the album you want to delete");
         for (int i = 0; i < albumTilePane.getChildren().size(); i++) {
             //if it is a pane it is an album
             if (albumTilePane.getChildren().get(i) instanceof Pane) {

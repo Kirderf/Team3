@@ -481,7 +481,6 @@ public class ControllerMain implements Initializable {
         for (String s : sortedList) {
             insertImage(s);
         }
-
     }
 
     /*
@@ -737,10 +736,12 @@ public class ControllerMain implements Initializable {
      */
     private void selectImage(ImageView imageView, Image image, String path) {
         if (!getSelectedImages().contains(path)) {
+            voice.speak("Selecting image");
             addToSelectedImages(path);
             //sets the imageview of the image you clicked to be blue
             imageView.setImage(SwingFXUtils.toFXImage(tint(image), null));
         } else {
+            voice.speak("unselecting image");
             removeFromSelectedImages(path);
             imageView.setImage(image);
         }
