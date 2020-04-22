@@ -9,7 +9,6 @@
         <class>backend.database.AlbumDAO</class>
         <class>backend.database.UserDAO</class>
         <properties>
-            <!--username and password is temporarily here-->
             <property name="eclipselink.ddl-generation" value="create-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
             <!-- EclipseLink connectionpooling -->
