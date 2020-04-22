@@ -475,31 +475,13 @@ public class ControllerMain implements Initializable {
     private void sortAction() throws FileNotFoundException {
         //if size is selected
         voice.speak("Sorting");
-        if (sortDropDown.getValue().toString().equalsIgnoreCase("Size")) {
-            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("File_size");
-            clearView();
-            for (String s : sortedList) {
-                insertImage(s);
-            }
-        }
-        //if filename is selected
-        else if (sortDropDown.getValue().toString().equalsIgnoreCase("Filename")) {
-            //this is just a way to get an arraylist with the paths, theres no use for the sort function here
-            ArrayList<String> sortedList = (ArrayList<String>) getDatabaseClient().sort("Path");
-            sortedList.sort((o1, o2) -> o1.substring(o1.lastIndexOf(File.separator)).compareToIgnoreCase(o2.substring(o2.lastIndexOf(File.separator))));
-            clearView();
-            for (String s : sortedList) {
-                insertImage(s);
-            }
-        }
         //if path or date is selected
-        else {
-            List<String> sortedList = getDatabaseClient().sort(sortDropDown.getValue().toString());
-            clearView();
-            for (String s : sortedList) {
-                insertImage(s);
-            }
+        List<String> sortedList = getDatabaseClient().sort(sortDropDown.getValue().toString());
+        clearView();
+        for (String s : sortedList) {
+            insertImage(s);
         }
+
     }
 
     /*

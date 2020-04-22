@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * This class manages images, and directly interacts with the SQL database.
  */
 //use compostion, as the only Image objects we would want to manipulate would be the ones already in the database, therefore it should be done through this class
-public class ImageDAOManager {
+public class DAOManager {
     private boolean isInitialized = false;
     private UserDAO userDAO;
     private EntityManagerFactory emf;
@@ -24,7 +24,7 @@ public class ImageDAOManager {
      *
      * @param emf the emf
      */
-    ImageDAOManager(EntityManagerFactory emf) {
+    DAOManager(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
@@ -434,16 +434,16 @@ public class ImageDAOManager {
         switch (columnName) {
             //checks what column you are looking for, creates a new arraylist containing only that using lambda
             case "path":
-                images.sort(Comparator.comparing(ImageDAO::getPath));
+                images.sort((o1, o2) -> o1.getPath().compareToIgnoreCase(o2.getPath()));
                 break;
-            case "file_size":
+            case "size":
                 images.sort(Comparator.comparing(ImageDAO::getFileSize));
                 break;
             case "date":
                 images.sort(Comparator.comparing(ImageDAO::getDate));
                 break;
             case "filename":
-                images.sort(Comparator.comparing(o -> o.getPath().substring(o.getPath().lastIndexOf(File.separator))));
+                images.sort((o1, o2) -> o1.getPath().substring(o1.getPath().lastIndexOf(File.separator)).compareToIgnoreCase(o2.getPath().substring(o2.getPath().lastIndexOf(File.separator))));
                 break;
             default:
                 throw new IllegalArgumentException("Invalid Column");

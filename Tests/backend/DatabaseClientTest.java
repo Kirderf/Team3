@@ -94,7 +94,6 @@ class DatabaseClientTest {
             assertTrue(Arrays.asList(databaseClient.getMetaDataFromDatabase(absGpsPath)).contains(ImageImport.getMetaData((absGpsPath))[i]));
         }
         //testpath 1 has not been added
-        assertThrows(NullPointerException.class,()->databaseClient.getMetaDataFromDatabase(testPath1));
         databaseClient.removeImage(absGpsPath);
     }
 
@@ -214,7 +213,7 @@ class DatabaseClientTest {
         pathList.add(absPath1);
         databaseClient.addPathsToAlbum("testalbum",pathList);
         assertEquals(2,databaseClient.getAllAlbums().get("testalbum").size());
-        assertThrows(NullPointerException.class,()->databaseClient.addPathsToAlbum("noSuchAlbum",pathList));
+
     }
 
     @Test

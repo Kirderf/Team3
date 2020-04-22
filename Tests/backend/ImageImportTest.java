@@ -13,7 +13,6 @@ class ImageImportTest {
     //generally don't unit test private methods directly
 
     private ImageImport ImageImport;
-    private String pathToPhoto = this.getClass().getResource("/IMG_0963.JPG").getPath();
     private String pathToNonPhoto = this.getClass().getResource("/Views/Import.fxml").getPath();
     private File testImage1 = new File("resources/worldmap.png");
     private File testImage2 = new File("resources/samplephoto.jpg");

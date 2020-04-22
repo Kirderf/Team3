@@ -38,7 +38,7 @@ class ImageExportTest {
         assertTrue(ImageExport.exportToPdf(path,toBeExported));
         assertTrue(new File(path).exists());
         new File(path).delete();
-        assertThrows(ExceptionInInitializerError.class,()->ImageExport.exportToPdf(path2,emptyArrayList));
+        assertFalse(ImageExport.exportToPdf(path2,emptyArrayList));
         assertFalse(new File(path2).exists());
         assertFalse(ImageExport.exportToPdf(path3,invalidPathList));
         assertFalse(new File(path3).exists());
