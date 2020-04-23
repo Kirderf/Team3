@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -179,6 +180,8 @@ public class ControllerSearch implements Initializable {
     @FXML
     private void insertTags() {
         ArrayList<String> tagList = ControllerTagging.getAllTags();
+
+        Collections.sort(tagList);
 
         for (int i = 0; i < tagList.size(); i++) {
             String t = tagList.get(i);
