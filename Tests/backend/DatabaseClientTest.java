@@ -32,9 +32,10 @@ class DatabaseClientTest {
 
     @BeforeEach
     void setUp(){
-        if(!databaseClient.newUser("testUser","testPassword")){
-            databaseClient.login("testUser","testPassword");
+        if(!databaseClient.login("testUser","testPassword")){
+            databaseClient.newUser("testUser","testPassword");
         }
+
         databaseClient.addImage((absPath3));
         paths.add(absPath3);
         databaseClient.addAlbum("testalbum",paths);
