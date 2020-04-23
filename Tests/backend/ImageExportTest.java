@@ -2,7 +2,7 @@ package backend;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import backend.util.ImageExport;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

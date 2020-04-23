@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -8,36 +7,31 @@ import javafx.scene.control.CheckBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This class is a controller that handles all actions made by the user
+ * when interacting with the preferences stage.
+ */
 public class ControllerPreferences implements Initializable {
 
+    private static boolean colourChecked = false;
+    private static boolean ttsChecked = false;
     @FXML
     private CheckBox ttsCheck;
     @FXML
     private CheckBox colourCheck;
 
-    private static boolean colourChecked = false;
-    private static boolean ttsChecked = false;
-
     /**
-     * when the prefrence window is open
-     * @param location
-     * @param resources
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        colourCheck.setSelected(colourChecked);
-        ttsCheck.setSelected(ttsChecked);
-    }
-
-    /**
-     * returns whether or not the colour has been checked
+     * Returns true if the colorblind-mode-checkbox has been checked, false if not
+     *
      * @return boolean
      */
-    public static boolean isColourChecked(){
+    static boolean isColourChecked() {
         return colourChecked;
     }
+
     /**
-     * returns whether or not the colour has been checked
+     * Returns true if the text-to-speech-checkbox been checked, false if not
+     *
      * @return boolean
      */
     public static boolean isTtsChecked() {
@@ -45,18 +39,29 @@ public class ControllerPreferences implements Initializable {
     }
 
     /**
-     * if the checkbox is selected, then the class variable is changed
-     * @param actionEvent auto-generated
+     * This method is called when a scene is created using this controller. It
+     * checks whether or not the checkboxes should be checked or not, and sets them as such.
      */
-    public void setColourBlind(ActionEvent actionEvent) {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //shown as selected if they have been selected earlier
+        colourCheck.setSelected(colourChecked);
+        ttsCheck.setSelected(ttsChecked);
+    }
+
+    /**
+     * Changes the colourblind class variable if the checkbox is checked
+     */
+    @FXML
+    protected void setColourBlind() {
         colourChecked = colourCheck.isSelected();
     }
 
     /**
-     * if the checkbox is selected, then the class variable is changed
-     * @param actionEvent auto-generated
+     * Changes the text-to-speech class variable if the checkbox is checked
      */
-    public void setTTS(ActionEvent actionEvent) {
+    @FXML
+    protected void setTTS() {
         ttsChecked = ttsCheck.isSelected();
     }
 

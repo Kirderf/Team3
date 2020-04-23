@@ -1,6 +1,8 @@
 /out/*
 .idea/*
-target/
+target/*
+target
+Logs/*
 .vscode/*
 .settings/*
 .classpath
@@ -8,6 +10,6 @@ target/
 /noPlugin
 /-
 /resources/.properties
-target
 *.class
-Log.log
+/resources/loginDetails.txt
+/classes/artifacts/systemutvikling.jar/*

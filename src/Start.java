@@ -1,22 +1,16 @@
-import backend.Text_To_Speech;
-import controller.ControllerMain;
+import backend.util.Log;
+import backend.util.Text_To_Speech;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Start extends Application {
-    private static final Logger logger = Logger.getLogger(Start.class.getName());
-    private static Text_To_Speech voice;
+    private static final Log logger = new Log();
 
     /**
      * @param primaryStage
@@ -25,31 +19,25 @@ public class Start extends Application {
     public void start(Stage primaryStage) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Main.fxml"));
+            primaryStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("squareLogo.png")));
             primaryStage.setTitle("The Greatest Bestests Awesomest Photo Program That Ever Was!!11 AGAINST covid-19");
-            primaryStage.setMinWidth(800);
-            primaryStage.setMinHeight(600);
+            primaryStage.setMinWidth(1000);
+            primaryStage.setMinHeight(800);
             primaryStage.setScene(new Scene(root));
-            logger.log(Level.INFO, "Showing app");
+            logger.logNewInfo("Showing app");
             primaryStage.setOnCloseRequest((event -> {
-                logger.log(Level.INFO, "Closing application");
-                try {
-                    ControllerMain.getDatabaseClient().closeApplication();
-                    Platform.exit();
-                    System.exit(0);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                logger.logNewInfo("Closing application");
+                Platform.exit();
+                System.exit(0);
             }));
             primaryStage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.logNewFatalError("Start start() " + e.getLocalizedMessage());
         }
     }
 
 
     public static void main(String[] args) {
-        voice = new Text_To_Speech();
-        voice.startup("お早う御座います");
         launch(args);
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerAddToAlbum">
+    <children>
+        <AnchorPane prefHeight="280.0" prefWidth="335.0">
+            <children>
+                <Button fx:id="confirmButton" layoutX="128.0" layoutY="246.0" mnemonicParsing="false" onAction="#confirmAddToAlbum" text="Confirm" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="128.0" />
+                <TableView fx:id="albumTable" layoutX="15.0" layoutY="82.0" prefHeight="164.0" prefWidth="306.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                    <columns>
+                        <TableColumn fx:id="select" prefWidth="277.0" text="Albums" />
+                    </columns>
+                </TableView>
+                <Label layoutX="17.0" layoutY="61.0" text="Albums:" textFill="#938989" AnchorPane.leftAnchor="15.0">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>
