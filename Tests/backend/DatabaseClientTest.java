@@ -172,7 +172,7 @@ class DatabaseClientTest {
                 return Integer.parseInt(ImageImport.getMetaData((o1))[0])- Integer.parseInt(ImageImport.getMetaData((o2))[0]);
             }
         });
-        assertEquals(addedPaths,databaseClient.sort("file_size"));
+        assertEquals(addedPaths,databaseClient.sort("size"));
         //date
         Collections.sort(addedPaths, new Comparator<String>() {
             @Override
