@@ -9,6 +9,8 @@ Logs/*
 .project
 /noPlugin
 /-
+.properties
+resources/.properties
 /resources/.properties
 *.class
 /resources/loginDetails.txt
