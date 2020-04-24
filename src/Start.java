@@ -20,7 +20,7 @@ public class Start extends Application {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/Views/Main.fxml"));
             primaryStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("squareLogo.png")));
-            primaryStage.setTitle("The Greatest Bestests Awesomest Photo Program That Ever Was!!11 AGAINST covid-19");
+            primaryStage.setTitle("Photon");
             primaryStage.setMinWidth(1000);
             primaryStage.setMinHeight(800);
             primaryStage.setScene(new Scene(root));
